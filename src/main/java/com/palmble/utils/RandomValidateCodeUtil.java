@@ -9,7 +9,6 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +56,7 @@ public class RandomValidateCodeUtil {
 	  * 生成随机图片
 	 * @throws Exception 
 	  */
-	 public String getRandcode(HttpServletResponse response) throws Exception {
+	 public void getRandcode(HttpServletRequest request,HttpServletResponse response) throws Exception {
 	  // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
 	  BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
 	  Graphics g = image.getGraphics();// 产生Image对象的Graphics对象,改对象可以在图像上进行各种绘制操作
@@ -74,7 +73,7 @@ public class RandomValidateCodeUtil {
 	   randomString = drowString(g, randomString, i);
 	  }
 	  logger.info(randomString);
-	  r.setEx(randomString, randomString,20);
+	  request.getSession().setAttribute("vifityCode", randomString);
 	  g.dispose();
 	  try {
 	   // 将内存中的图片通过流动形式输出到客户端
@@ -82,6 +81,7 @@ public class RandomValidateCodeUtil {
 	  } catch (Exception e) {
 	   logger.error("将内存中的图片通过流动形式输出到客户端失败>>>> ", e);
 	  }
+	  return;
 	 
 	 }
 	 
