@@ -1,0 +1,6 @@
+server:
+  port: 8383
+
+spring: 
+  resources: 
+    staticLocations: classpath:/static/
