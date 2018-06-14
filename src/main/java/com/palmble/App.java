@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class App {
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(App.class, args);
+		System.out.println("GitHub提交测试");
 	}
 
 }
