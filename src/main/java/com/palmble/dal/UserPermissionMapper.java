@@ -1,10 +1,11 @@
 package com.palmble.dal;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.palmble.entity.UserPermission;
 
-import tk.mybatis.mapper.common.Mapper;
-
-public interface UserPermissionMapper extends Mapper<UserPermissionMapper>{
+@Mapper
+public interface UserPermissionMapper extends MyMapper<UserPermissionMapper>{
     int deleteByPrimaryKey(Integer id);
 
     int insert(UserPermission record);

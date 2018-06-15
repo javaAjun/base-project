@@ -1,10 +1,11 @@
 package com.palmble.dal;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.palmble.entity.BaseMenu;
 
-import tk.mybatis.mapper.common.Mapper;
-
-public interface BaseMenuMapper extends Mapper<BaseMenuMapper>{
+@Mapper
+public interface BaseMenuMapper extends MyMapper<BaseMenuMapper>{
     int deleteByPrimaryKey(Integer id);
 
     int insert(BaseMenu record);

@@ -1,10 +1,11 @@
 package com.palmble.dal;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.palmble.entity.LoginLogs;
 
-import tk.mybatis.mapper.common.Mapper;
-
-public interface LoginLogsMapper extends Mapper<LoginLogsMapper>{
+@Mapper
+public interface LoginLogsMapper extends MyMapper<LoginLogsMapper>{
     int deleteByPrimaryKey(Integer id);
 
     int insert(LoginLogs record);

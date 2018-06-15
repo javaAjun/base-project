@@ -1,10 +1,11 @@
 package com.palmble.dal;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.palmble.entity.BaseGroup;
 
-import tk.mybatis.mapper.common.Mapper;
-
-public interface BaseGroupMapper extends Mapper<BaseGroupMapper>{
+@Mapper
+public interface BaseGroupMapper extends MyMapper<BaseGroupMapper>{
     int deleteByPrimaryKey(Integer id);
 
     int insert(BaseGroup record);
