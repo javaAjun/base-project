@@ -1,117 +1,115 @@
 <!DOCTYPE html>
-<html lang="ZH-cn">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>郑州掌尚科技</title>
-    <link rel="stylesheet" href="plugins/layui/css/layui.css">
-    <link rel="stylesheet" href="css/login.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <title>郑州掌尚科技-登录</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="hplus/css/bootstrap.min.css" rel="stylesheet">
+    <link href="hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="hplus/css/animate.min.css" rel="stylesheet">
+    <link href="hplus/css/style.min.css" rel="stylesheet">
+    <link href="hplus/css/login.min.css" rel="stylesheet">
+    <script>
+        if(window.top!==window.self){window.top.location=window.location};
+    </script>
+    <style>
+        .form-control, .single-line {
+            color: #222;
+        }
+        .verifyimg{
+            width:46%;
+            height: 40px;
+            margin-bottom: 3px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        .login-title{
+            font-size: 18px;
+            color: #222;
+        }
+    </style>
+
 </head>
 
-<body>
-<div class="kit-login">
-    <div class="kit-login-bg"></div>
-    <div class="kit-login-wapper">
-        <h2 class="kit-login-slogan">欢迎使用 <br>郑州掌尚</h2>
-        <div class="kit-login-form">
-            <h4 class="kit-login-title">登录</h4>
-            <form class="layui-form">
-                <div class="kit-login-row">
-                    <div class="kit-login-col">
-                        <i class="layui-icon">&#xe612;</i>
-                        <span class="kit-login-input">
-                <input type="text" name="loginName" id="loginName" lay-verify="required" placeholder="用户名"/>
-              </span>
+<body class="signin">
+    <div class="signinpanel">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="signin-info">
+                    <div class="logopanel m-b">
+                        <h1>[郑州掌尚科技]</h1>
                     </div>
-                    <div class="kit-login-col"></div>
+                    <div class="m-b"></div>
+                    <h4>欢迎进入 <strong>掌尚会员管理系统后台管理系统</strong></h4>
+                    
                 </div>
-                <div class="kit-login-row">
-                    <div class="kit-login-col">
-                        <i class="layui-icon">&#xe64c;</i>
-                        <span class="kit-login-input">
-                <input type="password" name="password" id="password" lay-verify="required" placeholder="密码"/>
-              </span>
-                    </div>
-                    <div class="kit-login-col"></div>
-                </div>
-                
-                 <div class="kit-login-row">
-			 	 <div class="kit-login-col">
-			 	 <i class="layui-icon">&#xe679;</i>
-			 	  <span class="kit-login-input">
-			 	 	 <input type="text" placeholder="验证码"  id="imgCode" lay-verify="required"/>
-			 	 </span>
-			 	 </div>
-			 	 
-			 	 <div class="kit-login-col">
-						<img  class="web_sink_but"  id="refreshImgCode" style="cursor:pointer;min-width:0;width:100%;" src=""/>
-					</div>
-			 </div>
-			 <div class="kit-login-row">
-                    <div class="kit-login-col">
-                        <input type="checkbox" name="rememberMe" title="记住帐号" lay-skin="primary">
-                    </div>
-                </div>
-			 <div class="kit-login-row">
-                    <button class="layui-btn kit-login-btn" lay-submit="submit" lay-filter="login_hash">登录</button>
-                </div>
-                <div class="kit-login-row" style="margin-bottom:0;">
-                    <a href="javascript:;" style="color: rgb(153, 153, 153); text-decoration: none; font-size: 13px;"
-                       id="forgot">忘记密码</a>
-                </div>
-            </form>
+            </div>
+            <div class="col-sm-5">
+                <form method="post" action="/toLogin">
+                    <h4 class="no-margins text-center login-title">登 录</h4>
+                    
+                    <input type="text" name="username" class="form-control uname" style="height: 40px" placeholder="用户名" />
+                    <input type="password" name="password" class="form-control pword m-b" style="height: 40px" placeholder="密码" />
+                    <input type="text" name="verify" class="form-control" placeholder="验证码" style="width:50%;display: inline-block;margin-top: 0;height: 40px" />
+                    <img class="verifyimg reloadverify" title="点击切换" alt="点击切换" src="">
+                    <button class="btn btn-info btn-block">登 录</button>
+                    <p class="text-white check-tips" style="margin: 10px 0;"></p>
+                </form>
+            </div>
+        </div>
+        <div class="signup-footer">
+            <div class="pull-left">
+                &copy; 2018 郑州掌尚科技 All Rights Reserved.
+            </div>
         </div>
     </div>
-</div>
-<script src="js/basic.js"></script>
-<script src="plugins/polyfill.min.js"></script>
-<script src="plugins/layui/layui.js"></script>
-<script src="js/jquery-1.10.1.min.js"></script>
-<script src="js/jquery.cookie.js"></script>
-<script>
-$('#refreshImgCode').attr('src',ctx+'/vifityCodeController/getVerify?xxx='+Math.random());
-$('#refreshImgCode').click(function(){
-	$('#refreshImgCode').attr('src',ctx+'/vifityCodeController/getVerify?xxx='+Math.random());
-});
-    layui.use(['layer', 'form'], function () {
-        var form = layui.form,
-            $ = layui.jquery;
+    <script src="hplus/js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/basic.js"></script>
+    <script>
+    $('.verifyimg').attr('src',ctx+'/vifityCodeController/getVerify?xxx='+Math.random());
+        $(function(){
+            //表单提交
+            $(document)
+                .ajaxStart(function(){
+                    $("button:submit").html('登 录 中...').attr("disabled", true);
+                })
+                .ajaxStop(function(){
+                    $("button:submit").html('登 录').attr("disabled", false);
+                });
 
-        $('#forgot').on('click', function () {
-            layer.msg('请联系管理员.');
-        });
-        //监听提交
-        form.on('submit(login_hash)', function (data) {
-        	$.ajaxSetup({
-                contentType: "application/json; charset=utf-8"
-            });
-            var token = "";
-            var data = {username: $("#loginName").val(), password: $("#password").val(),inputStr:$('#imgCode').val()};
-            $.ajax({
-                url:ctxAppSec +  '/login',
-                method: 'POST',
-                data:JSON.stringify(data)
-            }).always(function(data, status, xhr) {
-                if(data.respCode == "1"){
-                    token = data.token;
-                    $.cookie('bearcktkaeskey', token, { expires: 1, path: '/' });
-                    $.cookie('loginNo', data.respData.loginiNo, { expires: 1, path: '/' });
-                    $.cookie('loginId', data.respData.id, { expires: 1, path: '/' });
-                    location.href = '/index.html';
-                }else if(data.respCode == "3"){
-                    $('#refreshImgCode').attr('src',ctxAppSec+'/vifityCodeController/getVerify?xxx='+Math.random());
-                    layer.msg("验证码不正确或已失效！");
-                }else{
-                	 $('#refreshImgCode').attr('src',ctxAppSec+'/vifityCodeController/getVerify?xxx='+Math.random());
-                	layer.msg('账号或密码输入不正确');
+            $("form").submit(function(){
+                var self = $(this);
+                self.find(".check-tips").text('');
+                $.post(self.attr("action"), self.serialize(), success, "json");
+                return false;
+
+                function success(data){
+                    if(data.code==1){
+                        window.location.href = data.url;
+                    } else {
+                    	console.log(self.find(".check-tips"));
+                    	console.log(data.msg);
+                    	console.log(data);
+                        self.find(".check-tips").text(data.msg);
+                        //刷新验证码
+                        $(".reloadverify").click();
+                    }
                 }
             });
-            return false;
-        });
-    });
-</script>
-</body>
 
+            //刷新验证码
+            var verifyimg = $(".verifyimg").attr("src");
+            $(".reloadverify").click(function(){
+                if( verifyimg.indexOf('?')>0){
+                    $(".verifyimg").attr("src", verifyimg+'&random='+Math.random());
+                }else{
+                    $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+                }
+            });
+
+        });
+    </script>
+</body>
 </html>
