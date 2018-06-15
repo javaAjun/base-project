@@ -22,6 +22,18 @@ public class LoginController {
 			result.setMsg("验证码不允许为空");
 			return result;
 		}
+		String inuputUsername=(String)map.get("username");
+		String inputPassword=(String)map.get("password");
+		if(inuputUsername==null||inuputUsername.trim().equals("")) {
+			result.setCode(2);
+			result.setMsg("用户名不能为空");
+			return result;
+		}
+		if(inputPassword==null||inputPassword.trim().equals("")) {
+			result.setCode(2);
+			result.setMsg("密码不能为空");
+			return result;
+		}
 		String vifityCode=(String)request.getSession().getAttribute("vifityCode");
 		if(vifityCode==null||vifityCode.trim().equals("")) {
 			result.setCode(3);
@@ -33,6 +45,9 @@ public class LoginController {
 			result.setMsg("验证码错误");
 			return result;
 		}
+		result.setCode(1);
+		result.setMsg("success");
+		result.setUrl("html/index.html");
 		return result;
 	}
 }
