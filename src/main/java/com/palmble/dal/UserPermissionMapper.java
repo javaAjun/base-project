@@ -16,4 +16,5 @@ public interface UserPermissionMapper extends Mapper<UserPermissionMapper>{
     int updateByPrimaryKeySelective(UserPermission record);
 
     int updateByPrimaryKey(UserPermission record);
+    
 }
