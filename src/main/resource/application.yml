@@ -10,3 +10,13 @@ spring:
 #    mode: HTML5
 #    encoding: UTF-8
 #    content-type: text/html
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://182.92.99.67:3306/ddwxmgcodes_db?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    data-username: root
+    data-password: a/xOejRkf3Ge
+mybatis:
+  #实体类所做包
+  type-aliases-package: com.palmble.entity
+  #mapper.xml所在位置
+  mapper-locations: classpath:mapper/*.xml
