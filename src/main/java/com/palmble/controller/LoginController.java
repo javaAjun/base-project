@@ -16,9 +16,23 @@ public class LoginController {
 	@PostMapping("/toLogin")
 	public Result login(@RequestParam Map<String,Object> map,HttpServletRequest request) {
 		Result result=new Result();
-		//String msg, Integer code, String url
-//		result.put("code", 1);
-//		result.put("url", "html/index.html");
+		String inputVerify=(String)map.get("verify");
+		if(inputVerify==null||inputVerify.trim().equals("")) {
+			result.setCode(3);
+			result.setMsg("验证码不允许为空");
+			return result;
+		}
+		String vifityCode=(String)request.getSession().getAttribute("vifityCode");
+		if(vifityCode==null||vifityCode.trim().equals("")) {
+			result.setCode(3);
+			result.setMsg("验证码失效");
+			return result;
+		}
+		if(!inputVerify.equals(vifityCode)) {
+			result.setCode(3);
+			result.setMsg("验证码错误");
+			return result;
+		}
 		return result;
 	}
 }

@@ -89,6 +89,9 @@
                     if(data.code==1){
                         window.location.href = data.url;
                     } else {
+                    	console.log(self.find(".check-tips"));
+                    	console.log(data.msg);
+                    	console.log(data);
                         self.find(".check-tips").text(data.msg);
                         //刷新验证码
                         $(".reloadverify").click();
