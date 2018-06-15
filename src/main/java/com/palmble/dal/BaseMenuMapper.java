@@ -2,7 +2,9 @@ package com.palmble.dal;
 
 import com.palmble.entity.BaseMenu;
 
-public interface BaseMenuMapper {
+import tk.mybatis.mapper.common.Mapper;
+
+public interface BaseMenuMapper extends Mapper<BaseMenuMapper>{
     int deleteByPrimaryKey(Integer id);
 
     int insert(BaseMenu record);

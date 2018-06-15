@@ -2,7 +2,9 @@ package com.palmble.dal;
 
 import com.palmble.entity.BaseGroup;
 
-public interface BaseGroupMapper {
+import tk.mybatis.mapper.common.Mapper;
+
+public interface BaseGroupMapper extends Mapper<BaseGroupMapper>{
     int deleteByPrimaryKey(Integer id);
 
     int insert(BaseGroup record);

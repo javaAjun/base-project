@@ -2,7 +2,9 @@ package com.palmble.dal;
 
 import com.palmble.entity.LoginLogs;
 
-public interface LoginLogsMapper {
+import tk.mybatis.mapper.common.Mapper;
+
+public interface LoginLogsMapper extends Mapper<LoginLogsMapper>{
     int deleteByPrimaryKey(Integer id);
 
     int insert(LoginLogs record);
@@ -14,4 +16,5 @@ public interface LoginLogsMapper {
     int updateByPrimaryKeySelective(LoginLogs record);
 
     int updateByPrimaryKey(LoginLogs record);
+    
 }

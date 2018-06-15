@@ -2,7 +2,9 @@ package com.palmble.dal;
 
 import com.palmble.entity.AdminUser;
 
-public interface AdminUserMapper {
+import tk.mybatis.mapper.common.Mapper;
+
+public interface AdminUserMapper extends Mapper<AdminUserMapper>{
     int deleteByPrimaryKey(Integer id);
 
     int insert(AdminUser record);
@@ -14,4 +16,5 @@ public interface AdminUserMapper {
     int updateByPrimaryKeySelective(AdminUser record);
 
     int updateByPrimaryKey(AdminUser record);
+    
 }
