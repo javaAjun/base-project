@@ -6,7 +6,7 @@ spring:
     staticLocations: classpath:/static/
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://182.92.99.67:3306/ddwxmgcodes_db?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    url: jdbc:mysql://180.76.98.239:3306/ddwxmgcodes_db?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
     data-username: root
     data-password: a/xOejRkf3Ge
 mybatis:

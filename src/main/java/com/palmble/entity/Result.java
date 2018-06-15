@@ -1,4 +1,4 @@
-package com.palmble.bean;
+package com.palmble.entity;
 
 public class Result {
 	private String msg;
