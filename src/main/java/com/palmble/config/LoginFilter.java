@@ -34,10 +34,12 @@ public class LoginFilter implements Filter {
 		 HttpServletResponse res = (HttpServletResponse)response;  
 		 String path = req.getRequestURI().substring(req.getContextPath().length()).replaceAll("[/]+$", "");
 		 boolean allowedPath = ALLOWED_PATHS.contains(path); 
-		 if(allowedPath||path.endsWith(".js")||path.endsWith(".css")
+		 if(allowedPath) {
+			 chain.doFilter(request, response);  
+		 }else if(path.endsWith(".js")||path.endsWith(".css")
 				 ||path.endsWith(".png")||path.endsWith(".jpg")||path.endsWith(".map")
-				 ||path.endsWith(".ico")) {
-			 chain.doFilter(req, res);  
+				 ||path.endsWith(".ico")){
+			 chain.doFilter(request, response);  
 		 }else {
 			 String loginNo=(String)req.getSession().getAttribute("loginNo");
 			 if(loginNo==null) {

@@ -2,36 +2,28 @@ package com.palmble.entity;
 
 import java.util.Date;
 
-/**
- * 
-* <p>Title: 用户实体类</p>  
-* <p>Description:pamable </p>  
-* @author WangYanke  
-* @date 2018年6月14日 
-* @version 1.0
- */
 public class AdminUser {
-    private Integer id;//自增编号
+    private Integer id;
 
-    private String loginiNo;//登录账号
+    private String loginiNo;
 
-    private String mobile;//手机号码
+    private String mobile;
 
-    private String pwd;//登录密码
+    private String pwd;
 
-    private String qq;//QQ
+    private String qq;
 
-    private String headImg;//用户头像存放路径
+    private String headImg;
 
-    private String createByName;//创建人
+    private String createByName;
 
-    private Date createDate;//创建时间
+    private Date createDate;
 
-    private Integer enableFlag;//用户状态0:有效 1:无效
+    private Integer enableFlag;
 
-    private Integer groupId;//所属分组
+    private Integer groupId;
 
-    private String lastLoginIp;//最后一次登录地点 (IP)
+    private String lastLoginIp;
 
     public Integer getId() {
         return id;

@@ -1,16 +1,17 @@
 package com.palmble.dal;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import com.palmble.entity.AdminUser;
+import com.palmble.entity.AdminUserExample;
+import java.util.List;
 
-@Mapper
-public interface AdminUserMapper{
+public interface AdminUserMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(AdminUser record);
 
     int insertSelective(AdminUser record);
+
+    List<AdminUser> selectByExample(AdminUserExample example);
 
     AdminUser selectByPrimaryKey(Integer id);
 

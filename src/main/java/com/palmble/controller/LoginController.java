@@ -49,8 +49,9 @@ public class LoginController {
 			result.setMsg("密码不能为空");
 			return result;
 		}
-		AdminUser adminUser=adminUserService.selectByPrimaryKey(1);
-		System.out.println(adminUser+"------------------");
+		AdminUser a=new AdminUser();
+		a.setId(1);
+		AdminUser adminUser=adminUserService.selectByExample(a);
 		request.getSession().setAttribute("loginNo", inuputUsername);
 		result.setCode(1);
 		result.setMsg("success");

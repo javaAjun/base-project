@@ -1,10 +1,14 @@
 package com.palmble.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.palmble.dal.AdminUserMapper;
 import com.palmble.entity.AdminUser;
+import com.palmble.entity.AdminUserExample;
 import com.palmble.service.AdminUserService;
 
 @Service
@@ -40,6 +44,11 @@ public class AdminUserServiceImpl implements AdminUserService {
 	@Override
 	public int updateByPrimaryKey(AdminUser record) {
 		return adminUserMapper.updateByPrimaryKey(record);
+	}
+
+	@Override
+	public List<AdminUser> selectByExample(AdminUserExample example) {
+		return adminUserMapper.selectByExample(example);
 	}
 
 }
