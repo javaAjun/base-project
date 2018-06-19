@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.Page;
 import com.palmble.entity.BaseMenu;
 import com.palmble.service.BaseMenuService;
+import com.palmble.utils.ResultInfo;
 
 /**
 * <p>Title: 权限菜单管理</p>  
@@ -47,11 +48,12 @@ public class BaseMenuController {
 	/**
 	 * <p>Title: 菜单删除</p>   
 	 * @author WangYanke  
+	 * @return 
 	 * @date 2018年6月15日
 	 */
 	@RequestMapping("delMenu")
-	public void delMenu() {
-		
+	public ResultInfo delMenu(@RequestParam Integer menuId) {
+		return permissionMenuService.deleteMenu(menuId);
 	}
 	
 	/**
@@ -63,5 +65,25 @@ public class BaseMenuController {
 	@RequestMapping("/menuInfo")
 	public BaseMenu getMenu(@RequestParam Integer menuId) {
 		return permissionMenuService.getMenuInfo(menuId);
+	}
+	
+	/**
+	 * <p>Title:隐藏菜单 </p>   
+	 * @author WangYanke  
+	 * @date 2018年6月19日
+	 */
+	@RequestMapping("/dispalyMenu")
+	public ResultInfo forBiddenMenu(@RequestParam Integer menuId) {
+		return permissionMenuService.forBiddenMenu(menuId);
+	}
+	
+	/**
+	 * <p>Title: 将菜单设置为无效状态</p>   
+	 * @author WangYanke  
+	 * @date 2018年6月19日
+	 */
+	@RequestMapping("/noAvailMenu")
+	public ResultInfo noAvailMenu(@RequestParam Integer menuId) {
+		return permissionMenuService.noAvailMenu(menuId);
 	}
 }

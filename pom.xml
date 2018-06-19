@@ -60,7 +60,7 @@
 		</dependency>
 		
 		<!-- Druid 数据连接池依赖 -->
-       <dependency>
+       	<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 			<version>1.0.11</version>

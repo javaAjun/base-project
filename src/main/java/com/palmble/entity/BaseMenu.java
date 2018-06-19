@@ -23,7 +23,7 @@ public class BaseMenu {
 
     private String menuImage;//菜单图标
 
-    private Integer isDisplay;//是否隐藏0:不隐藏 1:吟唱
+    private Integer isDisplay;//是否隐藏0:不隐藏 1:隐藏
 
     private Integer idEffective;//是否有效 0:有效 1:无效
 
