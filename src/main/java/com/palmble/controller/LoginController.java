@@ -3,18 +3,20 @@ package com.palmble.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.palmble.entity.AdminUser;
 import com.palmble.entity.Result;
 import com.palmble.service.AdminUserService;
 
 @RestController
 public class LoginController {
+	@Autowired
+	private AdminUserService adminUserService;
 	@PostMapping("/toLogin")
 	public Result login(@RequestParam Map<String,Object> map,HttpServletRequest request) {
 		Result result=new Result();
@@ -47,10 +49,9 @@ public class LoginController {
 			result.setMsg("密码不能为空");
 			return result;
 		}
-//		adminUserService.
-//		if() {
-//			result
-//		}
+		AdminUser adminUser=adminUserService.selectByPrimaryKey(1);
+		System.out.println(adminUser+"------------------");
+		request.getSession().setAttribute("loginNo", inuputUsername);
 		result.setCode(1);
 		result.setMsg("success");
 		result.setUrl("html/index.html");

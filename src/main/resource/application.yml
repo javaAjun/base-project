@@ -5,10 +5,11 @@ spring:
   resources: 
     staticLocations: classpath:/static/
   datasource:
+    username: root
+    password: a/xOejRkf3Ge
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://180.76.98.239:3306/base_project?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
-    data-username: root
-    data-password: a/xOejRkf3Ge
+
 mybatis:
   #实体类所做包
   type-aliases-package: com.palmble.entity
