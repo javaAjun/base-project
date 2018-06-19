@@ -1,5 +1,6 @@
 package com.palmble.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +52,7 @@ public class LoginController {
 		}
 		AdminUser a=new AdminUser();
 		a.setId(1);
-		AdminUser adminUser=adminUserService.selectByExample(a);
+//		List<AdminUser> adminUser=adminUserService.selectByExample(a);
 		request.getSession().setAttribute("loginNo", inuputUsername);
 		result.setCode(1);
 		result.setMsg("success");
