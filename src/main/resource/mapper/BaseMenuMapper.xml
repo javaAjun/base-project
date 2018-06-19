@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="andy.dao.BaseMenuMapper" >
-  <resultMap id="BaseResultMap" type="andy.model.BaseMenu" >
+<mapper namespace="com.palmble.dal.BaseMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.palmble.entity.BaseMenu" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
     <result column="sequence_number" property="sequenceNumber" jdbcType="INTEGER" />
@@ -16,17 +16,24 @@
     id, menu_name, sequence_number, url, parent_id, menu_info, menu_image, is_display, 
     id_effective
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
     select 
+        <include refid="Base_Column_List" />
+    from base_menu
+       where id = #{id}
+  </select>
+  
+  <select id="byAllMenuList" resultMap="BaseResultMap"  >
+  	select 
     <include refid="Base_Column_List" />
     from base_menu
-    where id = #{id,jdbcType=INTEGER}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from base_menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="andy.model.BaseMenu" >
+  <insert id="insert" parameterType="com.palmble.entity.BaseMenu" >
     insert into base_menu (id, menu_name, sequence_number, 
       url, parent_id, menu_info, 
       menu_image, is_display, id_effective
@@ -36,7 +43,7 @@
       #{menuImage,jdbcType=VARCHAR}, #{isDisplay,jdbcType=INTEGER}, #{idEffective,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="andy.model.BaseMenu" >
+  <insert id="insertSelective" parameterType="com.palmble.entity.BaseMenu" >
     insert into base_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -97,7 +104,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="andy.model.BaseMenu" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.BaseMenu" >
     update base_menu
     <set >
       <if test="menuName != null" >
@@ -127,7 +134,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="andy.model.BaseMenu" >
+  <update id="updateByPrimaryKey" parameterType="com.palmble.entity.BaseMenu" >
     update base_menu
     set menu_name = #{menuName,jdbcType=VARCHAR},
       sequence_number = #{sequenceNumber,jdbcType=INTEGER},

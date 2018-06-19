@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="andy.dao.BaseGroupMapper" >
-  <resultMap id="BaseResultMap" type="andy.model.BaseGroup" >
+<mapper namespace="com.palmble.dal.BaseGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.palmble.entity.BaseGroup" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="group_name" property="groupName" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -21,13 +21,13 @@
     delete from base_group
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="andy.model.BaseGroup" >
+  <insert id="insert" parameterType="com.palmble.entity.BaseGroup" >
     insert into base_group (id, group_name, create_date, 
       create_user, remake)
     values (#{id,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{createUser,jdbcType=VARCHAR}, #{remake,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="andy.model.BaseGroup" >
+  <insert id="insertSelective" parameterType="com.palmble.entity.BaseGroup" >
     insert into base_group
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="andy.model.BaseGroup" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.BaseGroup" >
     update base_group
     <set >
       <if test="groupName != null" >
@@ -82,7 +82,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="andy.model.BaseGroup" >
+  <update id="updateByPrimaryKey" parameterType="com.palmble.entity.BaseGroup" >
     update base_group
     set group_name = #{groupName,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},

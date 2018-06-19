@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.palmble.entity.UserPermission;
 
 @Mapper
-public interface UserPermissionMapper extends MyMapper<UserPermissionMapper>{
+public interface UserPermissionMapper{
     int deleteByPrimaryKey(Integer id);
 
     int insert(UserPermission record);
@@ -17,5 +17,6 @@ public interface UserPermissionMapper extends MyMapper<UserPermissionMapper>{
     int updateByPrimaryKeySelective(UserPermission record);
 
     int updateByPrimaryKey(UserPermission record);
+    
     
 }

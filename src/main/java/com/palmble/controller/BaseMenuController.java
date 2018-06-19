@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.palmble.service.PermissionMenuService;
+import com.github.pagehelper.Page;
+import com.palmble.entity.BaseMenu;
+import com.palmble.service.BaseMenuService;
 
 /**
 * <p>Title: 权限菜单管理</p>  
@@ -17,9 +19,10 @@ import com.palmble.service.PermissionMenuService;
 * @version 1.0
  */
 @RestController
-public class PermissionMenuController {
+@RequestMapping("/baseMenu")
+public class BaseMenuController {
 	
-	@Autowired PermissionMenuService permissionMenuService;
+	@Autowired BaseMenuService permissionMenuService;
 	/**
 	 * <p>Title: 获取菜单信息列表</p>   
 	 * @author WangYanke  
@@ -27,7 +30,8 @@ public class PermissionMenuController {
 	 */
 	@RequestMapping("/list")
 	public void getMenuList(@RequestParam Map<String, String> map) {
-	  	permissionMenuService.getMenuList(map);
+	  	Page<Object> page = permissionMenuService.getMenuList(map);
+	  	System.out.println(page.toString());
 	}
 	
 	/**
@@ -48,5 +52,16 @@ public class PermissionMenuController {
 	@RequestMapping("delMenu")
 	public void delMenu() {
 		
+	}
+	
+	/**
+	 * <p>Title: 获取菜单信息</p>   
+	 * @author WangYanke  
+	 * @return 
+	 * @date 2018年6月15日
+	 */
+	@RequestMapping("/menuInfo")
+	public BaseMenu getMenu(@RequestParam Integer menuId) {
+		return permissionMenuService.getMenuInfo(menuId);
 	}
 }

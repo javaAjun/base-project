@@ -15,8 +15,6 @@ import com.palmble.service.AdminUserService;
 
 @RestController
 public class LoginController {
-	@Autowired
-	private AdminUserService adminUserService;
 	@PostMapping("/toLogin")
 	public Result login(@RequestParam Map<String,Object> map,HttpServletRequest request) {
 		Result result=new Result();

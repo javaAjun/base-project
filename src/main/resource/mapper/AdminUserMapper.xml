@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="andy.dao.AdminUserMapper" >
-  <resultMap id="BaseResultMap" type="andy.model.AdminUser" >
+<mapper namespace="com.palmble.dal.AdminUserMapper" >
+  <resultMap id="BaseResultMap" type="com.palmble.entity.AdminUser" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="logini_no" property="loginiNo" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
@@ -28,7 +28,7 @@
     delete from admin_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="andy.model.AdminUser" >
+  <insert id="insert" parameterType="com.palmble.entity.AdminUser" >
     insert into admin_user (id, logini_no, mobile, 
       pwd, qq, head_img, create_by_name, 
       create_date, enable_flag, group_id, 
@@ -38,7 +38,7 @@
       #{createDate,jdbcType=TIMESTAMP}, #{enableFlag,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, 
       #{lastLoginIp,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="andy.model.AdminUser" >
+  <insert id="insertSelective" parameterType="com.palmble.entity.AdminUser" >
     insert into admin_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -111,7 +111,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="andy.model.AdminUser" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.AdminUser" >
     update admin_user
     <set >
       <if test="loginiNo != null" >
@@ -147,7 +147,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="andy.model.AdminUser" >
+  <update id="updateByPrimaryKey" parameterType="com.palmble.entity.AdminUser" >
     update admin_user
     set logini_no = #{loginiNo,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},

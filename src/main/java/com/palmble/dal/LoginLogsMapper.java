@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.palmble.entity.LoginLogs;
 
 @Mapper
-public interface LoginLogsMapper extends MyMapper<LoginLogsMapper>{
+public interface LoginLogsMapper{
     int deleteByPrimaryKey(Integer id);
 
     int insert(LoginLogs record);

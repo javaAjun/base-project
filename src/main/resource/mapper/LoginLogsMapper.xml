@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="andy.dao.LoginLogsMapper" >
-  <resultMap id="BaseResultMap" type="andy.model.LoginLogs" >
+<mapper namespace="com.palmble.dal.LoginLogsMapper" >
+  <resultMap id="BaseResultMap" type="com.palmble.entity.LoginLogs" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="login_name" property="loginName" jdbcType="VARCHAR" />
     <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
@@ -21,13 +21,13 @@
     delete from login_logs
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="andy.model.LoginLogs" >
+  <insert id="insert" parameterType="com.palmble.entity.LoginLogs" >
     insert into login_logs (id, login_name, login_time, 
       operation_type, login_ip)
     values (#{id,jdbcType=INTEGER}, #{loginName,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, 
       #{operationType,jdbcType=INTEGER}, #{loginIp,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="andy.model.LoginLogs" >
+  <insert id="insertSelective" parameterType="com.palmble.entity.LoginLogs" >
     insert into login_logs
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="andy.model.LoginLogs" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.LoginLogs" >
     update login_logs
     <set >
       <if test="loginName != null" >
@@ -82,7 +82,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="andy.model.LoginLogs" >
+  <update id="updateByPrimaryKey" parameterType="com.palmble.entity.LoginLogs" >
     update login_logs
     set login_name = #{loginName,jdbcType=VARCHAR},
       login_time = #{loginTime,jdbcType=TIMESTAMP},

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="andy.dao.UserPermissionMapper" >
-  <resultMap id="BaseResultMap" type="andy.model.UserPermission" >
+<mapper namespace="com.palmble.dal.UserPermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.palmble.entity.UserPermission" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="group_or_user_id" property="groupOrUserId" jdbcType="INTEGER" />
     <result column="privilege_id" property="privilegeId" jdbcType="INTEGER" />
@@ -20,13 +20,13 @@
     delete from user_permission
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="andy.model.UserPermission" >
+  <insert id="insert" parameterType="com.palmble.entity.UserPermission" >
     insert into user_permission (id, group_or_user_id, privilege_id, 
       state)
     values (#{id,jdbcType=INTEGER}, #{groupOrUserId,jdbcType=INTEGER}, #{privilegeId,jdbcType=INTEGER}, 
       #{state,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="andy.model.UserPermission" >
+  <insert id="insertSelective" parameterType="com.palmble.entity.UserPermission" >
     insert into user_permission
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -57,7 +57,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="andy.model.UserPermission" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.UserPermission" >
     update user_permission
     <set >
       <if test="groupOrUserId != null" >
@@ -72,7 +72,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="andy.model.UserPermission" >
+  <update id="updateByPrimaryKey" parameterType="com.palmble.entity.UserPermission" >
     update user_permission
     set group_or_user_id = #{groupOrUserId,jdbcType=INTEGER},
       privilege_id = #{privilegeId,jdbcType=INTEGER},

@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.palmble.entity.BaseGroup;
 
 @Mapper
-public interface BaseGroupMapper extends MyMapper<BaseGroupMapper>{
+public interface BaseGroupMapper{
     int deleteByPrimaryKey(Integer id);
 
     int insert(BaseGroup record);

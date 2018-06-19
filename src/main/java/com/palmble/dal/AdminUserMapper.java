@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.palmble.entity.AdminUser;
 
 @Mapper
-public interface AdminUserMapper extends MyMapper<AdminUserMapper>{
+public interface AdminUserMapper{
     int deleteByPrimaryKey(Integer id);
 
     int insert(AdminUser record);

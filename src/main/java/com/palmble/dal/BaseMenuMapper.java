@@ -1,11 +1,14 @@
 package com.palmble.dal;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
+import com.github.pagehelper.Page;
 import com.palmble.entity.BaseMenu;
 
 @Mapper
-public interface BaseMenuMapper extends MyMapper<BaseMenuMapper>{
+public interface BaseMenuMapper{
     int deleteByPrimaryKey(Integer id);
 
     int insert(BaseMenu record);
@@ -17,4 +20,5 @@ public interface BaseMenuMapper extends MyMapper<BaseMenuMapper>{
     int updateByPrimaryKeySelective(BaseMenu record);
 
     int updateByPrimaryKey(BaseMenu record);
+    Page<Object> byAllMenuList(Map<String, String> map);
 }
