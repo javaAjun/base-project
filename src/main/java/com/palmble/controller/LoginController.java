@@ -50,9 +50,17 @@ public class LoginController {
 			result.setMsg("密码不能为空");
 			return result;
 		}
-		AdminUser a=new AdminUser();
-		a.setId(1);
-//		List<AdminUser> adminUser=adminUserService.selectByExample(a);
+		AdminUser adminUser=adminUserService.selectOne("loginiNo", inuputUsername);
+		if(adminUser==null) {
+			result.setCode(2);
+			result.setMsg("用户名不存在");
+			return result;
+		}
+		if(!inputPassword.equals(adminUser.getPwd())) {
+			result.setCode(2);
+			result.setMsg("密码不正确");
+			return result;
+		}
 		request.getSession().setAttribute("loginNo", inuputUsername);
 		result.setCode(1);
 		result.setMsg("success");
