@@ -1,9 +1,11 @@
 package com.palmble.serviceImpl;
 
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.palmble.dal.BaseMenuMapper;
 import com.palmble.entity.BaseMenu;
 import com.palmble.service.BaseMenuService;
@@ -19,8 +21,15 @@ public class BaseMenuServiceImpl implements BaseMenuService{
 	 * @return 
 	 */
 	@Override
-	public Page<Object> getMenuList(Map<String, String> map) {
-		return baseMenuMapper.byAllMenuList(map);
+	public PageInfo<BaseMenu> getMenuList(Map<String, String> map) {
+		List<BaseMenu> list = baseMenuMapper.byAllMenuList(map);
+		for (int i = 0; i < list.size(); i++) {
+			BaseMenu baseMenu = list.get(0);
+			System.out.println(baseMenu);
+			
+		}
+		PageInfo<BaseMenu> pageSource=new PageInfo<>(list);
+		return pageSource;
 	}
 	@Override
 	public BaseMenu getMenuInfo(Integer menuId) {
@@ -62,6 +71,15 @@ public class BaseMenuServiceImpl implements BaseMenuService{
 			return new ResultInfo(0, "操作成功");
 		}else {
 			return new ResultInfo(-1, "操作失败");
+		}
+	}
+	@Override
+	public ResultInfo addMenu(BaseMenu baseMenu) {
+		int menuNumber = baseMenuMapper.insert(baseMenu);
+		if(menuNumber>0) {
+			return new ResultInfo(0, "添加菜单成功");
+		}else {
+			return new ResultInfo(-1, "添加菜单失败");
 		}
 	}
 }

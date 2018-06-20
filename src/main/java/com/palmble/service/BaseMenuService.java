@@ -1,14 +1,13 @@
 package com.palmble.service;
 
 import java.util.Map;
-
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.palmble.entity.BaseMenu;
 import com.palmble.utils.ResultInfo;
 
 
 public interface BaseMenuService {
-	Page<Object> getMenuList(Map<String, String> map);
+	PageInfo<BaseMenu> getMenuList(Map<String, String> map);
 
 	BaseMenu getMenuInfo(Integer menuId);
 
@@ -17,4 +16,6 @@ public interface BaseMenuService {
 	ResultInfo forBiddenMenu(Integer menuId);
 
 	ResultInfo noAvailMenu(Integer menuId);
+
+	ResultInfo addMenu(BaseMenu baseMenu);
 }
