@@ -1,5 +1,6 @@
 package com.palmble.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.palmble.base.PalmbleBaseController;
 import com.palmble.entity.BaseMenu;
 import com.palmble.service.BaseMenuService;
 import com.palmble.utils.ResultInfo;
@@ -21,7 +25,7 @@ import com.palmble.utils.ResultInfo;
  */
 @RestController
 @RequestMapping("/baseMenu")
-public class BaseMenuController {
+public class BaseMenuController{
 	
 	@Autowired BaseMenuService permissionMenuService;
 	/**
@@ -31,18 +35,20 @@ public class BaseMenuController {
 	 */
 	@RequestMapping("/list")
 	public void getMenuList(@RequestParam Map<String, String> map) {
-	  	Page<Object> page = permissionMenuService.getMenuList(map);
-	  	System.out.println(page.toString());
+		//PageHelper.offsetPage(0, 10);
+	  	PageInfo<BaseMenu> pageSource = permissionMenuService.getMenuList(map);
+	  	System.out.println(pageSource.toString());
 	}
 	
 	/**
 	 * <p>Title: 菜单添加</p>   
 	 * @author WangYanke  
+	 * @return 
 	 * @date 2018年6月15日
 	 */
 	@RequestMapping("/addMenu")
-	public void addMenu() {
-		
+	public ResultInfo addMenu(@RequestParam BaseMenu baseMenu) {
+		return permissionMenuService.addMenu(baseMenu);
 	}
 	
 	/**

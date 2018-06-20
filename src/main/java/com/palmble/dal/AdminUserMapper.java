@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.palmble.entity.AdminUser;
 
+import org.apache.ibatis.annotations.Mapper;
+@Mapper
 public interface AdminUserMapper {
     int deleteByPrimaryKey(Integer id);
 
