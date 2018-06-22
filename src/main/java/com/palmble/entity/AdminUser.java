@@ -24,8 +24,38 @@ public class AdminUser {
     private Integer groupId;
 
     private String lastLoginIp;
+    
+    private Date lastLoginTime;
+    
+    private String groupName;
+    private Integer loginCount;
+    
 
-    public Integer getId() {
+    public Integer getLoginCount() {
+		return loginCount;
+	}
+
+	public void setLoginCount(Integer loginCount) {
+		this.loginCount = loginCount;
+	}
+
+	public Date getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(Date lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public Integer getId() {
         return id;
     }
 

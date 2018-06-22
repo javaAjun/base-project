@@ -19,5 +19,8 @@ public interface AdminUserMapper {
     int updateByPrimaryKeySelective(AdminUser record);
 
     int updateByPrimaryKey(AdminUser record);
+    
     List<AdminUser> selectBySelective(Map<String,Object> map);
+    
+    List<AdminUser> selectJqGridByPeagSelective(Map<String,Object> map);
 }

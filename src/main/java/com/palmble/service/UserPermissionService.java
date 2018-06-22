@@ -1,13 +1,10 @@
-package com.palmble.dal;
+package com.palmble.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import com.palmble.entity.UserPermission;
 
-@Mapper
-public interface UserPermissionMapper{
+public interface UserPermissionService {
     int deleteByPrimaryKey(Integer id);
 
     int insert(UserPermission record);
@@ -19,8 +16,6 @@ public interface UserPermissionMapper{
     int updateByPrimaryKeySelective(UserPermission record);
 
     int updateByPrimaryKey(UserPermission record);
-    
     List<String> selectPrivilegeUrlByGroupOrUserId(Integer userid);
-    
     
 }

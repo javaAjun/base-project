@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.core.annotation.Order;
 
 @Order(value = 1)
-@WebFilter(filterName = "testFilter1", urlPatterns = "*")
+@WebFilter(filterName = "LoginFilter", urlPatterns = "*")
 public class LoginFilter implements Filter {
 	private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(
 			new HashSet<>(Arrays.asList("/login.html", "/vifityCodeController/getVerify", "/toLogin")));
@@ -46,8 +46,17 @@ public class LoginFilter implements Filter {
 			 String loginNo=(String)req.getSession().getAttribute("loginNo");
 			 if(loginNo==null) {
 				 String sendPath=request.getScheme()+"://"+request.getServerName()+":"+ request.getServerPort()+"/login.html";
-				 res.sendRedirect(sendPath);
-					return;
+				 
+				 String type = req.getHeader("X-Requested-With")==null?"":req.getHeader("X-Requested-With");  
+	                if ("XMLHttpRequest".equals(type)) {  
+	                    res.setHeader("REDIRECT", "REDIRECT");//告诉ajax这是重定向    
+	                    res.setHeader("CONTEXTPATH", sendPath);//重定向地址    
+	                    res.setStatus(HttpServletResponse.SC_FORBIDDEN);  
+	                    return;  
+	                }else{//如果不是ajax请求，则直接重定向  
+	                	res.sendRedirect(sendPath);    
+	                    return;    
+	                }    
 			 }
 			chain.doFilter(request,response);
 		 }
