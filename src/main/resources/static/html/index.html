@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>掌尚会员管理后台管理系统</title>
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+
+<div id="wrapper">
+    <!--左侧导航开始-->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="nav-close">
+            <i class="fa fa-times-circle"></i>
+        </div>
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                
+<li class="nav-header">
+    <div class="dropdown profile-element text-center">
+        <span>
+            <img alt="image" class="img-circle" src="../hplus/img/profile_small.jpg">
+        </span>
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
+            <span class="clear">
+                <span class="block m-t-xs">
+                    <strong class="font-bold">admin</strong>
+                </span>
+                <span class="text-muted text-xs block">超级管理员</span>
+            </span>
+        </a>
+
+    </div>
+    <div class="logo-element">H
+    </div>
+</li>
+<!--<li style="padding: 2px;"></li>-->
+<li>
+        <a href="#">
+        <i class="fa fa-folder"></i>
+        <span class="nav-label">系统管理</span>
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+                <li>
+            <a class="J_menuItem" href="/admin/config/group.html" data-index="6">网站设置</a>
+        </li>
+                <li>
+            <a class="J_menuItem" href="/admin/notice/index.html" data-index="70">公告列表</a>
+        </li>
+        <li>
+            <a class="J_menuItem" href="menu_list.html" data-index="71">菜单管理</a>
+        </li>
+            </ul>
+    </li>
+<li>
+        <a href="#">
+        <i class="fa fa-folder"></i>
+        <span class="nav-label">banner管理</span>
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+                <li>
+            <a class="J_menuItem" href="/admin/banner/index.html" data-index="69">banner列表</a>
+        </li>
+            </ul>
+    </li>
+<li>
+        <a href="#">
+        <i class="fa fa-folder"></i>
+        <span class="nav-label">会员管理</span>
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+        <li>
+            <a class="J_menuItem" href="/admin/user/index.html" data-index="72">会员列表</a>
+        </li>
+                <li>
+            <a class="J_menuItem" href="/admin/user/service.html" data-index="75">服务/报单中心</a>
+        </li>
+                <li>
+            <a class="J_menuItem" href="/admin/withdraw/index.html" data-index="76">提现列表</a>
+        </li>
+                <li>
+            <a class="J_menuItem" href="/admin/user/fd.html" data-index="77">会员收益记录</a>
+        </li>
+            </ul>
+    </li>
+<li>
+        <a href="#">
+        <i class="fa fa-folder"></i>
+        <span class="nav-label">商品管理</span>
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+                <li>
+            <a class="J_menuItem" href="/admin/goods/index.html" data-index="63">商品列表</a>
+        </li>
+                <li>
+            <a class="J_menuItem" href="/admin/goods/cate.html" data-index="64">商品分类</a>
+        </li>
+            </ul>
+    </li>
+<li>
+        <a href="#">
+        <i class="fa fa-folder"></i>
+        <span class="nav-label">订单管理</span>
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+                <li>
+            <a class="J_menuItem" href="/admin/order/index.html" data-index="74">订单列表</a>
+        </li>
+            </ul>
+    </li>
+<li>
+        <a href="#">
+        <i class="fa fa-folder"></i>
+        <span class="nav-label">管理员管理</span>
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+                <li>
+            <a class="J_menuItem" href="/admin/admin/index.html" data-index="9">管理员列表</a>
+        </li>
+                <li>
+            <a class="J_menuItem" href="/admin/auth_manager/index.html" data-index="10">权限管理</a>
+        </li>
+            </ul>
+    </li>
+<li>
+    <a href="#">
+        <i class="fa fa-folder"></i>
+        <span class="nav-label">杂项管理</span>
+        <span class="fa arrow"></span>
+    </a>
+    <ul class="nav nav-second-level">
+                <li>
+            <a class="J_menuItem" href="/admin/addons/adminlist/name/SystemArticle.html" data-index="addons_系统文章">系统文章</a>
+        </li>
+            </ul>
+</li>
+
+            </ul>
+        </div>
+    </nav>
+    <!--左侧导航结束-->
+
+    <!--右侧部分开始-->
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="hidden-xs">
+                        <a href="/admin/admin/modifypass.html" class="J_menuItem" data-index="0">修改密码</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row content-tabs">
+            <button class="roll-nav roll-left J_tabLeft">
+                <i class="fa fa-backward"></i>
+            </button>
+            <nav class="page-tabs J_menuTabs">
+                <div class="page-tabs-content">
+                    <a href="javascript:;" class="active J_menuTab" data-id="/admin/index/def.html">首页</a>
+                </div>
+            </nav>
+            <button class="roll-nav roll-right J_tabRight">
+                <i class="fa fa-forward"></i>
+            </button>
+            <div class="btn-group roll-nav roll-right">
+                <button class="dropdown J_tabClose" data-toggle="dropdown">
+                    关闭操作<span class="caret"></span>
+                </button>
+                <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                    <li class="J_tabShowActive"><a>定位当前选项卡</a></li>
+                    <li class="divider"></li>
+                    <li class="J_tabCloseAll"><a>关闭全部选项卡</a></li>
+                    <li class="J_tabCloseOther"><a>关闭其他选项卡</a></li>
+                </ul>
+            </div>
+            <a href="/admin/common/logout.html" class="roll-nav roll-right J_tabExit ajax-get confirm" data-confirm="确定要退出登录吗?"><i class="fa fa fa-sign-out"></i> 退出</a>
+        </div>
+        <div class="row J_mainContent" id="content-main">
+             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="" frameborder="0" data-id="" seamless></iframe> 
+        </div>
+        <div class="footer">
+            <div class="pull-left">
+                &copy; 2017-2018 <a href="javascript:;" target="_blank">华兴会员管理系统</a>
+            </div>
+        </div>
+    </div>
+    <!--右侧部分结束-->
+</div>
+
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+<script src="../js/common.js?v=1.0"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.palmble.config;
+package com.palmble.filter;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -17,21 +17,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.core.annotation.Order;
+
 @Order(value = 1)
 @WebFilter(filterName = "testFilter1", urlPatterns = "*")
 public class LoginFilter implements Filter {
-	private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(  
-            Arrays.asList("/login.html", "/vifityCodeController/getVerify","/toLogin")));  
+	private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(
+			new HashSet<>(Arrays.asList("/login.html", "/vifityCodeController/getVerify", "/toLogin")));
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		
-		
+
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		/*HttpServletRequest req=(HttpServletRequest)request;
+		HttpServletRequest req=(HttpServletRequest)request;
 		 HttpServletResponse res = (HttpServletResponse)response;  
 		 String path = req.getRequestURI().substring(req.getContextPath().length()).replaceAll("[/]+$", "");
 		 boolean allowedPath = ALLOWED_PATHS.contains(path); 
@@ -47,12 +48,13 @@ public class LoginFilter implements Filter {
 				 String sendPath=request.getScheme()+"://"+request.getServerName()+":"+ request.getServerPort()+"/login.html";
 				 res.sendRedirect(sendPath);
 					return;
-				}*/
+			 }
 			chain.doFilter(request,response);
+		 }
 	}
 
 	@Override
 	public void destroy() {
-		
+
 	}
 }

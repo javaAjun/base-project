@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+<div class="ibox">
+    <div class="ibox-content">
+        <div class="row">
+        	
+            <div class="col-xs-2">
+            	<a href="add_menu.html" class="btn btn-sm btn-primary">新增菜单</a>
+            	<a href="javascript:;history.back(-1)" class="btn btn-sm btn-primary"  >返回上一级</a>
+                <!--<a href="javascript:;" url="/admin/user/add.html" data-title="新增会员" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>-->
+            </div>
+            <div class="col-xs-10" style="text-align: right;">
+                <form class="form-inline" id="form-search" action="/baseMenu/list">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="username" placeholder="菜单名称">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary" type="button" id ="search-btn" ><i class="fa fa-search"></i></button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <div class="jqGrid_wrapper">
+            <table id="table" style="border-collapse: collapse"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="/static/hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js"></script>
+<!--<script src="/static/hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common.js"></script>
+<!-- <script>
+    var start = {
+        elem: "#start",
+        format: "YYYY-MM-DD",
+        max: "2099-06-16 23:59:59", istime: false, istoday: true,
+        choose: function (datas) {
+            end.min = datas;
+            end.start = datas
+        }
+    };
+    var end = {
+        elem: "#end",
+        format: "YYYY-MM-DD",
+        max: "2099-06-16 23:59:59",
+        istime: false, istoday: true,
+        choose: function (datas) {
+            start.max=datas;
+        }
+    };
+    laydate(start);
+    laydate(end); -->
+</script>
+<script>
+    $(function () {
+        $(window).bind("resize",function(){
+            var width=$(".jqGrid_wrapper").width();
+            $("#table").setGridWidth(width);
+        });
+        var parentId=0;
+        var url = window.location.search; 
+    	var sub = url.substring(url.lastIndexOf('=')+1, url.length);
+    	if(sub!=''){
+    		parentId=sub;
+    	}
+    	console.log(parentId)
+        $.jgrid.defaults.styleUI="Bootstrap";
+        $("#table").jqGrid({
+            url:"/baseMenu/list",
+            datatype: "json",
+            postData:{"parentId":parentId},
+            colModel:[
+                {label:'ID',name:'id',index:'id',width:40,editable: false,sortable: true},
+                {label:'菜单名称',name:'menuName',index:'menuName',width:50,editable: false,sortable: false,formatter:function(a,b,c){
+                    var editurl = "menu_list.html?parentId="+ c.id;
+                    return '<a href="'+editurl+'" ">'+ a +'</a>';
+                }},
+                {label:'绑定链接',name:'url',index:'url',width:40,editable: false,sortable: false},
+                {label:'排序',name:'sequenceNumber',index:'sequenceNumber',width:30,editable: false,sortable: false},
+                {label:'菜单描述',name:'menuInfo',index:'menuInfo',width:50,editable: false,sortable: true},
+                {label:'隐藏状态',name:'isDisplay',index:'isDisplay',width:40,editable: false,sortable: false,formatter:function (a,b,c){
+                    if(a == 1){
+                        var url = "/baseMenu/dispalyMenu?isDisplay=0&menuId="+c.id;
+                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-danger" title="隐藏">隐藏</span></a>';
+                    } else{
+                        var url = "/baseMenu/dispalyMenu?isDisplay=1&menuId="+c.id;
+                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
+                    }
+                }},
+                {label:'可用状态',name:'idEffective',index:'idEffective',width:40,editable: false,sortable: false,formatter:function (a,b,c){
+                    if(a == 1){
+                        var url = "/baseMenu/noAvailMenu?idEffective=0&menuId="+c.id;
+                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
+                    } else{
+                        var url = "/baseMenu/noAvailMenu?idEffective=1&menuId="+c.id;
+                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
+                    }
+                }},
+                {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
+                    var detailurl = "/delMenu?id="+c.id;
+                    var updateUrl = "add_menu.html?id="+c.id;
+                    var btn = '';
+                    var delurl = "/baseMenu/delMenu?id="+c.id;
+                    /*var recommendurl = "/admin/user/recommend/id/"+c.id;
+                    var perforurl = "/admin/user/perfor/id/"+c.id;*/
+                    btn += '<a href="'+updateUrl+'"  data-title="编辑""><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+                    btn += '<a href="javascript:;" url="'+detailurl+'" data-title="会员详情" onclick="layer_open(this,1)"><span class="label label-info" title="详情">详情</span></a>&nbsp;';
+                    /*btn += '<a href="javascript:;" url="'+recommendurl+'" data-title="会员直推业绩" onclick="layer_open(this)"><span class="label label-info" title="直推业绩">直推业绩</span></a>&nbsp;';
+                    btn += '<a href="javascript:;" url="'+perforurl+'" data-title="会员总业绩" onclick="layer_open(this)"><span class="label label-info" title="总业绩">总业绩</span></a>&nbsp;';*/
+                    btn += '<a href="'+delurl+'" class="confirm ajax-get" data-confirm="确定要删除此会员吗?删除后不可恢复" data-table="1"><span class="label label-danger" title="删除">删除</span></a>';
+                    return btn;
+                }},
+            ],
+            rowNum:10,
+            rowList:[10,20,30,100,500],
+            pager: '#pager',
+            sortname: 'id',
+            viewrecords: true,
+            autowidth:true,
+            mtype: 'post',
+            height: 'auto',
+            emptyrecords: "暂无数据",
+            jsonReader : {
+            root: "list",    // json中代表实际模型数据的入口
+            page: "pageNum",    // json中代表当前页码的数据
+            total: "lastPage",    // json中代表页码总数的数据
+            records: "size", // json中代表数据行总数的数据
+            repeatitems: true, // 如果设为false，则jqGrid在解析json时，会根据name来搜索对应的数据元素（即可以json中元素可以不按顺序）；而所使用的name是来自于colModel中的name设定。
+            cell: "cell",
+            id: "id",
+            userdata: "userdata",
+            subgrid: {
+            root:"rows", 
+            repeatitems: true, 
+            cell:"cell"
+            }
+            },
+            sortorder: "desc",
+            caption:"菜单列表:&nbsp;&nbsp;<span style='color: coral'>点击菜单名称查看子菜单信息</span>",
+            loadComplete: function (xhr) {
+            	console.log(xhr);
+                if(xhr.code==0){
+                    layer.msg(xhr.msg);
+                    return false;
+                }
+            },
+        });
+    });
+</script>
+
+</body>
+</html>

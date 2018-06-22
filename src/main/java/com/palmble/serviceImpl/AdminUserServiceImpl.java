@@ -1,14 +1,14 @@
 package com.palmble.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.palmble.dal.AdminUserMapper;
 import com.palmble.entity.AdminUser;
-import com.palmble.entity.AdminUserExample;
 import com.palmble.service.AdminUserService;
 
 @Service
@@ -47,8 +47,20 @@ public class AdminUserServiceImpl implements AdminUserService {
 	}
 
 	@Override
-	public List<AdminUser> selectByExample(AdminUserExample example) {
-		return adminUserMapper.selectByExample(example);
+	public List<AdminUser> selectBySelective(Map<String, Object> map) {
+		return adminUserMapper.selectBySelective(map);
 	}
+
+	@Override
+	public AdminUser selectOne(String key,Object value) {
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put(key, value);
+		List<AdminUser> list=adminUserMapper.selectBySelective(map);
+		if(list==null||list.size()==0) {
+			return null;
+		}
+		return list.get(0);
+	}
+
 
 }

@@ -31,13 +31,14 @@ public class BaseMenuController{
 	/**
 	 * <p>Title: 获取菜单信息列表</p>   
 	 * @author WangYanke  
+	 * @return 
 	 * @date 2018年6月15日
 	 */
 	@RequestMapping("/list")
-	public void getMenuList(@RequestParam Map<String, String> map) {
+	public PageInfo<BaseMenu> getMenuList(@RequestParam Map<String, String> map) {
 		//PageHelper.offsetPage(0, 10);
 	  	PageInfo<BaseMenu> pageSource = permissionMenuService.getMenuList(map);
-	  	System.out.println(pageSource.toString());
+	  	return pageSource;
 	}
 	
 	/**
@@ -47,7 +48,7 @@ public class BaseMenuController{
 	 * @date 2018年6月15日
 	 */
 	@RequestMapping("/addMenu")
-	public ResultInfo addMenu(@RequestParam BaseMenu baseMenu) {
+	public ResultInfo addMenu(BaseMenu baseMenu) {
 		return permissionMenuService.addMenu(baseMenu);
 	}
 	
@@ -58,8 +59,8 @@ public class BaseMenuController{
 	 * @date 2018年6月15日
 	 */
 	@RequestMapping("delMenu")
-	public ResultInfo delMenu(@RequestParam Integer menuId) {
-		return permissionMenuService.deleteMenu(menuId);
+	public ResultInfo delMenu(@RequestParam Integer id) {
+		return permissionMenuService.deleteMenu(id);
 	}
 	
 	/**
@@ -79,8 +80,8 @@ public class BaseMenuController{
 	 * @date 2018年6月19日
 	 */
 	@RequestMapping("/dispalyMenu")
-	public ResultInfo forBiddenMenu(@RequestParam Integer menuId) {
-		return permissionMenuService.forBiddenMenu(menuId);
+	public ResultInfo forBiddenMenu(@RequestParam Integer menuId,Integer isDisplay) {
+		return permissionMenuService.forBiddenMenu(menuId,isDisplay);
 	}
 	
 	/**
@@ -89,7 +90,7 @@ public class BaseMenuController{
 	 * @date 2018年6月19日
 	 */
 	@RequestMapping("/noAvailMenu")
-	public ResultInfo noAvailMenu(@RequestParam Integer menuId) {
-		return permissionMenuService.noAvailMenu(menuId);
+	public ResultInfo noAvailMenu(@RequestParam Integer menuId,Integer idEffective) {
+		return permissionMenuService.noAvailMenu(menuId,idEffective);
 	}
 }

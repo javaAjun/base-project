@@ -28,6 +28,7 @@ public class BaseMenuServiceImpl implements BaseMenuService{
 			System.out.println(baseMenu);
 			
 		}
+		//return list;
 		PageInfo<BaseMenu> pageSource=new PageInfo<>(list);
 		return pageSource;
 	}
@@ -39,36 +40,44 @@ public class BaseMenuServiceImpl implements BaseMenuService{
 	public ResultInfo deleteMenu(Integer menuId) {
 		 int delete = baseMenuMapper.deleteByPrimaryKey(menuId);
 		 if(delete>0) {//删除成功
-			 return new ResultInfo(0, "删除成功");
+			 return new ResultInfo(1, "删除成功");
 		 }else {
 			 return new ResultInfo(-1, "删除失败");
 		 }
 	}
 	@Override
-	public ResultInfo forBiddenMenu(Integer menuId) {
+	public ResultInfo forBiddenMenu(Integer menuId,Integer isDisplay) {
 		BaseMenu menu = baseMenuMapper.selectByPrimaryKey(menuId);
 		if(menu==null) {
 			return new ResultInfo(-1, "获取菜单信息失败");
 		}
-		menu.setIsDisplay(1);
+		if(isDisplay!=null) {
+			menu.setIsDisplay(isDisplay);
+		}else {
+			return new ResultInfo(-1, "操作失败");
+		}
 		int menuFlag = baseMenuMapper.updateByPrimaryKey(menu);
 		if(menuFlag>0) {
-			return new ResultInfo(0, "操作成功");
+			return new ResultInfo(1, "操作成功");
 		 }else {
 			return new ResultInfo(-1, "操作失败");
 		}
 	}
 	@Override
-	public ResultInfo noAvailMenu(Integer menuId) {
+	public ResultInfo noAvailMenu(Integer menuId,Integer idEffective) {
 		
 		BaseMenu menu = this.getMenuInfo(menuId);
 		if(menu==null) {
 			return new ResultInfo(-1, "获取菜单信息失败");
 		}
-		menu.setIdEffective(1);
+		if(idEffective!=null) {
+			menu.setIdEffective(idEffective);
+		}else {
+			return new ResultInfo(-1, "操作失败");
+		}
 		int menuFlag = baseMenuMapper.updateByPrimaryKey(menu);
 		if(menuFlag>0) {
-			return new ResultInfo(0, "操作成功");
+			return new ResultInfo(1, "操作成功");
 		}else {
 			return new ResultInfo(-1, "操作失败");
 		}
@@ -77,7 +86,7 @@ public class BaseMenuServiceImpl implements BaseMenuService{
 	public ResultInfo addMenu(BaseMenu baseMenu) {
 		int menuNumber = baseMenuMapper.insert(baseMenu);
 		if(menuNumber>0) {
-			return new ResultInfo(0, "添加菜单成功");
+			return new ResultInfo(1, "添加菜单成功");
 		}else {
 			return new ResultInfo(-1, "添加菜单失败");
 		}
