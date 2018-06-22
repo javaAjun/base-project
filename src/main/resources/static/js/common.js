@@ -418,3 +418,31 @@ function layer_open(_self,flag){
         }
     });
 }
+
+function getQueryString(name) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+}
+
+$.ajaxSetup( {      
+    //设置ajax请求结束后的执行动作      
+    complete : function(XMLHttpRequest, textStatus) {   
+        // 通过XMLHttpRequest取得响应头，REDIRECT      
+        var redirect = XMLHttpRequest.getResponseHeader("REDIRECT");//若HEADER中含有REDIRECT说明后端想重定向    
+        console.log(XMLHttpRequest);
+        if (redirect == "REDIRECT") {  
+            var win = window;      
+            while (win != win.top){    
+                win = win.top;    
+            }  
+            //将后端重定向的地址取出来,使用win.location.href去实现重定向的要求    
+//            layerAlert(layer,"您的登录信息已超时，请重新登录<p class='ps'>ps:在客户端闲置10分钟后系统会自动登出</p>",'登录超时提示',5,'',0,function(){  
+                win.location.href= XMLHttpRequest.getResponseHeader("CONTEXTPATH");  
+//            })  
+        }  
+    },  
+});   

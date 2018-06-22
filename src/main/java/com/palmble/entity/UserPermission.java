@@ -16,7 +16,17 @@ public class UserPermission {
 
     private Integer state;//是否有效0:有效 1:无效
 
-    public Integer getId() {
+    private String privilege;
+    
+    public String getPrivilege() {
+		return privilege;
+	}
+
+	public void setPrivilege(String privilege) {
+		this.privilege = privilege;
+	}
+
+	public Integer getId() {
         return id;
     }
 

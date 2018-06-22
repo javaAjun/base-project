@@ -13,10 +13,13 @@
     <result column="enable_flag" property="enableFlag" jdbcType="INTEGER" />
     <result column="group_id" property="groupId" jdbcType="INTEGER" />
     <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+     <result column="login_count" property="loginCount" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, logini_no, mobile, pwd, qq, head_img, create_by_name, create_date, enable_flag, 
-    group_id, last_login_ip
+    group_id, last_login_ip,last_login_time,group_name,login_count
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -62,7 +65,71 @@
       <if test="lastLoginIp != null" >
         and    last_login_ip=#{lastLoginIp,jdbcType=VARCHAR}
       </if>
+      <if test="lastLoginTime != null" >
+        and    last_login_time=#{lastLoginTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="groupName != null" >
+        and    group_name=#{groupName,jdbcType=VARCHAR}
+      </if>
+      <if test="loginCount != null" >
+        and    login_count=#{loginCount,jdbcType=INTEGER}
+      </if>
+      
   </select>
+  <select id="selectJqGridByPeagSelective" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin_user
+    where 1=1
+    <if test="id != null" >
+        and    id=#{id,jdbcType=INTEGER}
+      </if>
+      <if test="loginiNo != null" >
+        and    logini_no=#{loginiNo,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null" >
+        and    mobile=#{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="pwd != null" >
+        and    pwd=#{pwd,jdbcType=VARCHAR}
+      </if>
+      <if test="qq != null" >
+        and    qq=#{qq,jdbcType=VARCHAR}
+      </if>
+      <if test="headImg != null" >
+        and   head_img=#{headImg,jdbcType=VARCHAR}
+      </if>
+      <if test="createByName != null" >
+        and    create_by_name=#{createByName,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        and    create_date=#{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="enableFlag != null" >
+        and    enable_flag=#{enableFlag,jdbcType=INTEGER}
+      </if>
+      <if test="groupId != null" >
+        and    group_id=#{groupId,jdbcType=INTEGER}
+      </if>
+      <if test="lastLoginIp != null" >
+        and    last_login_ip=#{lastLoginIp,jdbcType=VARCHAR}
+      </if>
+      <if test="lastLoginTime != null" >
+        and    last_login_time=#{lastLoginTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="groupName != null" >
+        and    group_name=#{groupName,jdbcType=VARCHAR}
+      </if>
+       <if test="loginCount != null" >
+        and    login_count=#{loginCount,jdbcType=INTEGER}
+      </if>
+      <if test="sidx !=null and sidx != '' and sord !=null" >
+         ORDER BY '${sidx}'  ${sord}
+      </if>
+      LIMIT 
+       #{begin},#{end}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from admin_user
     where id = #{id,jdbcType=INTEGER}
@@ -71,11 +138,11 @@
     insert into admin_user (id, logini_no, mobile, 
       pwd, qq, head_img, create_by_name, 
       create_date, enable_flag, group_id, 
-      last_login_ip)
+      last_login_ip,last_login_time,group_name,login_count)
     values (#{id,jdbcType=INTEGER}, #{loginiNo,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{pwd,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{headImg,jdbcType=VARCHAR}, #{createByName,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=TIMESTAMP}, #{enableFlag,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, 
-      #{lastLoginIp,jdbcType=VARCHAR})
+      #{lastLoginIp,jdbcType=TIMESTAMP},#{groupName,jdbcType=VARCHAR}),#{loginCount,jdbcType=INTEGER}
   </insert>
   <insert id="insertSelective" parameterType="com.palmble.entity.AdminUser" >
     insert into admin_user
@@ -113,6 +180,15 @@
       <if test="lastLoginIp != null" >
         last_login_ip,
       </if>
+       <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="groupName != null" >
+        group_name,
+      </if>
+      <if test="loginCount != null" >
+        login_count
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -147,6 +223,15 @@
       </if>
       <if test="lastLoginIp != null" >
         #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+       <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginCount != null" >
+        #{loginCount,jdbcType=INTEGER}
       </if>
     </trim>
   </insert>
@@ -183,6 +268,15 @@
       <if test="lastLoginIp != null" >
         last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
       </if>
+       <if test="lastLoginTime != null" >
+        last_login_time=#{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupName != null" >
+        group_name=#{groupName,jdbcType=VARCHAR}
+      </if>
+      <if test="loginCount != null" >
+        login_count=#{loginCount,jdbcType=INTEGER}
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -197,7 +291,9 @@
       create_date = #{createDate,jdbcType=TIMESTAMP},
       enable_flag = #{enableFlag,jdbcType=INTEGER},
       group_id = #{groupId,jdbcType=INTEGER},
-      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR}
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      last_login_time=#{lastLoginTime,jdbcType=TIMESTAMP},
+      group_name=#{groupName,jdbcType=VARCHAR},login_count=#{loginCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

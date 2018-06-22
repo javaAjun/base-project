@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>[一般管理员] 访问授权</h5>
+                <div class="ibox-tools">
+                    <a class="toback" href="../auth_manager/index.html">返回上一页</a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <form method="post" action="../auth_manager/rule.html" class="form-horizontal">
+                    <input type="hidden" name="id" value="5">
+                                                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <label><input type="checkbox" name="ids[]" value="2"  class="ids1"> 管理员管理</label>
+                                </div>
+                                                                <div class="panel-body">
+                                                                        <div>
+                                        <label><input type="checkbox" name="ids[]" value="9"  class="ids ids2"> 管理员列表</label>
+                                                                                <div style="padding: 10px 0px 10px 30px;">
+                                                                                        <label><input type="checkbox" name="ids[]" value="16"  class="ids"> 修改密码 </label>
+                                                                                        <label><input type="checkbox" name="ids[]" value="37"  class="ids"> 新增/编辑 </label>
+                                                                                        <label><input type="checkbox" name="ids[]" value="38"  class="ids"> 改变状态 </label>
+                                                                                        <label><input type="checkbox" name="ids[]" value="39"  class="ids"> 删除 </label>
+                                                                                    </div>
+                                                                            </div>
+                                                                        <div>
+                                        <label><input type="checkbox" name="ids[]" value="10"  class="ids ids2"> 权限管理</label>
+                                                                                <div style="padding: 10px 0px 10px 30px;">
+                                                                                        <label><input type="checkbox" name="ids[]" value="40"  class="ids"> 新增/编辑 </label>
+                                                                                        <label><input type="checkbox" name="ids[]" value="41"  class="ids"> 删除 </label>
+                                                                                        <label><input type="checkbox" name="ids[]" value="42"  class="ids"> 访问授权 </label>
+                                                                                    </div>
+                                                                            </div>
+                                                                    </div>
+                                                            </div>
+                                                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <label><input type="checkbox" name="ids[]" value="61"  class="ids1"> 杂项管理</label>
+                                </div>
+                                                                <div class="panel-body">
+                                                                        <div>
+                                        <label><input type="checkbox" name="ids[]" value="67"  class="ids ids2"> 系统文章</label>
+                                                                            </div>
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-primary ajax-post" target-form="form-horizontal" type="submit">确 定</button>
+                            <a class="btn btn-default" href="../auth_manager/index.html">取 消</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common.js"></script>
+
+<script>
+// var url="/getPrivilegeList";
+// var data={userId:getQueryString("userId")};
+// $.ajax(url,data,function(obj){
+// 	$.each(obj, function(idx, name) {
+// 		console.log(name);
+// 	});
+// });
+    $(document).ready(function(){
+    	 $('#top-alert').find('button').click();
+        formSetValue("status", "1");
+
+        //全选的实现
+        $(".ids1").click(function(){
+            $(this).parent().parent().parent().find(".ids").prop("checked", this.checked);
+        });
+        $(".ids2").click(function(){
+            $(this).parent().parent().find("div .ids").prop("checked", this.checked);
+        });
+    });
+
+</script>
+
+</body>
+</html>

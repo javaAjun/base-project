@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+
+<div class="ibox">
+    <div class="ibox-content">
+        <a href="admin_add.html?url=admin_auth_manager.html" class="btn btn-sm btn-primary">新增</a>
+    </div>
+    <div class="ibox-content">
+        <div class="jqGrid_wrapper">
+            <table id="table" style="border-collapse: collapse"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common.js"></script>
+
+<script>
+    $(function () {
+        $(window).bind("resize",function(){
+            var width=$(".jqGrid_wrapper").width();
+            $("#table").setGridWidth(width);
+        });
+
+        $.jgrid.defaults.styleUI="Bootstrap";
+        var lastsel;
+        $("#table").jqGrid({
+            url:"/getAdminList",
+            datatype: "json",
+            colModel:[
+                {label:'ID',name:'id',index:'id', width:30,sortable: false},
+                {label:'名称',name:'loginiNo',index:'title',width:80,editable: false,sortable: false},
+                {label:'描述',name:'groupName',index:'description',width:150,editable: false,sortable: false},
+                {label:'状态',name:'status',index:'status',width:50,editable: false,sortable: false,formatter:function (a,b,c){
+                	if(a == 0){
+                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setStatus(this)"><span class="label label-danger" title="禁用">禁用</span></a>';
+                    } else{
+                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setStatus(this)"><span class="label label-primary" title="正常">正常</span></a>';
+                    }
+                }},
+                {label:'操作',width:100,sortable: false,formatter: function (a, b, c) {
+                    var editurl = "../auth_manager/add/id/"+c.id;
+                    var editrule = "../auth_manager/rule/id/"+c.id;
+                    var delurl = "../auth_manager/del/id/"+c.id;
+                    var btn = '<a href="admin_add.html?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_auth_manager.html"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+                    btn += '<a href="admin_rule.html"><span class="label label-primary" title="访问授权">访问授权</span></a>&nbsp;';
+                    btn += '<a href="javascript:;"><span class="label label-danger" title="删除" data-id="'+c.id+'" onclick="del(this)">删除</span></a>';
+                    return btn;
+                }},
+            ],
+            rowNum:10,
+            rowList:[10,20,30],
+            pager: '#pager',
+            sortname: 'id',
+            viewrecords: true,
+            autowidth:true,
+            mtype: 'post',
+            height: 'auto',
+            emptyrecords: "暂无数据",
+            sortorder: "asc",
+            caption:"用户组列表",
+            loadComplete: function (xhr) {
+            	 $('#top-alert').find('button').click();
+                if(xhr.code==0){
+                    layer.msg(xhr.msg);
+                    return false;
+                }
+            },
+        });
+    });
+    function setStatus(a){
+    	var status=$(a).data("status");
+    	var id=$(a).data("id");
+    	$.ajax({ url: "/updateAdminStatus", data:{status:status,id:id}, success: function(data){
+           if(data==1){
+        	   var span=$(a).find("span");
+        	   if(status==0){
+        		   $(a).data("status",1);
+        		   $(span).attr("class","label label-primary");
+        		   $(span).attr("title","正常");
+        		   $(span).html("正常");
+        	   }else{
+        		   $(a).data("status",0);
+        		   $(span).attr("class","label label-danger");
+        		   $(span).attr("title","禁用");
+        		   $(span).html("禁用");
+        	   }
+           }
+          }});
+    }
+    function del(a){
+    	var id=$(a).data("id");
+    	layer.confirm('确定要删除此记录吗？', function(){ 
+    		layer.closeAll('dialog');
+    		$.ajax({ url: "/delAdmin", data:{id:id}, success: function(data){
+    	          layer.msg("删除成功");
+    	          $("#table").trigger("reloadGrid");
+    	           }
+    	          });
+    		}); 
+    }
+
+</script>
+
+</body>
+</html>
