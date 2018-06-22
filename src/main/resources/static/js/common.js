@@ -35,6 +35,7 @@ function ajax_get_fun(that) {
         }
         $(that).attr('data-flag',1);
         $.get(target).success(function(data){
+        	console.log(data);
             if (data.code==1) {
                 if (data.url) {
                     // updateAlert(data.msg + ' 页面即将自动跳转~','alert-success');

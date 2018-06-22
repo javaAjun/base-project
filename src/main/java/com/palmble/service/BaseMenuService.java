@@ -1,5 +1,6 @@
 package com.palmble.service;
 
+import java.util.List;
 import java.util.Map;
 import com.github.pagehelper.PageInfo;
 import com.palmble.entity.BaseMenu;
@@ -13,9 +14,9 @@ public interface BaseMenuService {
 
 	ResultInfo deleteMenu(Integer menuId);
 
-	ResultInfo forBiddenMenu(Integer menuId);
+	ResultInfo forBiddenMenu(Integer menuId,Integer isDisplay);
 
-	ResultInfo noAvailMenu(Integer menuId);
+	ResultInfo noAvailMenu(Integer menuId,Integer idEffective);
 
 	ResultInfo addMenu(BaseMenu baseMenu);
 }
