@@ -29,45 +29,33 @@
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>[一般管理员] 访问授权</h5>
+                <h5 id="title"></h5>
                 <div class="ibox-tools">
                     <a class="toback" href="../auth_manager/index.html">返回上一页</a>
                 </div>
             </div>
             <div class="ibox-content">
-                <form method="post" action="../auth_manager/rule.html" class="form-horizontal">
-                    <input type="hidden" name="id" value="5">
+                <form method="post" action="/addOreditRule" class="form-horizontal">
+                    <input type="hidden" name="userId">
                                                         <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <label><input type="checkbox" name="ids[]" value="2"  class="ids1"> 管理员管理</label>
+                                    <label><input type="checkbox" name="urls" value="2"  class="ids1"> 管理员管理</label>
                                 </div>
                                                                 <div class="panel-body">
                                                                         <div>
-                                        <label><input type="checkbox" name="ids[]" value="9"  class="ids ids2"> 管理员列表</label>
+                                        <label><input type="checkbox" name="urls" value="9"  class="ids ids2"> 管理员列表</label>
                                                                                 <div style="padding: 10px 0px 10px 30px;">
-                                                                                        <label><input type="checkbox" name="ids[]" value="16"  class="ids"> 修改密码 </label>
-                                                                                        <label><input type="checkbox" name="ids[]" value="37"  class="ids"> 新增/编辑 </label>
-                                                                                        <label><input type="checkbox" name="ids[]" value="38"  class="ids"> 改变状态 </label>
-                                                                                        <label><input type="checkbox" name="ids[]" value="39"  class="ids"> 删除 </label>
+                                                                                        <label><input type="checkbox" name="urls" value="/html/admin_add.html"  class="ids admin_add"> 新增/编辑 </label>
+                                                                                        <label><input type="checkbox" name="urls" value="/updateAdminStatus"  class="ids updateAdminStatus"> 改变状态 </label>
+                                                                                        <label><input type="checkbox" name="urls" value="/delAdmin"  class="ids delAdmin"> 删除 </label>
                                                                                     </div>
                                                                             </div>
                                                                         <div>
-                                        <label><input type="checkbox" name="ids[]" value="10"  class="ids ids2"> 权限管理</label>
+                                        <label><input type="checkbox" name="urls" value="10"  class="ids ids2"> 权限管理</label>
                                                                                 <div style="padding: 10px 0px 10px 30px;">
-                                                                                        <label><input type="checkbox" name="ids[]" value="40"  class="ids"> 新增/编辑 </label>
-                                                                                        <label><input type="checkbox" name="ids[]" value="41"  class="ids"> 删除 </label>
-                                                                                        <label><input type="checkbox" name="ids[]" value="42"  class="ids"> 访问授权 </label>
+                                                                                        <label><input type="checkbox" name="urls" value="/html/admin_rule.html"  class="ids admin_rule"> 访问授权 </label>
+                                                                                        <label><input type="checkbox" name="urls" value="/html/updatePassword.html"  class="ids updatePassword"> 修改密码 </label>
                                                                                     </div>
-                                                                            </div>
-                                                                    </div>
-                                                            </div>
-                                                        <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <label><input type="checkbox" name="ids[]" value="61"  class="ids1"> 杂项管理</label>
-                                </div>
-                                                                <div class="panel-body">
-                                                                        <div>
-                                        <label><input type="checkbox" name="ids[]" value="67"  class="ids ids2"> 系统文章</label>
                                                                             </div>
                                                                     </div>
                                                             </div>
@@ -102,16 +90,28 @@
 <script src="../js/common.js"></script>
 
 <script>
-// var url="/getPrivilegeList";
-// var data={userId:getQueryString("userId")};
-// $.ajax(url,data,function(obj){
-// 	$.each(obj, function(idx, name) {
-// 		console.log(name);
-// 	});
-// });
     $(document).ready(function(){
+    	var url="/getPrivilegeList";
+    	var userId=getQueryString("userId");
+    	var data={userId:userId};
+    	var groupName=getQueryString("groupName");
+    	formSetValue("userId", userId);
+    	$('#title').html("[ "+groupName+" ] 访问授权");
+    	String.prototype.replaceAll = function(s1,s2){
+    		　　return this.replace(new RegExp(s1,"gm"),s2);
+    		　　}
+    	$.get(url,data,function(obj){
+    		console.log(obj);
+    		$.each(obj, function(idx, name) {
+    			name=name.replaceAll('\/html','');
+    			name=name.replaceAll('.html','');
+    			name=name.replaceAll('/','.');
+    			$(name).prop("checked", true);
+    			console.log(name);
+    		});
+    	});
+    	
     	 $('#top-alert').find('button').click();
-        formSetValue("status", "1");
 
         //全选的实现
         $(".ids1").click(function(){
@@ -120,6 +120,27 @@
         $(".ids2").click(function(){
             $(this).parent().parent().find("div .ids").prop("checked", this.checked);
         });
+        $(".ids").click(function(){
+        	if(!$(this).hasClass("ids2")){
+        		var node = $(this);
+        		var parentNode=node.parent().parent().parent();
+        		var ids2=parentNode.find(".ids2");
+        		var childs=node.parent().parent().find(".ids");
+        		var isCheck=false;
+            	for(var i=0;i<childs.length;i++){
+            		if($(childs[i]).prop('checked')){
+            			isCheck=true;
+            			break;
+            		}
+            	}
+            	if(isCheck==true){
+            		ids2.prop("checked",true);
+            	}else{
+            		ids2.prop("checked",false);
+            	}
+        	}
+//         	 .prop("checked",true);
+        })
     });
 
 </script>

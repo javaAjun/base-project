@@ -5,7 +5,6 @@ $(document).on('click','.check-all',function(){
 $(document).on('click','.uncheck-all',function(){
     $(".ids").prop("checked", false);
 });
-
 //ajax get请求
 $(document).on('click','.ajax-get',function(){
     var that = this;
@@ -38,7 +37,6 @@ function ajax_get_fun(that) {
         	console.log(data);
             if (data.code==1) {
                 if (data.url) {
-                    // updateAlert(data.msg + ' 页面即将自动跳转~','alert-success');
                     updateAlert(data.msg,'alert-success');
                 }else{
                     updateAlert(data.msg,'alert-success');
@@ -423,7 +421,7 @@ function getQueryString(name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
     var r = window.location.search.substr(1).match(reg);
     if (r != null) {
-        return unescape(r[2]);
+        return decodeURI(r[2]);
     }
     return null;
 }
@@ -433,7 +431,6 @@ $.ajaxSetup( {
     complete : function(XMLHttpRequest, textStatus) {   
         // 通过XMLHttpRequest取得响应头，REDIRECT      
         var redirect = XMLHttpRequest.getResponseHeader("REDIRECT");//若HEADER中含有REDIRECT说明后端想重定向    
-        console.log(XMLHttpRequest);
         if (redirect == "REDIRECT") {  
             var win = window;      
             while (win != win.top){    

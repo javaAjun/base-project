@@ -16,14 +16,15 @@ public class UserPermission {
 
     private Integer state;//是否有效0:有效 1:无效
 
-    private String privilege;
+    private String privilegeUrl;
     
-    public String getPrivilege() {
-		return privilege;
+
+	public String getPrivilegeUrl() {
+		return privilegeUrl;
 	}
 
-	public void setPrivilege(String privilege) {
-		this.privilege = privilege;
+	public void setPrivilegeUrl(String privilegeUrl) {
+		this.privilegeUrl = privilegeUrl;
 	}
 
 	public Integer getId() {

@@ -20,7 +20,8 @@ import com.palmble.service.AdminUserService;
 import com.palmble.service.UserPermissionService;
 
 @Order(value = 2)
-@WebFilter(filterName = "PrivilegeFilter", urlPatterns = { "/delAdmin", "/updateAdminStatus","/add_or_edit" })
+@WebFilter(filterName = "PrivilegeFilter", urlPatterns = { "/delAdmin", "/updateAdminStatus",
+		"/html/admin_add.html","/html/updatePassword.html","/html/admin_rule.html.html" })
 public class PrivilegeFilter implements Filter {
 	@Autowired
 	private AdminUserService adminUserService;

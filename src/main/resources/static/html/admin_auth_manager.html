@@ -68,7 +68,7 @@
             colModel:[
                 {label:'ID',name:'id',index:'id', width:30,sortable: false},
                 {label:'名称',name:'loginiNo',index:'title',width:80,editable: false,sortable: false},
-                {label:'描述',name:'groupName',index:'description',width:150,editable: false,sortable: false},
+                {label:'分组',name:'groupName',index:'groupName',width:150,editable: false,sortable: false},
                 {label:'状态',name:'status',index:'status',width:50,editable: false,sortable: false,formatter:function (a,b,c){
                 	if(a == 0){
                         return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setStatus(this)"><span class="label label-danger" title="禁用">禁用</span></a>';
@@ -81,7 +81,7 @@
                     var editrule = "../auth_manager/rule/id/"+c.id;
                     var delurl = "../auth_manager/del/id/"+c.id;
                     var btn = '<a href="admin_add.html?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_auth_manager.html"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
-                    btn += '<a href="admin_rule.html"><span class="label label-primary" title="访问授权">访问授权</span></a>&nbsp;';
+                    btn += '<a href="admin_rule.html?userId='+c.id+'&groupName='+c.groupName+'"><span class="label label-primary" title="访问授权">访问授权</span></a>&nbsp;';
                     btn += '<a href="javascript:;"><span class="label label-danger" title="删除" data-id="'+c.id+'" onclick="del(this)">删除</span></a>';
                     return btn;
                 }},
