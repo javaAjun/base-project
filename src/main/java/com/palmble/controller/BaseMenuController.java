@@ -1,11 +1,15 @@
 package com.palmble.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.Page;
@@ -92,5 +96,35 @@ public class BaseMenuController{
 	@RequestMapping("/noAvailMenu")
 	public ResultInfo noAvailMenu(@RequestParam Integer menuId,Integer idEffective) {
 		return permissionMenuService.noAvailMenu(menuId,idEffective);
+	}
+	
+	/**
+	 * <p>Title: 获取所有菜单</p>   
+	 * @author WangYanke  
+	 * @return 
+	 * @date 2018年6月22日
+	 */
+	@PostMapping("/getAllMenu")
+	@ResponseBody
+	public String getAllMenu() {
+		Map<String,String> contMap=new HashMap<String,String>();
+		contMap.put("parentId", "0");
+		
+		PageInfo<BaseMenu> menuList = permissionMenuService.getMenuList(contMap);//获取一级菜单
+		List<Object> list = new ArrayList<>();
+		for (int i = 0; i < menuList.getList().size(); i++) {
+			List<Object> list1 = new ArrayList<>();
+			contMap.clear();
+			contMap.put("parentId", menuList.getList().get(i).getParentId()+"");
+			PageInfo<BaseMenu> childMenuList = permissionMenuService.getMenuList(contMap);//获取二级菜单
+			for (int j = 0; j <childMenuList.getList().size(); j++) {
+				contMap.clear();
+				contMap.put("parentId", childMenuList.getList().get(j).getParentId()+"");
+				PageInfo<BaseMenu> authorityList = permissionMenuService.getMenuList(contMap);
+				list1.add(authorityList.getList());
+			}
+			list.add(list1);
+		}
+		return list.toString();
 	}
 }

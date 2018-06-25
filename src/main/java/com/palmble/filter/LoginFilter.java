@@ -44,7 +44,7 @@ public class LoginFilter implements Filter {
 			 chain.doFilter(request, response);  
 		 }else {
 			 String loginNo=(String)req.getSession().getAttribute("loginNo");
-			 if(loginNo==null) {
+			 /*if(loginNo==null) {
 				 String sendPath=request.getScheme()+"://"+request.getServerName()+":"+ request.getServerPort()+"/login.html";
 				 
 				 String type = req.getHeader("X-Requested-With")==null?"":req.getHeader("X-Requested-With");  
@@ -57,7 +57,7 @@ public class LoginFilter implements Filter {
 	                	res.sendRedirect(sendPath);    
 	                    return;    
 	                }    
-			 }
+			 }*/
 			chain.doFilter(request,response);
 		 }
 	}

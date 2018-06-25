@@ -90,6 +90,8 @@
 <script src="../js/js.js" charset="utf-8"></script>
 <script src="../js/jquery-1.10.1.min.js" charset="utf-8"></script>
 <script src="../plugins/layui/layui.js" charset="utf-8"></script>
+<script src="../js/showAlert.js" charset="utf-8"></script>
+
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
 layui.use(['form', 'layedit', 'laydate'], function(){
@@ -126,12 +128,12 @@ layui.use(['form', 'layedit', 'laydate'], function(){
           type: "POST",
           dataType: "json",
           success: function (data) {
-          	if(data.dataCode=="1"){
+          	if(data.code=="1"){
            	showMsg(data.info,function(){
            		history.back(-1);
            	});
           	}else{
-          		showMsg(data.respMsg);
+          		showMsg(data.info);
           	}
           },
           error: function (data) {
@@ -151,7 +153,7 @@ $("#addCancel").click(function(){
 	history.back(-1);
 })
 $(function(){
-	var id=0;
+	var id;
     var url = window.location.search; 
 	var menuId = url.substring(url.lastIndexOf('=')+1, url.length);
 	if(menuId!=''){
@@ -168,6 +170,7 @@ $(function(){
 	       	$("input[name='sequenceNumber']").val(data.sequenceNumber);
 	       	$("input[name='url']").val(data.url);
 	       	$("input[name='menuInfo']").val(data.menuInfo);
+	       	$("textarea[name='menuInfo']").val(data.menuInfo);
         	if(data.isDisplay=='1'){
         		//$("input[name='isDisplay']").eq(0).removeAttr("checked");
         		$("input[name='isDisplay']").eq(0).attr("checked","checked");
@@ -197,6 +200,28 @@ $(function(){
             }
         }
     });
+	
+	
+	$.ajax({
+        url: ctx+"/baseMenu/getAllList",
+        type: "POST",
+        dataType: "json",
+        success: function (data) {
+        	console.log(data);
+        	layui.use('form', function() {
+                var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+                form.render();
+            });
+        },
+        error: function (data) {
+            try {
+                layer.msg("请求异常");
+                return false;
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    })
 })
 </script>
 

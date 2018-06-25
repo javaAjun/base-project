@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.palmble.dal.BaseMenuMapper;
 import com.palmble.entity.BaseMenu;
@@ -82,13 +81,19 @@ public class BaseMenuServiceImpl implements BaseMenuService{
 			return new ResultInfo(-1, "操作失败");
 		}
 	}
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public ResultInfo addMenu(BaseMenu baseMenu) {
-		int menuNumber = baseMenuMapper.insert(baseMenu);
-		if(menuNumber>0) {
-			return new ResultInfo(1, "添加菜单成功");
+		int operateCount=0;//初始化添加成功/修改成功数据条数
+		if(baseMenu.getId()!=null&&!baseMenu.getId().equals("")) {
+			operateCount = baseMenuMapper.updateByPrimaryKey(baseMenu);
 		}else {
-			return new ResultInfo(-1, "添加菜单失败");
+			operateCount = baseMenuMapper.insert(baseMenu);
+		}
+		if(operateCount>0) {
+			return new ResultInfo(1, "操作成功");
+		}else {
+			return new ResultInfo(-1, "操作失败");
 		}
 	}
 }
