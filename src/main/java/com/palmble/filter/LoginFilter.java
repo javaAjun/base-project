@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.core.annotation.Order;
 
-@Order(value = 1)
-@WebFilter(filterName = "LoginFilter", urlPatterns = "*")
+//@Order(value = 1)
+//@WebFilter(filterName = "LoginFilter", urlPatterns = "*")
 public class LoginFilter implements Filter {
 	private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(
 			new HashSet<>(Arrays.asList("/login.html", "/vifityCodeController/getVerify", "/toLogin")));
@@ -35,6 +35,7 @@ public class LoginFilter implements Filter {
 		HttpServletRequest req=(HttpServletRequest)request;
 		 HttpServletResponse res = (HttpServletResponse)response;  
 		 String path = req.getRequestURI().substring(req.getContextPath().length()).replaceAll("[/]+$", "");
+		 System.out.println(path);
 		 boolean allowedPath = ALLOWED_PATHS.contains(path); 
 		 if(allowedPath) {
 			 chain.doFilter(request, response);  
