@@ -158,49 +158,48 @@ $(function(){
 	var menuId = url.substring(url.lastIndexOf('=')+1, url.length);
 	if(menuId!=''){
 		id=menuId;
+		$.ajax({
+	        url: ctx+"/baseMenu/menuInfo",
+	        data: {"menuId":id},
+	        type: "POST",
+	        dataType: "json",
+	        success: function (data) {
+		       	$("input[name='id']").val(data.id);
+		       	$("input[name='menuName']").val(data.menuName);
+		       	$("input[name='sequenceNumber']").val(data.sequenceNumber);
+		       	$("input[name='url']").val(data.url);
+		       	$("input[name='menuInfo']").val(data.menuInfo);
+		       	$("textarea[name='menuInfo']").val(data.menuInfo);
+	        	if(data.isDisplay=='1'){
+	        		//$("input[name='isDisplay']").eq(0).removeAttr("checked");
+	        		$("input[name='isDisplay']").eq(0).attr("checked","checked");
+	        	}else{
+	        		//$("input[name='isDisplay']").eq(1).removeAttr("checked");
+	        		$("input[name='isDisplay']").eq(1).attr("checked","checked");
+	        	}
+	        	if(data.idEffective=='1'){
+	        		//$("input[name='idEffective']").eq(0).removeAttr("checked");
+	        		$("input[name='idEffective']").eq(0).attr("checked","checked");
+	        	}else{
+	        		//$("input[name='idEffective']").eq(1).removeAttr("checked");
+	        		$("input[name='idEffective']").eq(1).attr("checked","checked");
+	        	}
+	        	layui.use('form', function() {
+	                var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+	                form.render();
+	            });
+	        	console.log($("input[name='idEffective']").val());
+	        },
+	        error: function (data) {
+	            try {
+	                layer.msg("请求异常");
+	                return false;
+	            } catch (e) {
+	                console.log(e);
+	            }
+	        }
+	    });
 	}
-	$.ajax({
-        url: ctx+"/baseMenu/menuInfo",
-        data: {"menuId":id},
-        type: "POST",
-        dataType: "json",
-        success: function (data) {
-	       	$("input[name='id']").val(data.id);
-	       	$("input[name='menuName']").val(data.menuName);
-	       	$("input[name='sequenceNumber']").val(data.sequenceNumber);
-	       	$("input[name='url']").val(data.url);
-	       	$("input[name='menuInfo']").val(data.menuInfo);
-	       	$("textarea[name='menuInfo']").val(data.menuInfo);
-        	if(data.isDisplay=='1'){
-        		//$("input[name='isDisplay']").eq(0).removeAttr("checked");
-        		$("input[name='isDisplay']").eq(0).attr("checked","checked");
-        	}else{
-        		//$("input[name='isDisplay']").eq(1).removeAttr("checked");
-        		$("input[name='isDisplay']").eq(1).attr("checked","checked");
-        	}
-        	if(data.idEffective=='1'){
-        		//$("input[name='idEffective']").eq(0).removeAttr("checked");
-        		$("input[name='idEffective']").eq(0).attr("checked","checked");
-        	}else{
-        		//$("input[name='idEffective']").eq(1).removeAttr("checked");
-        		$("input[name='idEffective']").eq(1).attr("checked","checked");
-        	}
-        	layui.use('form', function() {
-                var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
-                form.render();
-            });
-        	console.log($("input[name='idEffective']").val());
-        },
-        error: function (data) {
-            try {
-                layer.msg("请求异常");
-                return false;
-            } catch (e) {
-                console.log(e);
-            }
-        }
-    });
-	
 	
 	$.ajax({
         url: ctx+"/baseMenu/getAllList",
