@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -104,14 +105,12 @@ public class BaseMenuController{
 	 * @return 
 	 * @date 2018年6月22日
 	 */
-	@PostMapping("/getAllMenu")
-	@ResponseBody
+	@RequestMapping("/getAllMenu")
 	public String getAllMenu() {
 		Map<String,String> contMap=new HashMap<String,String>();
 		contMap.put("parentId", "0");
-		
 		PageInfo<BaseMenu> menuList = permissionMenuService.getMenuList(contMap);//获取一级菜单
-		List<Object> list = new ArrayList<>();
+		List<List<Object>> list = new ArrayList<>();
 		for (int i = 0; i < menuList.getList().size(); i++) {
 			List<Object> list1 = new ArrayList<>();
 			contMap.clear();
@@ -125,6 +124,7 @@ public class BaseMenuController{
 			}
 			list.add(list1);
 		}
-		return list.toString();
+		String listJson = JSON.toJSONString(list);
+		return listJson;
 	}
 }
