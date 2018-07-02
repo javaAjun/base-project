@@ -63,8 +63,14 @@ public class AdminController {
 			return result;
 		}
 		if (user.getId() == null || user.getId().equals("")) {
-			statusNum = adminUserService.insertSelective(user);
-
+			AdminUser adminTemplate=adminUserService.selectOne("loginiNo", user.getLoginiNo());
+			if(adminTemplate==null) {
+				statusNum = adminUserService.insertSelective(user);
+			}else {
+				result.setCode(0);
+				result.setMsg("账号已存在!");
+				return result;
+			}
 		} else {
 			statusNum = adminUserService.updateByPrimaryKeySelective(user);
 		}

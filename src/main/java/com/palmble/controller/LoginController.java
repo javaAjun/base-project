@@ -1,5 +1,7 @@
 package com.palmble.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +63,11 @@ public class LoginController {
 			return result;
 		}
 		request.getSession().setAttribute("loginNo", inuputUsername);
+		Integer loginCount=adminUser.getLoginCount()==null?0:1;
+		adminUser.setLoginCount(loginCount+1);
+		adminUser.setLastLoginIp(request.getRemoteAddr());
+		adminUser.setLastLoginTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		adminUserService.updateByPrimaryKey(adminUser);
 		result.setCode(1);
 		result.setMsg("success");
 		result.setUrl("html/index.html");
