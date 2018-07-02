@@ -27,6 +27,12 @@
   	select 
     <include refid="Base_Column_List" />
     from base_menu WHERE id!=0
+      <if test="parentId != null" >
+        AND parent_id=#{parentId}
+      </if>
+      <if test="menuName != null" >
+        AND menu_name=#{menuName}
+      </if>
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
