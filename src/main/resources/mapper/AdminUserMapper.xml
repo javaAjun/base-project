@@ -124,7 +124,7 @@
         and    login_count=#{loginCount,jdbcType=INTEGER}
       </if>
       <if test="sidx !=null and sidx != '' and sord !=null" >
-         ORDER BY '${sidx}'  ${sord}
+         ORDER BY ${sidx}  ${sord}
       </if>
       LIMIT 
        #{begin},#{end}

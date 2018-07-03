@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,9 +64,23 @@ public class AdminController {
 			result.setMsg("操作失败!");
 			return result;
 		}
+		String pwd=user.getPwd();
+		String username=user.getLoginiNo();
+		if(username==null||username.trim().equals("")) {
+			result.setCode(0);
+			result.setMsg("账号不能为空!");
+			return result;
+		}
+		if(pwd==null||pwd.trim().equals("")) {
+			result.setCode(0);
+			result.setMsg("密码不能为空!");
+			return result;
+		}
+		String md5Pwd=DigestUtils.md5Hex("palmble"+pwd);
+		AdminUser adminTemplate=adminUserService.selectOne("loginiNo", user.getLoginiNo());
 		if (user.getId() == null || user.getId().equals("")) {
-			AdminUser adminTemplate=adminUserService.selectOne("loginiNo", user.getLoginiNo());
 			if(adminTemplate==null) {
+				user.setPwd(md5Pwd);
 				statusNum = adminUserService.insertSelective(user);
 			}else {
 				result.setCode(0);
@@ -72,6 +88,9 @@ public class AdminController {
 				return result;
 			}
 		} else {
+			if(!md5Pwd.equals(adminTemplate.getPwd())) {
+				user.setPwd(DigestUtils.md5Hex("palmble"+pwd));
+			}
 			statusNum = adminUserService.updateByPrimaryKeySelective(user);
 		}
 		result.setCode(statusNum);

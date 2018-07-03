@@ -70,7 +70,7 @@
                 {label:'角色',name:'groupName',index:'groupName',width:80,editable: false,sortable: false},
                 {label:'登录次数',name:'loginCount',index:'loginCount',width:80,editable: false,sortable: false},
                 {label:'最后登录时间',name:'lastLoginTime',index:'lastLoginTime',width:100,editable: false,sortable: false},
-                {label:'最后登录IP',name:'lastLoginIp',index:'lastLoginIp',width:100,sortable: true},
+                {label:'最后登录IP',name:'lastLoginIp',index:'lastLoginIp',width:100,sortable: false},
                 {label:'状态',name:'enableFlag',index:'enableFlag',width:50,editable: false,sortable: false,formatter:function (a,b,c){
                     if(a == 0){
                         return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setStatus(this)"><span class="label label-danger" title="禁用">禁用</span></a>';
@@ -93,7 +93,7 @@
             mtype: 'post',
             height: 'auto',
             emptyrecords: "暂无数据",
-            sortorder: "asc",
+            sortorder: "desc",
             caption:"管理员列表",
             loadComplete: function (xhr) {
             	console.log(xhr);
