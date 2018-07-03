@@ -6,17 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.palmble.base.PalmbleBaseController;
 import com.palmble.entity.BaseMenu;
 import com.palmble.service.BaseMenuService;
 import com.palmble.utils.ResultInfo;
@@ -106,25 +101,25 @@ public class BaseMenuController{
 	 * @date 2018年6月22日
 	 */
 	@RequestMapping("/getAllMenu")
+	@ResponseBody
 	public String getAllMenu() {
 		Map<String,String> contMap=new HashMap<String,String>();
 		contMap.put("parentId", "0");
 		PageInfo<BaseMenu> menuList = permissionMenuService.getMenuList(contMap);//获取一级菜单
-		List<List<Object>> list = new ArrayList<>();
+		List<Map<String,Object>> baseList = new ArrayList<>();
 		for (int i = 0; i < menuList.getList().size(); i++) {
-			List<Object> list1 = new ArrayList<>();
+			Map<String,Object> parentMap= new HashMap<String,Object>();
 			contMap.clear();
-			contMap.put("parentId", menuList.getList().get(i).getParentId()+"");
+			contMap.put("parentId", menuList.getList().get(i).getId()+"");
 			PageInfo<BaseMenu> childMenuList = permissionMenuService.getMenuList(contMap);//获取二级菜单
-			for (int j = 0; j <childMenuList.getList().size(); j++) {
-				contMap.clear();
-				contMap.put("parentId", childMenuList.getList().get(j).getParentId()+"");
-				PageInfo<BaseMenu> authorityList = permissionMenuService.getMenuList(contMap);
-				list1.add(authorityList.getList());
-			}
-			list.add(list1);
+			parentMap.put("baseId", menuList.getList().get(i).getId());
+			parentMap.put("baseMenu", menuList.getList().get(i).getMenuName());
+			String childJson = JSON.toJSONString(childMenuList.getList());//序列化json
+			parentMap.put("baseInfo",childJson);
+			baseList.add(parentMap);
 		}
-		String listJson = JSON.toJSONString(list);
-		return listJson;
+		String baseJson = JSON.toJSONString(baseList);//序列化json
+		
+		return baseJson;
 	}
 }
