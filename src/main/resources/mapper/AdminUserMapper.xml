@@ -18,8 +18,8 @@
      <result column="login_count" property="loginCount" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, logini_no, mobile, pwd, qq, head_img, create_by_name, create_date, enable_flag, 
-    group_id, last_login_ip,last_login_time,group_name,login_count
+    id, logini_no, mobile, pwd, qq, head_img, create_by_name, date_format(create_date,'%Y-%m-%d %H:%i:%s'), enable_flag, 
+    group_id, last_login_ip,date_format(last_login_time,'%Y-%m-%d %H:%i:%s') as last_login_time,group_name,login_count
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -124,7 +124,7 @@
         and    login_count=#{loginCount,jdbcType=INTEGER}
       </if>
       <if test="sidx !=null and sidx != '' and sord !=null" >
-         ORDER BY '${sidx}'  ${sord}
+         ORDER BY ${sidx}  ${sord}
       </if>
       LIMIT 
        #{begin},#{end}

@@ -17,7 +17,7 @@ public class AdminUser {
 
     private String createByName;
 
-    private Date createDate;
+    private String createDate;
 
     private Integer enableFlag;
 
@@ -25,7 +25,7 @@ public class AdminUser {
 
     private String lastLoginIp;
     
-    private Date lastLoginTime;
+    private String lastLoginTime;
     
     private String groupName;
     private Integer loginCount;
@@ -39,11 +39,11 @@ public class AdminUser {
 		this.loginCount = loginCount;
 	}
 
-	public Date getLastLoginTime() {
+	public String getLastLoginTime() {
 		return lastLoginTime;
 	}
 
-	public void setLastLoginTime(Date lastLoginTime) {
+	public void setLastLoginTime(String lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
 
@@ -111,11 +111,11 @@ public class AdminUser {
         this.createByName = createByName == null ? null : createByName.trim();
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 

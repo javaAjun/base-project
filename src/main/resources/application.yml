@@ -1,6 +1,8 @@
+logging:
+  level:
+    com.palmble.dal: DEBUG
 server:
   port: 8383
-
 spring: 
   resources: 
     staticLocations: classpath:/static/
@@ -23,7 +25,7 @@ spring:
     testOnReturn: false  
     poolPreparedStatements: true  
     maxPoolPreparedStatementPerConnectionSize: 20  
-    filters: stat,wall,log4j
+    filters: stat,wall,logback
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000  
 mybatis:
   #实体类所做包
