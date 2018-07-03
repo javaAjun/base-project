@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.palmble.annotation.CustomLog;
+import com.palmble.base.PalmbleBaseController;
 import com.palmble.entity.AdminUser;
 import com.palmble.entity.Result;
+import com.palmble.enums.LogEnum;
 import com.palmble.service.AdminUserService;
 
 @RestController
-public class LoginController {
+public class LoginController extends PalmbleBaseController{
 	@Autowired
 	private AdminUserService adminUserService;
 	@PostMapping("/toLogin")
@@ -73,7 +76,7 @@ public class LoginController {
 		request.getSession().setAttribute("loginNo", inuputUsername);
 		Integer loginCount=adminUser.getLoginCount()==null?0:1;
 		adminUser.setLoginCount(loginCount+1);
-		adminUser.setLastLoginIp(request.getRemoteAddr());
+		adminUser.setLastLoginIp(getUserIP(request));
 		adminUser.setLastLoginTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		adminUserService.updateByPrimaryKey(adminUser);
 		result.setCode(1);
