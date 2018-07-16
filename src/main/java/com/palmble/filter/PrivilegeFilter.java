@@ -39,7 +39,7 @@ public class PrivilegeFilter implements Filter {
 		 HttpServletResponse res = (HttpServletResponse)response;  
 		 String username=(String)req.getSession().getAttribute("loginNo");
 		 Integer userId=adminUserService.selectOne("loginiNo",username).getId();
-		 List<String> urlList=userPermissionService.selectPrivilegeUrlByGroupOrUserId(userId);
+		 List<Integer> urlList=userPermissionService.selectPrivilegeUrlByGroupOrUserId(userId);
 		 String path=req.getServletPath();
 		 if(urlList!=null&&urlList.contains(path)) {
 			 chain.doFilter(request, response);

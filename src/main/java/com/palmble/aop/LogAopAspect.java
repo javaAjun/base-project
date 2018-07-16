@@ -1,9 +1,6 @@
 package com.palmble.aop;
 
 import java.lang.reflect.Method;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -13,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.alibaba.fastjson.JSON;
 import com.palmble.annotation.CustomLog;
 import com.palmble.base.PalmbleBaseService;
@@ -67,8 +63,8 @@ public class LogAopAspect {
 	 * 
 	 * [异常通知 用于拦截service层记录异常日志] <br>
 	 * 
-	 * @author Mr.Liboary <br>
-	 * @date 2017-7-13 下午5:45:12 <br>
+	 * @author WangYanke  <br>
+	 * @date 2018-7-03 下午5:45:12 <br>
 	 * @param joinPoint
 	 *            切点
 	 * @param e
@@ -204,8 +200,8 @@ public class LogAopAspect {
 	 * [获取自定义日志注解对象] <br>
 	 * 
 	 * @deprecated 请使用getCustomLog方法 <br>
-	 * @author Mr.Liboary <br>
-	 * @date 2017-7-13 下午5:26:05 <br>
+	 * @author WangYanke  <br>
+	 * @date 2018-7-03 下午5:45:12 <br>
 	 * @param joinPoint
 	 * @return
 	 * @throws Exception

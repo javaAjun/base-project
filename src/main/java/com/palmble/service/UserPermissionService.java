@@ -16,6 +16,6 @@ public interface UserPermissionService {
     int updateByPrimaryKeySelective(UserPermission record);
 
     int updateByPrimaryKey(UserPermission record);
-    List<String> selectPrivilegeUrlByGroupOrUserId(Integer userid);
+    List<Integer> selectPrivilegeUrlByGroupOrUserId(Integer userid);
     
 }

@@ -35,36 +35,17 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <form method="post" action="/addOreditRule" class="form-horizontal">
+                <form  class="form-horizontal">
                     <input type="hidden" name="userId">
-                                                        <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <label><input type="checkbox" name="urls" value="2"  class="ids1"> 管理员管理</label>
-                                </div>
-                                                                <div class="panel-body">
-                                                                        <div>
-                                        <label><input type="checkbox" name="urls" value="9"  class="ids ids2"> 管理员列表</label>
-                                                                                <div style="padding: 10px 0px 10px 30px;">
-                                                                                        <label><input type="checkbox" name="urls" value="/html/admin_add.html"  class="ids admin_add"> 新增/编辑 </label>
-                                                                                        <label><input type="checkbox" name="urls" value="/updateAdminStatus"  class="ids updateAdminStatus"> 改变状态 </label>
-                                                                                        <label><input type="checkbox" name="urls" value="/delAdmin"  class="ids delAdmin"> 删除 </label>
-                                                                                    </div>
-                                                                            </div>
-                                                                        <div>
-                                        <label><input type="checkbox" name="urls" value="10"  class="ids ids2"> 权限管理</label>
-                                                                                <div style="padding: 10px 0px 10px 30px;">
-                                                                                        <label><input type="checkbox" name="urls" value="/html/admin_rule.html"  class="ids admin_rule"> 访问授权 </label>
-                                                                                        <label><input type="checkbox" name="urls" value="/html/updatePassword.html"  class="ids updatePassword"> 修改密码 </label>
-                                                                                    </div>
-                                                                            </div>
-                                                                    </div>
-                                                            </div>
-                                                    </div>
+				    <div  id="inner">
+
+                    </div>
+              </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button class="btn btn-primary ajax-post" target-form="form-horizontal" type="submit">确 定</button>
-                            <a class="btn btn-default" href="../auth_manager/index.html">取 消</a>
+                            <button class="btn btn-primary " id="submitForm"  >确 定</button>
+                            <a class="btn btn-default" onclick="callBack()" href="javaScript:;">取 消</a>
                         </div>
                     </div>
                 </form>
@@ -78,6 +59,7 @@
 <script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="../layer-v3.1.1/layer/layer.js"></script>
+<script src="../js/js.js" charset="utf-8"></script>
 <!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
 <script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
 <script src="../hplus/js/contabs.min.js"></script>
@@ -86,64 +68,113 @@
 <!-- jqGrid -->
 <script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
 <script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
-<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/showAlert.js" charset="utf-8"></script>
 <script src="../js/common.js"></script>
 
-<script>
-    $(document).ready(function(){
-    	var url="/getPrivilegeList";
-    	var userId=getQueryString("userId");
-    	var data={userId:userId};
-    	var groupName=getQueryString("groupName");
-    	formSetValue("userId", userId);
-    	$('#title').html("[ "+groupName+" ] 访问授权");
-    	String.prototype.replaceAll = function(s1,s2){
-    		　　return this.replace(new RegExp(s1,"gm"),s2);
-    		　　}
-    	$.get(url,data,function(obj){
-    		console.log(obj);
-    		$.each(obj, function(idx, name) {
-    			name=name.replaceAll('\/html','');
-    			name=name.replaceAll('.html','');
-    			name=name.replaceAll('/','.');
-    			$(name).prop("checked", true);
-    			console.log(name);
-    		});
-    	});
-    	
-    	 $('#top-alert').find('button').click();
 
-        //全选的实现
-        $(".ids1").click(function(){
-            $(this).parent().parent().parent().find(".ids").prop("checked", this.checked);
-        });
-        $(".ids2").click(function(){
-            $(this).parent().parent().find("div .ids").prop("checked", this.checked);
-        });
-        $(".ids").click(function(){
-        	if(!$(this).hasClass("ids2")){
-        		var node = $(this);
-        		var parentNode=node.parent().parent().parent();
-        		var ids2=parentNode.find(".ids2");
-        		var childs=node.parent().parent().find(".ids");
-        		var isCheck=false;
-            	for(var i=0;i<childs.length;i++){
-            		if($(childs[i]).prop('checked')){
-            			isCheck=true;
-            			break;
-            		}
-            	}
-            	if(isCheck==true){
-            		ids2.prop("checked",true);
-            	}else{
-            		ids2.prop("checked",false);
-            	}
-        	}
-//         	 .prop("checked",true);
+<script>
+var userId=getQueryString("userId");
+$("input[name='userId']").val(userId);
+    $(document).ready(function(){
+    	//动态往静态页填充所有权限信息
+    	$.ajax({
+            url: ctx+"/baseMenu/getAllMenu",
+            type:"POST",
+            dataType: "json",
+            contentType:"application/json;charset=UTF-8",
+            async:false,
+            success: function (data) {
+            	var allMenuHTML = "";
+            	for(var i=0; i< data.length;i++){
+            		allMenuHTML+="<div class='panel panel-default'>"+
+		                    "<div class='panel-heading'>";
+		                    if(data[i].flag=='true'){
+		                    	allMenuHTML+="<label><input type=\"checkbox\" name='checkId' onchange='baseMenuChange(this)' id='menu"+data[i].menuId+"' value='"+data[i].menuId+"' checked='checked'>"+data[i].menuName+"</label>";
+		                    }else{
+		                    	allMenuHTML+="<label><input type=\"checkbox\" name='checkId' onchange='baseMenuChange(this)' id='menu"+data[i].menuId+"' value='"+data[i].menuId+"'>"+data[i].menuName+"</label>";
+		                    }
+		                    allMenuHTML+="</div>";
+	                var parentMenus=data[i].menuInfo;
+	             	parentMenus=JSON.parse(parentMenus);
+	             	for(var j=0; j<parentMenus.length;j++){
+	             		allMenuHTML+="<div class=\"panel-body\">";
+	             		if(parentMenus[j].flag=='true'){
+	             			allMenuHTML+="<label><input type=\"checkbox\" name='checkId' id='menu"+parentMenus[j].menuId+"' class='parentMenu"+parentMenus[j].menuId+"' value='"+parentMenus[j].menuId+"'  checked='checked'> "+parentMenus[j].menuName+"</label></br>";
+	             		}else{
+	             			allMenuHTML+="<label><input type=\"checkbox\" name='checkId' id='menu"+parentMenus[j].menuId+"' class='parentMenu"+parentMenus[j].menuId+"' value='"+parentMenus[j].menuId+"'> "+parentMenus[j].menuName+"</label></br>";
+	             		}
+						var menus=parentMenus[j].menuInfo;
+						menus=JSON.parse(menus);
+						for(var m=0; m< menus.length;m++){
+							if(menus[m].flag=='true'){
+								allMenuHTML+="<label style=\"padding: 10px 0px 0px 30px;\"><input name='checkId' class='parentMenu"+parentMenus[j].menuId+"' onchange=childMenu(this) type='checkbox'id='menu"+menus[m].menuId+"'  value='"+menus[m].menuId+"' checked='checked' >"+menus[m].menuName+"</label>";
+							}else{
+								allMenuHTML+="<label style=\"padding: 10px 0px 0px 30px;\"><input name='checkId' class='parentMenu"+parentMenus[j].menuId+"' onchange=childMenu(this) type='checkbox'id='menu"+menus[m].menuId+"'  value='"+menus[m].menuId+"'  >"+menus[m].menuName+"</label>";
+							}
+						}
+						allMenuHTML+="</div>";
+             		}
+					allMenuHTML+="</div>";
+                
+                }
+            	$("#inner").html(allMenuHTML);
+            }
         })
+
+        $("#submitForm").click(function (){
+    		var obj = document.getElementsByName("checkId");
+    		urids = [];
+		    for(k in obj){
+		        if(obj[k].checked)
+		        	urids.push(obj[k].value);
+		    }
+		    if (urids.length==0) {
+				layer.msg("至少选择一项权限");
+				return false;
+			}
+		    $.ajax({
+		        url:ctx+"/addOreditRule" ,
+		        data: {"urids":urids,
+		        		"userId":$("input[name='userId']").val()},
+		        type: "POST",
+		        dataType: "json",
+		        async:false,
+		        success: function (data) {
+		        	if(data.code=='1'){
+		        		
+		        	}else{
+		        		showMsg(data.msg);
+		        	}
+		        },
+		        error: function (data) {
+		            try {
+		                layer.msg("请求异常");
+		                return false;
+		            } catch (e) {
+		                console.log(e);
+		            }
+		        }
+		    });
+    	})
     });
+    function baseMenuChange(obj){
+    	console.log($(obj).prop('checked'));
+    	if($(obj).prop('checked')){
+	    	$(obj).parent().parent().parent().find("input[type='checkbox']").prop("checked","checked")
+    	}else{
+    		$(obj).parent().parent().parent().find("input[type='checkbox']").removeAttr("checked")
+    	}
+    }
+    
+    function childMenu(obj){
+    	console.log($(obj).attr("class"))
+    	var menuClass=$(obj).attr("class");
+    	if($(obj).prop('checked')){
+    		$("."+menuClass+":eq(0)").prop("checked","checked");
+    	}
+    	$(obj).parent().parent().parent().find("input[type='checkbox']:eq(0)").prop("checked","checked")
+    }
 
 </script>
-
 </body>
 </html>

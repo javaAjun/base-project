@@ -94,8 +94,8 @@ public class PalmbleBaseService {
 	 * 
 	 * [保存正常和异常日志信息（涉及查询和异常的用此方法）] <br>
 	 * 
-	 * @author Mr.Liboary <br>
-	 * @date 2017-7-14 下午12:01:09 <br>
+	 * @author WangYanke  <br>
+	 * @date 2018-7-03 下午5:45:12 <br>
 	 * @param logEnum
 	 *            决定要保存的日志表
 	 * @param logType
