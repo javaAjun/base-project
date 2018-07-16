@@ -11,6 +11,7 @@ import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.palmble.entity.AdminUser;
@@ -138,37 +139,48 @@ public class AdminController {
 		return result;
 	}
 	@RequestMapping("/getPrivilegeList")
-	public List<String> getPrivilegeList(String userId) {
-		 List<String> list= userPermissionService.selectPrivilegeUrlByGroupOrUserId(Integer.parseInt(userId));
+	public List<Integer> getPrivilegeList(String userId) {
+		 List<Integer> list= userPermissionService.selectPrivilegeUrlByGroupOrUserId(Integer.parseInt(userId));
 		return list;
 	}
 	@RequestMapping("/addOreditRule")
-	public Result addOreditRule(Integer userId,@RequestParam List<String> urls) {
+	public Result addOreditRule(Integer userId,@RequestParam("urids[]")List<Integer> urids) {
 		Result result=new Result();
 		if(userId==null) {
 			result.setCode(0);
-			result.setMsg("操作失败");
+			result.setMsg("获取用户信息失败");
 			return result;
 		}
 		List<UserPermission> list=userPermissionService.selectByGroupOrUserId(userId);
-		List<String> urlList=new ArrayList<String>();
+		List<Integer> urlList=new ArrayList<Integer>();
 		for(UserPermission userPermission:list) {
-			if(!urls.contains(userPermission.getPrivilegeUrl())) {
+			if(!urids.contains(userPermission.getPrivilegeId())) {
 				userPermissionService.deleteByPrimaryKey(userPermission.getId());
 			}else {
-				urlList.add(userPermission.getPrivilegeUrl());
+				urlList.add(userPermission.getPrivilegeId());
 			}
 		}
-		urls.removeAll(urlList);
-		for(String url:urls) {
+		urids.removeAll(urlList);
+		for(Integer url:urids) {
 				UserPermission userPermission=new UserPermission();
 				userPermission.setGroupOrUserId(userId);
-				userPermission.setPrivilegeUrl(url);
+				userPermission.setPrivilegeId(url);
 				userPermissionService.insertSelective(userPermission);
 		}
 		result.setCode(1);
 		result.setMsg("操作成功");
-		result.setUrl("admin_auth_manager.html");
 		return result;
+	}
+	
+	/**
+	 * <p>Title: 给制定用户添加权限</p>   
+	 * @author WangYanke  
+	 * @date 2018年7月10日
+	 */
+	@RequestMapping("/addRule")
+	@ResponseBody
+	public void addRule(Integer userId,String urids) {
+		System.out.println("权限分配操作成功");
+
 	}
 }

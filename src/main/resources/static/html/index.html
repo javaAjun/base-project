@@ -14,7 +14,6 @@
     <script>
         if(window.top!==window.self){window.top.location=window.location};
     </script>
-    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
@@ -46,113 +45,9 @@
     <div class="logo-element">H
     </div>
 </li>
-<!--<li style="padding: 2px;"></li>-->
-<!-- <li> -->
-<!--         <a href="#"> -->
-<!--         <i class="fa fa-folder"></i> -->
-<!--         <span class="nav-label">系统管理</span> -->
-<!--         <span class="fa arrow"></span> -->
-<!--     </a> -->
-<!--     <ul class="nav nav-second-level"> -->
-<!--                 <li> -->
-<!--             <a class="J_menuItem" href="/admin/config/group.html" data-index="6">网站设置</a> -->
-<!--         </li> -->
-<!--                 <li> -->
-<!--             <a class="J_menuItem" href="/admin/notice/index.html" data-index="70">公告列表</a> -->
-<!--         </li> -->
-<!--         <li> -->
-<!--             <a class="J_menuItem" href="menu_list.html" data-index="71">菜单管理</a> -->
-<!--         </li> -->
-<!--             </ul> -->
-<!--     </li> -->
-<!-- <li> -->
-<!--         <a href="#"> -->
-<!--         <i class="fa fa-folder"></i> -->
-<!--         <span class="nav-label">banner管理</span> -->
-<!--         <span class="fa arrow"></span> -->
-<!--     </a> -->
-<!--     <ul class="nav nav-second-level"> -->
-<!--                 <li> -->
-<!--             <a class="J_menuItem" href="/admin/banner/index.html" data-index="69">banner列表</a> -->
-<!--         </li> -->
-<!--             </ul> -->
-<!--     </li> -->
-<!-- <li> -->
-<!--         <a href="#"> -->
-<!--         <i class="fa fa-folder"></i> -->
-<!--         <span class="nav-label">会员管理</span> -->
-<!--         <span class="fa arrow"></span> -->
-<!--     </a> -->
-<!--     <ul class="nav nav-second-level"> -->
-<!--         <li> -->
-<!--             <a class="J_menuItem" href="/admin/user/index.html" data-index="72">会员列表</a> -->
-<!--         </li> -->
-<!--                 <li> -->
-<!--             <a class="J_menuItem" href="/admin/user/service.html" data-index="75">服务/报单中心</a> -->
-<!--         </li> -->
-<!--                 <li> -->
-<!--             <a class="J_menuItem" href="/admin/withdraw/index.html" data-index="76">提现列表</a> -->
-<!--         </li> -->
-<!--                 <li> -->
-<!--             <a class="J_menuItem" href="/admin/user/fd.html" data-index="77">会员收益记录</a> -->
-<!--         </li> -->
-<!--             </ul> -->
-<!--     </li> -->
-<!-- <li> -->
-<!--         <a href="#"> -->
-<!--         <i class="fa fa-folder"></i> -->
-<!--         <span class="nav-label">商品管理</span> -->
-<!--         <span class="fa arrow"></span> -->
-<!--     </a> -->
-<!--     <ul class="nav nav-second-level"> -->
-<!--                 <li> -->
-<!--             <a class="J_menuItem" href="/admin/goods/index.html" data-index="63">商品列表</a> -->
-<!--         </li> -->
-<!--                 <li> -->
-<!--             <a class="J_menuItem" href="/admin/goods/cate.html" data-index="64">商品分类</a> -->
-<!--         </li> -->
-<!--             </ul> -->
-<!--     </li> -->
-<!-- <li> -->
-<!--         <a href="#"> -->
-<!--         <i class="fa fa-folder"></i> -->
-<!--         <span class="nav-label">订单管理</span> -->
-<!--         <span class="fa arrow"></span> -->
-<!--     </a> -->
-<!--     <ul class="nav nav-second-level"> -->
-<!--                 <li> -->
-<!--             <a class="J_menuItem" href="/admin/order/index.html" data-index="74">订单列表</a> -->
-<!--         </li> -->
-<!--             </ul> -->
-<!--     </li> -->
-<!--     // -->
-<li>
-        <a href="#">
-        <i class="fa fa-folder"></i>
-        <span class="nav-label">管理员管理</span>
-        <span class="fa arrow"></span>
-    </a>
-    <ul class="nav nav-second-level">
-                <li>
-            <a class="J_menuItem" href="admin_list.html" data-index="9">管理员列表</a>
-        </li>
-                <li>
-            <a class="J_menuItem" href="admin_auth_manager.html" data-index="10">权限管理</a>
-        </li>
-            </ul>
-    </li>
-<!-- <li> -->
-<!--     <a href="#"> -->
-<!--         <i class="fa fa-folder"></i> -->
-<!--         <span class="nav-label">杂项管理</span> -->
-<!--         <span class="fa arrow"></span> -->
-<!--     </a> -->
-<!--     <ul class="nav nav-second-level"> -->
-<!--                 <li> -->
-<!--             <a class="J_menuItem" href="/admin/addons/adminlist/name/SystemArticle.html" data-index="addons_系统文章">系统文章</a> -->
-<!--         </li> -->
-<!--             </ul> -->
-<!-- </li> -->
+
+
+
 
             </ul>
         </div>
@@ -209,7 +104,8 @@
     </div>
     <!--右侧部分结束-->
 </div>
-
+<script src="../js/jquery-1.10.1.min.js"></script>
+<script src="../js/jquery.cookie.js"></script>
 <script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
 <script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -220,6 +116,46 @@
 <script src="../hplus/js/plugins/pace/pace.min.js"></script>
 <script src="../js/common.js?v=1.0"></script>
 <script>
+var userId=getQueryString("userId");
+console.log(userId);
+$.ajax({
+    url: "/baseMenu/getAllMenu",
+    type:"POST",
+    dataType: "json",
+    contentType:"application/json;charset=UTF-8",
+    async:false,
+    success: function (data) {
+    	var allMenuHTML = "";
+    	var index= 0
+    	for(var i=0; i< data.length;i++){
+    		if(data[i].flag=='true'){
+    			allMenuHTML+="<li >"+
+    				"<a href='#'>"+
+                "<i class='fa fa-folder'></i>"+
+                "<span class='nav-label' data-index='"+index+"' >"+data[i].menuName+"</span>"+
+                "<span class='fa arrow'></span>"+
+           		" </a>";
+           		index++;
+    		}
+            var parentMenus=data[i].menuInfo;
+         	parentMenus=JSON.parse(parentMenus);
+         	for(var j=0; j<parentMenus.length;j++){
+         		if(parentMenus[j].flag=='true'){
+         			allMenuHTML+=" <ul class='nav nav-second-level'>"+
+                    " <li>"+
+    		        " <a class='J_menuItem' href='"+parentMenus[j].menuUrl+"' data-index='"+index+"'>"+parentMenus[j].menuName+"</a>"+
+    		        " </li>"+
+    		      	" </ul>"
+    		        index++;
+         		}
+     		}
+         	allMenuHTML+="</li>";
+        }
+    	$("li[class='nav-header']").after(allMenuHTML);
+    	//$("#inner").html(allMenuHTML);
+    }
+})
+
 	$('#exitLogin').click(function(){
 		 layer.confirm("确定要退出登录吗?", {
 	            btn: ['确认', '取消'], //按钮

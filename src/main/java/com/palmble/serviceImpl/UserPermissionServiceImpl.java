@@ -44,7 +44,7 @@ public class UserPermissionServiceImpl implements UserPermissionService {
 	}
 
 	@Override
-	public List<String> selectPrivilegeUrlByGroupOrUserId(Integer userid) {
+	public List<Integer> selectPrivilegeUrlByGroupOrUserId(Integer userid) {
 		return userPermissionMapper.selectPrivilegeUrlByGroupOrUserId(userid);
 	}
 

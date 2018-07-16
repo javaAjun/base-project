@@ -17,10 +17,9 @@
     from user_permission
     where group_or_user_id = #{groupOrUserId,jdbcType=INTEGER}
   </select>
-  <select id="selectPrivilegeUrlByGroupOrUserId" resultType="string" parameterType="java.lang.Integer" >
+  <select id="selectPrivilegeUrlByGroupOrUserId" resultType="Integer" parameterType="java.lang.Integer" >
     select 
-    privilege_url
-    from user_permission
+    privilege_id FROM user_permission
     where group_or_user_id = #{groupOrUserId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

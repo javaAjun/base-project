@@ -6,19 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.palmble.base.PalmbleBaseController;
 import com.palmble.entity.BaseMenu;
 import com.palmble.service.BaseMenuService;
+import com.palmble.service.UserPermissionService;
 import com.palmble.utils.ResultInfo;
 
 /**
@@ -32,7 +28,11 @@ import com.palmble.utils.ResultInfo;
 @RequestMapping("/baseMenu")
 public class BaseMenuController{
 	
-	@Autowired BaseMenuService permissionMenuService;
+	@Autowired 
+	BaseMenuService permissionMenuService;
+	
+	@Autowired
+	private UserPermissionService userPermissionService;
 	/**
 	 * <p>Title: 获取菜单信息列表</p>   
 	 * @author WangYanke  
@@ -106,25 +106,64 @@ public class BaseMenuController{
 	 * @date 2018年6月22日
 	 */
 	@RequestMapping("/getAllMenu")
-	public String getAllMenu() {
+	@ResponseBody
+	public String getAllMenu(Integer userid) {
+		
+		List<Integer> qxlist = userPermissionService.selectPrivilegeUrlByGroupOrUserId(16);
 		Map<String,String> contMap=new HashMap<String,String>();
 		contMap.put("parentId", "0");
 		PageInfo<BaseMenu> menuList = permissionMenuService.getMenuList(contMap);//获取一级菜单
-		List<List<Object>> list = new ArrayList<>();
+		List<Map<String,Object>> baseList = new ArrayList<>();
 		for (int i = 0; i < menuList.getList().size(); i++) {
-			List<Object> list1 = new ArrayList<>();
+			Map<String,Object> parentMap= new HashMap<String,Object>();
 			contMap.clear();
-			contMap.put("parentId", menuList.getList().get(i).getParentId()+"");
+			contMap.put("parentId", menuList.getList().get(i).getId()+"");
 			PageInfo<BaseMenu> childMenuList = permissionMenuService.getMenuList(contMap);//获取二级菜单
-			for (int j = 0; j <childMenuList.getList().size(); j++) {
-				contMap.clear();
-				contMap.put("parentId", childMenuList.getList().get(j).getParentId()+"");
-				PageInfo<BaseMenu> authorityList = permissionMenuService.getMenuList(contMap);
-				list1.add(authorityList.getList());
+			parentMap.put("menuId", menuList.getList().get(i).getId());
+			parentMap.put("menuName", menuList.getList().get(i).getMenuName());
+			if(qxlist.contains(menuList.getList().get(i).getId())) {
+				parentMap.put("flag", "true");
+			}else {
+				parentMap.put("flag", "false");
 			}
-			list.add(list1);
+			List<Map<String,Object>> parentList = new ArrayList<>();
+			for (int j = 0; j < childMenuList.getList().size(); j++) {
+				contMap.clear();
+				contMap.put("parentId", childMenuList.getList().get(j).getId()+"");
+				PageInfo<BaseMenu> list = permissionMenuService.getMenuList(contMap);//获取二级菜单
+				List<Map<String,Object>> childList = new ArrayList<>();
+				for(int k=0;k<list.getList().size();k++) {
+					Map<String,Object> childMap= new HashMap<String,Object>();
+					childMap.put("menuId", list.getList().get(k).getId());
+					childMap.put("menuName", list.getList().get(k).getMenuName());
+					childMap.put("menuUrl", list.getList().get(k).getUrl());
+					if(qxlist.contains(list.getList().get(k).getId())) {
+						childMap.put("flag", "true");
+					}else {
+						childMap.put("flag", "false");
+					}
+					childList.add(childMap);
+				}
+				String listJson = JSON.toJSONString(childList);//序列化json
+				Map<String,Object> menuMap= new HashMap<String,Object>();
+				menuMap.put("menuId",childMenuList.getList().get(j).getId());
+				menuMap.put("menuName",childMenuList.getList().get(j).getMenuName());
+				menuMap.put("menuUrl",childMenuList.getList().get(j).getUrl());
+				menuMap.put("menuInfo",listJson);
+				if(qxlist.contains(childMenuList.getList().get(j).getId())) {
+					menuMap.put("flag", "true");
+				}else {
+					menuMap.put("flag", "false");
+				}
+				parentList.add(menuMap);
+			}
+			String parentJson = JSON.toJSONString(parentList);//序列化json
+			//String childJson = JSON.toJSONString(childMenuList.getList());//序列化json
+			parentMap.put("menuInfo",parentJson);
+			baseList.add(parentMap);
 		}
-		String listJson = JSON.toJSONString(list);
-		return listJson;
+		String baseJson = JSON.toJSONString(baseList);//序列化json
+		System.out.println(baseJson);
+		return baseJson;
 	}
 }

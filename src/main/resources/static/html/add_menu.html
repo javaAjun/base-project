@@ -44,7 +44,6 @@
     <label class="layui-form-label">上级菜单</label>
     <div class="layui-input-block">
       <select  name="parentId" lay-filter="aihao">
-        <option  value="0">顶级菜单</option>
       </select>
     </div>
   </div>
@@ -163,6 +162,7 @@ $(function(){
 	        data: {"menuId":id},
 	        type: "POST",
 	        dataType: "json",
+	        async:false,
 	        success: function (data) {
 		       	$("input[name='id']").val(data.id);
 		       	$("input[name='menuName']").val(data.menuName);
@@ -202,23 +202,28 @@ $(function(){
 	}
 	
 	$.ajax({
-        url: ctx+"/baseMenu/getAllList",
-        type: "POST",
+        url: ctx+"/baseMenu/getAllMenu",
+        type:"POST",
         dataType: "json",
+        contentType:"application/json;charset=UTF-8",
         success: function (data) {
         	console.log(data);
+        	var html = "<option  value='0'>顶级菜单</option>";
+        	for(var i=0; i< data.length;i++){
+             	html+='<option value='+data[i].menuId+' id="menu'+data[i].menuId+'" >&nbsp;..'+data[i].menuName+'</option>';
+             	var parentMenus=data[i].menuInfo;
+             	parentMenus=JSON.parse(parentMenus);
+             	console.log(parentMenus);
+             	for(j=0;j<parentMenus.length;j++){
+             		html+='<option value='+parentMenus[j].menuId+' id="menu'+parentMenus[j].menuId+'" >&nbsp;&nbsp;&nbsp;&nbsp;...'+parentMenus[j].menuName+'</option>';
+             	}
+            }
+        	//console.log(html);
+        	$("select[name='parentId']").html(html);
         	layui.use('form', function() {
                 var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
                 form.render();
             });
-        },
-        error: function (data) {
-            try {
-                layer.msg("请求异常");
-                return false;
-            } catch (e) {
-                console.log(e);
-            }
         }
     })
 })
