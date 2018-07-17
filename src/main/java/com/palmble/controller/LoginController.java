@@ -81,7 +81,7 @@ public class LoginController extends PalmbleBaseController{
 		adminUserService.updateByPrimaryKey(adminUser);
 		result.setCode(1);
 		result.setMsg("success");
-		result.setUrl("html/index.html?loginid="+adminUser.getId());
+		result.setUrl("html/index.html");
 		return result;
 	}
 }
