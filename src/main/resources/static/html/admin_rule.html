@@ -102,9 +102,9 @@ $("input[name='userId']").val(userId);
 	             	for(var j=0; j<parentMenus.length;j++){
 	             		allMenuHTML+="<div class=\"panel-body\">";
 	             		if(parentMenus[j].flag=='true'){
-	             			allMenuHTML+="<label><input type=\"checkbox\" name='checkId' id='menu"+parentMenus[j].menuId+"' class='parentMenu"+parentMenus[j].menuId+"' value='"+parentMenus[j].menuId+"'  checked='checked'> "+parentMenus[j].menuName+"</label></br>";
+	             			allMenuHTML+="<label><input type=\"checkbox\" name='checkId' id='menu"+parentMenus[j].menuId+"' onchange=childMenu(this) class='parentMenu"+parentMenus[j].menuId+"' value='"+parentMenus[j].menuId+"'  checked='checked'> "+parentMenus[j].menuName+"</label></br>";
 	             		}else{
-	             			allMenuHTML+="<label><input type=\"checkbox\" name='checkId' id='menu"+parentMenus[j].menuId+"' class='parentMenu"+parentMenus[j].menuId+"' value='"+parentMenus[j].menuId+"'> "+parentMenus[j].menuName+"</label></br>";
+	             			allMenuHTML+="<label><input type=\"checkbox\" name='checkId' id='menu"+parentMenus[j].menuId+"' onchange=childMenu(this) class='parentMenu"+parentMenus[j].menuId+"' value='"+parentMenus[j].menuId+"'> "+parentMenus[j].menuName+"</label></br>";
 	             		}
 						var menus=parentMenus[j].menuInfo;
 						menus=JSON.parse(menus);
@@ -170,12 +170,26 @@ $("input[name='userId']").val(userId);
     }
     
     function childMenu(obj){
-    	console.log($(obj).attr("class"))
+    	var style=$(obj).parent().attr('style')
     	var menuClass=$(obj).attr("class");
-    	if($(obj).prop('checked')){
-    		$("."+menuClass+":eq(0)").prop("checked","checked");
-    	}
-    	$(obj).parent().parent().parent().find("input[type='checkbox']:eq(0)").prop("checked","checked")
+		if(style==undefined){
+			console.log($(obj).parent().has('style'));
+			if($(obj).prop('checked')){
+				$(obj).parent().parent().find("input[type='checkbox']").prop("checked","checked");
+	    	}else{
+	    		$(obj).parent().parent().find("input[type='checkbox']").removeAttr("checked");
+	    	}
+		}else{
+			if($(obj).prop('checked')){
+	    		$("."+menuClass+":eq(0)").prop("checked","checked");
+	    	}else{
+	    		var subMenu=$(obj).parent().parent().find("input[type='checkbox']:checked");
+	    		if(subMenu.slice(1,subMenu.length).length==0){
+	    			$("."+menuClass+":eq(0)").removeAttr("checked");
+	    		}
+	    	}
+	    	$(obj).parent().parent().parent().find("input[type='checkbox']:eq(0)").prop("checked","checked");
+		}
     }
     
     function cancel(){
