@@ -76,11 +76,13 @@
 var userId=getQueryString("userId");
 $("input[name='userId']").val(userId);
     $(document).ready(function(){
+    	console.log(userId);
     	//动态往静态页填充所有权限信息
     	$.ajax({
             url: ctx+"/baseMenu/getAllMenu",
             type:"POST",
             dataType: "json",
+            data:{"userid":userId},
             contentType:"application/json;charset=UTF-8",
             async:false,
             success: function (data) {

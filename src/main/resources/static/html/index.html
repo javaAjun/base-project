@@ -116,8 +116,7 @@
 <script src="../hplus/js/plugins/pace/pace.min.js"></script>
 <script src="../js/common.js?v=1.0"></script>
 <script>
-var userId=getQueryString("userId");
-console.log(userId);
+console.log(window.location.href);
 $.ajax({
     url: "/baseMenu/getAllMenu",
     type:"POST",
