@@ -76,6 +76,7 @@
 var userId=getQueryString("userId");
 $("input[name='userId']").val(userId);
     $(document).ready(function(){
+    	 $('#top-alert').find('button').click();
     	//动态往静态页填充所有权限信息
     	$.ajax({
             url: ctx+"/baseMenu/getAllMenu",

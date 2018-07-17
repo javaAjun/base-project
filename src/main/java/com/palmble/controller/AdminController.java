@@ -154,7 +154,8 @@ public class AdminController {
 		List<UserPermission> list=userPermissionService.selectByGroupOrUserId(userId);
 		List<Integer> urlList=new ArrayList<Integer>();
 		for(UserPermission userPermission:list) {
-			if(!urids.contains(userPermission.getPrivilegeId())) {
+			Integer privilegeId=userPermission.getPrivilegeId();
+			if(!urids.contains(privilegeId)) {
 				userPermissionService.deleteByPrimaryKey(userPermission.getId());
 			}else {
 				urlList.add(userPermission.getPrivilegeId());
