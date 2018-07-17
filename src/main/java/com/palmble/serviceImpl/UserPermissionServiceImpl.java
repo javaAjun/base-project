@@ -1,6 +1,8 @@
 package com.palmble.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,21 @@ public class UserPermissionServiceImpl implements UserPermissionService {
 	@Override
 	public List<Integer> selectPrivilegeUrlByGroupOrUserId(Integer userid) {
 		return userPermissionMapper.selectPrivilegeUrlByGroupOrUserId(userid);
+	}
+
+	@Override
+	public Boolean privilegeStatus(Integer userId, String path) {
+		if(path.endsWith(".html")&&path.startsWith("/")) {
+			path=path.substring(1);
+		}
+		Map<String,Object> param=new HashMap<String,Object>();
+		param.put("userId", userId);
+		param.put("path", path);
+		Map<String,Object> map=userPermissionMapper.getByUserIdAndUrl(param);
+		if(map==null) {
+			return false;
+		}
+		return !map.isEmpty();
 	}
 
 }

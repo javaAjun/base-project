@@ -1,6 +1,7 @@
 package com.palmble.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -16,20 +17,31 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 
-import com.palmble.service.AdminUserService;
+import com.palmble.entity.BaseMenu;
+import com.palmble.service.BaseMenuService;
 import com.palmble.service.UserPermissionService;
 
 @Order(value = 2)
-@WebFilter(filterName = "PrivilegeFilter", urlPatterns = { "/delAdmin", "/updateAdminStatus",
-		"/html/admin_add.html","/html/updatePassword.html","/html/admin_rule.html.html" })
+@WebFilter(filterName = "PrivilegeFilter", urlPatterns =  "*")
 public class PrivilegeFilter implements Filter {
 	@Autowired
-	private AdminUserService adminUserService;
-	@Autowired
 	private UserPermissionService userPermissionService;
+	@Autowired
+	private BaseMenuService baseMenuService;
+	private List<String> urls=new ArrayList<String>();
+	private List<BaseMenu> menus;
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-
+		menus=baseMenuService.getAll();
+		for(BaseMenu baseMenu:menus) {
+			String url=baseMenu.getUrl();
+			if(url!=null&&!url.trim().equals("")) {
+				if(!url.startsWith("/")) {
+					url="/"+url;
+				}
+				urls.add(url);
+			}
+		}
 	}
 
 	@Override
@@ -37,19 +49,20 @@ public class PrivilegeFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest req=(HttpServletRequest)request;
 		 HttpServletResponse res = (HttpServletResponse)response;  
-		 String username=(String)req.getSession().getAttribute("loginNo");
-		 Integer userId=adminUserService.selectOne("loginiNo",username).getId();
-		 List<Integer> urlList=userPermissionService.selectPrivilegeUrlByGroupOrUserId(userId);
 		 String path=req.getServletPath();
-		 if(urlList!=null&&urlList.contains(path)) {
+		 if(!urls.contains(path)) {
+			 chain.doFilter(request, response);
+			 return;
+		 }
+		 Integer userId=(Integer)req.getSession().getAttribute("userId");
+		 Boolean privilege=userPermissionService.privilegeStatus(userId,path);
+		 if(privilege) {
 			 chain.doFilter(request, response);
 		 }else {
 			 String sendPath=request.getScheme()+"://"+request.getServerName()+":"+ request.getServerPort()+"/hplus/no_privilege.html";
 			 String type = req.getHeader("X-Requested-With")==null?"":req.getHeader("X-Requested-With");  
                 if ("XMLHttpRequest".equals(type)) {  
-                    res.setHeader("REDIRECT", "REDIRECT");//告诉ajax这是重定向    
-                    res.setHeader("CONTEXTPATH", sendPath);//重定向地址    
-                    res.setStatus(HttpServletResponse.SC_FORBIDDEN);  
+                    res.setHeader("no_privilege", "no_privilege");//告诉ajax这是重定向    
                     return;  
                 }else{//如果不是ajax请求，则直接重定向  
                 	res.sendRedirect(sendPath);    

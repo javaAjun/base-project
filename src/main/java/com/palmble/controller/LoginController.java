@@ -73,7 +73,7 @@ public class LoginController extends PalmbleBaseController{
 			result.setMsg("账号已禁用!");
 			return result;
 		}
-		request.getSession().setAttribute("loginNo", inuputUsername);
+		request.getSession().setAttribute("userId", adminUser.getId());
 		Integer loginCount=adminUser.getLoginCount()==null?0:1;
 		adminUser.setLoginCount(loginCount+1);
 		adminUser.setLastLoginIp(getUserIP(request));
@@ -81,7 +81,7 @@ public class LoginController extends PalmbleBaseController{
 		adminUserService.updateByPrimaryKey(adminUser);
 		result.setCode(1);
 		result.setMsg("success");
-		result.setUrl("html/index.html?loginid="+adminUser.getId());
+		result.setUrl("html/index.html");
 		return result;
 	}
 }
