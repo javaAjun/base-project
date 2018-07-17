@@ -45,7 +45,7 @@
                     <div class="form-group">
                         <div class="col-sm-12">
                             <button class="btn btn-primary " id="submitForm"  >确 定</button>
-                            <a class="btn btn-default" onclick="callBack()" href="javaScript:;">取 消</a>
+                            <a class="btn btn-default"   href="javaScript:;history.back(-1)">取 消</a>
                         </div>
                     </div>
                 </form>
@@ -77,13 +77,14 @@ var userId=getQueryString("userId");
 $("input[name='userId']").val(userId);
     $(document).ready(function(){
     	console.log(userId);
+    	 $('#top-alert').find('button').click();
     	//动态往静态页填充所有权限信息
     	$.ajax({
             url: ctx+"/baseMenu/getAllMenu",
             type:"POST",
             dataType: "json",
             data:{"userid":userId},
-            contentType:"application/json;charset=UTF-8",
+           // contentType:"application/json;charset=UTF-8",
             async:false,
             success: function (data) {
             	var allMenuHTML = "";
@@ -175,6 +176,10 @@ $("input[name='userId']").val(userId);
     		$("."+menuClass+":eq(0)").prop("checked","checked");
     	}
     	$(obj).parent().parent().parent().find("input[type='checkbox']:eq(0)").prop("checked","checked")
+    }
+    
+    function cancel(){
+    	layer.close();
     }
 
 </script>

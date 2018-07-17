@@ -106,10 +106,9 @@ public class BaseMenuController{
 	 * @date 2018年6月22日
 	 */
 	@RequestMapping("/getAllMenu")
-	@ResponseBody
-	public String getAllMenu(Integer userid) {
+	public String getAllMenu(@RequestParam("userid")Integer userid) {
 		
-		List<Integer> qxlist = userPermissionService.selectPrivilegeUrlByGroupOrUserId(16);
+		List<Integer> qxlist = userPermissionService.selectPrivilegeUrlByGroupOrUserId(userid);
 		Map<String,String> contMap=new HashMap<String,String>();
 		contMap.put("parentId", "0");
 		PageInfo<BaseMenu> menuList = permissionMenuService.getMenuList(contMap);//获取一级菜单

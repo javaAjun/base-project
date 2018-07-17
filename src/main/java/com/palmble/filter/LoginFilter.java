@@ -28,7 +28,6 @@ public class LoginFilter implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 
 	}
-
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -53,7 +52,7 @@ public class LoginFilter implements Filter {
 	                    res.setHeader("REDIRECT", "REDIRECT");//告诉ajax这是重定向    
 	                    res.setHeader("CONTEXTPATH", sendPath);//重定向地址    
 	                    res.setStatus(HttpServletResponse.SC_FORBIDDEN);  
-	                    return;  
+	                    return;
 	                }else{//如果不是ajax请求，则直接重定向  
 	                	res.sendRedirect(sendPath);    
 	                    return;    

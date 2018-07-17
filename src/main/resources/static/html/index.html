@@ -116,12 +116,14 @@
 <script src="../hplus/js/plugins/pace/pace.min.js"></script>
 <script src="../js/common.js?v=1.0"></script>
 <script>
-console.log(window.location.href);
+var userId=getQueryString("loginid");
+console.log(userId);
 $.ajax({
     url: "/baseMenu/getAllMenu",
     type:"POST",
     dataType: "json",
-    contentType:"application/json;charset=UTF-8",
+    data:{"userid":userId},
+   // contentType:"application/json;charset=UTF-8",
     async:false,
     success: function (data) {
     	var allMenuHTML = "";
