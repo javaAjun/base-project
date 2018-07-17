@@ -1,6 +1,7 @@
 package com.palmble.dal;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -22,5 +23,6 @@ public interface UserPermissionMapper{
     
     List<Integer> selectPrivilegeUrlByGroupOrUserId(Integer userid);
     
+    Map<String,Object> getByUserIdAndUrl(Map<String,Object> map);
     
 }

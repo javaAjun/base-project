@@ -19,4 +19,6 @@ public interface BaseMenuMapper{
 
     int updateByPrimaryKey(BaseMenu record);
     List<BaseMenu> byAllMenuList(Map<String, String> map);
+    
+    List<BaseMenu> getAll();
 }

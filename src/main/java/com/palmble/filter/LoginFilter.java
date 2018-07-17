@@ -43,7 +43,7 @@ public class LoginFilter implements Filter {
 				 ||path.endsWith(".ico")){
 			 chain.doFilter(request, response);  
 		 }else {
-			 String loginNo=(String)req.getSession().getAttribute("loginNo");
+			 Integer loginNo=(Integer)req.getSession().getAttribute("userId");
 			 if(loginNo==null) {
 				 String sendPath=request.getScheme()+"://"+request.getServerName()+":"+ request.getServerPort()+"/login.html";
 				 
