@@ -201,8 +201,8 @@ function getAllMenu(parentId){
 	$.ajax({
 		url: "/baseMenu/getAllMenu",
 	    type:"POST",
+	    data:{"userid":-1},//传-1 代表在后台从session获取userid
 	    dataType: "json",
-	    data:{"userid":0},
        // contentType:"application/json;charset=UTF-8",
         success: function (data) {
         	console.log(data);
