@@ -50,6 +50,9 @@ public class PrivilegeFilter implements Filter {
 		HttpServletRequest req=(HttpServletRequest)request;
 		 HttpServletResponse res = (HttpServletResponse)response;  
 		 String path=req.getServletPath();
+		 if(path.startsWith("/html/")) {
+			 path=path.substring(5);
+		 }
 		 if(!urls.contains(path)) {
 			 chain.doFilter(request, response);
 			 return;
@@ -63,6 +66,9 @@ public class PrivilegeFilter implements Filter {
 			 String type = req.getHeader("X-Requested-With")==null?"":req.getHeader("X-Requested-With");  
                 if ("XMLHttpRequest".equals(type)) {  
                     res.setHeader("no_privilege", "no_privilege");//告诉ajax这是重定向    
+//                    res.setHeader("CONTEXTPATH", sendPath);//重定向地址    
+//                    res.setStatus(HttpServletResponse.SC_FORBIDDEN);  
+//                      res.getOutputStream().print(0);
                     return;  
                 }else{//如果不是ajax请求，则直接重定向  
                 	res.sendRedirect(sendPath);    
