@@ -13,4 +13,5 @@ public class Md5Test {
 	public void test1() {
 		System.out.println(baseMenuService);
 	}
+	
 }
