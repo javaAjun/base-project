@@ -90,6 +90,7 @@
 <script src="../js/jquery-1.10.1.min.js" charset="utf-8"></script>
 <script src="../plugins/layui/layui.js" charset="utf-8"></script>
 <script src="../js/showAlert.js" charset="utf-8"></script>
+<script src="../js/common.js?v=1.0"></script>
 
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
@@ -117,9 +118,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   
   //监听提交
   form.on('submit(demo1)', function(data){
-    /* layer.alert(JSON.stringify(data.field), {
-      title: '最终的提交信息'
-    }) */
+	  
     console.log(data);
     $.ajax({
           url: ctx+"/baseMenu/addMenu",
@@ -154,8 +153,9 @@ $("#addCancel").click(function(){
 $(function(){
 	var id;
     var url = window.location.search; 
-	var menuId = url.substring(url.lastIndexOf('=')+1, url.length);
-	if(menuId!=''){
+	var menuId = getQueryString("id");
+	console.log(menuId);
+	if(menuId!=null&&menuId!=''){
 		id=menuId;
 		$.ajax({
 	        url: ctx+"/baseMenu/menuInfo",
@@ -168,7 +168,6 @@ $(function(){
 		       	$("input[name='menuName']").val(data.menuName);
 		       	$("input[name='sequenceNumber']").val(data.sequenceNumber);
 		       	$("input[name='url']").val(data.url);
-		       	$("input[name='menuInfo']").val(data.menuInfo);
 		       	$("textarea[name='menuInfo']").val(data.menuInfo);
 	        	if(data.isDisplay=='1'){
 	        		//$("input[name='isDisplay']").eq(0).removeAttr("checked");
@@ -184,38 +183,36 @@ $(function(){
 	        		//$("input[name='idEffective']").eq(1).removeAttr("checked");
 	        		$("input[name='idEffective']").eq(1).attr("checked","checked");
 	        	}
+	        	getAllMenu(data.parentId);
 	        	layui.use('form', function() {
 	                var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
 	                form.render();
 	            });
-	        	console.log($("input[name='idEffective']").val());
-	        },
-	        error: function (data) {
-	            try {
-	                layer.msg("请求异常");
-	                return false;
-	            } catch (e) {
-	                console.log(e);
-	            }
 	        }
 	    });
+	}else{
+		console.log(123);
+		getAllMenu(0);
 	}
 	
+})
+
+function getAllMenu(parentId){
 	$.ajax({
-        url: ctx+"/baseMenu/getAllMenu",
-        type:"POST",
-        dataType: "json",
-        contentType:"application/json;charset=UTF-8",
+		url: "/baseMenu/getAllMenu",
+	    type:"POST",
+	    data:{"userid":-1},//传-1 代表在后台从session获取userid
+	    dataType: "json",
+       // contentType:"application/json;charset=UTF-8",
         success: function (data) {
         	console.log(data);
         	var html = "<option  value='0'>顶级菜单</option>";
         	for(var i=0; i< data.length;i++){
-             	html+='<option value='+data[i].menuId+' id="menu'+data[i].menuId+'" >&nbsp;..'+data[i].menuName+'</option>';
+             	html+='<option value='+data[i].menuId+' id="menu'+data[i].menuId+'" >&nbsp;···'+data[i].menuName+'</option>';
              	var parentMenus=data[i].menuInfo;
              	parentMenus=JSON.parse(parentMenus);
-             	console.log(parentMenus);
              	for(j=0;j<parentMenus.length;j++){
-             		html+='<option value='+parentMenus[j].menuId+' id="menu'+parentMenus[j].menuId+'" >&nbsp;&nbsp;&nbsp;&nbsp;...'+parentMenus[j].menuName+'</option>';
+             		html+='<option value='+parentMenus[j].menuId+' id="menu'+parentMenus[j].menuId+'" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-----'+parentMenus[j].menuName+'</option>';
              	}
             }
         	//console.log(html);
@@ -226,7 +223,8 @@ $(function(){
             });
         }
     })
-})
+}
+
 </script>
 
 </body>

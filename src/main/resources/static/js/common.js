@@ -441,6 +441,11 @@ $.ajaxSetup( {
 //            layerAlert(layer,"您的登录信息已超时，请重新登录<p class='ps'>ps:在客户端闲置10分钟后系统会自动登出</p>",'登录超时提示',5,'',0,function(){  
                 win.location.href= XMLHttpRequest.getResponseHeader("CONTEXTPATH");  
 //            })  
+        }else if(XMLHttpRequest.getResponseHeader("no_privilege") == "no_privilege"){
+        	layer.alert("对不起,您没有此权限!",{
+        		  icon: 2,
+        		  skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+        		});
         }  
     },  
 });   

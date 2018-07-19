@@ -31,7 +31,7 @@
         	
             <div class="col-xs-2">
             	<a href="add_menu.html" class="btn btn-sm btn-primary">新增菜单</a>
-            	<a href="javascript:;history.back(-1)" class="btn btn-sm btn-primary"  >返回上一级</a>
+            	<a href="javascript:;history.back(-1)" id="call_back" class="btn btn-sm btn-primary"  >返回上一级</a>
                 <!--<a href="javascript:;" url="/admin/user/add.html" data-title="新增会员" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>-->
             </div>
             <div class="col-xs-10" style="text-align: right;">
@@ -98,6 +98,7 @@
 </script>
 <script>
     $(function () {
+    	 $('#top-alert').find('button').click();
         $(window).bind("resize",function(){
             var width=$(".jqGrid_wrapper").width();
             $("#table").setGridWidth(width);
@@ -109,6 +110,14 @@
     		parentId=sub;
     	}
     	console.log(parentId)
+    	var table_head;
+    	if(parentId==0){
+    		$("#call_back").hide();
+    		table_head="菜单列表:&nbsp;&nbsp;<span style='color: coral'>点击菜单名称查看子菜单信息</span>"
+    	}else{
+    		$("#call_back").show();
+    		table_head="菜单列表:&nbsp;&nbsp;<span style='color: coral'>当前位置模块功能菜单列表</span>"
+    	}
         $.jgrid.defaults.styleUI="Bootstrap";
         $("#table").jqGrid({
             url:"/baseMenu/list",
@@ -181,7 +190,7 @@
             }
             },
             sortorder: "desc",
-            caption:"菜单列表:&nbsp;&nbsp;<span style='color: coral'>点击菜单名称查看子菜单信息</span>",
+            caption:table_head,
             loadComplete: function (xhr) {
             	console.log(xhr);
                 if(xhr.code==0){

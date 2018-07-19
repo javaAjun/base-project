@@ -19,4 +19,6 @@ public interface BaseMenuService {
 	ResultInfo noAvailMenu(Integer menuId,Integer idEffective);
 
 	ResultInfo addMenu(BaseMenu baseMenu);
+	
+	List<BaseMenu> getAll();
 }

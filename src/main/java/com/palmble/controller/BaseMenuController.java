@@ -5,13 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import com.palmble.base.PalmbleBaseController;
+import com.palmble.base.PalmbleBaseService;
 import com.palmble.entity.BaseMenu;
 import com.palmble.service.BaseMenuService;
 import com.palmble.service.UserPermissionService;
@@ -26,8 +29,10 @@ import com.palmble.utils.ResultInfo;
  */
 @RestController
 @RequestMapping("/baseMenu")
-public class BaseMenuController{
-	
+public class BaseMenuController extends PalmbleBaseController{
+	/* 本地异常日志记录对象 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(BaseMenuController.class);
 	@Autowired 
 	BaseMenuService permissionMenuService;
 	
@@ -106,10 +111,12 @@ public class BaseMenuController{
 	 * @date 2018年6月22日
 	 */
 	@RequestMapping("/getAllMenu")
-	@ResponseBody
-	public String getAllMenu(Integer userid) {
-		
-		List<Integer> qxlist = userPermissionService.selectPrivilegeUrlByGroupOrUserId(16);
+	public String getAllMenu(@RequestParam("userid")Integer userid) {
+		if(userid==-1) {
+			userid=(Integer)getSession().getAttribute("userId");
+		}
+		logger.debug("*************************************"+userid+"***************************");
+		List<Integer> qxlist = userPermissionService.selectPrivilegeUrlByGroupOrUserId(userid);
 		Map<String,String> contMap=new HashMap<String,String>();
 		contMap.put("parentId", "0");
 		PageInfo<BaseMenu> menuList = permissionMenuService.getMenuList(contMap);//获取一级菜单
