@@ -25,5 +25,7 @@ public interface MemberUserDao{
     List<MemberUser> find(Map<String, Object> params);
 
     int count(Map<String, Object> params);
+    
+    List<MemberUser> fuzzyQuery(Map<String, Object> params);
 
 }

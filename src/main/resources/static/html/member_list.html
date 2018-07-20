@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+<div class="ibox">
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-xs-12" style="text-align: right;">
+                <form class="form-inline" id="form-search" action="/member/getMenberList">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="id" placeholder="id">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="name" placeholder="会员姓名">
+                    </div>
+                    <div class="form-group">
+                        <input placeholder="开始日期" readonly class="form-control layer-date" id="start" name="startTime">
+                        <input placeholder="结束日期" readonly class="form-control layer-date" id="end" name="endTime">
+                    </div>
+                    <div class="input-group">
+                        <select name="role" class="form-control">
+                            <option value="">选择角色</option>
+                            <option value="0">普通用户</option>
+                            <option value="1">报单中心</option>
+                            <option value="2">服务中心</option>
+                        </select>
+                    </div>
+                    <!--  
+                    <div class="input-group">
+                        <select name="level" class="form-control">
+                            <option value="">选择级别</option>
+                            <option value="1">普卡</option>
+                            <option value="2">银卡</option>
+                            <option value="3">金卡</option>
+                            <option value="4">钻卡</option>
+                            <option value="5">董事</option>
+                        </select>
+                    </div>
+                     -->
+<!--                     <div class="input-group"> 
+                        <select name="isGou" class="form-control">
+                            <option value="">是否够本</option>
+                            <option value="0">未够本</option>
+                            <option value="1">已够本</option>
+                        </select>
+                    </div>
+                    -->
+                    <div class="input-group">
+                        <select name="state" class="form-control">
+                            <option value="">状态</option>
+                            <option value="0">无效</option>
+                            <option value="1">有效</option>
+                        </select>
+                    </div>
+                    <!--
+                    <div class="input-group">
+                        <select name="isFeng" class="form-control">
+                            <option value="">是否封顶</option>
+                            <option value="0">未封顶</option>
+                            <option value="1">已封顶</option>
+                        </select>
+                    </div>
+                     -->
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary" type="button" id ="search-btn" ><i class="fa fa-search"></i></button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <div class="jqGrid_wrapper">
+            <table id="table" style="border-collapse: collapse"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common.js"></script>
+
+<script src="../hplus/js/plugins/layer/laydate/laydate.js"></script>
+<script>
+    var start = {
+        elem: "#start",
+        format: "YYYY-MM-DD",
+        max: "2099-06-16 23:59:59", istime: false, istoday: true,
+        choose: function (datas) {
+            end.min = datas;
+            end.start = datas
+        }
+    };
+    var end = {
+        elem: "#end",
+        format: "YYYY-MM-DD",
+        max: "2099-06-16 23:59:59",
+        istime: false, istoday: true,
+        choose: function (datas) {
+            start.max=datas;
+        }
+    };
+    laydate(start);
+    laydate(end);
+</script>
+<script>
+    $(function () {
+        $(window).bind("resize",function(){
+            var width=$(".jqGrid_wrapper").width();
+            $("#table").setGridWidth(width);
+        });
+
+        $.jgrid.defaults.styleUI="Bootstrap";
+        $("#table").jqGrid({
+            url:"/member/getMenberList",
+            datatype: "json",
+            colModel:[
+//                {label:'ID',name:'id',index:'id',width:40,editable: false,sortable: true},
+                {label:'ID',name:'id',index:'id',width:50,editable: false,sortable: true
+// 			,formatter:function(a,b,c){
+//                     var editurl = "../user/add/id/"+ c.id;
+//                     return '<a href="javascript:;" url="'+editurl+'" data-title="编辑用户" onclick="layer_open(this,1)">'+ a +'</a>';
+//                 }
+                },
+                {label:'姓名',name:'name',index:'trueName',width:40,editable: false,sortable: false},
+                {label:'电话',name:'phone',index:'phone',width:40,editable: false,sortable: false},
+                {label:'角色',name:'role',index:'role',width:40,editable: false,sortable: false},
+                {label:'级别',name:'grade',index:'grade',width:30,editable: false,sortable: false},
+                {label:'邮箱',name:'email',index:'email',width:50,editable: false,sortable: true
+                },
+                {label:'住址',name:'address',index:'address',width:45,editable: false,sortable: true
+                },
+                {label:'注册日期',name:'createTime',index:'createTime',width:45,editable: false,sortable: true
+                },
+                {label:'状态',name:'state',index:'state',width:40,editable: false,sortable: false,formatter:function (a,b,c){
+                    if(a == 0){
+                        var url = "../user/changestatus/status/1/id/"+c.id;
+                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
+                    } else{
+                        var url = "../user/changestatus/status/0/id/"+c.id;
+                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
+                    }
+                }},
+                {label:'操作',width:80,sortable: false,align:'left',formatter: function (a, b, c) {
+                    var detailurl = "../user/detail/id/"+c.id;
+                    var btn = '';
+                    var delurl = "../user/del/id/"+c.id;
+                    /*var recommendurl = "../user/recommend/id/"+c.id;
+                    var perforurl = "../user/perfor/id/"+c.id;*/
+                    btn += '<a href="javascript:;" url="'+detailurl+'" data-title="会员详情" onclick="layer_open(this,1)"><span class="label label-info" title="详情">详情</span></a>&nbsp;';
+                    /*btn += '<a href="javascript:;" url="'+recommendurl+'" data-title="会员直推业绩" onclick="layer_open(this)"><span class="label label-info" title="直推业绩">直推业绩</span></a>&nbsp;';
+                    btn += '<a href="javascript:;" url="'+perforurl+'" data-title="会员总业绩" onclick="layer_open(this)"><span class="label label-info" title="总业绩">总业绩</span></a>&nbsp;';*/
+                    btn += '<a href="'+delurl+'" class="confirm ajax-get" data-confirm="确定要删除此会员吗?删除后不可恢复" data-table="1"><span class="label label-danger" title="删除">删除</span></a>';
+                    return btn;
+                }},
+            ],
+            rowNum:10,
+            rowList:[10,20,30,100,500],
+            pager: '#pager',
+            sortable: true,
+            sortname: 'id',
+            sortorder: "asc",
+            viewrecords: true,
+            autowidth:true,
+            pagination: true,
+            mtype: 'post',
+            height: 'auto',
+            emptyrecords: "暂无数据",
+            caption:"会员列表",
+//             jsonReader: {  
+//                 root:"root", page:"page", total:"total",          //   很重要 定义了 后台分页参数的名字。
+//                 records:"records", repeatitems:false, id : "id"
+//             },
+            loadComplete: function (xhr) {
+            	console.log(xhr);
+            	console.log($("#table").jqGrid('getGridParam'));
+                if(xhr.code==0){
+                    layer.msg(xhr.msg);
+                    return false;
+                }
+            }
+//         , onPaging:function(pageBtn){
+//     	    	console.log(pageBtn);
+// //    	    	var re_records = $jqgrid.getGridParam('records');//获取返回的记录数
+// var rowNum =  $("#table").jqGrid('getGridParam', 'lastpage');
+// console.log( rowNum);
+//     	    	var re_page = $("#table").jqGrid('getGridParam', 'page');//获取返回的当前页
+//     	    	var re_rowNum= $("#table").jqGrid('getGridParam', 'rowNum');//获取每页数
+//     	    	var re_total= $("#table").jqGrid('getGridParam', 'lastpage');//获取总页数
+//     	    	console.log(re_page);
+//     	    	console.log(re_rowNum);
+//     	    	$("#table").jqGrid('getGridParam')._sort=true;
+// //     	    	console.log($("#table").jqGrid('getGridParam','_sort')._sort=true);
+//     	    	console.log($("#table").jqGrid("setGridParam",'_sort',true));
+//     	    	console.log($("#table").jqGrid('getGridParam'));
+// //     	    	alert(re_total);
+// //     	    	if(pageBtn==="next"){
+// //     	    		initJqgrid(re_page+1,re_rowNum);
+// //     	    	}
+// //     	    	if(pageBtn==="prev"){
+    	    		
+// //     	    	}
+//             }
+        });
+    });
+</script>
+
+</body>
+</html>

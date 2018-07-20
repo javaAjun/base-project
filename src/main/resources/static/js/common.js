@@ -5,6 +5,9 @@ $(document).on('click','.check-all',function(){
 $(document).on('click','.uncheck-all',function(){
     $(".ids").prop("checked", false);
 });
+$(function(){
+	$('#top-alert').find('button').click();
+});
 //ajax get请求
 $(document).on('click','.ajax-get',function(){
     var that = this;

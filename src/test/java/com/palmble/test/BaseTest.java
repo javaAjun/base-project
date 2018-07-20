@@ -17,9 +17,7 @@ public class BaseTest {
 	MemberUserDao dao;
 	@Test
 	public void getSqlsession(){
-		Map<String,Object> map=new HashMap<String,Object>();
-		map.put("id", 1);
-		System.out.println(dao.find(map));
+		System.out.println(dao.find(null).size());
 		
 	}
 }

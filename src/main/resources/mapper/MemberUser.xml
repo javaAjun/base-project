@@ -201,8 +201,8 @@
     address,
     state,
     id_number,
-    create_time,
-    update_time,
+    date_format(create_time,'%Y-%m-%d %H:%i:%s') as create_time,
+    date_format(update_time,'%Y-%m-%d %H:%i:%s') as update_time,
     qq,
     capital,
     del_state
@@ -270,6 +270,65 @@
     <if test="startRow != null and pageSize != null" >
       limit #{startRow},#{pageSize}
     </if>
+  </select>
+  
+  <select id="fuzzyQuery" parameterType="java.util.Map" resultMap="BaseResultMap" >
+    select
+    <include refid="baseColumns" />
+    from member_user
+     <where >
+      <if test="name != null and name != ''">
+      name like concat(concat('%',#{name}),'%') 
+      </if>
+      <if test="phone != null and phone != ''" >
+      and  phone like concat(concat('%',#{phone}),'%') 
+      </if>
+      <if test="role != null and role != ''" >
+      and  role like concat(concat('%',#{role}),'%') 
+      </if>
+      <if test="grade != null and grade != ''" >
+      and  grade like concat(concat('%',#{grade}),'%') 
+      </if>
+      <if test="eMail != null and eMail != ''" >
+      and  e_mail like concat(concat('%',#{eMail}),'%') 
+      </if>
+      <if test="address != null and address != ''" >
+      and  address like concat(concat('%',#{address}),'%') 
+      </if>
+      <if test="state != null and state != ''" >
+      and  state like concat(concat('%',#{state}),'%') 
+      </if>
+      <if test="idNumber != null and idNumber != ''" >
+      and  id_number like concat(concat('%',#{idNumber}),'%') 
+      </if>
+      <if test="createTime != null and createTime != ''" >
+      and  create_time like concat(concat('%',#{createTime}),'%') 
+      </if>
+      <if test="updateTime != null and updateTime != ''" >
+      and  update_time like concat(concat('%',#{updateTime}),'%') 
+      </if>
+      <if test="qq != null and qq != ''" >
+      and  qq like concat(concat('%',#{qq}),'%') 
+      </if>
+      <if test="capital != null and capital != ''" >
+      and  capital like concat(concat('%',#{capital}),'%') 
+      </if>
+      <if test="delState != null and delState != ''" >
+      and  del_state like concat(concat('%',#{delState}),'%') 
+      </if>
+      <if test="startTime != null and startTime != ''" >
+      <![CDATA[ and  create_time  > #{startTime}]]>
+      </if>
+      <if test="endTime != null and endTime != ''" >
+      <![CDATA[ and  create_time  < #{endTime}]]>
+      </if>
+    </where >
+    <if test="sidx != null and sord != null" >
+      order by ${sidx} ${sord}
+    </if>
+<!--     <if test="startRow != null and pageSize != null" > -->
+<!--       limit #{startRow},#{pageSize} -->
+<!--     </if> -->
   </select>
   
   <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer" >
