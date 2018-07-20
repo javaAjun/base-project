@@ -22,4 +22,5 @@ public class Md5Test {
 		System.out.println(a.equals(b));
 		
 	}
+	
 }
