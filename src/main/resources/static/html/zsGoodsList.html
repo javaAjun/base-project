@@ -21,6 +21,15 @@
 
     <link href="../hplus/css/animate.min.css" rel="stylesheet">
     <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" href="../hplus/jqueryFileUpload/jquery.fileupload.js" >
+   <script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
+   <script src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
+   <script src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
+	<link rel="stylesheet" href="../hplus/jqueryFileUpload/style.css">
+   <script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
+   <script src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
+   <script src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
+	
 	
 	<script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
     <script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
@@ -28,80 +37,156 @@
     <script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
     <script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
     <script src="../hplus/js/content.min.js?v=1.0.0"></script>
+   
+ 
+    <script src="../hplus/js/plugins/summernote/summernote.min.js"></script>
+    <script src="../hplus/js/plugins/summernote/summernote-zh-CN.js"></script>
+  
+   <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/summernote/summernote.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+  
+    
     <style>
         /* Additional style to fix warning dialog position */
-
+        #xiangqing{display:block;padding:3px;margin-right:5px; background:#44BB5C;width:130px}
         #alertmod_table_list_2 {
             top: 900px !important;
+        }
+        #bigBody{margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
+        padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px}
+        #ibox-content{
+        margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
+        padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px
+        }
+        #gbox_table_list_1{margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
+        padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px}
+        .modal-content{
+            position: relative;
+              left: -150px;
+             width: 950px;
+        }
+        #imgs_group{
+         position: relative;
+              left: -150px;
         }
     </style>
 
 </head>
 
 <body class="gray-bg">
-    <div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="wrapper wrapper-content  animated fadeInRight"  id="bigBody">
         <div class="row">
             <div class="col-sm-12">
-                <div class="ibox ">
-                    <div class="ibox-title">
-                        <h5>商品管理列表</h5>
-                    </div>
                     <div class="ibox-content">
-                      
-                        <h4 class="m-t">商品列表</h4>
-                        <div class="jqGrid_wrapper">
-                            <table id="table_list_2"></table>
-                            <div id="pager_list_2"></div>
+                      <div class="addGoods">
+                            <a data-toggle="modal" class="btn btn-primary" onClick=" openwin()">添加商品</a>
                         </div>
+                <div class="ibox ">
+                       <div class="jqGrid_wrapper">
+                           <table id="table_list_1"></table>
+                           <div id="pager_list_1"></div>
+                       </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    
+  
     <script>
         $(document).ready(function(){
+        $(".summernote").summernote({lang:"zh-CN"});
+        
 		$.jgrid.defaults.styleUI="Bootstrap";
-		var mydata=[{id:"1",invdate:"2010-05-24",name:"test",note:"note",tax:"10.00",total:"2111.00"},
-		{id:"2",invdate:"2010-05-25",name:"test2",note:"note2",tax:"20.00",total:"320.00"},{id:"3",invdate:"2007-09-01",name:"test3",note:"note3",tax:"30.00",total:"430.00"},{id:"4",invdate:"2007-10-04",name:"test",note:"note",tax:"10.00",total:"210.00"},{id:"5",invdate:"2007-10-05",name:"test2",note:"note2",tax:"20.00",total:"320.00"},{id:"6",invdate:"2007-09-06",name:"test3",note:"note3",tax:"30.00",total:"430.00"},{id:"7",invdate:"2007-10-04",name:"test",note:"note",tax:"10.00",total:"210.00"},{id:"8",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"21.00",total:"320.00"},{id:"9",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},{id:"11",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},{id:"12",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},{id:"13",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},{id:"14",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},{id:"15",invdate:"2007-10-05",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},{id:"16",invdate:"2007-09-06",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},{id:"17",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},{id:"18",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},{id:"19",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},{id:"21",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},{id:"22",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},{id:"23",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},{id:"24",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},{id:"25",invdate:"2007-10-05",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},{id:"26",invdate:"2007-09-06",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},{id:"27",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},{id:"28",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},{id:"29",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}];
-		$("#table_list_1").jqGrid({data:mydata,datatype:"local",height:250,autowidth:true,shrinkToFit:true,rowNum:14,rowList:[10,20,30],colNames:["序号","日期","客户","金额","运费","总额","备注"],colModel:[{name:"id",index:"id",width:60,sorttype:"int"},{name:"invdate",index:"invdate",width:90,sorttype:"date",formatter:"date"},{name:"name",index:"name",width:100},{name:"amount",index:"amount",width:80,align:"right",sorttype:"float",formatter:"number"},{name:"tax",index:"tax",width:80,align:"right",sorttype:"float"},{name:"total",index:"total",width:80,align:"right",sorttype:"float"},{name:"note",index:"note",width:150,sortable:false}],pager:"#pager_list_1",viewrecords:true,caption:"jqGrid 示例1",hidegrid:false});
-		$("#table_list_2").jqGrid({
+		var mydata=[
+		{id:"1",goodsNo:"zzz",goodsName:"test1",catName:"分类1",marketPrice:"10.00",shopPrice:"200",goodsStock:2111,catSort:50,isSale:1,isAdminRecom:1},
+		{id:"2",goodsNo:"yyy",goodsName:"test2",catName:"分类2",marketPrice:"20.00",shopPrice:"200",goodsStock:320,catSort:50,isSale:0,isAdminRecom:1},
+		{id:"3",goodsNo:"sss",goodsName:"test3",catName:"分类3",marketPrice:"30.00",shopPrice:"200",goodsStock:43,catSort:50,isSale:1,isAdminRecom:0},
+		{id:"4",goodsNo:"fff",goodsName:"test4",catName:"分类4",marketPrice:"10.00",shopPrice:"200",goodsStock:210,catSort:50,isSale:0,isAdminRecom:1},
+		{id:"5",goodsNo:"ggg",goodsName:"test5",catName:"分类5",marketPrice:"20.00",shopPrice:"200",goodsStock:320,catSort:50,isSale:1,isAdminRecom:0},
+		{id:"6",goodsNo:"vvv",goodsName:"test6",catName:"分类6",marketPrice:"30.00",shopPrice:"200",goodsStock:430,catSort:50,isSale:0,isAdminRecom:1},
+		{id:"7",goodsNo:"bbb",goodsName:"test7",catName:"分类7",marketPrice:"10.00",shopPrice:"200",goodsStock:210,catSort:50,isSale:1,isAdminRecom:0},
+		{id:"8",goodsNo:"ttt",goodsName:"test8",catName:"分类8",marketPrice:"300.00",shopPrice:"200",goodsStock:21,catSort:50,isSale:0,isAdminRecom:0},
+		{id:"9",goodsNo:"uuu",goodsName:"test9",catName:"分类9",marketPrice:"400.00",shopPrice:"200",goodsStock:30,catSort:50,isSale:1,isAdminRecom:1}];
+		$("#table_list_1").jqGrid({
 		data:mydata,
 		datatype:"local",
-		height:450,
+		height:"auto",
 		autowidth:true,
 		shrinkToFit:true,
 		rowNum:20,
 		rowList:[10,20,30],
-		colNames:["序号ID	","名称","分类","金额","运费","总额","备注"],
+		colNames:["序号ID","商品编号","名称","分类","市场价","店铺价格","库存","排序","状态","推荐","商品详情","操作"],
 		colModel:[
 					{name:"id",index:"id",editable:true,width:60,sorttype:"int",search:true},
-					{name:"invdate",index:"invdate",editable:true,width:90,sorttype:"date",formatter:"date"},
-					{name:"name",index:"name",editable:true,width:100},
-					{name:"amount",index:"amount",editable:true,width:80,align:"right",sorttype:"float",formatter:"number"},
-					{name:"tax",index:"tax",editable:true,width:80,align:"right",sorttype:"float"},
-					{name:"total",index:"total",editable:true,width:80,align:"right",sorttype:"float"},
-					{name:"note",index:"note",editable:true,width:100,sortable:false}
+					{name:"goodsNo",index:"goodsNo",editable:true,width:60},
+					{name:"goodsName",index:"goodsName",editable:true,width:80},
+					{name:"catName",index:"catName",editable:true,width:80},
+					{name:"marketPrice",index:"marketPrice",editable:true,width:60,sorttype:"float"},
+					{name:"shopPrice",index:"shopPrice",editable:true,width:60,sorttype:"float"},
+					{name:"goodsStock",index:"goodsStock",editable:true,width:40},
+					{name:"catSort",index:"catSort",width:40,sortable: true,formatter: function (a, b, c) {
+	                    return '<input type="number" onchange="updateSort(this)" data-url="/admin/goods/changesort.html" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
+	                }},
+					{name:"isSale",index:"isSale",editable:true,width:40,
+						formatter:function(a,b,c){
+							 if(a == 0){
+			                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setStatus(this)"><span class="label label-danger" title="下架">下架</span></a>';
+			                    } else{
+			                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setStatus(this)"><span class="label label-primary" title="上架">上架</span></a>';
+			                    }
+						}},
+					{name:"isAdminRecom",index:"isAdminRecom",editable:true,width:40,
+						formatter:function(a,b,c){
+							 if(a == 0){
+			                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setStatus(this)"><span class="label label-danger" title="否">否</span></a>';
+			                    } else{
+			                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setStatus(this)"><span class="label label-primary" title="是">是</span></a>';
+			                    }
+						}},
+					{width:100,sortable: false,align:'left',formatter: function (a, b, c) {
+	                    var btn = '<a href="admin_add.html?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_list.html">';
+	                    btn += '<a href="javascript:;"><span class="label label-danger" id="xiangqing" title="点击查看详情"  data-id='+c.id+' onclick="del(this)">点击查看详情</span></a>';
+	                    return btn;
+                     }},
+					{width:80,sortable: false,align:'left',formatter: function (a, b, c) {
+	                    var btn = '<a href="admin_add.html?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_list.html"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+	                    btn += '<a href="javascript:;"><span class="label label-danger" title="删除" data-id='+c.id+' onclick="del(this)">删除</span></a>';
+	                    return btn;
+                     }},
 				],
-		pager:"#pager_list_2",
+		pager:"#pager_list_1",
 		viewrecords:true,
-		caption:"jqGrid 示例2",
-		add:true,
-		edit:true,
-		addtext:"Add",
-		edittext:"Edit",
+		caption:"商品列表",
 		hidegrid:false
 		});
-		$("#table_list_2").setSelection(4,true);
-		$("#table_list_2").jqGrid("navGrid","#pager_list_2",{edit:true,add:true,del:true,search:true},{height:200,reloadAfterSubmit:true});
+		/* $("#table_list_1").setSelection(4,true); */
+		/* $("#table_list_1").jqGrid("navGrid","#pager_list_1",{del:true,search:true},{height:200,reloadAfterSubmit:true}); */
 		$(window).bind("resize",function(){var width=$(".jqGrid_wrapper").width();
-		$("#table_list_1").setGridWidth(width);
-		$("#table_list_2").setGridWidth(width)})});
+		$("#table_list_1").setGridWidth(width)})});
+        
+        
+     
+        var edit=function(){
+        	$("#eg").addClass("no-padding");
+		    $(".click2edit").summernote({
+		    	lang:"zh-CN",focus:true
+		    	})};
+		var save=function(){$("#eg").removeClass("no-padding");
+	   var aHTML=$(".click2edit").code();$(".click2edit").destroy()};
+	   
+	   
+	
+		
+		function openwin() { 
+			var iWidth=800; //弹出窗口的宽度;
+			var iHeight=800; //弹出窗口的高度;
+			var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;
+			var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置;
+			 window.open("./test.html","","height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft); 
+			//window.open ("./fuwenben.html", "newwindow", "height=600, width=800, toolbar=no,menubar=no, scrollbars=no, resizable=no, location=no, status=no") 
+			//写成一行 
+			} 
     </script>
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 </body>
-
-
-<!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
 </html>
