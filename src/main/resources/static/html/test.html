@@ -39,7 +39,6 @@
 
 <style type="text/css">
 .uploadImgBtn {
-
         width: 100px;
         height: 100px;
         cursor: pointer;
@@ -62,14 +61,14 @@
     .imgpic{
         width: 100px;
         height: 100px;
-        margin-left:5px;
-		margin-right:5px;
-		margin-top:5px; 
-		margin-bottom:5px; 
+        float: left;
     }
     .imgpic img {
         width: 80px;
         height: 80px;
+        float: left;
+        padding-left: 5px;
+        padding-bottom: 5px;
     }
 
 </style>
@@ -79,12 +78,14 @@
 <div class="uploadImgBtn" id="uploadImgBtn">
         <input class="uploadImg" type="file" name="file" multiple id="file">
     </div>
+    <div id="img_id"></div>
 </body>
 <script>
 $(document).ready(function(){
         //为外面的盒子绑定一个点击事件
         $("#uploadImgBtn").click(function(){
             /*
+            
             1、先获取input标签
             2、给input标签绑定change事件
             3、把图片回显
@@ -101,29 +102,34 @@ $(document).ready(function(){
                 var length = files.length;
                 console.log("选择了"+length+"张图片");
                 //3、回显
+                  var size=5*1024*1024;
                 $.each(files,function(key,value){
                     //每次都只会遍历一个图片数据
                     var div = document.createElement("div"),
                         img = document.createElement("img");
                     div.className = "imgpic";
-
+                    div.style.margin="5px 5px 5px 5px";
                     var fr = new FileReader();
                     fr.onload = function(){
                         img.src=this.result;
                         div.appendChild(img);
-                        document.body.appendChild(div);
+                        document.getElementById("img_id").appendChild(div);
                     }
-                    fr.readAsDataURL(value);
+                     if(value.size<=size){
+                    	fr.readAsDataURL(value); 
+                      }else{
+                    	   if (typeof(Worker) !== "undefined") { 
+       			   			  alert("请选择小于5M图片");
+       			   		} 
+                     } 
                 })
 
             })
-
-            //4、我们把当前input标签的id属性remove
+             //4、我们把当前input标签的id属性remove
             $input.removeAttr("id");
             //我们做个标记，再class中再添加一个类名就叫test
             var newInput = '<input class="uploadImg test" type="file" name="file" multiple id="file">';
             $(this).append($(newInput));
-
         })
 
     })
