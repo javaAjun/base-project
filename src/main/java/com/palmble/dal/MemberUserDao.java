@@ -12,13 +12,13 @@ public interface MemberUserDao{
     
     int insertFully(MemberUser memberUser);
     
-    int deleteById(Long id);
+    int deleteById(Integer id);
     
     int updateById(MemberUser memberUser);
 
     int updateFullyById(MemberUser memberUser);
     
-    MemberUser getById(Long id);
+    MemberUser getById(Integer id);
     
     //int startRow, int pageSize, object2map
     

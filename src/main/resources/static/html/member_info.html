@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+<div class="ibox">
+    <!--<div class="ibox-title">
+        <h5>基本信息</h5>
+    </div>-->
+    <div class="ibox-content">
+        <style>
+            th{
+                width: 100px;
+            }
+        </style>
+         <table class="table table-striped">
+            <tr>
+                <th>会员编号</th>
+                <td id="id"></td>
+                <th>会员姓名</th>
+                <td id="name"></td>
+            </tr>
+            <tr>
+                <th>会员电话</th>
+                <td id="phone"></td>
+                <th>会员角色</th>
+                <td id="role"></td>
+            </tr>
+            <tr>
+                <th>邮箱</th>
+                <td id="email"></td>
+                <th>地址</th>
+                <td id="address"></td>
+            </tr>
+             <tr>
+                <th>状态</th>
+                <td id="state"></td>
+                <th>身份证号</th>
+                <td id="idNumber"></td>
+            </tr>
+             <tr>
+                <th>注册时间</th>
+                <td id="createTime"></td>
+                <th>修改时间</th>
+                <td id="updateTime"></td>
+            </tr>
+             <tr>
+                <th>QQ</th>
+                <td id="qq"></td>
+                <th>资金</th>
+                <td id="capital"></td>
+            </tr>
+             <tr>
+                <th>会员等级</th>
+                <td id="grade"></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common.js"></script>
+
+<script>
+	var url="/member/getMenberListById";
+	var data={id:getQueryString('id')};
+	$.get(url,data,function(data){
+		console.log(data);
+		var tds=$('td');
+		for(var i in data){
+			$('#'+i).html(data[i]);
+		}
+	});
+</script>
+
+</body>
+</html>
