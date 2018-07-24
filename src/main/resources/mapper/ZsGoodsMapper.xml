@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.palmble.dal.ZsGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.palmble.entity.ZsGoods" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="goodsNo" property="goodsNo" jdbcType="VARCHAR" />
+    <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goodsCoverImg" property="goodsCoverImg" jdbcType="VARCHAR" />
+    <result column="goodsCoverThums" property="goodsCoverThums" jdbcType="VARCHAR" />
+    <result column="marketPrice" property="marketPrice" jdbcType="DECIMAL" />
+    <result column="shopPrice" property="shopPrice" jdbcType="DECIMAL" />
+    <result column="goodsStock" property="goodsStock" jdbcType="INTEGER" />
+    <result column="saleCount" property="saleCount" jdbcType="INTEGER" />
+    <result column="goodsSpec" property="goodsSpec" jdbcType="VARCHAR" />
+    <result column="isSale" property="isSale" jdbcType="BIT" />
+    <result column="isAdminRecom" property="isAdminRecom" jdbcType="VARCHAR" />
+    <result column="goodsDesc" property="goodsDesc" jdbcType="VARCHAR" />
+    <result column="saleTime" property="saleTime" jdbcType="TIMESTAMP" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="goodsPhotoAlbumId" property="goodsPhotoAlbumId" jdbcType="INTEGER" />
+    <result column="goodsCateId" property="goodsCateId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.palmble.entity.ZsGoods" extends="BaseResultMap" >
+    <result column="goodsContent" property="goodsContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goodsNo, goodsName, goodsCoverImg, goodsCoverThums, marketPrice, shopPrice, goodsStock, 
+    saleCount, goodsSpec, isSale, isAdminRecom, goodsDesc, saleTime, createTime, goodsPhotoAlbumId, 
+    goodsCateId
+  </sql>
+  <sql id="Blob_Column_List" >
+    goodsContent
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from zs_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zs_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.palmble.entity.ZsGoods" >
+    insert into zs_goods (id, goodsNo, goodsName, 
+      goodsCoverImg, goodsCoverThums, marketPrice, 
+      shopPrice, goodsStock, saleCount, 
+      goodsSpec, isSale, isAdminRecom, 
+      goodsDesc, saleTime, createTime, 
+      goodsPhotoAlbumId, goodsCateId, goodsContent
+      )
+    values (#{id,jdbcType=INTEGER}, #{goodsNo,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
+      #{goodsCoverImg,jdbcType=VARCHAR}, #{goodsCoverThums,jdbcType=VARCHAR}, #{marketPrice,jdbcType=DECIMAL}, 
+      #{shopPrice,jdbcType=DECIMAL}, #{goodsStock,jdbcType=INTEGER}, #{saleCount,jdbcType=INTEGER}, 
+      #{goodsSpec,jdbcType=VARCHAR}, #{isSale,jdbcType=BIT}, #{isAdminRecom,jdbcType=VARCHAR}, 
+      #{goodsDesc,jdbcType=VARCHAR}, #{saleTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{goodsPhotoAlbumId,jdbcType=INTEGER}, #{goodsCateId,jdbcType=INTEGER}, #{goodsContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.palmble.entity.ZsGoods" >
+    insert into zs_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodsNo != null" >
+        goodsNo,
+      </if>
+      <if test="goodsName != null" >
+        goodsName,
+      </if>
+      <if test="goodsCoverImg != null" >
+        goodsCoverImg,
+      </if>
+      <if test="goodsCoverThums != null" >
+        goodsCoverThums,
+      </if>
+      <if test="marketPrice != null" >
+        marketPrice,
+      </if>
+      <if test="shopPrice != null" >
+        shopPrice,
+      </if>
+      <if test="goodsStock != null" >
+        goodsStock,
+      </if>
+      <if test="saleCount != null" >
+        saleCount,
+      </if>
+      <if test="goodsSpec != null" >
+        goodsSpec,
+      </if>
+      <if test="isSale != null" >
+        isSale,
+      </if>
+      <if test="isAdminRecom != null" >
+        isAdminRecom,
+      </if>
+      <if test="goodsDesc != null" >
+        goodsDesc,
+      </if>
+      <if test="saleTime != null" >
+        saleTime,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="goodsPhotoAlbumId != null" >
+        goodsPhotoAlbumId,
+      </if>
+      <if test="goodsCateId != null" >
+        goodsCateId,
+      </if>
+      <if test="goodsContent != null" >
+        goodsContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodsNo != null" >
+        #{goodsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCoverImg != null" >
+        #{goodsCoverImg,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCoverThums != null" >
+        #{goodsCoverThums,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null" >
+        #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="shopPrice != null" >
+        #{shopPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsStock != null" >
+        #{goodsStock,jdbcType=INTEGER},
+      </if>
+      <if test="saleCount != null" >
+        #{saleCount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsSpec != null" >
+        #{goodsSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="isSale != null" >
+        #{isSale,jdbcType=BIT},
+      </if>
+      <if test="isAdminRecom != null" >
+        #{isAdminRecom,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDesc != null" >
+        #{goodsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="saleTime != null" >
+        #{saleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsPhotoAlbumId != null" >
+        #{goodsPhotoAlbumId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCateId != null" >
+        #{goodsCateId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsContent != null" >
+        #{goodsContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.ZsGoods" >
+    update zs_goods
+    <set >
+      <if test="goodsNo != null" >
+        goodsNo = #{goodsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goodsName = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCoverImg != null" >
+        goodsCoverImg = #{goodsCoverImg,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCoverThums != null" >
+        goodsCoverThums = #{goodsCoverThums,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null" >
+        marketPrice = #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="shopPrice != null" >
+        shopPrice = #{shopPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsStock != null" >
+        goodsStock = #{goodsStock,jdbcType=INTEGER},
+      </if>
+      <if test="saleCount != null" >
+        saleCount = #{saleCount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsSpec != null" >
+        goodsSpec = #{goodsSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="isSale != null" >
+        isSale = #{isSale,jdbcType=BIT},
+      </if>
+      <if test="isAdminRecom != null" >
+        isAdminRecom = #{isAdminRecom,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDesc != null" >
+        goodsDesc = #{goodsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="saleTime != null" >
+        saleTime = #{saleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsPhotoAlbumId != null" >
+        goodsPhotoAlbumId = #{goodsPhotoAlbumId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCateId != null" >
+        goodsCateId = #{goodsCateId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsContent != null" >
+        goodsContent = #{goodsContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.palmble.entity.ZsGoods" >
+    update zs_goods
+    set goodsNo = #{goodsNo,jdbcType=VARCHAR},
+      goodsName = #{goodsName,jdbcType=VARCHAR},
+      goodsCoverImg = #{goodsCoverImg,jdbcType=VARCHAR},
+      goodsCoverThums = #{goodsCoverThums,jdbcType=VARCHAR},
+      marketPrice = #{marketPrice,jdbcType=DECIMAL},
+      shopPrice = #{shopPrice,jdbcType=DECIMAL},
+      goodsStock = #{goodsStock,jdbcType=INTEGER},
+      saleCount = #{saleCount,jdbcType=INTEGER},
+      goodsSpec = #{goodsSpec,jdbcType=VARCHAR},
+      isSale = #{isSale,jdbcType=BIT},
+      isAdminRecom = #{isAdminRecom,jdbcType=VARCHAR},
+      goodsDesc = #{goodsDesc,jdbcType=VARCHAR},
+      saleTime = #{saleTime,jdbcType=TIMESTAMP},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      goodsPhotoAlbumId = #{goodsPhotoAlbumId,jdbcType=INTEGER},
+      goodsCateId = #{goodsCateId,jdbcType=INTEGER},
+      goodsContent = #{goodsContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.palmble.entity.ZsGoods" >
+    update zs_goods
+    set goodsNo = #{goodsNo,jdbcType=VARCHAR},
+      goodsName = #{goodsName,jdbcType=VARCHAR},
+      goodsCoverImg = #{goodsCoverImg,jdbcType=VARCHAR},
+      goodsCoverThums = #{goodsCoverThums,jdbcType=VARCHAR},
+      marketPrice = #{marketPrice,jdbcType=DECIMAL},
+      shopPrice = #{shopPrice,jdbcType=DECIMAL},
+      goodsStock = #{goodsStock,jdbcType=INTEGER},
+      saleCount = #{saleCount,jdbcType=INTEGER},
+      goodsSpec = #{goodsSpec,jdbcType=VARCHAR},
+      isSale = #{isSale,jdbcType=BIT},
+      isAdminRecom = #{isAdminRecom,jdbcType=VARCHAR},
+      goodsDesc = #{goodsDesc,jdbcType=VARCHAR},
+      saleTime = #{saleTime,jdbcType=TIMESTAMP},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      goodsPhotoAlbumId = #{goodsPhotoAlbumId,jdbcType=INTEGER},
+      goodsCateId = #{goodsCateId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

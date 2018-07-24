@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - jqGird</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+
+    <!-- jqgrid-->
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" href="../hplus/jqueryFileUpload/jquery.fileupload.js" >
+   <script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
+   <script src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
+   <script src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
+	<link rel="stylesheet" href="../hplus/jqueryFileUpload/style.css">
+    <script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
+    <script src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
+    <script src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
+	
+	
+	<script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../hplus/js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+    <script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+    <script src="../hplus/js/content.min.js?v=1.0.0"></script>
+
+
+<style type="text/css">
+.uploadImgBtn {
+
+        width: 100px;
+        height: 100px;
+        cursor: pointer;
+        position: relative;
+        background: url("../hplus/img/imgM.png") no-repeat;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+
+    .uploadImgBtn .uploadImg {
+        position: absolute;
+        right: 0;
+        top:0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+    //这是一个用做回显的盒子的样式
+    .imgpic{
+        width: 100px;
+        height: 100px;
+        margin-left:5px;
+		margin-right:5px;
+		margin-top:5px; 
+		margin-bottom:5px; 
+    }
+    .imgpic img {
+        width: 80px;
+        height: 80px;
+    }
+
+</style>
+</head>
+
+<body>
+<div class="uploadImgBtn" id="uploadImgBtn">
+        <input class="uploadImg" type="file" name="file" multiple id="file">
+    </div>
+</body>
+<script>
+$(document).ready(function(){
+        //为外面的盒子绑定一个点击事件
+        $("#uploadImgBtn").click(function(){
+            /*
+            1、先获取input标签
+            2、给input标签绑定change事件
+            3、把图片回显
+             */
+//            1、先回去input标签
+            var $input = $("#file");
+            console.log($input)
+//            2、给input标签绑定change事件
+            $input.on("change" , function(){
+                console.log(this)
+                //补充说明：因为我们给input标签设置multiple属性，因此一次可以上传多个文件
+                //获取选择图片的个数
+                var files = this.files;
+                var length = files.length;
+                console.log("选择了"+length+"张图片");
+                //3、回显
+                $.each(files,function(key,value){
+                    //每次都只会遍历一个图片数据
+                    var div = document.createElement("div"),
+                        img = document.createElement("img");
+                    div.className = "imgpic";
+
+                    var fr = new FileReader();
+                    fr.onload = function(){
+                        img.src=this.result;
+                        div.appendChild(img);
+                        document.body.appendChild(div);
+                    }
+                    fr.readAsDataURL(value);
+                })
+
+            })
+
+            //4、我们把当前input标签的id属性remove
+            $input.removeAttr("id");
+            //我们做个标记，再class中再添加一个类名就叫test
+            var newInput = '<input class="uploadImg test" type="file" name="file" multiple id="file">';
+            $(this).append($(newInput));
+
+        })
+
+    })
+
+</script>
+</html>

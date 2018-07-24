@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.palmble.dal.ZsGoodsPhotoAlbumMapper" >
+  <resultMap id="BaseResultMap" type="com.palmble.entity.ZsGoodsPhotoAlbum" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="goodsImg" property="goodsImg" jdbcType="VARCHAR" />
+    <result column="goodsThumbs" property="goodsThumbs" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goodsImg, goodsThumbs
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zs_goods_PhotoAlbum
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zs_goods_PhotoAlbum
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.palmble.entity.ZsGoodsPhotoAlbum" >
+    insert into zs_goods_PhotoAlbum (id, goodsImg, goodsThumbs
+      )
+    values (#{id,jdbcType=INTEGER}, #{goodsImg,jdbcType=VARCHAR}, #{goodsThumbs,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.palmble.entity.ZsGoodsPhotoAlbum" >
+    insert into zs_goods_PhotoAlbum
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodsImg != null" >
+        goodsImg,
+      </if>
+      <if test="goodsThumbs != null" >
+        goodsThumbs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodsImg != null" >
+        #{goodsImg,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsThumbs != null" >
+        #{goodsThumbs,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.ZsGoodsPhotoAlbum" >
+    update zs_goods_PhotoAlbum
+    <set >
+      <if test="goodsImg != null" >
+        goodsImg = #{goodsImg,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsThumbs != null" >
+        goodsThumbs = #{goodsThumbs,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.palmble.entity.ZsGoodsPhotoAlbum" >
+    update zs_goods_PhotoAlbum
+    set goodsImg = #{goodsImg,jdbcType=VARCHAR},
+      goodsThumbs = #{goodsThumbs,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

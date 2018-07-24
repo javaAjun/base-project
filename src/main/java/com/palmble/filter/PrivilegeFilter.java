@@ -21,8 +21,8 @@ import com.palmble.entity.BaseMenu;
 import com.palmble.service.BaseMenuService;
 import com.palmble.service.UserPermissionService;
 
-@Order(value = 2)
-@WebFilter(filterName = "PrivilegeFilter", urlPatterns =  "*")
+//@Order(value = 2)
+//@WebFilter(filterName = "PrivilegeFilter", urlPatterns =  "*")
 public class PrivilegeFilter implements Filter {
 	@Autowired
 	private UserPermissionService userPermissionService;
