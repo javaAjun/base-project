@@ -1,5 +1,10 @@
 package com.palmble.dal;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.palmble.entity.ZsGoods;
 
 public interface ZsGoodsMapper {
@@ -16,4 +21,8 @@ public interface ZsGoodsMapper {
     int updateByPrimaryKeyWithBLOBs(ZsGoods record);
 
     int updateByPrimaryKey(ZsGoods record);
+
+	List<Map<String, Object>> getGoodsList(@Param("value")String value,@Param("page")Integer page,@Param("size")Integer size);
+
+	Integer selectGoodsTotalCount(@Param("value")String value);
 }
