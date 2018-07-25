@@ -2,7 +2,6 @@ package com.palmble.serviceImpl;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageInfo;
@@ -20,8 +19,6 @@ import com.palmble.service.BannerService;
 public  class BannerServiceImpl implements BannerService {
 	@Resource
 	private BannerMapper bannerMapper;
-
-
 	public PageInfo<Banner> getBannerList(Map<String, Object> map) {
 		List<Banner> list = bannerMapper.getBannerList(map);
 		PageInfo<Banner> pageSource=new PageInfo<>(list);

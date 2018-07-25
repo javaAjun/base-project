@@ -26,7 +26,7 @@ public class Banner {
     public void setId(Integer id) {
         this.id = id;
     }
-
+    
     public String getBannerTitle() {
         return bannerTitle;
     }
