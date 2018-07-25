@@ -22,20 +22,64 @@ public class MemberUserServiceImpl implements MemberUserService{
 	public Map<String,Object> fuzzyQuery(Map<String, Object> params) {
 		String rows=(String)params.get("rows");
 		String page=(String)params.get("page");
-		int startRows=0;
+		int startRow=0;
 		int pageSize=0;
+		int endRow=0;
 		if(rows!=null&&page!=null) {
 			pageSize=Integer.parseInt(rows);
-			startRows=pageSize*Integer.parseInt(page)-pageSize;
+			startRow=pageSize*Integer.parseInt(page)-pageSize;
+			endRow=startRow+pageSize;
 		}
 		List<MemberUser> list=MemberUserDao.fuzzyQuery(params);
 		 Map<String,Object> m=new HashMap<String,Object>();
 		 if(list!=null) {
-			 m.put("records", list.size());
-			 m.put("rows", list.subList(pageSize, startRows));
-			 m.put("total", list.size()/pageSize);
+			 try {
+			 int records=list.size();
+			 m.put("records", records);
+			 if(endRow>records) {
+				 endRow=records;
+			 }
+			 m.put("rows", list.subList(startRow, endRow));
+			 int total=list.size()/pageSize;
+			 total=list.size()%pageSize==0?total:total+1;
+			 m.put("total",total);
+			 }catch(Exception e) {
+				 e.printStackTrace();
+			 }
 		 }
 		return m;
+	}
+	@Override
+	public int updateById(MemberUser memberUser) {
+		return MemberUserDao.updateById(memberUser);
+	}
+	@Override
+	public int insert(MemberUser memberUser) {
+		return MemberUserDao.insert(memberUser);
+	}
+	@Override
+	public int insertFully(MemberUser memberUser) {
+		return MemberUserDao.insertFully(memberUser);
+	}
+	@Override
+	public int deleteById(Integer id) {
+		return MemberUserDao.deleteById(id);
+	}
+	@Override
+	public int updateFullyById(MemberUser memberUser) {
+		return MemberUserDao.updateFullyById(memberUser);
+	}
+	@Override
+	public MemberUser getById(Integer id) {
+		return MemberUserDao.getById(id);
+	}
+	@Override
+	public List<MemberUser> find(Map<String, Object> params) {
+		return MemberUserDao.find(params);
+	}
+	@Override
+	public int count(Map<String, Object> params) {
+		return MemberUserDao.count(params);
 	}
 
 }

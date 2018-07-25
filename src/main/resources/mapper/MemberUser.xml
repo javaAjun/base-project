@@ -252,7 +252,7 @@
     </where >
   </sql>
   
-  <select id="getById" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
     select 
     <include refid="baseColumns" />
     from member_user
@@ -277,8 +277,11 @@
     <include refid="baseColumns" />
     from member_user
      <where >
+       <if test="id != null and id != ''">
+      	id= #{id}
+      </if>
       <if test="name != null and name != ''">
-      name like concat(concat('%',#{name}),'%') 
+      and name like concat(concat('%',#{name}),'%') 
       </if>
       <if test="phone != null and phone != ''" >
       and  phone like concat(concat('%',#{phone}),'%') 
