@@ -11,80 +11,72 @@
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
-          
-
-              
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-  <legend>新增菜单</legend>
-</fieldset>
- 
-
- 
-<form class="layui-form" action="" lay-filter="example">
-  <div class="layui-form-item">
-    <label class="layui-form-label">菜单名称</label>
-    <div class="layui-input-block">
-      <input type="hidden" name="id" lay-verify="title"  class="layui-input">
-      <input type="text" name="menuName" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
-    </div>
-  </div>
-  <div class="layui-form-item">
-    <label class="layui-form-label">菜单链接</label>
-    <div class="layui-input-block">
-      <input type="text" name="url" placeholder="请输入密码" autocomplete="off" class="layui-input">
-    </div>
-  </div>
-  <div class="layui-form-item">
-    <label class="layui-form-label">菜单排序</label>
-    <div class="layui-input-block">
-      <input type="text" name="sequenceNumber" placeholder="请输入密码" autocomplete="off" class="layui-input">
-    </div>
-  </div>
-  <div class="layui-form-item">
-    <label class="layui-form-label">上级菜单</label>
-    <div class="layui-input-block">
-      <select  name="parentId" lay-filter="aihao">
-      </select>
-    </div>
-  </div>
-  
-  <div class="layui-form-item">
-    <label class="layui-form-label">隐藏状态</label>
-    <div class="layui-input-block">
-      <input type="radio" name="isDisplay" value="1" title="隐藏">
-      <input type="radio" name="isDisplay" value="0" title="不隐藏" checked="">
-    </div>
-  </div>
-  <div class="layui-form-item">
-    <label class="layui-form-label">是否有效</label>
-    <div class="layui-input-block">
-      <input type="radio" name="idEffective" value="1" title="无效">
-      <input type="radio" name="idEffective" value="0" title="有效" checked="">
-    </div>
-  </div>
-  
-  <!-- <div class="layui-form-item">
-    <label class="layui-form-label">单选框</label>
-    <div class="layui-input-block">
-      <input type="radio" name="sex" value="男" title="男" checked="">
-      <input type="radio" name="sex" value="女" title="女">
-    </div>
-  </div> -->
-  <div class="layui-form-item layui-form-text">
-    <label class="layui-form-label">菜单描述</label>
-    <div class="layui-input-block">
-      <textarea placeholder="请输入内容" class="layui-textarea" name="menuInfo"></textarea>
-    </div>
-  </div>
- 
-  <div class="layui-form-item">
-    <div class="layui-input-block">
-      <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-      <button class="layui-btn layui-btn-primary" id="addCancel">取消</button>
-    </div>
-  </div>
-</form>
-
+<div style="padding:10px">
+		<form class="layui-form" action="" lay-filter="example">
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">菜单名称</label>
+		    <div class="layui-input-block">
+		      <input type="hidden" name="id" lay-verify="title"  class="layui-input">
+		      <input type="text" name="menuName" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+		    </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">菜单链接</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="url" placeholder="请输入密码" autocomplete="off" class="layui-input">
+		    </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">菜单排序</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="sequenceNumber" placeholder="请输入密码" autocomplete="off" class="layui-input">
+		    </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">上级菜单</label>
+		    <div class="layui-input-block">
+		      <select  name="parentId" lay-filter="aihao">
+		      </select>
+		    </div>
+		  </div>
+		  
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">隐藏状态</label>
+		    <div class="layui-input-block">
+		      <input type="radio" name="isDisplay" value="1" title="隐藏">
+		      <input type="radio" name="isDisplay" value="0" title="不隐藏" checked="">
+		    </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">是否有效</label>
+		    <div class="layui-input-block">
+		      <input type="radio" name="idEffective" value="1" title="无效">
+		      <input type="radio" name="idEffective" value="0" title="有效" checked="">
+		    </div>
+		  </div>
+		  
+		  <!-- <div class="layui-form-item">
+		    <label class="layui-form-label">单选框</label>
+		    <div class="layui-input-block">
+		      <input type="radio" name="sex" value="男" title="男" checked="">
+		      <input type="radio" name="sex" value="女" title="女">
+		    </div>
+		  </div> -->
+		  <div class="layui-form-item layui-form-text">
+		    <label class="layui-form-label">菜单描述</label>
+		    <div class="layui-input-block">
+		      <textarea placeholder="请输入内容" class="layui-textarea" name="menuInfo"></textarea>
+		    </div>
+		  </div>
+		 
+		  <div class="layui-form-item">
+		    <div class="layui-input-block">
+		      <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+		      <!-- <button class="layui-btn layui-btn-primary" id="addCancel">取消</button> -->
+		    </div>
+		  </div>
+		</form>
+</div>
           
 <script src="../js/js.js" charset="utf-8"></script>
 <script src="../js/jquery-1.10.1.min.js" charset="utf-8"></script>
@@ -147,9 +139,6 @@ layui.use(['form', 'layedit', 'laydate'], function(){
   }); 
   
 });
-$("#addCancel").click(function(){
-	history.back(-1);
-})
 $(function(){
 	var id;
     var url = window.location.search; 
@@ -198,6 +187,7 @@ $(function(){
 })
 
 function getAllMenu(parentId){
+	console.log("menuid====="+parentId);
 	$.ajax({
 		url: "/baseMenu/getAllMenu",
 	    type:"POST",
@@ -208,11 +198,19 @@ function getAllMenu(parentId){
         	console.log(data);
         	var html = "<option  value='0'>顶级菜单</option>";
         	for(var i=0; i< data.length;i++){
-             	html+='<option value='+data[i].menuId+' id="menu'+data[i].menuId+'" >&nbsp;···'+data[i].menuName+'</option>';
+        		if(parentId==data[i].menuId){
+	             	html+='<option value='+data[i].menuId+' selected="selected" id="menu'+data[i].menuId+'" >&nbsp;···'+data[i].menuName+'</option>';
+        		}else{
+	             	html+='<option value='+data[i].menuId+' id="menu'+data[i].menuId+'" >&nbsp;···'+data[i].menuName+'</option>';
+        		}
              	var parentMenus=data[i].menuInfo;
              	parentMenus=JSON.parse(parentMenus);
              	for(j=0;j<parentMenus.length;j++){
-             		html+='<option value='+parentMenus[j].menuId+' id="menu'+parentMenus[j].menuId+'" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-----'+parentMenus[j].menuName+'</option>';
+             		if(parentId==parentMenus[j].menuId){
+	             		html+='<option value='+parentMenus[j].menuId+' selected="selected" id="menu'+parentMenus[j].menuId+'" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-----'+parentMenus[j].menuName+'</option>';
+             		}else{
+	             		html+='<option value='+parentMenus[j].menuId+' id="menu'+parentMenus[j].menuId+'" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-----'+parentMenus[j].menuName+'</option>';
+             		}
              	}
             }
         	//console.log(html);

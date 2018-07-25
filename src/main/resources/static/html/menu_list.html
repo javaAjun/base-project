@@ -30,7 +30,7 @@
         <div class="row">
         	
             <div class="col-xs-2">
-            	<a href="add_menu.html" class="btn btn-sm btn-primary">新增菜单</a>
+            	<a href="javaScript:;" url="add_menu.html" data-title="新增菜单" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增菜单</a>
             	<a href="javascript:;history.back(-1)" id="call_back" class="btn btn-sm btn-primary"  >返回上一级</a>
                 <!--<a href="javascript:;" url="/admin/user/add.html" data-title="新增会员" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>-->
             </div>
@@ -151,13 +151,12 @@
                     }
                 }},
                 {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
-                    var detailurl = "/delMenu?id="+c.id;
                     var updateUrl = "add_menu.html?id="+c.id;
                     var btn = '';
                     var delurl = "/baseMenu/delMenu?id="+c.id;
                     /*var recommendurl = "/admin/user/recommend/id/"+c.id;
                     var perforurl = "/admin/user/perfor/id/"+c.id;*/
-                    btn += '<a href="'+updateUrl+'"  data-title="编辑""><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+                    btn += '<a href="javascript:;" url="'+updateUrl+'" onclick="layer_open(this,1)"  data-title="编辑""><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
                     //btn += '<a href="javascript:;" url="'+detailurl+'" data-title="会员详情" onclick="layer_open(this,1)"><span class="label label-info" title="详情">详情</span></a>&nbsp;';
                     /*btn += '<a href="javascript:;" url="'+recommendurl+'" data-title="会员直推业绩" onclick="layer_open(this)"><span class="label label-info" title="直推业绩">直推业绩</span></a>&nbsp;';
                     btn += '<a href="javascript:;" url="'+perforurl+'" data-title="会员总业绩" onclick="layer_open(this)"><span class="label label-info" title="总业绩">总业绩</span></a>&nbsp;';*/

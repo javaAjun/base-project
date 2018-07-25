@@ -5,7 +5,7 @@ server:
   port: 8383
 spring: 
   resources: 
-    staticLocations: classpath:/static/
+    staticLocations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/, file:${image.location}
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     username: root

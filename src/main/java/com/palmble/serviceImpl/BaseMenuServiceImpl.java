@@ -11,7 +11,7 @@ import com.palmble.service.BaseMenuService;
 import com.palmble.utils.ResultInfo;
 
 @Service
-public class BaseMenuServiceImpl implements BaseMenuService{
+public class BaseMenuServiceImpl implements BaseMenuService {
 	@Resource
 	private BaseMenuMapper baseMenuMapper;
 	/**
@@ -22,11 +22,6 @@ public class BaseMenuServiceImpl implements BaseMenuService{
 	@Override
 	public PageInfo<BaseMenu> getMenuList(Map<String, String> map) {
 		List<BaseMenu> list = baseMenuMapper.byAllMenuList(map);
-		for (int i = 0; i < list.size(); i++) {
-			BaseMenu baseMenu = list.get(0);
-			System.out.println(baseMenu);
-		}
-		//return list;
 		PageInfo<BaseMenu> pageSource=new PageInfo<>(list);
 		return pageSource;
 	}
