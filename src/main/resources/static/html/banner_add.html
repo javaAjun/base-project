@@ -62,7 +62,7 @@
 <script>
     $(function(){
         var multi = 0;
-        var name = "img";
+        var name = "bannerUrl";
         if(multi){
             name = name+'[]';
             $("#imgUpload_img").attr('multiple','multiple');
@@ -72,19 +72,21 @@
         $("#imgUpload_img").fileupload({
             dataType: 'json',
             done: function (e, data) {
-                if (data.result && data.result.status == 1) {
+                	console.log(data.result);
+                if (data.result.code == 0) {
                     var img = '<div class="imgbox">';
                     img += '<div class="removePic" onclick="removePic(this,\'/admin/addons/execute/_addons/JqueryUpload/_controller/File/_action/deleteFile\')">×</div>';
-                    img += '<input type="hidden" name="'+name+'" value="' + data.result.path + '">';
-                    img += '<img src="' + data.result.path + '">';
+                    img += '<input type="hidden" name="'+name+'" value="' + data.result.url + '">';
+                    img += '<img src="' + data.result.url + '">';
                     img += '</div>';
                     if(multi){
                         $("#imgsbox_img").append(img);
+                        console.log(123);
                     }else{
                         $("#imgsbox_img").html(img);
                     }
                 } else {
-                    layer.msg(data.result.msg);
+                    layer.msg(data.msg);
                 }
             },
             change: function (e, data) {

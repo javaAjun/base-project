@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,10 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.imageio.ImageIO;
-
-import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -228,9 +226,11 @@ public class FileTypeUtils {
 	 * @author WangYanke  
 	 * @date 2018年7月25日
 	 * @param is 输入流 path:生成文件保存位置
+	 * @return 
 	 */
-	public static void makeFile(InputStream is, String path) {
+	public static Boolean makeFile(InputStream is, String path) {
 		FileOutputStream out=null;
+		Boolean flag=false;
 		try {
 			out = new FileOutputStream(path);
 			//创建一个缓冲区
@@ -243,17 +243,43 @@ public class FileTypeUtils {
 				    out.write(buffer, 0, len);
 				  }
 			} catch (IOException e) {
+				flag=false;
 				e.printStackTrace();
 			}
 			try {
 				is.close();
 				out.close();
 			} catch (IOException e) {
+				flag=false;
 				e.printStackTrace();
 			}
-			
+			flag=true;
 		} catch (FileNotFoundException e) {
+			flag=false;
 			e.printStackTrace();
 		}
+		return flag;
 	}
+	
+	/**
+	 * <p>Title: 单个文件删除</p>   
+	 * @author WangYanke  
+	 * @date 2018年7月25日
+	 */
+	public static boolean deleteFile(String fileName) {
+        File file = new File(fileName);
+        // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+                System.out.println("删除单个文件" + fileName + "成功！");
+                return true;
+            } else {
+                System.out.println("删除单个文件" + fileName + "失败！");
+                return false;
+            }
+        } else {
+            System.out.println("删除单个文件失败：" + fileName + "不存在！");
+            return false;
+        }
+    }
 }

@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageInfo;
 import com.palmble.base.PalmbleBaseController;
 import com.palmble.entity.Banner;
+import com.palmble.entity.Result;
 import com.palmble.service.BannerService;
 import com.palmble.utils.FileTypeUtils;
+import com.palmble.utils.ResultInfo;
 
 @RestController
 @RequestMapping("/banner")
@@ -36,19 +39,24 @@ public class BannerController extends PalmbleBaseController{
 	/**
 	 * <p>Title: banner图上传</p>   
 	 * @author WangYanke  
+	 * @return 
 	 * @date 2018年7月24日
 	 */
 	@RequestMapping("/bannerImgUpload")
-	public void bannerImgUpload(@RequestParam(value="img", required=false)MultipartFile file) {
+	public Result bannerImgUpload(@RequestParam(value="img", required=false)MultipartFile file) {
+		Result result=new Result();
 		if(file!=null&&file.getSize()!=0) {
 			String fileContentType = file.getContentType();
 			String fileFileName = file.getOriginalFilename();
 			System.out.println(fileContentType);
 			System.out.println("上传的文件原名称:"+fileFileName);
-			Date date = new Date();  
-			String dataForm = new SimpleDateFormat("yyyy-MM-dd").format(date); 
-			String path=filePath+"/"+dataForm;
-			File f = new File(path);  //根据日期创建文件夹
+			Calendar cale = null;  
+	        cale = Calendar.getInstance();  
+	        int year = cale.get(Calendar.YEAR);  
+	        int month = cale.get(Calendar.MONTH) + 1;  
+	        int day = cale.get(Calendar.DATE); 
+	        String path=filePath+"/"+year+""+month+""+day;
+			File f = new File(path);  //根据当前日期创建文件夹
 			if(!f.exists()){  
 			    f.mkdirs();   
 			} 
@@ -61,8 +69,18 @@ public class BannerController extends PalmbleBaseController{
 				e.printStackTrace();
 			}
 			path=path + "\\" + fileFileName;
-			FileTypeUtils.makeFile(is,path);
+			Boolean flag = FileTypeUtils.makeFile(is,path);
+			if(flag) {
+				result.setCode(0);
+				result.setUrl(path);
+				result.setMsg("图片上传成功");
+			}else {
+				result.setCode(1);
+				result.setUrl(path);
+				result.setMsg("图片上传异常");
+			}
 		}
+		return result;
 	}
 	
 }
