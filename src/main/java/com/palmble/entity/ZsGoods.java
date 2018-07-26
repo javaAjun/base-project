@@ -52,7 +52,8 @@ public class ZsGoods {
 		this.number = number;
 	}
 
-	public Integer getId() {
+    private String oper;//导航参数
+    public Integer getId() {
         return id;
     }
 
@@ -195,4 +196,13 @@ public class ZsGoods {
     public void setGoodsContent(String goodsContent) {
         this.goodsContent = goodsContent == null ? null : goodsContent.trim();
     }
+
+	public String getOper() {
+		return oper;
+	}
+
+	public void setOper(String oper) {
+		this.oper = oper;
+	}
+    
 }

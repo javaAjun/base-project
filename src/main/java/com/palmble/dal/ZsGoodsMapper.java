@@ -22,7 +22,10 @@ public interface ZsGoodsMapper {
 
     int updateByPrimaryKey(ZsGoods record);
 
-	List<Map<String, Object>> getGoodsList(@Param("value")String value,@Param("page")Integer page,@Param("size")Integer size);
+	List<Map<String, Object>> getGoodsList(@Param("value")String value,@Param("page")Integer page,
+			@Param("size")Integer size,@Param("sord")String sord,@Param("isAdminRecom")Integer isAdminRecom,
+			@Param("isSale")Integer isSale);
 
-	Integer selectGoodsTotalCount(@Param("value")String value);
+	Integer selectGoodsTotalCount(@Param("value")String value,@Param("isAdminRecom")Integer isAdminRecom,
+			@Param("isSale")Integer isSale);
 }

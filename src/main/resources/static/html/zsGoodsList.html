@@ -4,14 +4,11 @@
 
 <!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
 <head>
-
-    <meta charset="utf-8">
+  <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <title>H+ 后台主题UI框架 - jqGird</title>
-    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
 
     <link rel="shortcut icon" href="favicon.ico"> <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
     <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
@@ -21,15 +18,6 @@
 
     <link href="../hplus/css/animate.min.css" rel="stylesheet">
     <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
-    <link rel="stylesheet" href="../hplus/jqueryFileUpload/jquery.fileupload.js" >
-   <script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
-   <script src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
-   <script src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
-	<link rel="stylesheet" href="../hplus/jqueryFileUpload/style.css">
-   <script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
-   <script src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
-   <script src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
-	
 	
 	<script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
     <script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
@@ -37,15 +25,9 @@
     <script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
     <script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
     <script src="../hplus/js/content.min.js?v=1.0.0"></script>
-   
+   <script src="../layer-v3.1.1/layer/layer.js"></script>
  
-    <script src="../hplus/js/plugins/summernote/summernote.min.js"></script>
-    <script src="../hplus/js/plugins/summernote/summernote-zh-CN.js"></script>
-  
-   <link href="../hplus/css/animate.min.css" rel="stylesheet">
-    <link href="../hplus/css/plugins/summernote/summernote.css" rel="stylesheet">
-    <link href="../hplus/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
-  
+
     
     <style>
         /* Additional style to fix warning dialog position */
@@ -70,6 +52,13 @@
          position: relative;
               left: -150px;
         }
+        #seachForm{
+            text-align: right;
+		    position: relative;
+		    top: -38px;
+		    left: -10px;
+		    height: 16px;
+		    }
     </style>
 
 </head>
@@ -77,11 +66,49 @@
 <body class="gray-bg">
     <div class="wrapper wrapper-content  animated fadeInRight"  id="bigBody">
         <div class="row">
+        
+        
             <div class="col-sm-12">
-                    <div class="ibox-content">
+               <div class="ibox-content">
                       <div class="addGoods">
-                            <a data-toggle="modal" class="btn btn-primary" onClick=" openwin()">添加商品</a>
-                        </div>
+                            <a data-toggle="modal" class="btn btn-primary" onClick="openwin()">添加商品</a>
+                     </div>
+                     <div style="text-align: right;" id="seachForm">
+                  <form class="form-inline" id="form-search"  >
+                    
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="value" name="value" placeholder="关键字查询">
+                    </div>
+                    <!-- <div class="form-group">
+                        <input placeholder="开始日期" readonly class="form-control layer-date" id="start" name="startTime">
+                        <input placeholder="结束日期" readonly class="form-control layer-date" id="end" name="endTime">
+                    </div> -->
+                    <div class="input-group">
+                        <select name="isAdminRecom" class="form-control" id="isAdminRecom">
+                            <option value="">选择是否推荐</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <select name="isSale" class="form-control" id="isSale">
+                            <option value="">状态</option>
+                            <option value="1">上架</option>
+                            <option value="0">下架</option>
+                        </select>
+                    </div>
+                   
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary" type="button" id ="search-btn" ><i class="fa fa-search"></i></button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
+                        </span>
+                    </div>
+                </form>
+                </div>
                 <div class="ibox ">
                        <div class="jqGrid_wrapper">
                            <table id="table_list_1"></table>
@@ -92,29 +119,22 @@
             </div>
         </div>
     </div>
-  
+   <script src="../js/pathjs.js"></script>
     <script>
         $(document).ready(function(){
-        $(".summernote").summernote({lang:"zh-CN"});
+      /*   $(".summernote").summernote({lang:"zh-CN"}); */
         
 		$.jgrid.defaults.styleUI="Bootstrap";
-		var mydata=[
-		{id:"1",goodsNo:"zzz",goodsName:"test1",catName:"分类1",marketPrice:"10.00",shopPrice:"200",goodsStock:2111,catSort:50,isSale:1,isAdminRecom:1},
-		{id:"2",goodsNo:"yyy",goodsName:"test2",catName:"分类2",marketPrice:"20.00",shopPrice:"200",goodsStock:320,catSort:50,isSale:0,isAdminRecom:1},
-		{id:"3",goodsNo:"sss",goodsName:"test3",catName:"分类3",marketPrice:"30.00",shopPrice:"200",goodsStock:43,catSort:50,isSale:1,isAdminRecom:0},
-		{id:"4",goodsNo:"fff",goodsName:"test4",catName:"分类4",marketPrice:"10.00",shopPrice:"200",goodsStock:210,catSort:50,isSale:0,isAdminRecom:1},
-		{id:"5",goodsNo:"ggg",goodsName:"test5",catName:"分类5",marketPrice:"20.00",shopPrice:"200",goodsStock:320,catSort:50,isSale:1,isAdminRecom:0},
-		{id:"6",goodsNo:"vvv",goodsName:"test6",catName:"分类6",marketPrice:"30.00",shopPrice:"200",goodsStock:430,catSort:50,isSale:0,isAdminRecom:1},
-		{id:"7",goodsNo:"bbb",goodsName:"test7",catName:"分类7",marketPrice:"10.00",shopPrice:"200",goodsStock:210,catSort:50,isSale:1,isAdminRecom:0},
-		{id:"8",goodsNo:"ttt",goodsName:"test8",catName:"分类8",marketPrice:"300.00",shopPrice:"200",goodsStock:21,catSort:50,isSale:0,isAdminRecom:0},
-		{id:"9",goodsNo:"uuu",goodsName:"test9",catName:"分类9",marketPrice:"400.00",shopPrice:"200",goodsStock:30,catSort:50,isSale:1,isAdminRecom:1}];
-		$("#table_list_1").jqGrid({
-		data:mydata,
-		datatype:"local",
+	
+		 $("#table_list_1").jqGrid({
+	    url:HttpUrlCommon+_goodsList,
+		//data:mydata,
+		datatype:"json",
 		height:"auto",
 		autowidth:true,
 		shrinkToFit:true,
-		rowNum:20,
+		rowNum:10,
+		sortname: 'id',
 		rowList:[10,20,30],
 		colNames:["序号ID","商品编号","名称","分类","市场价","店铺价格","库存","排序","状态","推荐","商品详情","操作"],
 		colModel:[
@@ -128,20 +148,20 @@
 					{name:"catSort",index:"catSort",width:40,sortable: true,formatter: function (a, b, c) {
 	                    return '<input type="number" onchange="updateSort(this)" data-url="/admin/goods/changesort.html" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
 	                }},
-					{name:"isSale",index:"isSale",editable:true,width:40,
+					{name:"isSale",index:"isSale",editable: false,sortable: false,width:40,
 						formatter:function(a,b,c){
-							 if(a == 0){
-			                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setStatus(this)"><span class="label label-danger" title="下架">下架</span></a>';
+							 if(a == false){
+			                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setIsSale(this)"><span class="label label-danger" title="下架">下架</span></a>';
 			                    } else{
-			                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setStatus(this)"><span class="label label-primary" title="上架">上架</span></a>';
+			                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setIsSale(this)"><span class="label label-primary" title="上架">上架</span></a>';
 			                    }
 						}},
 					{name:"isAdminRecom",index:"isAdminRecom",editable:true,width:40,
 						formatter:function(a,b,c){
-							 if(a == 0){
-			                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setStatus(this)"><span class="label label-danger" title="否">否</span></a>';
+							 if(a == false){
+			                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setIsAdminRecom(this)"><span class="label label-danger" title="否">否</span></a>';
 			                    } else{
-			                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setStatus(this)"><span class="label label-primary" title="是">是</span></a>';
+			                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setIsAdminRecom(this)"><span class="label label-primary" title="是">是</span></a>';
 			                    }
 						}},
 					{width:100,sortable: false,align:'left',formatter: function (a, b, c) {
@@ -158,20 +178,30 @@
 		pager:"#pager_list_1",
 		viewrecords:true,
 		caption:"商品列表",
-		hidegrid:false
+		hidegrid:false,
+		jsonReader: {    //jsonReader来跟服务器端返回的数据做对应  
+	           //包含实际数据的数组  
+		        root: "data",  //包含实际数据的数组  
+	            page: "pageInfo.pageNo",  //当前页  
+	            total: "pageInfo.totalPages",//总页数  
+	            records:"pageInfo.total", //查询出的记录数  
+	            rowNum:"pageInfo.pageSize",
+	            repeatitems : false  
+	        }
 		});
 		/* $("#table_list_1").setSelection(4,true); */
 		/* $("#table_list_1").jqGrid("navGrid","#pager_list_1",{del:true,search:true},{height:200,reloadAfterSubmit:true}); */
-		$(window).bind("resize",function(){var width=$(".jqGrid_wrapper").width();
-		$("#table_list_1").setGridWidth(width)})});
-        
-        
+		$(window).bind("resize",function(){
+			var width=$(".jqGrid_wrapper").width();
+		    $("#table_list_1").setGridWidth(width)})
+		});
      
+        
+        
+        
         var edit=function(){
         	$("#eg").addClass("no-padding");
-		    $(".click2edit").summernote({
-		    	lang:"zh-CN",focus:true
-		    	})};
+		    $(".click2edit").summernote({lang:"zh-CN",focus:true })};
 		var save=function(){$("#eg").removeClass("no-padding");
 	   var aHTML=$(".click2edit").code();$(".click2edit").destroy()};
 	   
@@ -187,6 +217,109 @@
 			//window.open ("./fuwenben.html", "newwindow", "height=600, width=800, toolbar=no,menubar=no, scrollbars=no, resizable=no, location=no, status=no") 
 			//写成一行 
 			} 
+		//查询
+		$(function(){ 
+	        $("#search-btn").click(function(){ 
+	            var value = escape($("#value").val()); 
+	            var isAdminRecom = escape($("#isAdminRecom").val()); 
+	            var isSale=escape($("#isSale").val());
+	            $("#table_list_1").jqGrid('setGridParam',{ 
+	                url:HttpUrlCommon+_goodsList, 
+	                postData:{'value':value,'isAdminRecom':isAdminRecom,"isSale":isSale}, //发送数据 
+	                page:1 
+	            }).trigger("reloadGrid"); //重新载入 
+	        });
+	        $("#search-clear").click(function(){ 
+	            $("#table_list_1").jqGrid('setGridParam',{ 
+	                url:HttpUrlCommon+_goodsList,
+	                postData:{'value':"",'isAdminRecom':null,"isSale":null}, //发送数据 
+	                page:1
+	            }).trigger("reloadGrid"); //重新载入 
+	        });
+	    });
+		//修改状态setIsSale  上架下架
+		function setIsSale(a){
+			var num=$(a).data("status");
+			var isSale;
+			if(num==0){
+				isSale=1;
+			}else{
+				isSale=0;
+			}
+			var id=$(a).data("id");
+			var dataParam={"id":id,"isSale":isSale};
+			$.ajax({ 
+				url:_editGoods, 
+				data:dataParam, 
+				type: "post",
+		        dataType: "json",
+		        async: 'false',
+		        success: function (data) {
+		           if(data.status=="200"){
+		        	   var span=$(a).find("span");
+		        	   if(num==0){
+		        		   $(a).data("status",1);
+		        		   $(span).attr("class","label label-primary");
+		        		   $(span).attr("title","上架");
+		        		   $(span).html("上架");
+		        	   }else{
+		        		   $(a).data("status",0);
+		        		   $(span).attr("class","label label-danger");
+		        		   $(span).attr("title","下架");
+		        		   $(span).html("下架");
+		        	   }
+		           }else{
+		        	   layer.msg("操作失败!");
+		           }
+		          }});
+		}//修改是否推荐
+		function setIsAdminRecom(a){
+			var num=$(a).data("status");
+			var isAdminRecom;
+			if(num==0){
+				isAdminRecom=1;
+			}else{
+				isAdminRecom=0;
+			}
+			var id=$(a).data("id");
+			var dataParam={"id":id,"isAdminRecom":isAdminRecom};
+			$.ajax({ 
+				url:_editGoods, 
+				data:dataParam, 
+				type: "post",
+		        dataType: "json",
+		        async: 'false',
+		        success: function (data) {
+		           if(data.status=="200"){
+		        	   var span=$(a).find("span");
+		        	   if(num==0){
+		        		   $(a).data("status",1);
+		        		   $(span).attr("class","label label-primary");
+		        		   $(span).attr("title","是");
+		        		   $(span).html("是");
+		        	   }else{
+		        		   $(a).data("status",0);
+		        		   $(span).attr("class","label label-danger");
+		        		   $(span).attr("title","否");
+		        		   $(span).html("否");
+		        	   }
+		           }else{
+		        	   layer.msg("操作失败!");
+		           }
+		          }});
+		}
+		//删除
+		function del(a){
+	    	var id=$(a).data("id");
+	    	layer.confirm('确定要删除此记录吗？', function(){ 
+	    		layer.closeAll('dialog');
+	    		$.ajax({ url: _delGoods, data:{id:id}, success: function(data){
+	    	          layer.msg(data.message);
+	    	          $("#table_list_1").trigger("reloadGrid");
+	    	           }
+	    	          });
+	    		}); 
+	    }
     </script>
 </body>
 </html>

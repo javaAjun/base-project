@@ -35,7 +35,7 @@ public class ResponsDatas<T> implements Serializable {
 	    /**
 	     * 分页信息
 	     */
-	    private PageInfoUtil page;
+	    private PageInfoUtil pageInfo;
 
 	    /**
 	     * 其他内容
@@ -74,15 +74,18 @@ public class ResponsDatas<T> implements Serializable {
 	        this.ext = ext;
 	    }
 
-	    public PageInfoUtil getPage() {
-	        return page;
-	    }
+	   
+	   
 
-	    public void setPage(PageInfoUtil page) {
-	        this.page = page;
-	    }
+	    public PageInfoUtil getPageInfo() {
+			return pageInfo;
+		}
 
-	    public ResponsDatas(){
+		public void setPageInfo(PageInfoUtil pageInfo) {
+			this.pageInfo = pageInfo;
+		}
+
+		public ResponsDatas(){
 	        this.status = SUCCESS_CODE;
 	        this.message = "SUCCESS";
 	    }
@@ -109,7 +112,7 @@ public class ResponsDatas<T> implements Serializable {
 	        this.status = status;
 	        this.message = message;
 	        this.data = data;
-	        this.page = PageInfoUtil;
+	        this.pageInfo = PageInfoUtil;
 	    }
 
 	    public ResponsDatas(String status, String message, T data, Map<String, Object> ext, PageInfoUtil PageInfoUtil) {
@@ -117,7 +120,7 @@ public class ResponsDatas<T> implements Serializable {
 	        this.message = message;
 	        this.data = data;
 	        this.ext = ext;
-	        this.page = PageInfoUtil;
+	        this.pageInfo = PageInfoUtil;
 	    }
 
 	    public ResponsDatas(String status, String message, T data, Long total, Integer pageNo, Integer pageSize){
@@ -125,7 +128,7 @@ public class ResponsDatas<T> implements Serializable {
 	        this.status = status;
 	        this.message = message;
 	        this.data = data;
-	        this.page = PageInfoUtil;
+	        this.pageInfo = PageInfoUtil;
 	    }
 
 	    public ResponsDatas(String status, String message, T data, Map<String, Object> ext, Long total, Integer pageNo, Integer pageSize){
@@ -135,7 +138,7 @@ public class ResponsDatas<T> implements Serializable {
 	        this.message = message;
 	        this.data = data;
 	        this.ext = ext;
-	        this.page = PageInfoUtil;
+	        this.pageInfo = PageInfoUtil;
 	    }
 
 	    //快速返回成功
@@ -185,7 +188,7 @@ public class ResponsDatas<T> implements Serializable {
 	        return new ResponsDatas<T>(ErrorCode.SYSTEM_ERROR.getCode(),ErrorCode.SYSTEM_ERROR.getMessage(),result);
 	    }
 
-	    public <T>ResponsDatas fail(String message, T result){
+	    public static <T>ResponsDatas fail(String message, T result){
 	        return new ResponsDatas<T>(ErrorCode.SYSTEM_ERROR.getCode(),message,result);
 	    }
 
