@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.palmble.dal.OrderInfoDao">
+
+	<resultMap id="BaseResultMap" type="com.palmble.entity.OrderInfo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+		<result column="member_id" property="memberId" jdbcType="INTEGER" />
+		<result column="integral" property="integral" jdbcType="INTEGER" />
+		<result column="payment_method" property="paymentMethod"
+			jdbcType="INTEGER" />
+		<result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+		<result column="user_notes" property="userNotes" jdbcType="VARCHAR" />
+		<result column="total_amount" property="totalAmount" jdbcType="DOUBLE" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<association property="consignee" javaType="com.palmble.entity.Consignee">
+			<result column="name" property="name" jdbcType="VARCHAR" />
+			<result column="phone" property="phone" jdbcType="VARCHAR" />
+			<result column="province" property="province" jdbcType="VARCHAR" />
+			<result column="city" property="city" jdbcType="VARCHAR" />
+			<result column="address_info" property="addressInfo" jdbcType="VARCHAR" />
+		</association>
+		<collection property="zsGoods" javaType="java.util.List"
+			ofType="com.palmble.entity.ZsGoods" column="id" select="findGoods">
+			<id column="id" property="id" jdbcType="INTEGER" />
+			<result column="goodsNo" property="goodsNo" jdbcType="VARCHAR" />
+			<result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+			<result column="goodsCoverImg" property="goodsCoverImg"
+				jdbcType="VARCHAR" />
+			<result column="goodsCoverThums" property="goodsCoverThums"
+				jdbcType="VARCHAR" />
+			<result column="marketPrice" property="marketPrice" jdbcType="DECIMAL" />
+			<result column="shopPrice" property="shopPrice" jdbcType="DECIMAL" />
+			<result column="goodsStock" property="goodsStock" jdbcType="INTEGER" />
+			<result column="saleCount" property="saleCount" jdbcType="INTEGER" />
+			<result column="goodsSpec" property="goodsSpec" jdbcType="VARCHAR" />
+			<result column="isSale" property="isSale" jdbcType="BIT" />
+			<result column="isAdminRecom" property="isAdminRecom"
+				jdbcType="VARCHAR" />
+			<result column="goodsDesc" property="goodsDesc" jdbcType="VARCHAR" />
+			<result column="saleTime" property="saleTime" jdbcType="TIMESTAMP" />
+			<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+			<result column="goodsPhotoAlbumId" property="goodsPhotoAlbumId"
+				jdbcType="INTEGER" />
+		</collection>
+	</resultMap>
+
+	<resultMap id="simpleResult" type="com.palmble.entity.OrderInfo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+		<result column="member_id" property="memberId" jdbcType="INTEGER" />
+		<result column="integral" property="integral" jdbcType="INTEGER" />
+		<result column="payment_method" property="paymentMethod"
+			jdbcType="INTEGER" />
+		<result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+		<result column="user_notes" property="userNotes" jdbcType="VARCHAR" />
+		<result column="total_amount" property="totalAmount" jdbcType="DOUBLE" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 根据订单查询商品信息 -->
+	<select id="findGoods" parameterType="string"
+		resultType="com.palmble.entity.ZsGoods">
+		select
+		a.id, a.goodsNo, a.goodsName, a.goodsCoverImg,
+		a.goodsCoverThums,
+		a.marketPrice, a.shopPrice, a.goodsStock,
+		a.saleCount, a.goodsSpec, a.isSale, a.isAdminRecom, a.goodsDesc,
+		a.saleTime,
+		a.createTime, a.goodsPhotoAlbumId,
+		a.goodsCateId
+		from
+		zs_goods a join harvested_goods b
+		on a.id=b.goods_id
+		where
+		b.order_id=#{id}
+	</select>
+
+
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		DELETE a,b FROM order_info
+		a JOIN harvested_goods b ON a.id=b.order_id
+		where a.id = #{id}
+	</delete>
+
+	<update id="updateById" parameterType="com.palmble.entity.OrderInfo">
+		update order_info
+		<set>
+			<if test="id != null">
+				id = #{id},
+			</if>
+			<if test="orderNumber != null">
+				order_number = #{orderNumber},
+			</if>
+			<if test="memberId != null">
+				member_id = #{memberId},
+			</if>
+			<if test="integral != null">
+				integral = #{integral},
+			</if>
+			<if test="paymentMethod != null">
+				payment_method = #{paymentMethod},
+			</if>
+			<if test="orderStatus != null">
+				order_status = #{orderStatus},
+			</if>
+			<if test="userNotes != null">
+				user_notes = #{userNotes},
+			</if>
+			<if test="totalAmount != null">
+				total_amount = #{totalAmount},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<update id="updateFullyById" parameterType="com.palmble.entity.OrderInfo">
+		update order_info
+		set
+		order_number=#{orderNumber,jdbcType=VARCHAR},
+		member_id=#{memberId,jdbcType=INTEGER},
+		integral=#{integral,jdbcType=INTEGER},
+		payment_method=#{paymentMethod,jdbcType=INTEGER},
+		order_status=#{orderStatus,jdbcType=INTEGER},
+		user_notes=#{userNotes,jdbcType=VARCHAR},
+		total_amount=#{totalAmount,jdbcType=DOUBLE},
+		create_time=#{createTime,jdbcType=TIMESTAMP},
+		update_time=#{updateTime,jdbcType=TIMESTAMP}
+		where id = #{id}
+	</update>
+
+	<sql id="baseColumns">
+		a.id as id,
+		a.order_number as order_number,
+		a.member_id as
+		member_id,
+		a.integral as integral,
+		a.payment_method as payment_method,
+		a.order_status as order_status,
+		a.user_notes as user_notes,
+		a.total_amount as total_amount,
+		date_format(a.create_time,'%Y-%m-%d %H:%i:%s') as create_time,
+		date_format(a.update_time,'%Y-%m-%d %H:%i:%s') as update_time,
+		b.name as name,
+		b.phone as phone,
+		b.province as province,
+		b.city as city,
+		b.address_info as addredd_info
+	</sql>
+
+	<sql id="queryParams">
+		<where>
+			<if test="orderNumber != null and orderNumber != ''">
+				a.order_number=#{orderNumber}
+			</if>
+			<if test="memberId != null and memberId != ''">
+				and a.member_id=#{memberId}
+			</if>
+			<if test="integral != null and integral != ''">
+				and a.integral=#{integral}
+			</if>
+			<if test="paymentMethod != null and paymentMethod != ''">
+				and a.payment_method=#{paymentMethod}
+			</if>
+			<if test="orderStatus != null and orderStatus != ''">
+				and a.order_status=#{orderStatus}
+			</if>
+			<if test="userNotes != null and userNotes != ''">
+				and a.user_notes=#{userNotes}
+			</if>
+			<if test="totalAmount != null and totalAmount != ''">
+				and a.total_amount=#{totalAmount}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				and a.create_time=#{createTime}
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+				and a.update_time=#{updateTime}
+			</if>
+		</where>
+	</sql>
+
+	<select id="getById" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="baseColumns" />
+		from order_info a join consignee b on a.consignee_id=b.id
+		where a.id =
+		#{id}
+	</select>
+
+	<select id="find" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="baseColumns" />
+		from order_info a join consignee b on a.consignee_id=b.id
+		<include refid="queryParams" />
+		<if test="sort != null and order != null">
+			order by ${sort} ${order}
+		</if>
+		<if test="startRow != null and pageSize != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</select>
+
+	<select id="findSimpleResult" parameterType="java.util.Map"
+		resultMap="simpleResult">
+		select
+		<include refid="baseColumns" />
+		from order_info a join consignee b on a.consignee_id=b.id
+		<include refid="queryParams" />
+		<if test="sort != null and order != null">
+			order by ${sort} ${order}
+		</if>
+		<if test="startRow != null and pageSize != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</select>
+
+	<select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from order_info
+		<include refid="queryParams" />
+	</select>
+</mapper>

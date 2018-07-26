@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+
+<div class="ibox">
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-xs-12" style="text-align: right;">
+                <form class="form-inline" id="form-search" action="../order/index.html">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="orderSn" placeholder="订单编号">
+                    </div>
+                    <div class="form-group">
+                        <input placeholder="开始日期" class="form-control layer-date" id="start" name="startTime">
+                        <input placeholder="结束日期" class="form-control layer-date" id="end" name="endTime">
+                    </div>
+                    <div class="input-group">
+                        <select name="status" class="form-control">
+                            <option value="">选择状态</option>
+                            <option value="0">待领取</option>
+                            <option value="1">已领取</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary" type="button" id ="search-btn" ><i class="fa fa-search"></i></button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button data-url="../order/export" onclick="excel_download(this)" class="btn-sm btn-primary " type="button" id="excel-download"><i class="fa fa-download"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <div class="jqGrid_wrapper">
+            <table id="table" style="border-collapse: collapse"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common.js"></script>
+
+<script src="../hplus/js/plugins/layer/laydate/laydate.js"></script>
+<script>
+    $(function () {
+        var start={
+            elem:"#start",
+            format:"YYYY-MM-DD",
+            max:"2099-06-16 23:59:59",istime:false,istoday:true,
+            choose:function(datas){
+                end.min=datas;
+                end.start=datas
+            }};
+        var end={
+            elem:"#end",
+            format:"YYYY-MM-DD",
+            max:"2099-06-16 23:59:59",
+            istime:false,istoday:true,
+            choose:function(datas){}};
+        laydate(start);
+        laydate(end);
+        $(window).bind("resize",function(){
+            var width=$(".jqGrid_wrapper").width();
+            $("#table").setGridWidth(width);
+        });
+
+        $.jgrid.defaults.styleUI="Bootstrap";
+        $("#table").jqGrid({
+            url:"/order/getOrderList",
+            datatype: "json",
+            colModel:[
+                {label:'订单编号',name:'orderNumber',index:'orderNumber',width:100,editable: false,sortable: false},
+                {label:'会员编号',name:'memberId',index:'memberId',width:60,editable: false,sortable: false},
+                {label:'积分',name:'integral',index:'integral',width:60,editable: false,sortable: false},
+                {label:'付款方式',name:'paymentMethod',index:'paymentMethod',width:60,editable: false,sortable: false},
+                {label:'订单状态',name:'orderStatus',index:'orderStatus',width:50,editable: false,sortable: false},
+                {label:'总金额',name:'totalAmount',index:'totalAmount',width:80,editable: false,sortable: true},
+                {label:'日期',name:'createTime',index:'create_time',width:80,editable: false,sortable: true},
+                {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
+                    var editurl = "order_info.html?id="+c.id;
+                    var finishurl = "../order/finish/id/"+ c.id;
+                    var btn = '<a href="javascript:;" url="'+editurl+'" data-title="订单详情" onclick="layer_open(this,1)"><span class="label label-info" title="详情">详情</span></a>&nbsp;';
+                    if(c.status == 0){
+                        btn += '<a href="'+finishurl+'" class="ajax-get confirm"><span class="label label-info" title="确认领取">确认领取</span></a>&nbsp;';
+                    }
+                    return btn;
+                }},
+            ],
+            rowNum:10,
+            rowList:[10,20,30],
+            pager: '#pager',
+            sortname: 'id',
+            viewrecords: true,
+            autowidth:true,
+            rownumbers:true,
+            mtype: 'post',
+            height: 'auto',
+            emptyrecords: "暂无数据",
+            sortorder: "desc",
+            caption:"订单列表",
+            loadComplete:function(data){
+                if(data.code==0){
+                    layer.msg(data.msg);
+                    return false;
+                }
+                var cxScore = data.cxScore;
+                var balance = data.balance;
+//                 $('#pager_left').html('<span style="color:orange;font-size: 10px;">总重消积分：'+cxScore+' </span>&nbsp;&nbsp;&nbsp;<span style="color:orange;font-size: 10px;">总现金币：'+balance+' </span>');
+            },
+        });
+    });
+
+    //导出
+    function excel_download(_self){
+        var url = $(_self).attr('data-url');
+        var param = $('#form-search').serializeArray();
+        for (var i=0;i<param.length;i++){
+            if(param[i].value != ''){
+                url += '/'+param[i].name+'/'+param[i].value;
+            }
+        }
+        window.location.href = url;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+<style>
+    td{
+        word-break:break-all;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content" style="padding: 0;">
+                <table class="table table-bordered">
+<!--                     <tr> -->
+<!--                         <th colspan="2"> -->
+<!--                             商品信息 -->
+<!--                         </th> -->
+<!--                         <th>数量</th> -->
+<!--                     </tr> -->
+<!--                                         <tr> -->
+<!--                         <td width="50"> -->
+<!--                             <img src="/uploads/images/20180622/6955665b4effa13c6ec8c732c23f64ab.jpg" width="50" height="50"> -->
+<!--                         </td> -->
+<!--                         <td> -->
+<!--                             <p><strong>sdag</strong></p> -->
+<!--                             <small> -->
+<!--                                 ￥10.00 &nbsp;&nbsp; -->
+<!--                                                             </small> -->
+<!--                         </td> -->
+<!--                         <td></td> -->
+<!--                     </tr> -->
+<!--                                     </table> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!--     <div class="col-sm-12"> -->
+<!--         <div class="ibox float-e-margins"> -->
+<!--             <div class="ibox-title"> -->
+<!--                 <h5>订单信息</h5> -->
+<!--             </div> -->
+<!--             <div class="ibox-content" style="padding: 0;"> -->
+<!--                 <table class="table"> -->
+<!--                     <tr> -->
+<!--                         <td width="100">订单编号</td> -->
+<!--                         <td>2018062997975552</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>会员编号</td> -->
+<!--                         <td>hxf1699</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>联系电话</td> -->
+<!--                         <td>18697773533</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>订单状态</td> -->
+<!--                         <td> -->
+<!--                             待领取                        </td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>重消积分</td> -->
+<!--                         <td>8.50</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>现金积分</td> -->
+<!--                         <td>1.50</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>用户备注</td> -->
+<!--                         <td></td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>下单日期</td> -->
+<!--                         <td>2018-06-29 15:55:22</td> -->
+<!--                     </tr> -->
+
+                    
+<!--                     <tr> -->
+<!--                         <td>操作</td> -->
+<!--                         <td> -->
+<!--                                                         <button url="../order/finish/id/23.html" data-confirm="确定要确认领取吗" class="btn btn-sm btn-primary ajax-get confirm">确认领取</button> -->
+<!--                                                     </td> -->
+<!--                     </tr> -->
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common.js"></script>
+
+<script>
+var url='/order/getOrderInfo';
+var data={id:getQueryString('id')};
+    $.get(url,data,function(obj){
+    	console.log(obj);
+    });
+
+</script>
+
+</body>
+</html>
