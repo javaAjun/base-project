@@ -281,15 +281,18 @@
 	        zs_goods_category zc
 		WHERE
 			zg.goodsCateId = zc.id
+	       <if test="isAdminRecom !=null "> AND zg.isAdminRecom=#{isAdminRecom}</if>
+			<if test="isSale !=null "> AND zg.isSale=#{isSale}</if>
 			<if test="value!=null and value!=''">
 			  AND
-				   (zg.goodsName LIKE '%#{value}%'
+				   (zg.goodsName LIKE '%${value}%'
 				 OR
-				   zg.goodsNo  LIKE  '%#{value}%'
+				   zg.goodsNo  LIKE  '%${value}%'
 				 OR 
-				   zc.catName  LIKE  '%#{value}%')
+				   zc.catName  LIKE  '%${value}%') 
 			</if>
-			limit #{page},#{size}
+		  <if test="sord!=null">order by zg.id  ${sord}  </if>
+		   limit #{page},#{size}
   </select>
   <select id="selectGoodsTotalCount" resultType="INTEGER">
         SELECT
@@ -301,11 +304,11 @@
 			  zg.goodsCateId = zc.id
 			<if test="value!=null and value!=''">
 			    AND
-				   (zg.goodsName LIKE '%#{value}%'
+				   (zg.goodsName LIKE '%${value}%'
 				 OR
-				   zg.goodsNo  LIKE  '%#{value}%'
+				   zg.goodsNo  LIKE  '%${value}%'
 				 OR 
-				   zc.catName  LIKE  '%#{value}%')
+				   zc.catName  LIKE  '%${value}%')
 			</if>
    </select>
 </mapper>
