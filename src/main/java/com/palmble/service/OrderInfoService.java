@@ -13,7 +13,7 @@ public interface OrderInfoService {
     
     int deleteById(Integer id);
     
-//    int updateById(OrderInfo orderInfo);
+    int updateById(OrderInfo orderInfo);
 
 //    int updateFullyById(OrderInfo orderInfo);
     
@@ -25,4 +25,5 @@ public interface OrderInfoService {
 
     int count(Map<String, Object> params);
     List<OrderInfo> findSimpleResult(Map<String, Object> params);
+    List<OrderInfo> fuzzyQuery(Map<String, Object> params);
 }

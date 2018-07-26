@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class ZsGoods {
     private Integer id;
-
+    
     private String goodsNo;
 
     private String goodsName;
@@ -39,8 +39,20 @@ public class ZsGoods {
     private Integer goodsCateId;
 
     private String goodsContent;
+    
+    private Integer number;
+    
+    
 
-    public Integer getId() {
+    public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
+	public Integer getId() {
         return id;
     }
 

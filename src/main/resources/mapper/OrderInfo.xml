@@ -71,7 +71,8 @@
 		a.saleCount, a.goodsSpec, a.isSale, a.isAdminRecom, a.goodsDesc,
 		a.saleTime,
 		a.createTime, a.goodsPhotoAlbumId,
-		a.goodsCateId
+		a.goodsCateId,
+		b.number
 		from
 		zs_goods a join harvested_goods b
 		on a.id=b.goods_id
@@ -229,4 +230,49 @@
 		select count(*) from order_info
 		<include refid="queryParams" />
 	</select>
+	
+	  <sql id="fuzzyParams">
+    <where >
+      <if test="orderNumber != null and orderNumber != ''">
+      a.order_number like concat(concat('%',#{orderNumber}),'%')  
+      </if>
+      <if test="memberId != null and memberId != ''" >
+      and  a.member_id like concat(concat('%',#{memberId}),'%')  
+      </if>
+      <if test="integral != null and integral != ''" >
+      and  a.integral like concat(concat('%',#{integral}),'%')  
+      </if>
+      <if test="paymentMethod != null and paymentMethod != ''" >
+      and  a.payment_method like concat(concat('%',#{paymentMethod}),'%')  
+      </if>
+      <if test="orderStatus != null and orderStatus != ''" >
+      and  a.order_status like concat(concat('%',#{orderStatus}),'%')  
+      </if>
+      <if test="userNotes != null and userNotes != ''" >
+      and  a.user_notes like concat(concat('%',#{userNotes}),'%')  
+      </if>
+      <if test="totalAmount != null and totalAmount != ''" >
+      and  a.total_amount like concat(concat('%',#{totalAmount}),'%')  
+      </if>
+      <if test="startTime != null and startTime != ''" >
+      <![CDATA[ and  a.create_time  > #{startTime}]]>
+      </if>
+      <if test="endTime != null and endTime != ''" >
+      <![CDATA[ and  a.create_time  < #{endTime}]]>
+      </if>
+      <if test="updateTime != null and updateTime != ''" >
+      and  a.update_time like concat(concat('%',#{updateTime}),'%')  
+      </if>
+      <if test="consigneeId != null and consigneeId != ''" >
+      and  a.consignee_id like concat(concat('%',#{consigneeId}),'%')  
+      </if>
+    </where >
+  </sql>
+  
+  <select id="fuzzyQuery" parameterType="map" resultMap="simpleResult" >
+  	select 
+  		<include refid="baseColumns" />
+  	from order_info a join consignee b on a.consignee_id=b.id
+    <include refid="fuzzyParams" />
+  </select>
 </mapper>

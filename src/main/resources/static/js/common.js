@@ -54,7 +54,12 @@ function ajax_get_fun(that) {
                             $('#top-alert').find('button').click();
                             $("#table").trigger("reloadGrid");
                         }else{
-                            location.href=data.url;
+                        	if(data.url){
+                        		location.href=data.url;
+                        	}else{
+                        		$('#top-alert').find('button').click();
+                        		 $("#table").trigger("reloadGrid");
+                        	}
                         }
                     }
                 },1500);
@@ -417,6 +422,9 @@ function layer_open(_self,flag){
             }else if(flag==2){
                 window.location.reload();
             }
+            setTimeout(function(){
+    			$('#top-alert').find('button').click();
+    		},1500);
         }
     });
 }

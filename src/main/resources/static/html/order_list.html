@@ -30,19 +30,19 @@
     <div class="ibox-content">
         <div class="row">
             <div class="col-xs-12" style="text-align: right;">
-                <form class="form-inline" id="form-search" action="../order/index.html">
+                <form class="form-inline" id="form-search" action="/order/searchOrder">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="orderSn" placeholder="订单编号">
+                        <input type="text" class="form-control" name="orderNumber" placeholder="订单编号">
                     </div>
                     <div class="form-group">
                         <input placeholder="开始日期" class="form-control layer-date" id="start" name="startTime">
                         <input placeholder="结束日期" class="form-control layer-date" id="end" name="endTime">
                     </div>
                     <div class="input-group">
-                        <select name="status" class="form-control">
+                        <select name="orderStatus" class="form-control">
                             <option value="">选择状态</option>
-                            <option value="0">待领取</option>
-                            <option value="1">已领取</option>
+                            <option value="2">待收货</option>
+                            <option value="3">已收货</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -115,17 +115,49 @@
             colModel:[
                 {label:'订单编号',name:'orderNumber',index:'orderNumber',width:100,editable: false,sortable: false},
                 {label:'会员编号',name:'memberId',index:'memberId',width:60,editable: false,sortable: false},
-                {label:'积分',name:'integral',index:'integral',width:60,editable: false,sortable: false},
-                {label:'付款方式',name:'paymentMethod',index:'paymentMethod',width:60,editable: false,sortable: false},
-                {label:'订单状态',name:'orderStatus',index:'orderStatus',width:50,editable: false,sortable: false},
+                {label:'使用积分',name:'integral',index:'integral',width:60,editable: false,sortable: false},
+                {label:'付款方式',name:'paymentMethod',index:'paymentMethod',width:60,editable: false,sortable: false,formatter: function (a, b, c){
+                	if(c.paymentMethod==1){
+                		return "微信支付";
+                	}
+                	if(c.paymentMethod==2){
+                		return "支付宝支付";
+                	}
+                	if(c.paymentMethod==3){
+                		return "银联快捷支付";
+                	}
+                }},
+                {label:'订单状态',name:'orderStatus',index:'orderStatus',width:50,editable: false,sortable: false,formatter: function (a, b, c){
+                	if(c.orderStatus==0){
+                		return "待付款";
+                	}
+                	if(c.orderStatus==1){
+                		return "待发货";
+                	}
+                	if(c.orderStatus==2){
+                		return "待收货";
+                	}
+                	if(c.orderStatus==3){
+                		return "已收货";
+                	}
+                	if(c.orderStatus==4){
+                		return "待退货";
+                	}
+                	if(c.orderStatus==5){
+                		return "退货中";
+                	}
+                	if(c.orderStatus==6){
+                		return "已退货";
+                	}
+                  }
+                },
                 {label:'总金额',name:'totalAmount',index:'totalAmount',width:80,editable: false,sortable: true},
                 {label:'日期',name:'createTime',index:'create_time',width:80,editable: false,sortable: true},
                 {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
                     var editurl = "order_info.html?id="+c.id;
-                    var finishurl = "../order/finish/id/"+ c.id;
                     var btn = '<a href="javascript:;" url="'+editurl+'" data-title="订单详情" onclick="layer_open(this,1)"><span class="label label-info" title="详情">详情</span></a>&nbsp;';
-                    if(c.status == 0){
-                        btn += '<a href="'+finishurl+'" class="ajax-get confirm"><span class="label label-info" title="确认领取">确认领取</span></a>&nbsp;';
+                    if(c.orderStatus==2){
+                        btn += '<a href="/order/confirmCollect?id='+c.id+'" class="ajax-get confirm"><span class="label label-info" title="确认领取">确认领取</span></a>&nbsp;';
                     }
                     return btn;
                 }},
@@ -143,6 +175,7 @@
             sortorder: "desc",
             caption:"订单列表",
             loadComplete:function(data){
+            	console.log(data);
                 if(data.code==0){
                     layer.msg(data.msg);
                     return false;

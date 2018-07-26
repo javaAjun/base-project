@@ -28,10 +28,10 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 		return orderInfoDao.deleteById(id);
 	}
 //
-//	@Override
-//	public int updateById(OrderInfo orderInfo) {
-//		return orderInfoDao.updateById(orderInfo);
-//	}
+	@Override
+	public int updateById(OrderInfo orderInfo) {
+		return orderInfoDao.updateById(orderInfo);
+	}
 //
 //	@Override
 //	public int updateFullyById(OrderInfo orderInfo) {
@@ -56,6 +56,10 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 	@Override
 	public List<OrderInfo> findSimpleResult(Map<String, Object> params) {
 		return orderInfoDao.findSimpleResult(params);
+	}
+	@Override
+	public List<OrderInfo> fuzzyQuery(Map<String, Object> params) {
+		return orderInfoDao.fuzzyQuery(params);
 	}
 
 }

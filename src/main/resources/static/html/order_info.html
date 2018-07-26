@@ -33,77 +33,18 @@
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-content" style="padding: 0;">
-                <table class="table table-bordered">
-<!--                     <tr> -->
-<!--                         <th colspan="2"> -->
-<!--                             商品信息 -->
-<!--                         </th> -->
-<!--                         <th>数量</th> -->
-<!--                     </tr> -->
-<!--                                         <tr> -->
-<!--                         <td width="50"> -->
-<!--                             <img src="/uploads/images/20180622/6955665b4effa13c6ec8c732c23f64ab.jpg" width="50" height="50"> -->
-<!--                         </td> -->
-<!--                         <td> -->
-<!--                             <p><strong>sdag</strong></p> -->
-<!--                             <small> -->
-<!--                                 ￥10.00 &nbsp;&nbsp; -->
-<!--                                                             </small> -->
-<!--                         </td> -->
-<!--                         <td></td> -->
-<!--                     </tr> -->
-<!--                                     </table> -->
-<!--             </div> -->
-<!--         </div> -->
-<!--     </div> -->
-<!--     <div class="col-sm-12"> -->
-<!--         <div class="ibox float-e-margins"> -->
-<!--             <div class="ibox-title"> -->
-<!--                 <h5>订单信息</h5> -->
-<!--             </div> -->
-<!--             <div class="ibox-content" style="padding: 0;"> -->
-<!--                 <table class="table"> -->
-<!--                     <tr> -->
-<!--                         <td width="100">订单编号</td> -->
-<!--                         <td>2018062997975552</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>会员编号</td> -->
-<!--                         <td>hxf1699</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>联系电话</td> -->
-<!--                         <td>18697773533</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>订单状态</td> -->
-<!--                         <td> -->
-<!--                             待领取                        </td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>重消积分</td> -->
-<!--                         <td>8.50</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>现金积分</td> -->
-<!--                         <td>1.50</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>用户备注</td> -->
-<!--                         <td></td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>下单日期</td> -->
-<!--                         <td>2018-06-29 15:55:22</td> -->
-<!--                     </tr> -->
-
-                    
-<!--                     <tr> -->
-<!--                         <td>操作</td> -->
-<!--                         <td> -->
-<!--                                                         <button url="../order/finish/id/23.html" data-confirm="确定要确认领取吗" class="btn btn-sm btn-primary ajax-get confirm">确认领取</button> -->
-<!--                                                     </td> -->
-<!--                     </tr> -->
+                <table class="table table-bordered" id="goodsInfo">
+                 </table>
+                   </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>订单信息</h5>
+            </div>
+            <div class="ibox-content" style="padding: 0;">
+                <table class="table" id="orderInfo">
                 </table>
             </div>
         </div>
@@ -129,11 +70,109 @@
 
 <script>
 var url='/order/getOrderInfo';
-var data={id:getQueryString('id')};
-    $.get(url,data,function(obj){
-    	console.log(obj);
+var id=getQueryString('id');
+var postData={id:id};
+    $.get(url,postData,function(obj){
+    	var orderInfo=obj.data;
+    	var goods=orderInfo.zsGoods;
+    	var consignee=orderInfo.consignee;
+    	$.each(goods,function(i,val){
+    		$('#goodsInfo').append('<tr>'
+                        +'<th colspan="2">'
+                           +' 商品信息'
+                        +'</th>'
+                        +'<th>数量</th>'
+                    +'</tr>'
+                                        +'<tr>'
+                        +'<td width="50">'
+                            +'<img src="'+val.goodsCoverThums+'" width="50" height="50">'
+                        +'</td>'
+                        +'<td>'
+                            +'<p><strong>'+val.goodsName+'</strong></p>'
+                            +'<small>'
+                                +'￥'+val.shopPrice+'&nbsp;&nbsp;'
+                                                            +'</small>'
+                        +'</td>'
+                        +'<td>'+val.number+'</td>'
+                    +'</tr>');
+    	});
+    	var orderStatus;
+    	if(orderInfo.orderStatus==0){
+    		orderStatus= "待付款";
+    	}
+    	if(orderInfo.orderStatus==1){
+    		orderStatus= "待发货";
+    	}
+    	if(orderInfo.orderStatus==2){
+    		orderStatus= "待收货";
+    	}
+    	if(orderInfo.orderStatus==3){
+    		orderStatus= "已收货";
+    	}
+    	if(orderInfo.orderStatus==4){
+    		orderStatus= "待退货";
+    	}
+    	if(orderInfo.orderStatus==5){
+    		orderStatus= "退货中";
+    	}
+    	if(orderInfo.orderStatus==6){
+    		orderStatus= "已退货";
+    	}
+    	var html='<tr>'
+                +'<td width="100">订单编号</td>'
+                +'<td>'+orderInfo.orderNumber+'</td>'
+            +'</tr>'
+            +'<tr>'
+                +'<td>会员编号</td>'
+                +'<td>'+orderInfo.memberId+'</td>'
+            +'</tr>'
+            +'<tr>'
+                +'<td>订单状态</td>'
+                +'<td>'+orderStatus+'</td>'
+            +'</tr>'
+            +'<tr>'
+                +'<td>积分</td>'
+                +'<td>'+orderInfo.integral+'</td>'
+            +'</tr>'
+            +'<tr>'
+                +'<td>用户备注</td>'
+                +'<td>'+orderInfo.userNotes+'</td>'
+            +'</tr>'
+            +'<tr>'
+            +'<td>收货人姓名</td>'
+            +'<td>'+consignee.name+'</td>'
+        +'</tr>'
+        +'<tr>'
+        +'<td>收货人电话</td>'
+        +'<td>'+consignee.phone+'</td>'
+   		 +'</tr>'
+            +'<tr>'
+            +'<td>收货地址</td>'
+            +'<td>'+consignee.addressInfo+'</td>'
+        +'</tr>'
+            +'<tr>'
+                +'<td>下单日期</td>'
+                +'<td>'+orderInfo.createTime+'</td>'
+            +'</tr>';
+            
+            if(orderInfo.orderStatus==2){
+            	html+='<tr>'
+                +'<td>操作</td>'
+                +'<td>'
+                +'<button class="btn btn-sm btn-primary confirm" onclick=confirmCollect()>确认收货</button>'
+                +'</td>'
+            +'</tr>';
+            }
+//     	);
+    $('#orderInfo').append(html);
     });
-
+function confirmCollect(){
+	var data={id:id};
+	$.get('/order/confirmCollect',data,function(obj){
+		parent.layer.closeAll();
+		parent.updateAlert(obj.msg,'alert-success');
+	})
+}
 </script>
 
 </body>
