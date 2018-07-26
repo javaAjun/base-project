@@ -30,7 +30,7 @@
     <div class="ibox-content">
         <div class="row">
             <div class="col-xs-3">
-                <a href="javascript:;" url="/admin/banner/add.html" data-title="新增banner" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>
+                <a href="javascript:;" url="banner_add.html" data-title="新增banner" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>
             </div>
             <div class="col-xs-9" style="text-align: right;">
                 <form class="form-inline" id="form-search" action="/admin/banner/index.html">
@@ -82,29 +82,30 @@
 
         $.jgrid.defaults.styleUI="Bootstrap";
         $("#table").jqGrid({
-            url:"/admin/banner/index.html",
+            url:"/banner/list",
             datatype: "json",
             colModel:[
-                {label:'ID',name:'id',index:'id',width:30,editable: false,sortable: false},
-                {label:'图片',name:'img',index:'img',width:30,editable: false,sortable: false,formatter: function (a, b, c) {
+                {label:'ID',name:'id',index:'id',width:40,editable: false,sortable: false},
+                {label:'图片',name:'imageUrl',index:'imageUrl',width:50,editable: false,sortable: false,formatter: function (a, b, c) {
                     return '<img src="'+a+'" width="20" height="20"/>';
                 }},
-                {label:'标题',name:'title',index:'title',width:150,editable: false,sortable: false},
-                {label:'排序',name:'sorts',index:'sorts',width:30,sortable: true,formatter: function (a, b, c) {
-                    return '<input type="number" onchange="updateSort(this)" data-url="/admin/banner/changesort.html" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
+                {label:'标题',name:'bannerTitle',index:'bannerTitle',width:100,editable: false,sortable: false},
+                {label:'链接',name:'bannerUrl',index:'bannerUrl',width:100,editable: false,sortable: false},
+                {label:'排序',name:'sequence',index:'sequence',width:30,sortable: true,formatter: function (a, b, c) {
+                    return '<input type="number" onchange="updateSort(this)" data-url="/banner/changesort" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
                 }},
-                {label:'状态',name:'status',index:'status',width:50,editable: false,sortable: false,formatter:function (a,b,c){
-                    if(a == 0){
-                        var url = "/admin/banner/changestatus/status/1/id/"+c.id;
+                {label:'状态',name:'state',index:'state',width:50,editable: false,sortable: false,formatter:function (a,b,c){
+                    if(a == 1){
+                    	var url = "/banner/bannerState?bannerState=0&id="+c.id;
                         return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
                     } else{
-                        var url = "/admin/banner/changestatus/status/0/id/"+c.id;
+                    	var url = "/banner/bannerState?bannerState=1&id="+c.id;
                         return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
                     }
                 }},
                 {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
-                    var editurl = "/admin/banner/add/id/"+c.id;
-                    var delurl = "/admin/banner/del/id/"+c.id;
+                    var editurl = "banner_add.html?id="+c.id;
+                    var delurl = "/banner/delBanner?id="+c.id;
                     var btn = '<a href="javascript:;" url="'+editurl+'" data-title="编辑banner" onclick="layer_open(this,1)"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
                     btn += '<a href="'+delurl+'" class="confirm ajax-get" data-confirm="确定要删除此记录吗?" data-table="1"><span class="label label-danger" title="删除">删除</span></a>';
                     return btn;
@@ -113,12 +114,27 @@
             rowNum:10,
             rowList:[10,20,30],
             pager: '#pager',
-            sortname: 'id',
+            sortname: 'sequence',
             viewrecords: true,
             autowidth:true,
             mtype: 'post',
             height: 'auto',
             emptyrecords: "暂无数据",
+            jsonReader : {
+                root: "list",    // json中代表实际模型数据的入口
+                page: "pageNum",    // json中代表当前页码的数据
+                total: "pages",    // json中代表页码总数的数据
+                records: "size", // json中代表数据行总数的数据
+                repeatitems: true, // 如果设为false，则jqGrid在解析json时，会根据name来搜索对应的数据元素（即可以json中元素可以不按顺序）；而所使用的name是来自于colModel中的name设定。
+                cell: "cell",
+                id: "id",
+                userdata: "userdata",
+                subgrid: {
+	                root:"rows", 
+	                repeatitems: true, 
+	                cell:"cell"
+	            }
+            },
             sortorder: "desc",
             caption:"banner列表",
             loadComplete: function (xhr) {

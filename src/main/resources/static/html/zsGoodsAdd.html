@@ -7,7 +7,7 @@
 <head>
 
 
-    <title>Ìí¼ÓÉÌÆ·</title>
+    <title>æ·»åŠ å•†å“</title>
     <link rel="shortcut icon" href="favicon.ico"> <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
     <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
 
@@ -45,20 +45,62 @@
 display: none;
 }
       body {
-        display: -moz-box;/*¼æÈİFirefox*/
-        display: -webkit-box;/*¼æÈİFSafari¡¢Chrome*/
+        display: -moz-box;/*å…¼å®¹Firefox*/
+        display: -webkit-box;/*å…¼å®¹FSafariã€Chrome*/
 
-        -moz-box-align: center;/*¼æÈİFirefox*/
-        -webkit-box-align: center;/*¼æÈİFSafari¡¢Chrome */
+        -moz-box-align: center;/*å…¼å®¹Firefox*/
+        -webkit-box-align: center;/*å…¼å®¹FSafariã€Chrome */
 
-        -moz-box-pack: center;/*¼æÈİFirefox*/
-        -webkit-box-pack: center;/*¼æÈİFSafari¡¢Chrome */
+        -moz-box-pack: center;/*å…¼å®¹Firefox*/
+        -webkit-box-pack: center;/*å…¼å®¹FSafariã€Chrome */
       }
+      .form-control{
+        width: 200px;
+      }
+      
       #imgs_group{
          position: relative;
               left: -150px;
+              width: 850px;
         }
-      
+      .uploadImgBtn {
+        width: 100px;
+        height: 100px;
+        cursor: pointer;
+        position: relative;
+        background: url("../hplus/img/imgM.png") no-repeat;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+
+    .uploadImgBtn .uploadImg {
+        position: absolute;
+        right: 0;
+        top:0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+    //è¿™æ˜¯ä¸€ä¸ªç”¨åšå›æ˜¾çš„ç›’å­çš„æ ·å¼
+    .imgpic{
+        width: 100px;
+        height: 100px;
+        float: left;
+    }
+    .imgpic img {
+        width: 100px;
+        height: 80px;
+        float: left;
+        padding-left: 5px;
+        padding-bottom: 5px;
+    }
+       .imgpic input {
+       
+        float: left;
+        
+    }
+
 </style>
 </head>
 
@@ -67,29 +109,29 @@ display: none;
         <div class="row">
           <form class="form-inline">
                       <div class="form-group">
-                                <input type="text" placeholder="ÇëÊäÈëÉÌÆ·±àºÅ"  id="goodsNo" class="form-control">
+                                <input type="text" placeholder="è¯·è¾“å…¥å•†å“ç¼–å·"  id="goodsNo" class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" placeholder="ÇëÊäÈëÉÌÆ·Ãû³Æ" id="goodsName" class="form-control">
+                                <input type="text" placeholder="è¯·è¾“å…¥å•†å“åç§°" id="goodsName" class="form-control">
                             </div>  
                             <div class="form-group">
-                                <input type="text" placeholder="Ñ¡Ôñ·ÖÀà" id="catName" class="form-control">
+                                <input type="text" placeholder="é€‰æ‹©åˆ†ç±»" id="catName" class="form-control">
                             </div>
                             
                             <div class="form-group">
-                                <input type="text" placeholder="ÊĞ³¡¼Û" id="marketPrice" class="form-control">
+                                <input type="text" placeholder="å¸‚åœºä»·" id="marketPrice" class="form-control">
                             </div>
                              <div class="form-group">
-                                <input type="text" placeholder="µêÆÌ¼Û¸ñ" id="shopPrice" class="form-control">
+                                <input type="text" placeholder="åº—é“ºä»·æ ¼" id="shopPrice" class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" placeholder="ÉÌÆ·¿â´æ" id="goodsStock" class="form-control">
+                                <input type="text" placeholder="å•†å“åº“å­˜" id="goodsStock" class="form-control">
                             </div>
                               <div class="form-group">
-                                <input type="text" placeholder="ÉÌÆ·×´Ì¬" id="isSale" class="form-control">
+                                <input type="text" placeholder="å•†å“çŠ¶æ€" id="isSale" class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" placeholder="ÊÇ·ñÍÆ¼ö" id="isSale" class="form-control">
+                                <input type="text" placeholder="æ˜¯å¦æ¨è" id="isSale" class="form-control">
                             </div>
                            <div id="tab-4" class="tab-pane active">
                                 <div class="panel-body">
@@ -97,35 +139,39 @@ display: none;
                                         <div class="col-sm-6">
                                              <div>
 											    <a href="javascript:;" class="btn btn-primary btn-sm jqfivefile" type="button">
-											        <span id="imgUpload_name_img" >ÉÏ´«·âÃæÍ¼Æ¬</span><span id="progress_img"></span>
-											        <input id="imgUpload_img" type="file" title="ÉÏ´«Í¼Æ¬"  accept="image/gif,image/png,image/jpeg,image/jpg,image/bmp"
+											        <span id="imgUpload_name_img" >ä¸Šä¼ å°é¢å›¾ç‰‡</span><span id="progress_img"></span>
+											        <input id="imgUpload_img" type="file" title="ä¸Šä¼ å›¾ç‰‡"  accept="image/gif,image/png,image/jpeg,image/jpg,image/bmp"
 											          onchange="imgPutc(this)" >
 											    </a>
                                                 <!-- <div id="imgsbox_img" class="imgsbox"> </div> -->
                                                 
                                                 <span><img class="imgbox" src="" id="imgbox_img" style="width:100px;higth:80px"  onerror="this.src='../hplus/img/imgM.png'" ></span><!-- onerror="this.src='/pj/static/images/imgM.png'" -->
                                             </div>
-                                            <span class="help-block m-b-none text-danger">Ö§³Ö:jpg¡¢jpeg¡¢png¡¢gif£» ´óĞ¡£ºÏŞ5MÄÚ</span>
+                                            <span class="help-block m-b-none text-danger">æ”¯æŒ:jpgã€jpegã€pngã€gifï¼› å¤§å°ï¼šé™5Må†…</span>
                                       </div>
                                     </div>
 				        <div class="form-group" id="imgs_group">
-				           <div class="col-sm-6">
-				              <div>
+				           <div class="col-sm-6" style="width: 860px">
+				               <lable>ä¸Šä¼ ç›¸å†Œ</lable>
+				           <div class="uploadImgBtn" id="uploadImgBtn" >
+                                  <input class="uploadImg" type="file" name="file" multiple id="file">
+                             </div>
+                         <div id="img_id"></div>
+				             <!--  <div>
 				              <a href="javascript:;" class="btn btn-primary btn-sm jqfivefile" type="button">
-				                   <span id="imgUpload_name_imgs">ÉÏ´«Ïà²áÍ¼Æ¬</span><span id="progress_imgs"></span>
-				                   <input id="imgUpload_imgs" type="file" title="ÉÏ´«Ïà²áÍ¼Æ¬" 
-				                   accept="image/gif,image/png,image/jpeg,image/jpg,image/bmp"  multiple="multiple"
-				                  onchange="imgPutcS(this)">
+				                   <span id="imgUpload_name_imgs">ä¸Šä¼ ç›¸å†Œå›¾ç‰‡</span><span id="progress_imgs"></span>
+				                   <input id="imgUpload_imgs" type="file" title="ä¸Šä¼ ç›¸å†Œå›¾ç‰‡"  accept="image/gif,image/png,image/jpeg,image/jpg,image/bmp"  
+				                   multiple="multiple" > onchange="imgPutcS(this)"
 				             </a>
 				             <div id="imgsboxDiv">
-				                <span>
+				                  <span>
 				                    <img class="imgsbox" src="" id="imgsbox_imgs" 
 				                     style="width:90px;higth:80px"  onerror="this.src='../hplus/img/imgM.png'" >
 				                   </span>
 				             </div>
-				          </div>
-				          <span class="help-block m-b-none text-danger">Ö§³Ö:jpg¡¢jpeg¡¢png¡¢gif£»´óĞ¡£ºÏŞ5MÄÚ</span>
+				          </div> -->
 				        </div>
+				          <span class="help-block m-b-none text-danger">æ”¯æŒ:jpgã€jpegã€pngã€gifï¼›å¤§å°ï¼šé™5Må†…</span>
 				      </div>
                  </div>
              </div>      
@@ -133,18 +179,18 @@ display: none;
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Wyswig Summernote ¸»ÎÄ±¾±à¼­Æ÷</h5>
+                        <h5>Wyswig Summernote å¯Œæ–‡æœ¬ç¼–è¾‘å™¨</h5>
                     </div>
                     <div class="ibox-content no-padding">
 
                         <div class="summernote">
-                            <h2>H+ ºóÌ¨Ö÷Ìâ</h2>
-                            <p>H+ÊÇÒ»¸öÍêÈ«ÏìÓ¦Ê½£¬»ùÓÚBootstrap3.3.6×îĞÂ°æ±¾¿ª·¢µÄ±âÆ½»¯Ö÷Ìâ£¬Ëı²ÉÓÃÁËÖ÷Á÷µÄ×óÓÒÁ½À¸Ê½²¼¾Ö£¬Ê¹ÓÃÁËHtml5+CSS3µÈÏÖ´ú¼¼Êõ£¬ËıÌá¹©ÁËÖî¶àµÄÇ¿´óµÄ¿ÉÒÔÖØĞÂ×éºÏµÄUI×é¼ş£¬²¢¼¯³ÉÁË×îĞÂµÄjQuery°æ±¾(v2.1.1)£¬µ±È»£¬Ò²¼¯³ÉÁËºÜ¶à¹¦ÄÜÇ¿´ó£¬ÓÃÍ¾¹ã·ºµÄ¾ÍjQuery²å¼ş£¬Ëı¿ÉÒÔÓÃÓÚËùÓĞµÄWebÓ¦ÓÃ³ÌĞò£¬Èç<b>ÍøÕ¾¹ÜÀíºóÌ¨</b>£¬<b>ÍøÕ¾»áÔ±ÖĞĞÄ</b>£¬<b>CMS</b>£¬<b>CRM</b>£¬<b>OA</b>µÈµÈ£¬µ±È»£¬ÄúÒ²¿ÉÒÔ¶ÔËı½øĞĞÉî¶È¶¨ÖÆ£¬ÒÔ×ö³ö¸üÇ¿ÏµÍ³¡£</p>
+                            <h2>åå°ä¸»é¢˜</h2>
+                            <p>æ˜¯ä¸€ä¸ªå®Œå…¨å“åº”å¼ï¼ŒåŸºäºBootstrap3.3.6æœ€æ–°ç‰ˆæœ¬å¼€å‘çš„æ‰å¹³åŒ–ä¸»é¢˜ï¼Œå¥¹é‡‡ç”¨äº†ä¸»æµçš„å·¦å³ä¸¤æ å¼å¸ƒå±€ï¼Œä½¿ç”¨äº†Html5+CSS3ç­‰ç°ä»£æŠ€æœ¯ï¼Œå¥¹æä¾›äº†è¯¸å¤šçš„å¼ºå¤§çš„å¯ä»¥é‡æ–°ç»„åˆçš„UIç»„ä»¶ï¼Œå¹¶é›†æˆäº†æœ€æ–°çš„jQueryç‰ˆæœ¬(v2.1.1)ï¼Œå½“ç„¶ï¼Œä¹Ÿé›†æˆäº†å¾ˆå¤šåŠŸèƒ½å¼ºå¤§ï¼Œç”¨é€”å¹¿æ³›çš„å°±jQueryæ’ä»¶ï¼Œå¥¹å¯ä»¥ç”¨äºæ‰€æœ‰çš„Webåº”ç”¨ç¨‹åºï¼Œå¦‚<b>ç½‘ç«™ç®¡ç†åå°</b>ï¼Œ<b>ç½‘ç«™ä¼šå‘˜ä¸­å¿ƒ</b>ï¼Œ<b>CMS</b>ï¼Œ<b>CRM</b>ï¼Œ<b>OA</b>ç­‰ç­‰ï¼Œå½“ç„¶ï¼Œæ‚¨ä¹Ÿå¯ä»¥å¯¹å¥¹è¿›è¡Œæ·±åº¦å®šåˆ¶ï¼Œä»¥åšå‡ºæ›´å¼ºç³»ç»Ÿã€‚</p>
                             <p>
-                                <b>µ±Ç°°æ±¾£º</b>v4.1.0
+                                <b>å½“å‰ç‰ˆæœ¬ï¼š</b>v4.1.0
                             </p>
                             <p>
-                                <b>¶¨¼Û£º</b><span class="label label-warning">&yen;988£¨²»¿ª·¢Æ±£©</span>
+                                <b>å®šä»·ï¼š</b><span class="label label-warning">&yen;988ï¼ˆä¸å¼€å‘ç¥¨ï¼‰</span>
                             </p>
 
                         </div>
@@ -157,20 +203,52 @@ display: none;
 </div>
     <script>
         $(document).ready(function(){
-			$(".summernote").summernote({lang:"zh-CN"})
+			$(".summernote").summernote({lang:"zh-CN"});
+			
+			  $("#uploadImgBtn").click(function(){
+		            var $input = $("#file");
+		            $input.on("change" , function(){
+		                var files = this.files;
+		                var length = files.length;
+		                var size=5*1024*1024;
+		                $.each(files,function(key,value){
+		                    var div = document.createElement("div"),
+		                        img = document.createElement("img");
+		                    div.className = "imgpic";
+		                    div.style.margin="15px 15px 30px 15px";
+		                    var fr = new FileReader();
+		                    fr.onload = function(){
+		                        img.src=this.result;
+		                        div.appendChild(img);
+		                        document.getElementById("img_id").appendChild(div);
+		                    }
+		                     if(value.size<=size){
+		                    	fr.readAsDataURL(value); 
+		                      }else{
+		                    	   if (typeof(Worker) !== "undefined") { 
+		       			   			  alert("è¯·é€‰æ‹©å°äº5Må›¾ç‰‡");
+		       			   		} 
+		                     } 
+		                })
+
+		            })
+		            $input.removeAttr("id");
+		            var newInput = '<input class="uploadImg test" type="file" name="file" multiple id="file">';
+		            $(this).append($(newInput));
+		        })
 			});
 			var edit=function(){$("#eg").addClass("no-padding");
 			$(".click2edit").summernote({lang:"zh-CN",focus:true})};
 			var save=function(){
 			   $("#eg").removeClass("no-padding");
 				 var aHTML=$(".click2edit").code();$(".click2edit").destroy()
-		};
-		 //Ñ¡ÔñÍ¼Æ¬
+		    };
+		 //é€‰æ‹©å›¾ç‰‡
 		   var size=5*1024*1024;
 		   function imgPutc(tar){
 		   	var videoId=document.getElementById("imgUpload_img");
 		   	if (typeof(Worker) == "undefined") {  
-		   		$.MsgBox.Alert("ÏûÏ¢","ÄúµÄä¯ÀÀÆ÷°æ±¾¹ıµÍ£¬ÎŞ·¨¼ÆËãÍ¼Æ¬´óĞ¡");   
+		   		$.MsgBox.Alert("æ¶ˆæ¯","æ‚¨çš„æµè§ˆå™¨ç‰ˆæœ¬è¿‡ä½ï¼Œæ— æ³•è®¡ç®—å›¾ç‰‡å¤§å°");   
 		   	}else{
 		   	 var imgSize=videoId.files[0].size;
 		   
@@ -183,46 +261,44 @@ display: none;
 		   		  setImgSize(fileB,imgSize,tar,imgId);
 		    	}
 		   };
-		   //Ïà²á
+		   //ç›¸å†Œ
 		   function imgPutcS(tar){
 			   	var videoId=document.getElementById("imgUpload_imgs");
 			   	if (typeof(Worker) == "undefined") {  
-			   		alert("ÄúµÄä¯ÀÀÆ÷°æ±¾¹ıµÍ£¬ÎŞ·¨¼ÆËãÍ¼Æ¬´óĞ¡");   
+			   		alert("æ‚¨çš„æµè§ˆå™¨ç‰ˆæœ¬è¿‡ä½ï¼Œæ— æ³•è®¡ç®—å›¾ç‰‡å¤§å°");   
 			   	}else{
-			   	 var imgSize=videoId.files[0].size;
-			   
-			   	}
-			     	var fileB=$("#imgUpload_imgs").val();
-			   	   if(fileB==""){
-			   		  $(".imgsbox").attr("src","");
-			   	   }else{
-			   		   var imgId=".imgsbox";
+			    var imgSize=videoId.files[0].size();
+			    var fileB=$("#imgUpload_imgs").val();
+			   	if(fileB==""){
+			   		 $(".imgsbox").attr("src","");
+			   	}else{
+			   		var imgId=".imgsbox";
 			   		  setImgSize(fileB,imgSize,tar,imgId);
-			    	}
+		          }
+			   	}  
 			   };
 			  
 		   function setImgSize(fileB,imgSize,tar,imgId){
 			   		if(imgSize<=size){
 			   			
+			   				 var files=$(tar).files;
 			   				  var filep=new FileReader();
 			   				  filep.onload=function(e){
 			   					   $(imgId).attr("src",e.target.result);
 			   				  }	
 			   				  filep.readAsDataURL($(tar)[0].files[0]);
 			   				  $(tar)[0].filep=[];
-			   			
 			   		}else{
 			   			if (typeof(Worker) !== "undefined") { 
-			   			  alert("ÇëÑ¡ÔñĞ¡ÓÚ5MÍ¼Æ¬");
+			   			  alert("è¯·é€‰æ‹©å°äº5Må›¾ç‰‡");
 			   			}
 			   		}
 			   	
 		   };
 		   function modal(){
-				$(".imgsbox").attr("src","");
 				$(".imgbox").attr("src","");
-				
 			};
+			
     </script>	
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 </body>

@@ -1,0 +1,64 @@
+</pre><pre name="code" class="html"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style type="text/css">
+.divX
+{
+    z-index:200;
+    -moz-border-radius:20px;
+    -webkit-border-radius:20px;
+    line-height:10px;
+    text-align:center;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:10px;
+	display: none;
+}
+</style>
+</head>
+ 
+<body>
+	<form id="form" style="margin-top:20px;">
+        
+        <div id="img_div_1">
+            <input type="file" id="file_input" onchange="addFile(this);" style="display:none"  />
+            <div style="position: relative;">
+            	<img id="file_img" src="add_img.png" width="75" onclick="file_input.click();" height="65" />
+            </div>
+            <div class="divX" id="img_zindex_div_1" onclick="del()">
+            	<img src="no.png" width="16" height="16" />
+            </div>
+        </div>
+        
+	</form>
+</body>
+<script src="jquery-1.7.2.js" type="text/javascript"></script>
+<script type="text/javascript">
+	
+	function addFile(ths) {
+		var objUrl = getObjectURL(ths.files[0]);
+		var left = $('#file_img').position().left;
+		var top = $('#file_img').position().top;
+		$('#img_zindex_div_1').css({position: "absolute", left: left + 75, top: top + 10, display: "block" });
+		$('#file_img').attr("src", objUrl);
+	}
+	
+	function del() {
+		alert("删除");
+	}	
+	
+	function getObjectURL(file) {
+		var url = null ; 
+		if (window.createObjectURL!=undefined) { // basic
+			url = window.createObjectURL(file) ;
+		} else if (window.URL!=undefined) { // mozilla(firefox)
+			url = window.URL.createObjectURL(file) ;
+		} else if (window.webkitURL!=undefined) { // webkit or chrome
+			url = window.webkitURL.createObjectURL(file) ;
+		}
+		return url ;
+	}
+</script>
+</html>

@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <form method="post" action="/banner/add_or_edit" class="form-horizontal">
+                    <input type="hidden" name="id" value="">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="bannerTitle" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">链接<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="bannerUrl" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图片<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+<link rel="stylesheet" href="../hplus/jqueryFileUpload/style.css">
+<script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
+<script src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
+<script src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
+<div>
+    <a href="javascript:;" class="btn btn-primary btn-sm jqfivefile" type="button">
+        <span id="imgUpload_name_img">上传图片</span><span id="progress_img"></span>
+        <input id="imgUpload_img" type="file"  title="上传图片" name="img" accept="image/*" data-url="../banner/bannerImgUpload" />
+    </a>
+    <div id="imgsbox_img" class="imgsbox">
+    </div>
+</div>
+<script>
+    $(function(){
+    	var id=getQueryString("id");
+    	if(id!=null&&id!=''){
+    		$.ajax({
+    	        url: "/banner/bannerInfo",
+    	        data: {"id":id},
+    	        type: "POST",
+    	        dataType: "json",
+    	        async:false,
+    	        success: function (data) {
+    	        	console.log(data);
+    	        	 var img = '<div class="imgbox">';
+                     img += '<div class="removePic" onclick="removePic(this,\'/admin/addons/execute/_addons/JqueryUpload/_controller/File/_action/deleteFile\')">×</div>';
+                     img += '<input type="hidden" name="imageUrl" value="' + data.imageUrl + '">';
+                     img += '<img src="' + data.imageUrl + '">';
+                     img += '</div>';
+                     if(multi){
+                         $("#imgsbox_img").append(img);
+                     }else{
+                         $("#imgsbox_img").html(img);
+                     }
+    		       	$("input[name='id']").val(data.id);
+    		       	$("input[name='bannerTitle']").val(data.bannerTitle);
+    		       	$("input[name='bannerUrl']").val(data.bannerUrl);
+    		       	$("input[name='sequence']").val(data.sequence);
+    	        	if(data.state=='0'){
+    	        		//$("input[name='isDisplay']").eq(0).removeAttr("checked");
+    	        		$("input[name='state']").eq(0).attr("checked","checked");
+    	        	}else{
+    	        		//$("input[name='isDisplay']").eq(1).removeAttr("checked");
+    	        		$("input[name='state']").eq(1).attr("checked","checked");
+    	        	}
+    	        }
+    	    });
+    	}
+        var multi = 0;
+        var name = "imageUrl";
+        if(multi){
+            name = name+'[]';
+            $("#imgUpload_img").attr('multiple','multiple');
+        }else{
+            $("#imgUpload_img").removeAttr('multiple');
+        }
+        
+        $("#imgUpload_img").fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                	console.log(data.result);
+                if (data.result.code == 0) {
+                    var img = '<div class="imgbox">';
+                    img += '<div class="removePic" onclick="removePic(this,\'/admin/addons/execute/_addons/JqueryUpload/_controller/File/_action/deleteFile\')">×</div>';
+                    img += '<input type="hidden" name="'+name+'" value="' + data.result.url + '">';
+                    img += '<img src="' + data.result.url + '">';
+                    img += '</div>';
+                    if(multi){
+                        $("#imgsbox_img").append(img);
+                    }else{
+                        $("#imgsbox_img").html(img);
+                    }
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            change: function (e, data) {
+                $("#imgUpload_name_img").html('上传图片...');
+            },
+            progressall: function (e, data) {
+                var progressnum = parseInt(data.loaded / data.total * 100);
+                if (progressnum == 100) {
+                    $("#progress_img").text('');
+                    $("#imgUpload_name_img").html('上传图片');
+                } else {
+                    $("#progress_img").text(progressnum + "%");
+                }
+            },
+            error: function(e,data){
+                layer.msg('上传请求失败');
+            }
+        });
+    });
+
+    /**
+     * 移除图片
+     */
+    function removePic(_self,deleteurl){
+        $(_self).parent().remove();
+        if(deleteurl){
+            $.post(deleteurl,{path:$(_self).parent().find('img').attr('src')});
+        }
+    }
+</script>
+                            <span class="help-block m-b-none text-danger">支持:jpg、jpeg、png； 尺寸：宽1927*高460px；大小：限5M内</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">排序</label>
+                        <div class="col-sm-8">
+                            <input type="text" oninput="clearNoNum1(this)" class="form-control" name="sequence" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">状态</label>
+                        <div class="col-sm-8">
+                            <label class="cr-inline">
+                                <input type="radio" value="0" checked="checked" name="state">正常&nbsp;&nbsp;
+                            </label>
+                            <label class="cr-inline">
+                                <input type="radio" value="1" name="state">禁用
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <button class="btn btn-primary ajax-post" target-form="form-horizontal" type="submit">确 定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="/static/hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<!--<script src="/static/hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common.js"></script>
+
+<script>
+    $(document).ready(function(){
+        formSetValue("status", "1");
+    });
+</script>
+
+</body>
+</html>
