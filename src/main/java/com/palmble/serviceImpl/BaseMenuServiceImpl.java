@@ -19,13 +19,11 @@ public class BaseMenuServiceImpl implements BaseMenuService {
 	 * @return 
 	 * @return 
 	 */
-	@Override
 	public PageInfo<BaseMenu> getMenuList(Map<String, String> map) {
 		List<BaseMenu> list = baseMenuMapper.byAllMenuList(map);
 		PageInfo<BaseMenu> pageSource=new PageInfo<>(list);
 		return pageSource;
 	}
-	@Override
 	public BaseMenu getMenuInfo(Integer menuId) {
 		return baseMenuMapper.selectByPrimaryKey(menuId);
 	}

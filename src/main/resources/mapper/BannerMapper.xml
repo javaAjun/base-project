@@ -20,6 +20,7 @@
     <include refid="Base_Column_List" />
     from banner
     where 1=1
+    order by ${sidx} ASC
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
