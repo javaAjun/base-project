@@ -27,5 +27,5 @@ public interface GoodsService {
 	 * @param file
 	 * @return
 	 */
-	public ResponsDatas upLoadImg(MultipartFile file);
+	public ResponsDatas upLoadImg(MultipartFile[] file);
 }
