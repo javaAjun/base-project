@@ -9,12 +9,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     username: root
-    #password: a/xOejRkf3Ge
-    
-    password: root
+    password: a/xOejRkf3Ge
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/base_project?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
-    #url: jdbc:mysql://180.76.98.239:3306/base_project?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    url: jdbc:mysql://180.76.98.239:3306/base_project?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
     #连接池的配置信息  
     initialSize: 5  
     minIdle: 5  
