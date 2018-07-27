@@ -40,7 +40,18 @@ public class ZsGoods {
 
     private String goodsContent;
 
-    private String oper;//导航参数
+    private Date unSaleTime;//下架时间
+    
+    
+    public Date getUnSaleTime() {
+		return unSaleTime;
+	}
+
+	public void setUnSaleTime(Date unSaleTime) {
+		this.unSaleTime = unSaleTime;
+	}
+
+	private String oper;//导航参数
     public Integer getId() {
         return id;
     }

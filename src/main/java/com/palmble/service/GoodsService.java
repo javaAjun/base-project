@@ -28,4 +28,10 @@ public interface GoodsService {
 	 * @return
 	 */
 	public ResponsDatas upLoadImg(MultipartFile[] file);
+	/**
+	 * 半段商品字段是否为空
+	 * @param goods
+	 * @return
+	 */
+	public ResponsDatas IsNullGoodsParam(ZsGoods goods);
 }
