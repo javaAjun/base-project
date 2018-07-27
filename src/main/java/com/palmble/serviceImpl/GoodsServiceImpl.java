@@ -1,24 +1,38 @@
 package com.palmble.serviceImpl;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 import com.palmble.dal.ZsGoodsMapper;
 import com.palmble.entity.ZsGoods;
 import com.palmble.service.GoodsService;
+import com.palmble.utils.DateUtil;
+import com.palmble.utils.FileTypeUtils;
 import com.palmble.utils.PageInfoUtil;
 import com.palmble.utils.ResponsDatas;
 import com.palmble.utils.SysConstant;
+
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 @Service
 public class GoodsServiceImpl implements GoodsService{
   @Autowired
   private ZsGoodsMapper goodsMapper;
-
+  @Value("${image.location}")
+  private String filePath;
+  @Value("${imgShow.url}")
+  private String ImgHttpTop;
+  
+  
 	@Override
 	public ResponsDatas getGoodsList(String value,Integer page,Integer size,String sord,Integer isAdminRecom,Integer isSale) {
 		if(page==null)page=1;
@@ -61,9 +75,35 @@ public class GoodsServiceImpl implements GoodsService{
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return ResponsDatas.fail(e.getMessage(), null);
+		}
+		return null;
+	}
+
+	@Override
+	public ResponsDatas upLoadImg(MultipartFile[] files) {
+		try {
+		if (files != null && files.length >0) {
+			List<String> pathList=new ArrayList<String>();
+			String fileName=DateUtil.getNOWDate();
+				File dir = new File(filePath +File.separator + fileName);
+				if (!dir.exists()) {	dir.mkdirs();	}
+				for (int i = 0; i < files.length; i++) {
+					String path=dir.getPath()+File.separator+files[i].getOriginalFilename();
+					File fileImg=new File(dir, files[i].getOriginalFilename());
+					files[i].transferTo(fileImg);
+					String url=ImgHttpTop+File.separator+files[i].getOriginalFilename()+File.separator+fileName;
+					pathList.add(url);
+				}
+				return ResponsDatas.success("上传成功", pathList);
+		}else {
+			ResponsDatas.fail();
+		}
+		} catch (IllegalStateException | IOException e) {
+			
+			e.printStackTrace();
+			ResponsDatas.fail(e.getMessage(), null);
 		}
 		return null;
 	}

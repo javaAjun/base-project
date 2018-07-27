@@ -1,5 +1,7 @@
 package com.palmble.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.github.pagehelper.PageInfo;
 import com.palmble.entity.ZsGoods;
 import com.palmble.utils.ResponsDatas;
@@ -19,4 +21,11 @@ public interface GoodsService {
 	 * @return
 	 */
 	public ResponsDatas operGoodsInfo(ZsGoods goods);
+
+	/**
+	 * 上床图片
+	 * @param file
+	 * @return
+	 */
+	public ResponsDatas upLoadImg(MultipartFile file);
 }
