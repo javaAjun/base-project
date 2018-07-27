@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageInfo;
 import com.palmble.entity.ZsGoods;
 import com.palmble.service.GoodsService;
+import com.palmble.ueditor.ActionEnter;
 import com.palmble.utils.FileTypeUtils;
 import com.palmble.utils.ResponsDatas;
 import com.palmble.utils.SysConstant;
@@ -67,12 +70,26 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/uploadImg")
-	public ResponsDatas<?> operGoodsInfo(@RequestParam("file")MultipartFile[] files) {
-			ResponsDatas<?> response=goodsService.upLoadImg(files);
-			return response;
-			
+	public ResponsDatas<?> operGoodsInfo(HttpServletRequest request, HttpServletResponse response ,@RequestParam("file")MultipartFile[] files) {
 		
+			ResponsDatas<?> responseData=goodsService.upLoadImg(files);
+			return responseData;
 	}
+	@RequestMapping(value="/config")
+    public void config(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("application/json");
+        String rootPath = request.getSession().getServletContext().getRealPath("/");
+        try {
+            String exec = new ActionEnter(request, rootPath).exec();
+            PrintWriter writer = response.getWriter();
+            writer.write(exec);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+ 
+    }
 	/**
 	 * 显示图片
 	 * @param url
