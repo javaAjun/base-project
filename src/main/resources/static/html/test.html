@@ -124,15 +124,13 @@
 									<div id="tab-4" class="tab-pane">
 										<div class="panel-body">
 											<div class="form-group">
-												<label class="col-sm-2 control-label">封面图<span
-													class="text-danger">*</span></label>
+												<label class="col-sm-2 control-label">封面图
+												<span class="text-danger">*</span></label>
 												<div class="col-sm-6">
-												
 <link rel="stylesheet"	href="../hplus/jqueryFileUpload/style.css">
 <script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
 <script	src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
 <script	src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
-												
 													<div>
 														<a href="javascript:;"	class="btn btn-primary btn-sm jqfivefile" type="button">
 															<span id="imgUpload_name_img">上传</span>
@@ -144,7 +142,7 @@
 													<script>
 														$(function() {
 															var multi = 0;
-															var name = "img";
+															var name = "goodsCoverImg";
 															if (multi) {
 																name = name	+ '[]';
 																$("#imgUpload_img").attr('multiple','multiple');
@@ -221,7 +219,7 @@
 													<script>
 														$(function() {
 															var multi = 1;
-															var name = "imgs";
+															var name = "goodsCoverImgs[]";
 															if (multi) {
 																name = name+ '[]';
 																$("#imgUpload_imgs").attr('multiple','multiple');
