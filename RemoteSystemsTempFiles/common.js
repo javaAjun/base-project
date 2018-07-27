@@ -166,7 +166,6 @@ $(document).on('click','.ajax-post',function(){
 });
 
 function ajax_post_fun(target,that,query) {
-	console.log(123);
     $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
     $.post(target,query).success(function(data){
         if (data.code==1) {

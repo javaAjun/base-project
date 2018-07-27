@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <title>后台管理</title>
+    <title>閸氬骸褰寸粻锛勬倞</title>
 
     <link rel="shortcut icon" href="favicon.ico"> <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
     <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
@@ -27,11 +27,12 @@
     <script src="../hplus/js/content.min.js?v=1.0.0"></script>
    <script src="../layer-v3.1.1/layer/layer.js"></script>
  
-
+<script src="../js/common.js"></script>
+<link rel="stylesheet" href="../css/common.css">
     
     <style>
         /* Additional style to fix warning dialog position */
-        #xiangqing{display:block;padding:3px;margin-right:5px; background:#44BB5C;width:130px}
+        #xiangqing{display:block;padding:3px;margin-right:5px; background:#44BB5C;width:80px}
         #alertmod_table_list_2 {
             top: 900px !important;
         }
@@ -41,7 +42,7 @@
         margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
         padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px
         }
-        #gbox_table_list_1{margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
+        #gbox_table{margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
         padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px}
         .modal-content{
             position: relative;
@@ -52,48 +53,41 @@
          position: relative;
               left: -150px;
         }
-        #seachForm{
-            text-align: right;
-		    position: relative;
-		    top: -38px;
-		    left: -10px;
-		    height: 16px;
-		    }
+        .ibox-content{
+        padding: 0px 10px 20px;
+        margin-top: 1px;
+        }
+        .ibox{
+        margin-top: 1px;
+        }
+      
     </style>
 
 </head>
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content  animated fadeInRight"  id="bigBody">
-        <div class="row">
-        
-        
-            <div class="col-sm-12">
-               <div class="ibox-content">
-                      <div class="addGoods">
-                            <a data-toggle="modal" class="btn btn-primary" onClick="openwin()">添加商品</a>
-                     </div>
-                     <div style="text-align: right;" id="seachForm">
-                  <form class="form-inline" id="form-search"  >
-                    
+			    <div class="ibox-content">
+			        <div class="row">
+			           <div class="col-xs-3">
+			               <a href="javascript:;" url="test.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
+			           </div>
+			           <div style="text-align: right;" id="seachForm">
+                  <form class="form-inline" id="form-search" >
                     <div class="input-group">
                         <input type="text" class="form-control" id="value" name="value" placeholder="关键字查询">
                     </div>
-                    <!-- <div class="form-group">
-                        <input placeholder="开始日期" readonly class="form-control layer-date" id="start" name="startTime">
-                        <input placeholder="结束日期" readonly class="form-control layer-date" id="end" name="endTime">
-                    </div> -->
                     <div class="input-group">
                         <select name="isAdminRecom" class="form-control" id="isAdminRecom">
-                            <option value="">选择是否推荐</option>
-                            <option value="1">是</option>
-                            <option value="0">否</option>
+                               <option value="">选择是否推荐</option>
+                              <option value="1">是</option>
+                              <option value="0">否</option>
                         </select>
                     </div>
                     
                     <div class="input-group">
                         <select name="isSale" class="form-control" id="isSale">
-                            <option value="">状态</option>
+                               <option value="">状态</option>
                             <option value="1">上架</option>
                             <option value="0">下架</option>
                         </select>
@@ -109,14 +103,18 @@
                     </div>
                 </form>
                 </div>
+			 </div>
+     
+            
+              <div class="ibox-content">
                 <div class="ibox ">
                        <div class="jqGrid_wrapper">
-                           <table id="table_list_1"></table>
+                           <table id="table"></table>
                            <div id="pager_list_1"></div>
                        </div>
                     </div>
                 </div>
-            </div>
+            
         </div>
     </div>
    <script src="../js/pathjs.js"></script>
@@ -126,7 +124,7 @@
         
 		$.jgrid.defaults.styleUI="Bootstrap";
 	
-		 $("#table_list_1").jqGrid({
+		 $("#table").jqGrid({
 	    url:HttpUrlCommon+_goodsList,
 		//data:mydata,
 		datatype:"json",
@@ -161,18 +159,18 @@
 							 if(a == false){
 			                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setIsAdminRecom(this)"><span class="label label-danger" title="否">否</span></a>';
 			                    } else{
-			                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setIsAdminRecom(this)"><span class="label label-primary" title="是">是</span></a>';
+			                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setIsAdminRecom(this)"><span class="label label-primary"  title="是">是</span></a>';
 			                    }
 						}},
-					{width:100,sortable: false,align:'left',formatter: function (a, b, c) {
+					{width:80,sortable: false,align:'left',formatter: function (a, b, c) {
 	                    var btn = '<a href="admin_add.html?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_list.html">';
-	                    btn += '<a href="javascript:;"><span class="label label-danger" id="xiangqing" title="点击查看详情"  data-id='+c.id+' onclick="del(this)">点击查看详情</span></a>';
+	                    btn += '<a href="javascript:;"><span class="label label-danger" id="xiangqing" title="详情"  data-id='+c.id+' onclick="del(this)">详情</span></a>';
 	                    return btn;
                      }},
 					{width:80,sortable: false,align:'left',formatter: function (a, b, c) {
-	                    var btn = '<a href="admin_add.html?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_list.html"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
-	                    btn += '<a href="javascript:;"><span class="label label-danger" title="删除" data-id='+c.id+' onclick="del(this)">删除</span></a>';
-	                    return btn;
+						 var btn = '<a href="admin_add.html?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_list.html"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+		                    btn += '<a href="javascript:;"><span class="label label-danger" title="删除"  data-id='+c.id+' onclick="del(this)">删除</span></a>';
+		                    return btn;
                      }},
 				],
 		pager:"#pager_list_1",
@@ -189,11 +187,11 @@
 	            repeatitems : false  
 	        }
 		});
-		/* $("#table_list_1").setSelection(4,true); */
-		/* $("#table_list_1").jqGrid("navGrid","#pager_list_1",{del:true,search:true},{height:200,reloadAfterSubmit:true}); */
+		/* $("#table").setSelection(4,true); */
+		/* $("#table").jqGrid("navGrid","#pager_list_1",{del:true,search:true},{height:200,reloadAfterSubmit:true}); */
 		$(window).bind("resize",function(){
 			var width=$(".jqGrid_wrapper").width();
-		    $("#table_list_1").setGridWidth(width)})
+		    $("#table").setGridWidth(width)})
 		});
      
         
@@ -206,17 +204,6 @@
 	   var aHTML=$(".click2edit").code();$(".click2edit").destroy()};
 	   
 	   
-	
-		
-		function openwin() { 
-			var iWidth=800; //弹出窗口的宽度;
-			var iHeight=800; //弹出窗口的高度;
-			var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;
-			var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置;
-			 window.open("./zsGoodsAdd.html","","height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft); 
-			//window.open ("./fuwenben.html", "newwindow", "height=600, width=800, toolbar=no,menubar=no, scrollbars=no, resizable=no, location=no, status=no") 
-			//写成一行 
-			} 
 		//查询
 		$(function(){ 
 	        $("#search-btn").click(function(){ 
@@ -320,6 +307,7 @@
 	    	          });
 	    		}); 
 	    }
+	
     </script>
 </body>
 </html>

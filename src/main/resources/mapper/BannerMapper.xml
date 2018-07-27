@@ -19,7 +19,10 @@
     select 
     <include refid="Base_Column_List" />
     from banner
-    where 1=1
+    where is_delete=0
+    <if test="title != null" >
+        and banner_title like concat(concat('%',#{title,jdbcType=VARCHAR}),'%') 
+    </if>
     order by ${sidx} ASC
   </select>
   

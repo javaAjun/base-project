@@ -97,7 +97,7 @@ public class BannerController extends PalmbleBaseController{
 	 * @date 2018年7月25日
 	 */
 	@RequestMapping("/add_or_edit")
-	public ResultInfo addOrEditBanner(Banner banner) {
+	public Result addOrEditBanner(Banner banner) {
 		return bannerService.addOrEditBanner(banner);
 	}
 	

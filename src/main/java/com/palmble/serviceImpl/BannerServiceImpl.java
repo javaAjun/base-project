@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.palmble.dal.BannerMapper;
 import com.palmble.entity.Banner;
+import com.palmble.entity.Result;
 import com.palmble.service.BannerService;
 import com.palmble.utils.ResultInfo;
 /**
@@ -29,20 +30,28 @@ public  class BannerServiceImpl implements BannerService {
 		PageInfo<Banner> pageSource=new PageInfo<>(list);
 		return pageSource;
 	}
-	public ResultInfo addOrEditBanner(Banner banner) {
+	public Result addOrEditBanner(Banner banner) {
+		Result result=new Result();
 		int operateCount=0;//初始化添加成功/修改成功数据条数
+		String url="";
 		if(banner.getId()!=null&&!banner.getId().equals("")) {
 			operateCount = bannerMapper.updateByPrimaryKey(banner);
+			url="banner_add.html?id="+banner.getId();
 		}else {
 			banner.setCreateTime(new Date());
 			banner.setIsDelete(0);
-			bannerMapper.insert(banner);
+			operateCount=bannerMapper.insert(banner);
+			url="banner_add.html";
 		}
 		if(operateCount>0) {
-			return new ResultInfo(1, "操作成功");
+			result.setCode(1);
+			result.setMsg("操作成功");
+			result.setUrl(url);
 		}else {
-			return new ResultInfo(-1, "操作失败");
+			result.setCode(0);
+			result.setMsg("操作失败");
 		}
+		return result;
 	}
 	
 	public Banner getBannerInfo(Integer id) {
