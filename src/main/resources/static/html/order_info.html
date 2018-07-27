@@ -76,6 +76,7 @@ var postData={id:id};
     	var orderInfo=obj.data;
     	var goods=orderInfo.zsGoods;
     	var consignee=orderInfo.consignee;
+    	console.log(obj);
     	$.each(goods,function(i,val){
     		$('#goodsInfo').append('<tr>'
                         +'<th colspan="2">'

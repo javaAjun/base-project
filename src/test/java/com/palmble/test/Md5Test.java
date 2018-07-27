@@ -1,14 +1,19 @@
 package com.palmble.test;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+
 public class Md5Test {
-	public static void main(String[] args) {
-		String value="wx6c387b96a46e1f34;pages/index/index;https://www.palmble.com";
-		String appId=value.substring(0,value.indexOf(";"));
-		String pagePath=value.substring(value.indexOf(";")+1,value.lastIndexOf(";"));
-		String url=value.substring(value.lastIndexOf(";")+1);
-		System.out.println(appId);
-		System.out.println(pagePath);
-		System.out.println(url);
+	public  void test()throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 	}
 
 }

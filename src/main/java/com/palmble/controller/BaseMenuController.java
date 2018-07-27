@@ -11,10 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.palmble.base.PalmbleBaseController;
-import com.palmble.base.PalmbleBaseService;
 import com.palmble.entity.BaseMenu;
 import com.palmble.service.BaseMenuService;
 import com.palmble.service.UserPermissionService;
@@ -46,7 +47,7 @@ public class BaseMenuController extends PalmbleBaseController{
 	 */
 	@RequestMapping("/list")
 	public PageInfo<BaseMenu> getMenuList(@RequestParam Map<String, String> map) {
-		//PageHelper.offsetPage(0, 10);
+		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()));
 	  	PageInfo<BaseMenu> pageSource = permissionMenuService.getMenuList(map);
 	  	return pageSource;
 	}

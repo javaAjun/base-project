@@ -53,7 +53,7 @@
                             <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
                         </span>
                         <span class="input-group-btn">
-                            <button data-url="../order/export" onclick="excel_download(this)" class="btn-sm btn-primary " type="button" id="excel-download"><i class="fa fa-download"></i></button>
+                            <button data-url="/order/exportToExcel" onclick="excel_download(this)" class="btn-sm btn-primary " type="button" id="excel-download"><i class="fa fa-download"></i></button>
                         </span>
                     </div>
                 </form>
@@ -173,6 +173,21 @@
             height: 'auto',
             emptyrecords: "暂无数据",
             sortorder: "desc",
+            jsonReader : {
+                root: "list",    // json中代表实际模型数据的入口
+                page: "pageNum",    // json中代表当前页码的数据
+                total: "pages",    // json中代表页码总数的数据
+                records: "size", // json中代表数据行总数的数据
+                repeatitems: true, // 如果设为false，则jqGrid在解析json时，会根据name来搜索对应的数据元素（即可以json中元素可以不按顺序）；而所使用的name是来自于colModel中的name设定。
+                cell: "cell",
+                id: "id",
+                userdata: "userdata",
+                subgrid: {
+	                root:"rows", 
+	                repeatitems: true, 
+	                cell:"cell"
+	            }
+            },
             caption:"订单列表",
             loadComplete:function(data){
             	console.log(data);
@@ -189,13 +204,7 @@
 
     //导出
     function excel_download(_self){
-        var url = $(_self).attr('data-url');
-        var param = $('#form-search').serializeArray();
-        for (var i=0;i<param.length;i++){
-            if(param[i].value != ''){
-                url += '/'+param[i].name+'/'+param[i].value;
-            }
-        }
+    	 var url = $(_self).attr('data-url');
         window.location.href = url;
     }
 </script>

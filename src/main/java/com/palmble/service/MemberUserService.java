@@ -8,7 +8,7 @@ import com.palmble.entity.MemberUser;
 public interface MemberUserService {
 	List<MemberUser> getAllMemberList();
 
-	Map<String, Object> fuzzyQuery(Map<String, Object> params);
+	List<MemberUser> fuzzyQuery(Map<String, Object> params);
 
 	int insert(MemberUser memberUser);
 

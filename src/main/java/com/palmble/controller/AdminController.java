@@ -7,13 +7,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.palmble.entity.AdminUser;
 import com.palmble.entity.Result;
 import com.palmble.entity.UserPermission;
@@ -28,9 +29,11 @@ public class AdminController {
 	private UserPermissionService userPermissionService;
 
 	@RequestMapping("/getAdminList")
-	public List<AdminUser> getAdminList(@RequestParam Map<String, Object> map) {
-		List<AdminUser> list = adminUserService.selectJqGridByPeagSelective(map);
-		return list;
+	public PageInfo<AdminUser> getAdminList(@RequestParam Map<String, Object> map) {
+		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()));
+		List<AdminUser> list = adminUserService.selectBySelective(map);
+		PageInfo<AdminUser> page=new PageInfo<AdminUser>(list);
+		return page;
 	}
 
 	@RequestMapping("/updateAdminStatus")
@@ -138,11 +141,11 @@ public class AdminController {
 		result.setUrl("../login.html");
 		return result;
 	}
-	@RequestMapping("/getPrivilegeList")
-	public List<Integer> getPrivilegeList(String userId) {
-		 List<Integer> list= userPermissionService.selectPrivilegeUrlByGroupOrUserId(Integer.parseInt(userId));
-		return list;
-	}
+//	@RequestMapping("/getPrivilegeList")
+//	public List<Integer> getPrivilegeList(String userId) {
+//		 List<Integer> list= userPermissionService.selectPrivilegeUrlByGroupOrUserId(Integer.parseInt(userId));
+//		return list;
+//	}
 	@RequestMapping("/addOreditRule")
 	public Result addOreditRule(Integer userId,@RequestParam("urids[]")List<Integer> urids) {
 		Result result=new Result();

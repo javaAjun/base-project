@@ -1,6 +1,5 @@
 package com.palmble.serviceImpl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,35 +18,9 @@ public class MemberUserServiceImpl implements MemberUserService{
 		return MemberUserDao.find(null);
 	}
 	@Override
-	public Map<String,Object> fuzzyQuery(Map<String, Object> params) {
-		String rows=(String)params.get("rows");
-		String page=(String)params.get("page");
-		int startRow=0;
-		int pageSize=0;
-		int endRow=0;
-		if(rows!=null&&page!=null) {
-			pageSize=Integer.parseInt(rows);
-			startRow=pageSize*Integer.parseInt(page)-pageSize;
-			endRow=startRow+pageSize;
-		}
+	public List<MemberUser> fuzzyQuery(Map<String, Object> params) {
 		List<MemberUser> list=MemberUserDao.fuzzyQuery(params);
-		 Map<String,Object> m=new HashMap<String,Object>();
-		 if(list!=null) {
-			 try {
-			 int records=list.size();
-			 m.put("records", records);
-			 if(endRow>records) {
-				 endRow=records;
-			 }
-			 m.put("rows", list.subList(startRow, endRow));
-			 int total=list.size()/pageSize;
-			 total=list.size()%pageSize==0?total:total+1;
-			 m.put("total",total);
-			 }catch(Exception e) {
-				 e.printStackTrace();
-			 }
-		 }
-		return m;
+		return list;
 	}
 	@Override
 	public int updateById(MemberUser memberUser) {
