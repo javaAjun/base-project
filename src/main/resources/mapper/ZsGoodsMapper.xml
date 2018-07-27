@@ -16,6 +16,7 @@
     <result column="isAdminRecom" property="isAdminRecom" jdbcType="VARCHAR" />
     <result column="goodsDesc" property="goodsDesc" jdbcType="VARCHAR" />
     <result column="saleTime" property="saleTime" jdbcType="TIMESTAMP" />
+    <result column="unSaleTime" property="unSaleTime" jdbcType="TIMESTAMP" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
     <result column="goodsPhotoAlbumId" property="goodsPhotoAlbumId" jdbcType="INTEGER" />
     <result column="goodsCateId" property="goodsCateId" jdbcType="INTEGER" />
