@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.palmble.ueditor.ActionEnter;
 
 @RestController
+@RequestMapping("ueditor")
 public class UEditorController {
 
 	
-	@RequestMapping(value="/config")
+	@RequestMapping(value="/upload")
     public void config(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("application/json");
         String rootPath = request.getSession().getServletContext().getRealPath("/");
@@ -29,6 +30,11 @@ public class UEditorController {
             e.printStackTrace();
         }
  
+    }
+	
+	@RequestMapping(value="/imgUpload")
+    public void uploadImage() {
+		
     }
 
 }

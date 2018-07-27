@@ -1,4 +1,4 @@
-package com.palmble.ueditor;
+package com.baidu.ueditor;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,17 +7,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 
-import com.palmble.ueditor.define.ActionMap;
-
+import com.baidu.ueditor.define.ActionMap;
 
 /**
  * 配置管理器
@@ -25,6 +21,7 @@ import com.palmble.ueditor.define.ActionMap;
  *
  */
 public final class ConfigManager {
+
 	private final String rootPath;
 	private final String originalPath;
 	private final String contextPath;
@@ -88,8 +85,9 @@ public final class ConfigManager {
 		
 		Map<String, Object> conf = new HashMap<String, Object>();
 		String savePath = null;
-		try {
+		
 		switch ( type ) {
+		
 			case ActionMap.UPLOAD_FILE:
 				conf.put( "isBase64", "false" );
 				conf.put( "maxSize", this.jsonConfig.getLong( "fileMaxSize" ) );
@@ -144,11 +142,6 @@ public final class ConfigManager {
 				
 		}
 		
-		conf.put( "basePath", this.jsonConfig.getString("basePath") );
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		conf.put( "savePath", savePath );
 		conf.put( "rootPath", this.rootPath );
 		
@@ -176,19 +169,12 @@ public final class ConfigManager {
 		}
 		
 	}
- 
- 
+	
 	private String getConfigPath () {
-		//return this.parentPath + File.separator + ConfigManager.configFileName;
-		try {
-			//获取classpath下的config.json路径
-			return this.getClass().getClassLoader().getResource("config.json").toURI().getPath();
-		} catch (URISyntaxException e) {
-			return null;
-		}
+		return this.parentPath + File.separator + ConfigManager.configFileName;
 	}
- 
-	private String[] getArray ( String key ) throws JSONException {
+
+	private String[] getArray ( String key ) {
 		
 		JSONArray jsonArray = this.jsonConfig.getJSONArray( key );
 		String[] result = new String[ jsonArray.length() ];
@@ -232,5 +218,5 @@ public final class ConfigManager {
 		return input.replaceAll( "/\\*[\\s\\S]*?\\*/", "" );
 		
 	}
-
+	
 }

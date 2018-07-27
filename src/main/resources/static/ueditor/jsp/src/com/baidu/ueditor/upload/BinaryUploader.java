@@ -1,4 +1,10 @@
-package com.palmble.ueditor.upload;
+package com.baidu.ueditor.upload;
+
+import com.baidu.ueditor.PathFormat;
+import com.baidu.ueditor.define.AppInfo;
+import com.baidu.ueditor.define.BaseState;
+import com.baidu.ueditor.define.FileType;
+import com.baidu.ueditor.define.State;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,14 +19,6 @@ import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import com.palmble.ueditor.PathFormat;
-import com.palmble.ueditor.define.AppInfo;
-import com.palmble.ueditor.define.BaseState;
-import com.palmble.ueditor.define.FileType;
-import com.palmble.ueditor.define.State;
 
 public class BinaryUploader {
 
@@ -51,20 +49,17 @@ public class BinaryUploader {
 				fileStream = null;
 			}
 
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-			MultipartFile multipartFile = multipartRequest.getFile(conf.get("fieldName").toString());
-			if(multipartFile==null){
+			if (fileStream == null) {
 				return new BaseState(false, AppInfo.NOTFOUND_UPLOAD_DATA);
 			}
 
-
 			String savePath = (String) conf.get("savePath");
-			String originFileName = multipartFile.getOriginalFilename();
+			String originFileName = fileStream.getName();
 			String suffix = FileType.getSuffixByFilename(originFileName);
 
 			originFileName = originFileName.substring(0,
 					originFileName.length() - suffix.length());
-			savePath = savePath +originFileName+ suffix;
+			savePath = savePath + suffix;
 
 			long maxSize = ((Long) conf.get("maxSize")).longValue();
 
@@ -74,9 +69,9 @@ public class BinaryUploader {
 
 			savePath = PathFormat.parse(savePath, originFileName);
 
-			String physicalPath = (String)conf.get("basePath") + savePath;
+			String physicalPath = (String) conf.get("rootPath") + savePath;
 
-			InputStream is = multipartFile.getInputStream();
+			InputStream is = fileStream.openStream();
 			State storageState = StorageManager.saveFileByInputStream(is,
 					physicalPath, maxSize);
 			is.close();

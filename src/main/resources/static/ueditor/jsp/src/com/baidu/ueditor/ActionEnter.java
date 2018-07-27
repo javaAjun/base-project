@@ -1,17 +1,16 @@
-package com.palmble.ueditor;
+package com.baidu.ueditor;
 
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.palmble.ueditor.define.ActionMap;
-import com.palmble.ueditor.define.AppInfo;
-import com.palmble.ueditor.define.BaseState;
-import com.palmble.ueditor.define.State;
-import com.palmble.ueditor.hunter.FileManager;
-import com.palmble.ueditor.hunter.ImageHunter;
-import com.palmble.ueditor.upload.Uploader;
-
+import com.baidu.ueditor.define.ActionMap;
+import com.baidu.ueditor.define.AppInfo;
+import com.baidu.ueditor.define.BaseState;
+import com.baidu.ueditor.define.State;
+import com.baidu.ueditor.hunter.FileManager;
+import com.baidu.ueditor.hunter.ImageHunter;
+import com.baidu.ueditor.upload.Uploader;
 
 public class ActionEnter {
 	
@@ -41,7 +40,7 @@ public class ActionEnter {
 		if ( callbackName != null ) {
 
 			if ( !validCallbackName( callbackName ) ) {
-				return new BaseState( false, AppInfo.ILLEGAL).toJSONString();
+				return new BaseState( false, AppInfo.ILLEGAL ).toJSONString();
 			}
 			
 			return callbackName+"("+this.invoke()+");";
@@ -67,6 +66,7 @@ public class ActionEnter {
 		int actionCode = ActionMap.getType( this.actionType );
 		
 		Map<String, Object> conf = null;
+		
 		switch ( actionCode ) {
 		
 			case ActionMap.CONFIG:

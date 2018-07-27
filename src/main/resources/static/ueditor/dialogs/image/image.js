@@ -247,16 +247,13 @@
         },
         setPreview: function(){
             var url = $G('url').value,
-                ow = parseInt($G('width').value, 10) || 0,
-                oh = parseInt($G('height').value, 10) || 0,
-                border = parseInt($G('border').value, 10) || 0,
+                ow = $G('width').value,
+                oh = $G('height').value,
+                border = $G('border').value,
                 title = $G('title').value,
                 preview = $G('preview'),
                 width,
                 height;
-
-            url = utils.unhtmlForUrl(url);
-            title = utils.unhtml(title);
 
             width = ((!ow || !oh) ? preview.offsetWidth:Math.min(ow, preview.offsetWidth));
             width = width+(border*2) > preview.offsetWidth ? width:(preview.offsetWidth - (border*2));
@@ -843,7 +840,6 @@
             this.listSize = editor.getOpt('imageManagerListSize');
             this.listIndex = 0;
             this.listEnd = false;
-            this.marker =  undefined;
 
             /* 第一次拉取数据 */
             this.getImageData();
@@ -866,8 +862,7 @@
                     'dataType': isJsonp ? 'jsonp':'',
                     'data': utils.extend({
                             start: this.listIndex,
-                            size: this.listSize,
-                            marker:this.marker
+                            size: this.listSize
                         }, editor.queryCommandValue('serverparam')),
                     'method': 'get',
                     'onsuccess': function (r) {
@@ -876,12 +871,8 @@
                             if (json.state == 'SUCCESS') {
                                 _this.pushData(json.list);
                                 _this.listIndex = parseInt(json.start) + parseInt(json.list.length);
-                                _this.marker = json.marker;
                                 if(_this.listIndex >= json.total) {
                                     _this.listEnd = true;
-                                }
-                                if("true"==json.isLast){
-                                	_this.listEnd = true;
                                 }
                                 _this.isLoadingData = false;
                             }
