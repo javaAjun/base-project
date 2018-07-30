@@ -3,24 +3,31 @@
 <mapper namespace="com.palmble.dal.SystemArticleMapper" >
   <resultMap id="BaseResultMap" type="com.palmble.entity.SystemArticle" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="article_title" property="article_title" jdbcType="VARCHAR" />
-    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.palmble.entity.SystemArticle" extends="BaseResultMap" >
-    <result column="article_content" property="article_content" jdbcType="LONGVARCHAR" />
+    <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
+    <result column="article_title_image" property="articleTitleImage" jdbcType="VARCHAR" />
+    <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    <result column="article_content" property="articleContent" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, article_title, create_time, update_time
+    id, article_title, article_title_image, introduce, article_content, create_time, 
+    update_time
   </sql>
-  <sql id="Blob_Column_List" >
-    article_content
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="getArticleList" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    from system_article
+    where id = 1=1
+    <if test="title != null" >
+        and article_title like concat(concat('%',#{title,jdbcType=VARCHAR}),'%') 
+    </if>
+    order by id desc
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
     from system_article
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -29,10 +36,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.palmble.entity.SystemArticle" >
-    insert into system_article (id, article_title, create_time, 
-      update_time, article_content)
-    values (#{id,jdbcType=INTEGER}, #{article_title,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, 
-      #{update_time,jdbcType=TIMESTAMP}, #{article_content,jdbcType=LONGVARCHAR})
+    insert into system_article (id, article_title, article_title_image, 
+      introduce, article_content, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{articleTitle,jdbcType=VARCHAR}, #{articleTitleImage,jdbcType=VARCHAR}, 
+      #{introduce,jdbcType=VARCHAR}, #{articleContent,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.palmble.entity.SystemArticle" >
     insert into system_article
@@ -40,68 +49,81 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="article_title != null" >
+      <if test="articleTitle != null" >
         article_title,
       </if>
-      <if test="create_time != null" >
+      <if test="articleTitleImage != null" >
+        article_title_image,
+      </if>
+      <if test="introduce != null" >
+        introduce,
+      </if>
+      <if test="articleContent != null" >
+        article_content,
+      </if>
+      <if test="createTime != null" >
         create_time,
       </if>
-      <if test="update_time != null" >
+      <if test="updateTime != null" >
         update_time,
-      </if>
-      <if test="article_content != null" >
-        article_content,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="article_title != null" >
-        #{article_title,jdbcType=VARCHAR},
+      <if test="articleTitle != null" >
+        #{articleTitle,jdbcType=VARCHAR},
       </if>
-      <if test="create_time != null" >
-        #{create_time,jdbcType=TIMESTAMP},
+      <if test="articleTitleImage != null" >
+        #{articleTitleImage,jdbcType=VARCHAR},
       </if>
-      <if test="update_time != null" >
-        #{update_time,jdbcType=TIMESTAMP},
+      <if test="introduce != null" >
+        #{introduce,jdbcType=VARCHAR},
       </if>
-      <if test="article_content != null" >
-        #{article_content,jdbcType=LONGVARCHAR},
+      <if test="articleContent != null" >
+        #{articleContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.SystemArticle" >
     update system_article
     <set >
-      <if test="article_title != null" >
-        article_title = #{article_title,jdbcType=VARCHAR},
+      <if test="articleTitle != null" >
+        article_title = #{articleTitle,jdbcType=VARCHAR},
       </if>
-      <if test="create_time != null" >
-        create_time = #{create_time,jdbcType=TIMESTAMP},
+      <if test="articleTitleImage != null" >
+        article_title_image = #{articleTitleImage,jdbcType=VARCHAR},
       </if>
-      <if test="update_time != null" >
-        update_time = #{update_time,jdbcType=TIMESTAMP},
+      <if test="introduce != null" >
+        introduce = #{introduce,jdbcType=VARCHAR},
       </if>
-      <if test="article_content != null" >
-        article_content = #{article_content,jdbcType=LONGVARCHAR},
+      <if test="articleContent != null" >
+        article_content = #{articleContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.palmble.entity.SystemArticle" >
-    update system_article
-    set article_title = #{article_title,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      article_content = #{article_content,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
   <update id="updateByPrimaryKey" parameterType="com.palmble.entity.SystemArticle" >
     update system_article
-    set article_title = #{article_title,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP}
+    set article_title = #{articleTitle,jdbcType=VARCHAR},
+      article_title_image = #{articleTitleImage,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=VARCHAR},
+      article_content = #{articleContent,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

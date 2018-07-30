@@ -82,14 +82,17 @@
 
         $.jgrid.defaults.styleUI="Bootstrap";
         $("#table").jqGrid({
-            url:"/acticle/list",
+            url:"/article/list",
             datatype: "json",
             colModel:[
                 {label:'ID',name:'id',index:'id',width:40,editable: false,sortable: false},
-                {label:'标题',name:'bannerTitle',index:'bannerTitle',width:100,editable: false,sortable: false},
+                {label:'标题',name:'articleTitle',index:'articleTitle',width:100,editable: false,sortable: false},
+                {label:'封面图',name:'articleTitleImage',index:'articleTitleImage',width:50,editable: false,sortable: false,formatter: function (a, b, c) {
+                    return '<img src="'+a+'" width="20" height="20"/>';
+                }},
                 {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
-                    var editurl = "banner_add.html?id="+c.id;
-                    var delurl = "/banner/delBanner?id="+c.id;
+                    var editurl = "system_article_edit.html?id="+c.id;
+                    var delurl = "/article/delArticle?id="+c.id;
                     var btn = '<a href="javascript:;" url="'+editurl+'" data-title="编辑banner" onclick="layer_open(this,1)"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
                     btn += '<a href="'+delurl+'" class="confirm ajax-get" data-confirm="确定要删除此记录吗?" data-table="1"><span class="label label-danger" title="删除">删除</span></a>';
                     return btn;
