@@ -3,6 +3,8 @@ package com.palmble.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import com.palmble.entity.OrderInfo;
 
 public interface OrderInfoService {
@@ -26,4 +28,7 @@ public interface OrderInfoService {
     int count(Map<String, Object> params);
     List<OrderInfo> findSimpleResult(Map<String, Object> params);
     List<OrderInfo> fuzzyQuery(Map<String, Object> params);
+    
+    XSSFWorkbook createAllWorkbooks();
+    
 }

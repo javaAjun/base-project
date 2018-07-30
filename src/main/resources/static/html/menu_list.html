@@ -173,19 +173,19 @@
             height: 'auto',
             emptyrecords: "暂无数据",
             jsonReader : {
-            root: "list",    // json中代表实际模型数据的入口
-            page: "pageNum",    // json中代表当前页码的数据
-            total: "lastPage",    // json中代表页码总数的数据
-            records: "size", // json中代表数据行总数的数据
-            repeatitems: true, // 如果设为false，则jqGrid在解析json时，会根据name来搜索对应的数据元素（即可以json中元素可以不按顺序）；而所使用的name是来自于colModel中的name设定。
-            cell: "cell",
-            id: "id",
-            userdata: "userdata",
-            subgrid: {
-            root:"rows", 
-            repeatitems: true, 
-            cell:"cell"
-            }
+                root: "list",    // json中代表实际模型数据的入口
+                page: "pageNum",    // json中代表当前页码的数据
+                total: "pages",    // json中代表页码总数的数据
+                records: "total", // json中代表数据行总数的数据
+                repeatitems: true, // 如果设为false，则jqGrid在解析json时，会根据name来搜索对应的数据元素（即可以json中元素可以不按顺序）；而所使用的name是来自于colModel中的name设定。
+                cell: "cell",
+                id: "id",
+                userdata: "userdata",
+                subgrid: {
+	                root:"rows", 
+	                repeatitems: true, 
+	                cell:"cell"
+	            }
             },
             sortorder: "desc",
             caption:table_head,
