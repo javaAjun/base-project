@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -61,10 +62,11 @@ public class BinaryUploader {
 			String savePath = (String) conf.get("savePath");
 			String originFileName = multipartFile.getOriginalFilename();
 			String suffix = FileType.getSuffixByFilename(originFileName);
-
+			String uuid = UUID.randomUUID().toString(); 
+			uuid = uuid.replace("-", ""); 
 			originFileName = originFileName.substring(0,
 					originFileName.length() - suffix.length());
-			savePath = savePath +originFileName+ suffix;
+			savePath = savePath +uuid+ suffix;
 
 			long maxSize = ((Long) conf.get("maxSize")).longValue();
 
@@ -72,7 +74,7 @@ public class BinaryUploader {
 				return new BaseState(false, AppInfo.NOT_ALLOW_FILE_TYPE);
 			}
 
-			savePath = PathFormat.parse(savePath, originFileName);
+			savePath = PathFormat.parse(savePath,originFileName);
 
 			String physicalPath = (String)conf.get("basePath") + savePath;
 
