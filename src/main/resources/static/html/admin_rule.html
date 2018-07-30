@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button class="btn btn-primary " id="submitForm"  >确 定</button>
+                            <a class="btn btn-primary "href="javaScript:;" id="submitForm"  >确 定</a>
                             <a class="btn btn-default"   href="javaScript:;history.back(-1)">取 消</a>
                         </div>
                     </div>
@@ -141,10 +141,15 @@ $("input[name='userId']").val(userId);
 		        		"userId":$("input[name='userId']").val()},
 		        type: "POST",
 		        dataType: "json",
-		        async:false,
+// 		        async:false,
 		        success: function (data) {
+		        	console.log(data);
 		        	if(data.code=='1'){
-		        		
+		        		if (top_alert.hasClass('block')) {
+		                } else {
+		                    top_alert.addClass('block').slideDown(200);
+		                }
+		        		top_alert.removeClass('alert-danger alert-warning alert-info alert-success').addClass(alert-success);
 		        	}else{
 		        		showMsg(data.msg);
 		        	}

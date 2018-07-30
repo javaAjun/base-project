@@ -76,9 +76,10 @@ public class OrderInfoServiceImpl implements OrderInfoService{
              "用户备注", "总金额", "下单时间", "修改时间", "商品编号", "商品名称", "购买数量", "商品金额"};
          
          for(int i=0;i<hradRowNames.length;i++) {
-         	sheet.autoSizeColumn(i);
          	row.createCell(i).setCellValue(hradRowNames[i]);
          }
+         sheet.setColumnWidth(8,6000);
+         sheet.setColumnWidth(9,6000);
 	        	int startRow=1;
 	        	for(int i=0;i<orderList.size();i++) {
 	        		OrderInfo order=orderList.get(i);
