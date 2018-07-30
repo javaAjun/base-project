@@ -161,10 +161,9 @@ $(document).on('click','.ajax-post',function(){
 });
 
 function ajax_post_fun(target,that,query) {
-	console.log(123);
     $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
     $.post(target,query).success(function(data){
-        if (data.status=="200") {
+        if (data.code=="1") {
             if (data.url) {
                 updateAlert(data.message,'alert-success');
                 // updateAlert(data.message + ' 页面即将自动跳转~','alert-success');
@@ -270,7 +269,7 @@ function updateSort(_self) {
     var old = $(_self).attr('data-old');
     var sort = $(_self).val();
     $.post(url,{id:id,sort:sort},function(data){
-        if(data.status="200"){
+        if(data.code=="1"){
             $("#table").trigger("reloadGrid");
         }else{
             $(_self).val(old);

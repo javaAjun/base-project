@@ -97,10 +97,10 @@
                 {label:'状态',name:'state',index:'state',width:50,editable: false,sortable: false,formatter:function (a,b,c){
                     if(a == 1){
                     	var url = "/banner/bannerState?bannerState=0&id="+c.id;
-                        return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
+                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
                     } else{
                     	var url = "/banner/bannerState?bannerState=1&id="+c.id;
-                        return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
+                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
                     }
                 }},
                 {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
