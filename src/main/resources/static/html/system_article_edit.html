@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>编辑系统文章</h5>
+                <div class="ibox-tools">
+                    <a class="toback" href="/admin/addons/adminlist/name/SystemArticle.html">
+                        返回上一页
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <form method="post" action="/admin/addons/execute/_addons/SystemArticle/_controller/SystemArticle/_action/add" class="form-horizontal">
+                    <input type="hidden" name="id" value="1">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="title" value="关于我们">
+                        </div>
+                    </div>
+                                        <input type="hidden" class="form-control" name="name" value="about">
+                                        <div class="form-group">
+                        <label class="col-sm-2 control-label">内容<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <textarea name="content" id="deitor"></textarea>
+<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.js"></script>
+<script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+/* window.UEDITOR_HOME_URL = "/http://192.168.0.138:8383/ueditor/";
+window.UEDITOR_CONFIG.serverUrl = '/config?action=config';
+window.UEDITOR_CONFIG.initialFrameHeight = parseInt('350px');
+window.UEDITOR_CONFIG.scaleEnabled = true; */
+var ue = UE.getEditor('deitor',{
+	toolbars:[
+        [
+     	   'fullscreen', 'source', '|', 'undo', 'redo', '|',
+     	    'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+     	    'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+     	    'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+     	    'directionalityltr', 'directionalityrtl', 'indent', '|',
+     	    'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+     	    'link', 'unlink', 'anchor', '|',
+     	    'insertimage', 'emotion', 'map', 'insertframe', 'insertcode', 'pagebreak', 'background', '|',
+     	    'horizontal', 'date', 'time', 'spechars', '|',
+     	    'print', 'preview', 'searchreplace', 'drafts', 'help'
+     ]
+ ]
+});
+</script>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <button class="btn btn-primary ajax-post" target-form="form-horizontal" type="submit">确 定</button>
+                            <a class="btn btn-default" href="/admin/addons/adminlist/name/SystemArticle.html">取 消</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="/static/hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<!--<script src="/static/hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common.js"></script>
+
+<script>
+    $(document).ready(function(){
+
+    });
+</script>
+
+</body>
+</html>
