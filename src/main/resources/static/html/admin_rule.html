@@ -145,11 +145,8 @@ $("input[name='userId']").val(userId);
 		        success: function (data) {
 		        	console.log(data);
 		        	if(data.code=='1'){
-		        		if (top_alert.hasClass('block')) {
-		                } else {
-		                    top_alert.addClass('block').slideDown(200);
-		                }
-		        		top_alert.removeClass('alert-danger alert-warning alert-info alert-success').addClass(alert-success);
+		        		window.location="admin_auth_manager.html";
+		        		parent.updateAlert(data.msg,'alert-success');
 		        	}else{
 		        		showMsg(data.msg);
 		        	}

@@ -30,6 +30,7 @@ $(document).on('click','.ajax-get',function(){
 
 function ajax_get_fun(that) {
     var target;
+    console.log(0);
     if ( (target = $(that).attr('href')) || (target = $(that).attr('url')) ) {
         var flag = $(that).attr('data-flag');
         if(flag == 1){
@@ -37,12 +38,11 @@ function ajax_get_fun(that) {
         }
         $(that).attr('data-flag',1);
         $.get(target).success(function(data){
-        	console.log(data);
-            if (data.status=="200") {
+            if (data.code=="1") {
                 if (data.url) {
-                    updateAlert(data.message,'alert-success');
+                    updateAlert(data.msg,'alert-success');
                 }else{
-                    updateAlert(data.message,'alert-success');
+                    updateAlert(data.msg,'alert-success');
                 }
                 setTimeout(function(){
                     if( $(that).hasClass('no-refresh')){
@@ -59,7 +59,7 @@ function ajax_get_fun(that) {
                     }
                 },1500);
             }else{
-                updateAlert(data.message,'alert-danger');
+                updateAlert(data.msg,'alert-danger');
                 setTimeout(function(){
                     if (data.url) {
                         location.href=data.url;

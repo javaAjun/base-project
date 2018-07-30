@@ -163,8 +163,31 @@
                 },
                 {label:'姓名',name:'name',index:'name',width:40,editable: false,sortable: false},
                 {label:'电话',name:'phone',index:'phone',width:40,editable: false,sortable: false},
-                {label:'角色',name:'role',index:'role',width:40,editable: false,sortable: false},
-                {label:'级别',name:'grade',index:'grade',width:30,editable: false,sortable: false},
+                {label:'角色',name:'role',index:'role',width:40,editable: false,sortable: false,formatter:function (a,b,c){
+                 	if(a == 0){
+                        return '普通会员';
+                    } 
+                 	if(a == 1){
+                        return '中级会员';
+                    }
+                 	if(a == 2){
+                        return '高级会员';
+                    }
+                }},
+                {label:'级别',name:'grade',index:'grade',width:30,editable: false,sortable: false,formatter:function (a,b,c){
+                 	if(a == 0){
+                        return '普卡';
+                    } 
+                 	if(a == 1){
+                        return '银卡';
+                    }
+                 	if(a == 2){
+                        return '金卡';
+                    }
+                 	if(a == 3){
+                        return '钻石卡';
+                    }
+                }},
                 {label:'邮箱',name:'email',index:'email',width:50,editable: false,sortable: true
                 },
                 {label:'住址',name:'address',index:'address',width:45,editable: false,sortable: true

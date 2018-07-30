@@ -141,12 +141,15 @@
                 		return "已收货";
                 	}
                 	if(c.orderStatus==4){
-                		return "待退货";
+                		return "申请退货";
                 	}
                 	if(c.orderStatus==5){
-                		return "退货中";
+                		return "待退货";
                 	}
                 	if(c.orderStatus==6){
+                		return "退货中";
+                	}
+                	if(c.orderStatus==7){
                 		return "已退货";
                 	}
                   }
@@ -156,8 +159,11 @@
                 {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
                     var editurl = "order_info.html?id="+c.id;
                     var btn = '<a href="javascript:;" url="'+editurl+'" data-title="订单详情" onclick="layer_open(this,1)"><span class="label label-info" title="详情">详情</span></a>&nbsp;';
+                    if(c.orderStatus==5){
+                        btn += '<a href="/returnGoods?id='+c.id+'" class="ajax-get confirm" data-table=1 ><span class="label label-info" title="确认领取">退款</span></a>&nbsp;';
+                    }
                     if(c.orderStatus==2){
-                        btn += '<a href="/order/confirmCollect?id='+c.id+'" class="ajax-get confirm"><span class="label label-info" title="确认领取">确认领取</span></a>&nbsp;';
+                        btn += '<a href="/order/confirmCollect?id='+c.id+'" class="ajax-get confirm" data-table=1 ><span class="label label-info" title="确认领取">确认收货</span></a>&nbsp;';
                     }
                     return btn;
                 }},
