@@ -79,4 +79,21 @@
       catSort = #{catSort,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getChildlevel" resultType="java.util.Map">
+      SELECT
+			zc.catName,	zp.catName pCatName,
+		    zc.id,
+		    zc.catSort
+		    <if test="goodsGateId!=null">
+		    	,CASE zc.id WHEN #{goodsGateId} THEN true   ELSE false END as flag
+		    </if>
+		    
+		FROM
+			zs_goods_category zp
+		LEFT JOIN zs_goods_category zc ON zp.id = zc.parentId
+		WHERE
+		  1=1
+			 <if test="pid!=null"> and zc.parentId = #{pid}</if>
+  
+  </select>
 </mapper>

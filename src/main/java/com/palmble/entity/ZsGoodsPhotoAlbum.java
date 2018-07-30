@@ -6,8 +6,19 @@ public class ZsGoodsPhotoAlbum {
     private String goodsImg;
 
     private String goodsThumbs;
+    
+    private Integer goodsId;
+    private String[] goodsImgs;
 
-    public Integer getId() {
+    public String[] getGoodsImgs() {
+		return goodsImgs;
+	}
+
+	public void setGoodsImgs(String[] goodsImgs) {
+		this.goodsImgs = goodsImgs;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -30,4 +41,23 @@ public class ZsGoodsPhotoAlbum {
     public void setGoodsThumbs(String goodsThumbs) {
         this.goodsThumbs = goodsThumbs == null ? null : goodsThumbs.trim();
     }
+    
+    public Integer getGoodsId() {
+		return goodsId;
+	}
+
+	public void setGoodsId(Integer goodsId) {
+		this.goodsId = goodsId;
+	}
+	public ZsGoodsPhotoAlbum() {
+	
+	}
+	public ZsGoodsPhotoAlbum(String[] goodsImgs,Integer goodsId) {
+		this.goodsImgs=goodsImgs;
+		this.goodsId=goodsId;
+    	}
+	public ZsGoodsPhotoAlbum(String goodsImg,Integer goodsId) {
+		this.goodsImg=goodsImg;
+		this.goodsId=goodsId;
+    	}
 }

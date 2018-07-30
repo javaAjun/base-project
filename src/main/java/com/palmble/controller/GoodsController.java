@@ -53,13 +53,38 @@ public class GoodsController {
 		ResponsDatas response = goodsService.getGoodsList(value, page, rows,sord,isAdminRecom,isSale);
 		return response;
 	}
+	
+	/**
+	 * 根据id获取商品的信息
+	 * @param goodsId
+	 * @return
+	 */
+	@RequestMapping("/getGoodsById")
+	public ResponsDatas getGoodsInfo(Integer goodsId) {
+		ResponsDatas response = goodsService.getGoodsById(goodsId);
+		return response;
+	}
+	/**
+	 * 获取分类
+	 * @param goodsId
+	 * @return
+	 */
+	@RequestMapping("/getGoodsCategoryInfo")
+	public ResponsDatas getGoodsCategoryInfo(Integer goodsId) {
+		ResponsDatas response = goodsService.getGoodsCategoryInfo(goodsId);
+		return response;
+	}
 	/**
 	 * 编辑商品
 	 * @param goods
 	 * @return
 	 */
 	@RequestMapping("/operGoodsInfo")
-	public ResponsDatas operGoodsInfo(ZsGoods goods) {
+	public ResponsDatas operGoodsInfo(HttpServletRequest request,ZsGoods goods) {
+//		String[] imgs = request.getParameterValues("imgs");
+//		if(imgs.length>0) {
+//			goods.setGoodsCoverImgs(imgs);
+//		}
 		ResponsDatas response=goodsService.operGoodsInfo(goods);
 		return response;
 		

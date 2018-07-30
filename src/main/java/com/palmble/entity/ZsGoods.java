@@ -42,8 +42,16 @@ public class ZsGoods {
 
     private Date unSaleTime;//下架时间
     
-    
-    public Date getUnSaleTime() {
+    private String[] goodsCoverImgs;
+    public String[] getGoodsCoverImgs() {
+		return goodsCoverImgs;
+	}
+
+	public void setGoodsCoverImgs(String[] goodsCoverImgs) {
+		this.goodsCoverImgs = goodsCoverImgs;
+	}
+
+	public Date getUnSaleTime() {
 		return unSaleTime;
 	}
 

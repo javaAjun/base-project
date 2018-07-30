@@ -195,6 +195,7 @@ function ajax_post_fun(target,that,query) {
             },1500);
         }else{
             updateAlert(data.message,'alert-danger');
+            alert(data.message);
             setTimeout(function(){
                 $(that).removeClass('disabled').prop('disabled',false);
                 if (data.url) {
@@ -242,8 +243,7 @@ function formSetValue(name, value){
     } else {
         input = $("[name='" + name + "']");
     }
-
-    if(input.eq(0).is(":radio")) { //单选按钮
+ if(input.eq(0).is(":radio")) { //单选按钮
         input.filter("[value='" + value + "']").each(function(){this.checked = true});
     } else if(input.eq(0).is(":checkbox")) { //复选框
         if(!$.isArray(value)){

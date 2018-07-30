@@ -215,13 +215,15 @@
 															<input id="imgUpload_imgs" name="file"	type="file" title="上传图片" accept="image/*"	data-url="/goods/uploadImg" />
 														</a>
 														<div id="imgsbox_imgs" class="imgsbox"></div>
+													<!-- 	<input type="hidden" id="goodsCoverImgs" type="hidden" name="goodsCoverImgs[]" value="">'; -->
 													</div>
+													
 													<script>
 														$(function() {
 															var multi = 1;
-															var name = "goodsCoverImgs[]";
+															var name = "goodsCoverImg";
 															if (multi) {
-																name = name+ '[]';
+																name = name+"s";
 																$("#imgUpload_imgs").attr('multiple','multiple');
 															} else {
 																$("#imgUpload_imgs").removeAttr('multiple');
@@ -272,6 +274,7 @@
 															}
 														}
 													</script>
+													
 													<span class="help-block m-b-none text-danger">支持:jpg、jpeg、png、gif；大小：限5M内</span>
 												</div>
 											</div>
@@ -279,19 +282,18 @@
 									</div>
 									<div id="tab-2" class="tab-pane">
 										<div class="panel-body">
-											
-											<script type="text/javascript" charset="utf-8" src="../hplus/jqueryFileUpload/ueditor1.4.3/lang/zh-cn/zh-cn.js"></script>
-										<script id="container" name="content" type="text/plain">
-                                                                                                          这里写你的初始化内容
-                                         </script>
-									    <!-- 配置文件 -->
-								    <script type="text/javascript" charset="utf-8" src="../hplus/jqueryFileUpload/ueditor1.4.3/ueditor.config.js"></script>
-								    <!-- 编辑器源码文件 -->
-								 <script type="text/javascript" charset="utf-8" src="../hplus/jqueryFileUpload/ueditor1.4.3/ueditor.all.js"></script>
-								    <!-- 实例化编辑器 -->
-								    <script type="text/javascript">
-								        var ue = UE.getEditor('container');
-								    </script>
+										<textarea name="goodsContent" id="deitor"></textarea>
+										<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
+										<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.js"></script>
+										<script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
+										<script type="text/javascript">
+										/* window.UEDITOR_HOME_URL = "/http://192.168.0.138:8383/ueditor/";
+										window.UEDITOR_CONFIG.serverUrl = '/config?action=config';
+										window.UEDITOR_CONFIG.initialFrameHeight = parseInt('350px');
+										window.UEDITOR_CONFIG.scaleEnabled = true; */
+										var ue = UE.getEditor('deitor');
+										</script>
+									  
 										</div>
 									</div>
 									<div id="tab-3" class="tab-pane">
@@ -304,17 +306,15 @@
 														id="spec_input_tab">
 														<tr>
 															<th class="text-center">库存</th>
-															<!--<th class="text-center">市场价格</th>-->
-															<th class="text-center">销售价格</th>
+															<th class="text-center">市场价格</th>
+															<th class="text-center">店铺价格</th>
+															<th class="text-center">销售量</th>
 														</tr>
 														<tr>
-															<td><input type="text" name="stock"
-																onkeyup="clearNoNum3(this)" onpaste="clearNoNum3(this)"
-																value="0" class="form-control"></td>
-															<!--<td><input type="text" name="marketPrice" onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)" value="0" class="form-control"></td>-->
-															<td><input type="text" name="sellPrice"
-																onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"
-																value="0" class="form-control"></td>
+															<td><input type="text" name="goodsStock"	onkeyup="clearNoNum3(this)" onpaste="clearNoNum3(this)"	value="0" class="form-control"></td>
+															<td><input type="text" name="marketPrice" onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)" value="0" class="form-control"></td>
+															<td><input type="text" name="shopPrice"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
+														    <td><input type="text" name="saleCount"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
 														</tr>
 													</table>
 												</div>
@@ -366,6 +366,7 @@
 				getAttr(attr_id, goodsId, 0);
 			}
 		});
+	
 
 		// 合并单元格
 		function hbdyg() {

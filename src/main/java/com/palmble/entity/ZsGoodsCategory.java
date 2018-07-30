@@ -1,5 +1,7 @@
 package com.palmble.entity;
 
+import java.util.List;
+
 public class ZsGoodsCategory {
     private Integer id;
 
@@ -9,6 +11,8 @@ public class ZsGoodsCategory {
 
     private Integer catSort;
 
+    private List<ZsGoodsCategory> childLevel;
+    
     public Integer getId() {
         return id;
     }
@@ -40,4 +44,13 @@ public class ZsGoodsCategory {
     public void setCatSort(Integer catSort) {
         this.catSort = catSort;
     }
+
+	public List<ZsGoodsCategory> getChildLevel() {
+		return childLevel==null?null:childLevel;
+	}
+
+	public void setChildLevel(List<ZsGoodsCategory> childLevel) {
+		this.childLevel = childLevel;
+	}
+    
 }
