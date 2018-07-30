@@ -25,35 +25,10 @@ public class BaseTest {
 
 	@Test
 	public void getSqlsession() throws IllegalArgumentException, IllegalAccessException {
-		List<OrderInfo> orderList = orderInfoService.find(null);
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet = workbook.createSheet("hello");
-		createCell(0, sheet, orderList);
-
+		System.out.println(0x1);
 	}
 
-	public void createCell(int startRow, XSSFSheet sheet, List<?> objList)
-			throws IllegalArgumentException, IllegalAccessException {
-		for (int i = 0; i < objList.size(); i++) {
-			Object obj=objList.get(0);
-			Field[] fields = obj.getClass().getDeclaredFields();
-			XSSFRow row = sheet.createRow(startRow);
-			for (int x = 0; x < fields.length; x++) {
-				Field field = fields[x];
-				XSSFCell cell = row.createCell(x);
-				field.setAccessible(true);
-				Object fieldObj=field.get(obj);
-				if (fieldObj instanceof List) {
-					List<?> sub = (List<?>) fieldObj;
-					createCell(startRow + sub.size(), sheet, sub);
-				}else if(fieldObj!=null&&fieldObj.getClass().isArray()) {
-					Object[] subArray = (Object[]) fieldObj;
-					createCell(startRow + subArray.length, sheet, Arrays.asList(subArray));
-				} else {
-					String cellValue=fieldObj==null?null:fieldObj.toString();
-					cell.setCellValue(cellValue);
-				}
-			}
-		}
+	public void createCell(int startRow, XSSFSheet sheet, List<?> objList){
+		
 	}
 }

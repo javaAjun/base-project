@@ -81,51 +81,12 @@ public class OrderInfoController {
 
 	@RequestMapping("/exportToExcel")
 	 public void createAllWorkbooks(HttpServletRequest request,HttpServletResponse response) throws IOException {
-		List<OrderInfo> orderList=orderInfoService.find(null);
-			XSSFWorkbook  workbook = new XSSFWorkbook();
-			XSSFSheet sheet=workbook.createSheet("hello");
 	        response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream;charset=utf-8"); 
             response.setHeader("Content-Disposition", "attachment;filename=" + "EXCEL2016.xlsx");
             OutputStream out = response.getOutputStream();
-            XSSFRow hradRow = sheet.createRow(0);
-            XSSFRow row = sheet.createRow(0);
-            String[] hradRowNames= {"id", "订单编号", "会员编号", "使用积分", "支付方式", "订单状态",
-                "用户备注", "总金额", "下单时间", "修改时间", "商品编号", "商品名称", "购买数量", "商品金额",};
-            for(int i=0;i<hradRowNames.length;i++) {
-            	sheet.autoSizeColumn(i);
-            	row.createCell(i).setCellValue(hradRowNames[i]);
-            }
-        try {
-	        	int startRow=1;
-	        	for(int i=0;i<orderList.size();i++) {
-	        		OrderInfo order=orderList.get(i);
-	        		List<ZsGoods> goodsList=order.getZsGoods();
-	        		 row = sheet.createRow(startRow);
-	        		 row.createCell(0).setCellValue(order.getId());
-	        		 row.createCell(1).setCellValue(order.getOrderNumber());
-	        		 row.createCell(2).setCellValue(order.getMemberId());
-	        		 row.createCell(3).setCellValue(order.getIntegral());
-	        		 row.createCell(4).setCellValue(order.getPaymentMethod());
-	        		 row.createCell(5).setCellValue(order.getOrderStatus());
-	        		 row.createCell(6).setCellValue(order.getUserNotes());
-	        		 row.createCell(7).setCellValue(order.getTotalAmount());
-	        		 row.createCell(8).setCellValue(order.getCreateTime());
-	        		 row.createCell(9).setCellValue(order.getUpdateTime());
-	        		 for(int x=0;x<goodsList.size();x++) {
-	        			 ZsGoods goods=goodsList.get(x);
-	        			 row.createCell(10).setCellValue(goods.getGoodsNo());
-	        			 row.createCell(11).setCellValue(goods.getGoodsName());
-	        			 row.createCell(12).setCellValue(goods.getNumber());
-	        			 row.createCell(13).setCellValue(goods.getShopPrice()==null?null:goods.getShopPrice().toString());
-	        			 startRow++;
-	        			 row = sheet.createRow(startRow);
-	        		 }
-	        		 if(goodsList==null||goodsList.size()==0) {
-	        			 startRow++;
-	        		 }
-	        	}
-	        	
+            XSSFWorkbook workbook=orderInfoService.createAllWorkbooks();
+            try {
 	            workbook.write(out);
                 out.flush();
 	        } catch (IOException e) {

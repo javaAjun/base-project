@@ -142,4 +142,13 @@ public class AdminUser {
     public void setLastLoginIp(String lastLoginIp) {
         this.lastLoginIp = lastLoginIp == null ? null : lastLoginIp.trim();
     }
+
+	@Override
+	public String toString() {
+		return "AdminUser [id=" + id + ", loginiNo=" + loginiNo + ", mobile=" + mobile + ", pwd=" + pwd + ", qq=" + qq
+				+ ", headImg=" + headImg + ", createByName=" + createByName + ", createDate=" + createDate
+				+ ", enableFlag=" + enableFlag + ", groupId=" + groupId + ", lastLoginIp=" + lastLoginIp
+				+ ", lastLoginTime=" + lastLoginTime + ", groupName=" + groupName + ", loginCount=" + loginCount + "]";
+	}
+    
 }

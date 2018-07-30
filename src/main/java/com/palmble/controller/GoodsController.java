@@ -2,7 +2,6 @@ package com.palmble.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -18,13 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.pagehelper.PageInfo;
 import com.palmble.entity.ZsGoods;
 import com.palmble.service.GoodsService;
 import com.palmble.ueditor.ActionEnter;
 import com.palmble.utils.FileTypeUtils;
 import com.palmble.utils.ResponsDatas;
-import com.palmble.utils.SysConstant;
 /**
  * 商品信息 控制器类
  * @author malingbing
