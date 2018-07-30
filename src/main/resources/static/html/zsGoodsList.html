@@ -27,7 +27,7 @@
     <script src="../hplus/js/content.min.js?v=1.0.0"></script>
    <script src="../layer-v3.1.1/layer/layer.js"></script>
  
-<script src="../js/common.js"></script>
+<script src="../js/common2.js"></script>
 <link rel="stylesheet" href="../css/common.css">
     
     <style>
@@ -212,14 +212,14 @@
 	            var value = escape($("#value").val()); 
 	            var isAdminRecom = escape($("#isAdminRecom").val()); 
 	            var isSale=escape($("#isSale").val());
-	            $("#table_list_1").jqGrid('setGridParam',{ 
+	            $("#table").jqGrid('setGridParam',{ 
 	                url:HttpUrlCommon+_goodsList, 
 	                postData:{'value':value,'isAdminRecom':isAdminRecom,"isSale":isSale}, //发送数据 
 	                page:1 
 	            }).trigger("reloadGrid"); //重新载入 
 	        });
 	        $("#search-clear").click(function(){ 
-	            $("#table_list_1").jqGrid('setGridParam',{ 
+	            $("#table").jqGrid('setGridParam',{ 
 	                url:HttpUrlCommon+_goodsList,
 	                postData:{'value':"",'isAdminRecom':null,"isSale":null}, //发送数据 
 	                page:1
@@ -304,7 +304,7 @@
 	    		layer.closeAll('dialog');
 	    		$.ajax({ url: _delGoods, data:{id:id}, success: function(data){
 	    	          layer.msg(data.message);
-	    	          $("#table_list_1").trigger("reloadGrid");
+	    	          $("#table").trigger("reloadGrid");
 	    	           }
 	    	          });
 	    		}); 

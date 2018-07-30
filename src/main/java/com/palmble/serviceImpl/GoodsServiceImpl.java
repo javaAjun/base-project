@@ -77,7 +77,8 @@ public class GoodsServiceImpl implements GoodsService{
 					return data;
 				}else {
 					goods=(ZsGoods) data.getData();
-					int goodsId=goodsMapper.insertSelective(goods);
+					goodsMapper.insertSelective(goods);
+					Integer goodsId=goods.getId();
 					if(goods.getGoodsCoverImgs().length>0) {
 						String[] imgs=goods.getGoodsCoverImgs();
 					  for (String goodsImg : imgs) {
@@ -98,12 +99,12 @@ public class GoodsServiceImpl implements GoodsService{
 					goods=(ZsGoods) data.getData();
 					goodsMapper.updateByPrimaryKeySelective(goods);
 					int goodsId=goods.getId();
-					if(goods.getGoodsCoverImgs().length>0) {
+					if(goods.getGoodsCoverImgs()!=null) {
 						String[] imgs=goods.getGoodsCoverImgs();
+						potosMapper.deleteByGoodsId(goodsId);
 					  for (String goodsImg : imgs) {
 						  ZsGoodsPhotoAlbum goodsPotos=new ZsGoodsPhotoAlbum(goodsImg, goodsId);
 						  //商品相册
-						  potosMapper.deleteByGoodsId(goodsId);
 						  potosMapper.insertSelective(goodsPotos);
 						  
 //						  potosMapper.insertPotos(goodsPotos);//此方法暂未使用
