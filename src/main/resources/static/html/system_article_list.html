@@ -25,59 +25,40 @@
 </div>
 <div style="padding: 10px;">
     
-<div class="row">
-    <div class="col-sm-12">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>编辑系统文章</h5>
-                <div class="ibox-tools">
-                    <a class="toback" href="/admin/addons/adminlist/name/SystemArticle.html">
-                        返回上一页
-                    </a>
-                </div>
-            </div>
-            <div class="ibox-content">
-                <form method="post" action="/admin/addons/execute/_addons/SystemArticle/_controller/SystemArticle/_action/add" class="form-horizontal">
-                    <input type="hidden" name="id" value="1">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">标题<span class="text-danger">*</span></label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="title" value="关于我们">
-                        </div>
-                    </div>
-                                        <input type="hidden" class="form-control" name="name" value="about">
-                                        <div class="form-group">
-                        <label class="col-sm-2 control-label">内容<span class="text-danger">*</span></label>
-                        <div class="col-sm-8">
-                            <textarea name="content" id="deitor"></textarea>
-<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.js"></script>
-<script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
-<script type="text/javascript">
-/* window.UEDITOR_HOME_URL = "/http://192.168.0.138:8383/ueditor/";
-window.UEDITOR_CONFIG.serverUrl = '/config?action=config';
-window.UEDITOR_CONFIG.initialFrameHeight = parseInt('350px');
-window.UEDITOR_CONFIG.scaleEnabled = true; */
-var ue = UE.getEditor('deitor');
-</script>
-                        </div>
-                    </div>
 
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <div class="col-sm-8 col-sm-offset-2">
-                            <button class="btn btn-primary ajax-post" target-form="form-horizontal" type="submit">确 定</button>
-                            <a class="btn btn-default" href="/admin/addons/adminlist/name/SystemArticle.html">取 消</a>
-                        </div>
+<div class="ibox">
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript:;" url="system_article_edit.html" data-title="新增文章" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>
+            </div>
+            <div class="col-xs-9" style="text-align: right;">
+                <form class="form-inline" id="form-search" action="/banner/list">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="title" placeholder="标题">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary" type="button" id ="search-btn" ><i class="fa fa-search"></i></button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
+                        </span>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <div class="ibox-content">
+        <div class="jqGrid_wrapper">
+            <table id="table" style="border-collapse: collapse"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
 </div>
 
 </div>
-<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/bootstrap.min.js"></script>
 <script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="../layer-v3.1.1/layer/layer.js"></script>
@@ -87,14 +68,69 @@ var ue = UE.getEditor('deitor');
 <script src="../hplus/js/plugins/pace/pace.min.js"></script>
 
 <!-- jqGrid -->
-<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
-<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js"></script>
 <!--<script src="/static/hplus/js/plugins/iCheck/icheck.min.js"></script>-->
 <script src="../js/common.js"></script>
 
 <script>
-    $(document).ready(function(){
+    $(function () {
+        $(window).bind("resize",function(){
+            var width=$(".jqGrid_wrapper").width();
+            $("#table").setGridWidth(width);
+        });
 
+        $.jgrid.defaults.styleUI="Bootstrap";
+        $("#table").jqGrid({
+            url:"/article/list",
+            datatype: "json",
+            colModel:[
+                {label:'ID',name:'id',index:'id',width:40,editable: false,sortable: false},
+                {label:'标题',name:'articleTitle',index:'articleTitle',width:100,editable: false,sortable: false},
+                {label:'封面图',name:'articleTitleImage',index:'articleTitleImage',width:50,editable: false,sortable: false,formatter: function (a, b, c) {
+                    return '<img src="'+a+'" width="20" height="20"/>';
+                }},
+                {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
+                    var editurl = "system_article_edit.html?id="+c.id;
+                    var delurl = "/article/delArticle?id="+c.id;
+                    var btn = '<a href="javascript:;" url="'+editurl+'" data-title="编辑banner" onclick="layer_open(this,1)"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+                    btn += '<a href="'+delurl+'" class="confirm ajax-get" data-confirm="确定要删除此记录吗?" data-table="1"><span class="label label-danger" title="删除">删除</span></a>';
+                    return btn;
+                }},
+            ],
+            rowNum:10,
+            rowList:[10,20,30],
+            pager: '#pager',
+            sortname: 'sequence',
+            viewrecords: true,
+            autowidth:true,
+            mtype: 'post',
+            height: 'auto',
+            emptyrecords: "暂无数据",
+            jsonReader : {
+                root: "list",    // json中代表实际模型数据的入口
+                page: "pageNum",    // json中代表当前页码的数据
+                total: "pages",    // json中代表页码总数的数据
+                records: "total", // json中代表数据行总数的数据
+                repeatitems: true, // 如果设为false，则jqGrid在解析json时，会根据name来搜索对应的数据元素（即可以json中元素可以不按顺序）；而所使用的name是来自于colModel中的name设定。
+                cell: "cell",
+                id: "id",
+                userdata: "userdata",
+                subgrid: {
+	                root:"rows", 
+	                repeatitems: true, 
+	                cell:"cell"
+	            }
+            },
+            sortorder: "desc",
+            caption:"文章列表",
+            loadComplete: function (xhr) {
+                if(xhr.code==0){
+                    layer.msg(xhr.msg);
+                    return false;
+                }
+            },
+        });
     });
 </script>
 

@@ -1,9 +1,17 @@
 package com.palmble.entity;
 
-public class Result {
+public class Result<T> {
 	private String msg;
 	private Integer code;
 	private String url;
+	private T data;
+	
+	public T getData() {
+		return data;
+	}
+	public void setData(T data) {
+		this.data = data;
+	}
 	public String getMsg() {
 		return msg;
 	}

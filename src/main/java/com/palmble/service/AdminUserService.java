@@ -22,5 +22,4 @@ public interface AdminUserService {
     
     AdminUser selectOne(String key,Object value);
     
-	List<AdminUser> selectJqGridByPeagSelective(Map<String, Object> map);
 }

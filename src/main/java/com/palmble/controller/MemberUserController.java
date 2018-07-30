@@ -1,6 +1,5 @@
 package com.palmble.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.palmble.entity.AdminUser;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.palmble.entity.MemberUser;
 import com.palmble.service.MemberUserService;
 
@@ -21,9 +21,11 @@ public class MemberUserController {
 	private MemberUserService memberUserService;
 	
 	@RequestMapping("/getMenberList")
-	public Map<String,Object> getMenberList(@RequestParam Map<String,Object> map) {
-		Map<String,Object> m=memberUserService.fuzzyQuery(map);
-		return m;
+	public PageInfo<MemberUser> getMenberList(@RequestParam Map<String,Object> map) {
+		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()));
+		List<MemberUser> list=memberUserService.fuzzyQuery(map);
+		PageInfo<MemberUser> page=new PageInfo<MemberUser>(list);
+		return page;
 	}
 	@RequestMapping("/getMenberListById")
 	public MemberUser  getMenberListById(String id) {

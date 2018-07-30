@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+<style>
+    td{
+        word-break:break-all;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content" style="padding: 0;">
+                <table class="table table-bordered" id="goodsInfo">
+                 </table>
+                   </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>订单信息</h5>
+            </div>
+            <div class="ibox-content" style="padding: 0;">
+                <table class="table" id="orderInfo">
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common.js"></script>
+
+<script>
+var url='/order/getOrderInfo';
+var id=getQueryString('id');
+var postData={id:id};
+    $.get(url,postData,function(obj){
+    	var orderInfo=obj.data;
+    	var goods=orderInfo.zsGoods;
+    	var consignee=orderInfo.consignee;
+    	console.log(obj);
+    	$.each(goods,function(i,val){
+    		$('#goodsInfo').append('<tr>'
+                        +'<th colspan="2">'
+                           +' 商品信息'
+                        +'</th>'
+                        +'<th>数量</th>'
+                    +'</tr>'
+                                        +'<tr>'
+                        +'<td width="50">'
+                            +'<img src="'+val.goodsCoverThums+'" width="50" height="50">'
+                        +'</td>'
+                        +'<td>'
+                            +'<p><strong>'+val.goodsName+'</strong></p>'
+                            +'<small>'
+                                +'￥'+val.shopPrice+'&nbsp;&nbsp;'
+                                                            +'</small>'
+                        +'</td>'
+                        +'<td>'+val.number+'</td>'
+                    +'</tr>');
+    	});
+    	var orderStatus;
+    	if(orderInfo.orderStatus==0){
+    		orderStatus= "待付款";
+    	}
+    	if(orderInfo.orderStatus==1){
+    		orderStatus= "待发货";
+    	}
+    	if(orderInfo.orderStatus==2){
+    		orderStatus= "待收货";
+    	}
+    	if(orderInfo.orderStatus==3){
+    		orderStatus= "已收货";
+    	}
+    	if(orderInfo.orderStatus==4){
+    		orderStatus= "待退货";
+    	}
+    	if(orderInfo.orderStatus==5){
+    		orderStatus= "退货中";
+    	}
+    	if(orderInfo.orderStatus==6){
+    		orderStatus= "已退货";
+    	}
+    	var html='<tr>'
+                +'<td width="100">订单编号</td>'
+                +'<td>'+orderInfo.orderNumber+'</td>'
+            +'</tr>'
+            +'<tr>'
+                +'<td>会员编号</td>'
+                +'<td>'+orderInfo.memberId+'</td>'
+            +'</tr>'
+            +'<tr>'
+                +'<td>订单状态</td>'
+                +'<td>'+orderStatus+'</td>'
+            +'</tr>'
+            +'<tr>'
+                +'<td>积分</td>'
+                +'<td>'+orderInfo.integral+'</td>'
+            +'</tr>'
+            +'<tr>'
+                +'<td>用户备注</td>'
+                +'<td>'+orderInfo.userNotes+'</td>'
+            +'</tr>'
+            +'<tr>'
+            +'<td>收货人姓名</td>'
+            +'<td>'+consignee.name+'</td>'
+        +'</tr>'
+        +'<tr>'
+        +'<td>收货人电话</td>'
+        +'<td>'+consignee.phone+'</td>'
+   		 +'</tr>'
+            +'<tr>'
+            +'<td>收货地址</td>'
+            +'<td>'+consignee.addressInfo+'</td>'
+        +'</tr>'
+            +'<tr>'
+                +'<td>下单日期</td>'
+                +'<td>'+orderInfo.createTime+'</td>'
+            +'</tr>';
+            
+            if(orderInfo.orderStatus==2){
+            	html+='<tr>'
+                +'<td>操作</td>'
+                +'<td>'
+                +'<button class="btn btn-sm btn-primary confirm" onclick=confirmCollect()>确认收货</button>'
+                +'</td>'
+            +'</tr>';
+            }
+//     	);
+    $('#orderInfo').append(html);
+    });
+function confirmCollect(){
+	var data={id:id};
+	$.get('/order/confirmCollect',data,function(obj){
+		parent.layer.closeAll();
+		parent.updateAlert(obj.msg,'alert-success');
+	})
+}
+</script>
+
+</body>
+</html>

@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class ZsGoods {
     private Integer id;
-
+    
     private String goodsNo;
 
     private String goodsName;
@@ -39,6 +39,18 @@ public class ZsGoods {
     private Integer goodsCateId;
 
     private String goodsContent;
+    
+    private Integer number;
+    
+    
+
+    public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 
     private Date unSaleTime;//下架时间
     
