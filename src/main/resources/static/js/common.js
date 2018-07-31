@@ -39,7 +39,7 @@ function ajax_get_fun(that) {
         $(that).attr('data-flag',1);
         $.get(target).success(function(data){
         	console.log(data);
-            if (data.status=="200") {
+            if (data.code=="1") {
                 if (data.url) {
                     updateAlert(data.message,'alert-success');
                 }else{
@@ -162,10 +162,9 @@ $(document).on('click','.ajax-post',function(){
 });
 
 function ajax_post_fun(target,that,query) {
-	console.log(123);
     $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
     $.post(target,query).success(function(data){
-        if (data.status=="200") {
+        if (data.code=="1") {
             if (data.url) {
                 updateAlert(data.message,'alert-success');
                 // updateAlert(data.message + ' 页面即将自动跳转~','alert-success');
@@ -271,7 +270,7 @@ function updateSort(_self) {
     var old = $(_self).attr('data-old');
     var sort = $(_self).val();
     $.post(url,{id:id,sort:sort},function(data){
-        if(data.status="200"){
+        if(data.code=="1"){
             $("#table").trigger("reloadGrid");
         }else{
             $(_self).val(old);
@@ -451,8 +450,8 @@ $.ajaxSetup( {
         		  skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
         		});
         }  
-    },  
-=======
+    }, 
+});
 //全选的实现
 $(document).on('click','.check-all',function(){
     $(".ids").prop("checked", true);

@@ -38,13 +38,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">链接<span class="text-danger">*</span></label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="bannerUrl" value="">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label class="col-sm-2 control-label">图片<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
 <link rel="stylesheet" href="../hplus/jqueryFileUpload/style.css">
@@ -85,12 +78,22 @@
     		       	$("input[name='bannerTitle']").val(data.bannerTitle);
     		       	$("input[name='bannerUrl']").val(data.bannerUrl);
     		       	$("input[name='sequence']").val(data.sequence);
+    		       	$("input[name='goodsId']").val(data.goodsId);
     	        	if(data.state=='0'){
     	        		//$("input[name='isDisplay']").eq(0).removeAttr("checked");
     	        		$("input[name='state']").eq(0).attr("checked","checked");
     	        	}else{
     	        		//$("input[name='isDisplay']").eq(1).removeAttr("checked");
     	        		$("input[name='state']").eq(1).attr("checked","checked");
+    	        	}
+    	        	if(data.type=='0'){
+    	        		//$("input[name='isDisplay']").eq(0).removeAttr("checked");
+    	        		$("input[name='type']").eq(0).attr("checked","checked");
+    	        		checkType(data.type,data.goodsId);
+    	        	}else{
+    	        		//$("input[name='isDisplay']").eq(1).removeAttr("checked");
+    	        		$("input[name='type']").eq(1).attr("checked","checked");
+    	        		checkType(data.type,data.goodsId);
     	        	}
     	        }
     	    });
@@ -150,11 +153,67 @@
             $.post(deleteurl,{path:$(_self).parent().find('img').attr('src')});
         }
     }
+    
+    function checkType(type,goodsId){
+    	if(type==0){
+    		$("#link_type").show();
+    		$("#goods_type").hide();
+    	}else{
+    		$("#link_type").hide();
+    		$.ajax({
+    			url: "/goods/getGoodsList",
+    		    type:"POST",
+    		    data:{"page":1,"rows":10000},//传-1 代表在后台从session获取userid
+    		    dataType: "json",
+    	        success: function (data) {
+    	        	data=data.data;
+    	        	console.log(data);
+    	        	var html="";
+    				if(data!=null){
+    					html+='<option value="0" >---请选择---</option>';
+    					for(j=0;j<data.length;j++){
+    		             		if(goodsId==data[j].id){
+    		             			html+='<option value='+data[j].id+' selected="selected" >'+data[j].goodsName+'</option>';
+    		            		}else{
+    		            			html+='<option value='+data[j].id+'  >'+data[j].goodsName+'</option>';
+    		            		}
+    	             	}
+    				$("#select_goods").html(html);
+    	        	}
+    	        }	
+    	    })
+    		$("#goods_type").show();
+    	}
+    }
 </script>
-                            <span class="help-block m-b-none text-danger">支持:jpg、jpeg、png； 尺寸：宽1927*高460px；大小：限5M内</span>
+                    	<span class="help-block m-b-none text-danger">支持:jpg、jpeg、png； 尺寸：宽1927*高460px；大小：限5M内</span>
                         </div>
                     </div>
-
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">关联类型</label>
+                        <div class="col-sm-8">
+                            <label class="cr-inline">
+                                <input type="radio" value="0" checked="checked" name="type">跳转链接&nbsp;&nbsp;
+                            </label>
+                            <label class="cr-inline">
+                                <input type="radio" value="1" name="type">关联商品
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="link_type">
+                        <label class="col-sm-2 control-label">链接<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="bannerUrl" value="">
+                        </div>
+                    </div>
+                    <div class="form-group" id="goods_type" style="display:none">
+                        <label class="col-sm-2 control-label">关联商品<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                           <select class="form-control" id="select_goods" name="goodsId" >
+                           	
+                           </select>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">排序</label>
                         <div class="col-sm-8">
@@ -169,7 +228,7 @@
                                 <input type="radio" value="0" checked="checked" name="state">正常&nbsp;&nbsp;
                             </label>
                             <label class="cr-inline">
-                                <input type="radio" value="1" name="state">禁用
+                                <input type="radio" value="1"  name="state">禁用
                             </label>
                         </div>
                     </div>
@@ -203,7 +262,12 @@
 <script src="../js/common.js"></script>
 
 <script>
-var data=
+$("input[name='type']").click(function(){
+	var type=$(this).val();
+	checkType(type,0);
+});
+
+
 </script>
 
 </body>
