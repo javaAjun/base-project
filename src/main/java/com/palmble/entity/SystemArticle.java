@@ -7,8 +7,10 @@ public class SystemArticle {
 
     private String articleTitle;
 
-    private String articleTitleImage;
+    private String author;
 
+    private String articleTitleImage;
+    
     private String introduce;
 
     private String articleContent;
@@ -32,8 +34,17 @@ public class SystemArticle {
     public void setArticleTitle(String articleTitle) {
         this.articleTitle = articleTitle == null ? null : articleTitle.trim();
     }
+    
 
-    public String getArticleTitleImage() {
+    public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getArticleTitleImage() {
         return articleTitleImage;
     }
 

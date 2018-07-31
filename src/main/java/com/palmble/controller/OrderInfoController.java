@@ -3,38 +3,42 @@ package com.palmble.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.palmble.entity.Account;
+import com.palmble.entity.Bill;
 import com.palmble.entity.OrderInfo;
 import com.palmble.entity.Result;
-import com.palmble.entity.ZsGoods;
+import com.palmble.service.AccountService;
+import com.palmble.service.BillService;
 import com.palmble.service.OrderInfoService;
+import com.palmble.utils.TransactionUtil;
 
 @RestController
 @RequestMapping("/order")
 public class OrderInfoController {
 	@Autowired
 	private OrderInfoService orderInfoService;
+	@Autowired
+	private AccountService accountService;
+	@Autowired
+	private BillService billService;
 	 private static final String BASE_PATH = System.getProperty("java.io.tmpdir") + "Resource" + File.separator;
 	@RequestMapping("/getOrderList")
 	public PageInfo<OrderInfo> getOrderList(@RequestParam Map<String,Object> map) {
@@ -53,6 +57,16 @@ public class OrderInfoController {
 		result.setCode(1);
 		result.setMsg("success");
 		result.setData(orderInfoService.getById(Integer.parseInt(id)));
+		return result;
+	}
+	@RequestMapping("/getSimbleOrder")
+	public Result<OrderInfo> getOrderAndToUser(String orderId) {
+		Result<OrderInfo> result=new Result<OrderInfo>();
+		result.setCode(1);
+		result.setMsg("success");
+		OrderInfo order=orderInfoService.getSimpleResultById(Integer.parseInt(orderId));
+		Map<String,Object> map=new HashMap<String,Object>();
+		result.setData(order);
 		return result;
 	}
 	@RequestMapping("/confirmCollect")
@@ -80,12 +94,12 @@ public class OrderInfoController {
 	}
 
 	@RequestMapping("/exportToExcel")
-	 public void createAllWorkbooks(HttpServletRequest request,HttpServletResponse response) throws IOException {
+	 public void createAllWorkbooks(@RequestParam Map<String,Object> params,HttpServletRequest request,HttpServletResponse response) throws IOException {
 	        response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream;charset=utf-8"); 
             response.setHeader("Content-Disposition", "attachment;filename=" + "EXCEL2016.xlsx");
             OutputStream out = response.getOutputStream();
-            XSSFWorkbook workbook=orderInfoService.createAllWorkbooks();
+            XSSFWorkbook workbook=orderInfoService.createAllWorkbooks(params);
             try {
 	            workbook.write(out);
                 out.flush();
@@ -102,35 +116,48 @@ public class OrderInfoController {
 	        }
 	    }
 	
-	private CellStyle headFont(Workbook wb) {
-		Font font = wb.createFont();
-	    font.setFontHeightInPoints((short)24);
-	    font.setFontName("Courier New");
-	    font.setItalic(true);
-	    font.setStrikeout(true);
-	    font.setFontHeightInPoints((short) 11);
-		
-        CellStyle  headStyle = wb.createCellStyle();
-        headStyle.setFont(font);
-        return headStyle;
-	}
-	public void createCell(int startRow,XSSFSheet sheet,List<Object> obj) throws IllegalArgumentException, IllegalAccessException {
-		Field [] fields=obj.getClass().getDeclaredFields();
-		for(int i=0;i<obj.size();i++) {
-			Field field=fields[i];
-			XSSFRow row = sheet.createRow(startRow);
-			for(int x=0;x<fields.length;x++) {
-				XSSFCell cell = row.createCell(x);
-				Object a=field.get(obj);
-				if(a instanceof List||a.getClass().isArray()) {
-					List<Object> sub=(List<Object>)a;
-					createCell(startRow+sub.size(),sheet,sub);
-				}else {
-					cell.setCellValue(field.get(obj).toString());
-				}
-			}
+	@Transactional
+	@RequestMapping("/returnGoods")
+	public Result returnGoods(Integer id,Double number) {
+		Result result=new Result();
+		if(id==null||number==null) {
+			result.setCode(0);
+			result.setMsg("参数错误");
+			return result;
 		}
+		OrderInfo order=orderInfoService.getById(id);
+		int orderStatus=order.getOrderStatus();
+		if(orderStatus!=5&&orderStatus!=6) {
+			result.setCode(0);
+			result.setMsg("请到商城审批退货!");
+			return result;
+		}
+		order.setOrderStatus(7);
+		int updateStatus=orderInfoService.updateById(order);
+		Bill bill=new Bill();
+		bill.setType(0);
+		bill.setUserId(order.getuserId());
+		Date date=new Date();
+		bill.setUpdateTime(date);
+		bill.setCreateTime(date);
+		bill.setRemarks("退款");
+		bill.setState(1);
+		bill.setAmount(number);
+		bill.setTransactionId(TransactionUtil.getTransactionNum(4));
+		int insertBillState=billService.insert(bill);
+		Account account=new Account();
+		account.setUserId(order.getuserId());
+		account.setBalance(number);
+		int updateAccountStatus=accountService.updateByUserId(account);
+		if(updateStatus==1&&insertBillState==1&&updateAccountStatus==1) {
+			//TODO
+			result.setCode(1);
+			result.setMsg("操作成功!");
+		}else {
+			result.setCode(0);
+			result.setMsg("操作失败!");
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return result;
 	}
-	}
-    
-//}
+}

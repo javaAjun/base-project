@@ -40,7 +40,7 @@
   </delete>
   <insert id="insert" parameterType="com.palmble.entity.Banner" >
     insert into banner (id, banner_title, image_url, 
-      banner_url, sequence, state, 
+      banner_url, sequence,goods_id,type, state, 
       create_time, is_delete)
     values (#{id,jdbcType=INTEGER}, #{bannerTitle,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, 
       #{bannerUrl,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER},#{goodsId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},  #{state,jdbcType=INTEGER}, 
@@ -95,6 +95,12 @@
       </if>
       <if test="sequence != null" >
         #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="state != null" >
         #{state,jdbcType=INTEGER},

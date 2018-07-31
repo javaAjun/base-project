@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.palmble.dal.AccountDao" >
+
+  <resultMap id="BaseResultMap" type="com.palmble.entity.Account">
+  <id column = "id" property = "id" jdbcType = "INTEGER"/>
+  <result column = "balance" property = "balance" jdbcType = "DOUBLE"/>
+  <result column = "integral" property = "integral" jdbcType = "DOUBLE"/>
+  <result column = "cash_coupon" property = "cashCoupon" jdbcType = "DOUBLE"/>
+  <result column = "user_id" property = "userId" jdbcType = "INTEGER"/>
+  <result column = "bill_id" property = "billId" jdbcType = "INTEGER"/>
+  </resultMap>
+  
+
+  <insert id="insert" parameterType="com.palmble.entity.Account" >
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+      <if test="cashCoupon != null" >
+        cash_coupon,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="billId != null" >
+        bill_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="balance != null" >
+        #{balance},
+      </if>
+      <if test="integral != null" >
+        #{integral},
+      </if>
+      <if test="cashCoupon != null" >
+        #{cashCoupon},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="billId != null" >
+        #{billId},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insertFully" parameterType="com.palmble.entity.Account" >
+    insert into user (id,balance,integral,cash_coupon,user_id,bill_id)
+    values (#{id,jdbcType=INTEGER},#{balance,jdbcType=DOUBLE},#{integral,jdbcType=DOUBLE},#{cashCoupon,jdbcType=DOUBLE},#{userId,jdbcType=INTEGER},#{billId,jdbcType=INTEGER})
+  </insert>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from account
+    where id = #{id}
+  </delete>
+  
+  <update id="updateById" parameterType="com.palmble.entity.Account">
+  update account
+  <set>
+      <if test="id != null" >
+        id = #{id},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral},
+      </if>
+      <if test="cashCoupon != null" >
+        cash_coupon = #{cashCoupon},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId},
+      </if>
+      <if test="billId != null" >
+        bill_id = #{billId},
+      </if>
+  </set>
+    where id = #{id}
+  </update>
+  
+   <update id="updateByUserId" parameterType="com.palmble.entity.Account">
+  update account
+  <set>
+      <if test="id != null" >
+        id = #{id},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral},
+      </if>
+      <if test="cashCoupon != null" >
+        cash_coupon = #{cashCoupon},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId},
+      </if>
+      <if test="billId != null" >
+        bill_id = #{billId},
+      </if>
+  </set>
+    where user_id = #{userId}
+  </update>
+  
+  <update id="updateFullyById" parameterType="com.palmble.entity.Account" >
+   update account 
+   set 
+   balance=#{balance,jdbcType=DOUBLE},
+   integral=#{integral,jdbcType=DOUBLE},
+   cash_coupon=#{cashCoupon,jdbcType=DOUBLE},
+   user_id=#{userId,jdbcType=INTEGER},
+   bill_id=#{billId,jdbcType=INTEGER}
+   where id = #{id}
+  </update>
+  
+  <sql id="baseColumns">
+    id,
+    balance,
+    integral,
+    cash_coupon,
+    user_id,
+    bill_id
+  </sql>
+  
+  <sql id="queryParams">
+    <where >
+      <if test="balance != null and balance != ''">
+      balance=#{balance} 
+      </if>
+      <if test="integral != null and integral != ''" >
+      and  integral=#{integral} 
+      </if>
+      <if test="cashCoupon != null and cashCoupon != ''" >
+      and  cash_coupon=#{cashCoupon} 
+      </if>
+      <if test="userId != null and userId != ''" >
+      and  user_id=#{userId} 
+      </if>
+      <if test="billId != null and billId != ''" >
+      and  bill_id=#{billId} 
+      </if>
+    </where >
+  </sql>
+  
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+    select 
+    <include refid="baseColumns" />
+    from account
+    where id = #{id}
+  </select>
+  
+  <select id="getByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+    select 
+    <include refid="baseColumns" />
+    from account
+    where user_id = #{userId}
+  </select>
+  
+  <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer" >
+    select count(*) from account
+    <include refid="queryParams" />
+  </select>
+</mapper>

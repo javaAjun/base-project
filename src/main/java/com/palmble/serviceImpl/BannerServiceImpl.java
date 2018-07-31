@@ -35,7 +35,7 @@ public  class BannerServiceImpl implements BannerService {
 		int operateCount=0;//初始化添加成功/修改成功数据条数
 		String url="";
 		if(banner.getId()!=null&&!banner.getId().equals("")) {
-			operateCount = bannerMapper.updateByPrimaryKey(banner);
+			operateCount = bannerMapper.updateByPrimaryKeySelective(banner);
 			url="banner_add.html?id="+banner.getId();
 		}else {
 			banner.setCreateTime(new Date());

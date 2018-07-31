@@ -1,6 +1,5 @@
 package com.palmble.entity;
 
-import java.util.Date;
 import java.util.List;
 
 public class OrderInfo{
@@ -35,7 +34,15 @@ public class OrderInfo{
     
     private String updateTime;
     
-    private Consignee consignee;
+    private Integer userId;
+    
+    public Integer getuserId() {
+		return userId;
+	}
+	public void setuserId(Integer userId) {
+		this.userId = userId;
+	}
+	private Consignee consignee;
     
     public Consignee getConsignee() {
 		return consignee;

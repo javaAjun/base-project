@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.palmble.dal.OrderInfoDao;
 import com.palmble.entity.OrderInfo;
@@ -32,6 +33,7 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 		return orderInfoDao.deleteById(id);
 	}
 //
+	@Transactional
 	@Override
 	public int updateById(OrderInfo orderInfo) {
 		return orderInfoDao.updateById(orderInfo);
@@ -66,8 +68,8 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 		return orderInfoDao.fuzzyQuery(params);
 	}
 	@Override
-	public XSSFWorkbook createAllWorkbooks() {
-		List<OrderInfo> orderList=find(null);
+	public XSSFWorkbook createAllWorkbooks(Map<String,Object> params) {
+		List<OrderInfo> orderList=fuzzyQuery(params);
 		XSSFWorkbook  workbook = new XSSFWorkbook();
 		XSSFSheet sheet=workbook.createSheet("hello");
 		 XSSFRow hradRow = sheet.createRow(0);
@@ -95,6 +97,10 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 	        		 row.createCell(7).setCellValue(order.getTotalAmount());
 	        		 row.createCell(8).setCellValue(order.getCreateTime());
 	        		 row.createCell(9).setCellValue(order.getUpdateTime());
+	        		 if(goodsList==null||goodsList.size()==0) {
+	        			 startRow++;
+	        			 continue;
+	        		 }
 	        		 for(int x=0;x<goodsList.size();x++) {
 	        			 ZsGoods goods=goodsList.get(x);
 	        			 row.createCell(10).setCellValue(goods.getGoodsNo());
@@ -104,11 +110,12 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 	        			 startRow++;
 	        			 row = sheet.createRow(startRow);
 	        		 }
-	        		 if(goodsList==null||goodsList.size()==0) {
-	        			 startRow++;
-	        		 }
 	        	}
 		return workbook;
+	}
+	@Override
+	public OrderInfo getSimpleResultById(Integer id) {
+		return orderInfoDao.getSimpleResultById(id);
 	}
 
 }
