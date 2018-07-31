@@ -173,8 +173,10 @@
                  	if(a == 2){
                         return '高级会员';
                     }
+                 	return '普通会员';
                 }},
                 {label:'级别',name:'grade',index:'grade',width:30,editable: false,sortable: false,formatter:function (a,b,c){
+                	
                  	if(a == 0){
                         return '普卡';
                     } 
@@ -187,6 +189,7 @@
                  	if(a == 3){
                         return '钻石卡';
                     }
+                 	return '普卡';
                 }},
                 {label:'邮箱',name:'email',index:'email',width:50,editable: false,sortable: true
                 },

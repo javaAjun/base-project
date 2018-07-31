@@ -18,6 +18,7 @@ public interface OrderInfoDao{
 //    int updateFullyById(OrderInfo orderInfo);
     
     OrderInfo getById(Integer id);
+    OrderInfo getSimpleResultById(Integer id);
     
     //int startRow, int pageSize, object2map
     
@@ -28,5 +29,6 @@ public interface OrderInfoDao{
     List<OrderInfo> findSimpleResult(Map<String, Object> params);
     
     List<OrderInfo> fuzzyQuery(Map<String, Object> params);
+    
 
 }

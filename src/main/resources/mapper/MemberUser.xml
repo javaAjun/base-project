@@ -18,6 +18,7 @@
   <result column = "qq" property = "qq" jdbcType = "VARCHAR"/>
   <result column = "capital" property = "capital" jdbcType = "BIGINT"/>
   <result column = "del_state" property = "delState" jdbcType = "INTEGER"/>
+  <result column = "nick_name" property = "nickName" jdbcType = "VARCHAR"/>
   </resultMap>
   
 
@@ -66,6 +67,9 @@
       <if test="delState != null" >
         del_state,
       </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -110,12 +114,15 @@
       <if test="delState != null" >
         #{delState},
       </if>
+      <if test="nickName != null" >
+        #{nickName},
+      </if>
     </trim>
   </insert>
   
   <insert id="insertFully" parameterType="com.palmble.entity.MemberUser" >
-    insert into user (id,name,phone,role,grade,e_mail,address,state,id_number,create_time,update_time,qq,capital,del_state)
-    values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{role,jdbcType=INTEGER},#{grade,jdbcType=INTEGER},#{eMail,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{state,jdbcType=INTEGER},#{idNumber,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{qq,jdbcType=VARCHAR},#{capital,jdbcType=BIGINT},#{delState,jdbcType=INTEGER})
+    insert into user (id,name,phone,role,grade,e_mail,address,state,id_number,create_time,update_time,qq,capital,del_state,nick_name)
+    values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{role,jdbcType=INTEGER},#{grade,jdbcType=INTEGER},#{eMail,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{state,jdbcType=INTEGER},#{idNumber,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{qq,jdbcType=VARCHAR},#{capital,jdbcType=BIGINT},#{delState,jdbcType=INTEGER},#{nickName,jdbcType=VARCHAR})
   </insert>
   
   <delete id="deleteById" parameterType="java.lang.Integer" >
@@ -168,6 +175,9 @@
       <if test="delState != null" >
         del_state = #{delState},
       </if>
+       <if test="nickName != null" >
+        nick_name = #{nickName},
+      </if>
   </set>
     where id = #{id}
   </update>
@@ -187,7 +197,8 @@
    update_time=#{updateTime,jdbcType=TIMESTAMP},
    qq=#{qq,jdbcType=VARCHAR},
    capital=#{capital,jdbcType=BIGINT},
-   del_state=#{delState,jdbcType=INTEGER}
+   del_state=#{delState,jdbcType=INTEGER},
+   nick_name=#{nickName,jdbcType=VARCHAR}
    where id = #{id}
   </update>
   
@@ -205,7 +216,8 @@
     date_format(update_time,'%Y-%m-%d %H:%i:%s') as update_time,
     qq,
     capital,
-    del_state
+    del_state,
+    nick_name
   </sql>
   
   <sql id="queryParams">
@@ -248,6 +260,9 @@
       </if>
       <if test="delState != null and delState != ''" >
       and  del_state=#{delState} 
+      </if>
+       <if test="nickName != null and nickName != ''" >
+      and  nick_name=#{nickName} 
       </if>
     </where >
   </sql>
@@ -318,6 +333,9 @@
       </if>
       <if test="delState != null and delState != ''" >
       and  del_state like concat(concat('%',#{delState}),'%') 
+      </if>
+      <if test="nickName != null and nickName != ''" >
+      and  nick_name like concat(concat('%',#{nickName}),'%') 
       </if>
       <if test="startTime != null and startTime != ''" >
       <![CDATA[ and  create_time  > #{startTime}]]>
