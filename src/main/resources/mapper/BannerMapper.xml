@@ -7,12 +7,14 @@
     <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
     <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR" />
     <result column="sequence" property="sequence" jdbcType="INTEGER" />
+    <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, banner_title, image_url, banner_url, sequence, state, create_time, is_delete
+    id, banner_title, image_url, banner_url, sequence,goods_id,type, state, create_time, is_delete
   </sql>
   
   <select id="getBannerList" resultMap="BaseResultMap" >
@@ -41,7 +43,7 @@
       banner_url, sequence, state, 
       create_time, is_delete)
     values (#{id,jdbcType=INTEGER}, #{bannerTitle,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, 
-      #{bannerUrl,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
+      #{bannerUrl,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER},#{goodsId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},  #{state,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.palmble.entity.Banner" >
@@ -61,6 +63,12 @@
       </if>
       <if test="sequence != null" >
         sequence,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="type != null" >
+        type,
       </if>
       <if test="state != null" >
         state,
@@ -114,6 +122,12 @@
       <if test="sequence != null" >
         sequence = #{sequence,jdbcType=INTEGER},
       </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
       <if test="state != null" >
         state = #{state,jdbcType=INTEGER},
       </if>
@@ -132,6 +146,8 @@
       image_url = #{imageUrl,jdbcType=VARCHAR},
       banner_url = #{bannerUrl,jdbcType=VARCHAR},
       sequence = #{sequence,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       is_delete = #{isDelete,jdbcType=INTEGER}

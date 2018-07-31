@@ -5,13 +5,17 @@ import java.util.Date;
 public class SystemArticle {
     private Integer id;
 
-    private String article_title;
+    private String articleTitle;
 
-    private Date create_time;
+    private String articleTitleImage;
 
-    private Date update_time;
+    private String introduce;
 
-    private String article_content;
+    private String articleContent;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     public Integer getId() {
         return id;
@@ -21,35 +25,51 @@ public class SystemArticle {
         this.id = id;
     }
 
-    public String getArticle_title() {
-        return article_title;
+    public String getArticleTitle() {
+        return articleTitle;
     }
 
-    public void setArticle_title(String article_title) {
-        this.article_title = article_title == null ? null : article_title.trim();
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle = articleTitle == null ? null : articleTitle.trim();
     }
 
-    public Date getCreate_time() {
-        return create_time;
+    public String getArticleTitleImage() {
+        return articleTitleImage;
     }
 
-    public void setCreate_time(Date create_time) {
-        this.create_time = create_time;
+    public void setArticleTitleImage(String articleTitleImage) {
+        this.articleTitleImage = articleTitleImage == null ? null : articleTitleImage.trim();
     }
 
-    public Date getUpdate_time() {
-        return update_time;
+    public String getIntroduce() {
+        return introduce;
     }
 
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce == null ? null : introduce.trim();
     }
 
-    public String getArticle_content() {
-        return article_content;
+    public String getArticleContent() {
+        return articleContent;
     }
 
-    public void setArticle_content(String article_content) {
-        this.article_content = article_content == null ? null : article_content.trim();
+    public void setArticleContent(String articleContent) {
+        this.articleContent = articleContent == null ? null : articleContent.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

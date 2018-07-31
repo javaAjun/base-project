@@ -60,7 +60,7 @@
       #{goodsPhotoAlbumId,jdbcType=INTEGER}, #{goodsCateId,jdbcType=INTEGER}, #{goodsContent,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.palmble.entity.ZsGoods" >
+  <insert id="insertSelective"  useGeneratedKeys="true" keyProperty="id"   parameterType="com.palmble.entity.ZsGoods" >
     insert into zs_goods
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -278,10 +278,9 @@
 	            zg.*, zc.catName,
 	            zc.catSort
            FROM
-	         zs_goods zg,
-	        zs_goods_category zc
+	         	zs_goods zg LEFT JOIN zs_goods_category zc ON zg.goodsCateId = zc.id
 		WHERE
-			zg.goodsCateId = zc.id
+			1=1
 	       <if test="isAdminRecom !=null "> AND zg.isAdminRecom=#{isAdminRecom}</if>
 			<if test="isSale !=null "> AND zg.isSale=#{isSale}</if>
 			<if test="value!=null and value!=''">
@@ -299,10 +298,9 @@
         SELECT
 	            COUNT(1) totalCount
         FROM
-	          zs_goods zg,
-	          zs_goods_category zc
+	         	zs_goods zg LEFT JOIN zs_goods_category zc ON zg.goodsCateId = zc.id
 		WHERE
-			  zg.goodsCateId = zc.id
+			  1=1
 			<if test="value!=null and value!=''">
 			    AND
 				   (zg.goodsName LIKE '%${value}%'

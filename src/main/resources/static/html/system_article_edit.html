@@ -29,7 +29,7 @@
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>编辑系统文章</h5>
+                <h5>系统文章</h5>
                 <div class="ibox-tools">
                     <a class="toback" href="/admin/addons/adminlist/name/SystemArticle.html">
                         返回上一页
@@ -37,19 +37,51 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <form method="post" action="/admin/addons/execute/_addons/SystemArticle/_controller/SystemArticle/_action/add" class="form-horizontal">
-                    <input type="hidden" name="id" value="1">
+                <form method="post" action="/article/addOrEditArticle" class="form-horizontal">
+                    <input type="hidden" name="id" value="">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">标题<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="title" value="关于我们">
+                            <input type="text" class="form-control" name="articleTitle" value="关于我们">
                         </div>
                     </div>
-                                        <input type="hidden" class="form-control" name="name" value="about">
-                                        <div class="form-group">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">封面图<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+							<link rel="stylesheet" href="../hplus/jqueryFileUpload/style.css">
+							<script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
+							<script src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
+							<script src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
+							<div>
+							    <a href="javascript:;" class="btn btn-primary btn-sm jqfivefile" type="button">
+							        <span id="imgUpload_name_img">上传图片</span><span id="progress_img"></span>
+							        <input id="imgUpload_img" type="file"  title="上传图片" name="img" accept="image/*" data-url="../banner/bannerImgUpload" />
+							    </a>
+							    <div id="imgsbox_img" class="imgsbox">
+							    </div>
+							</div>
+
+                            <span class="help-block m-b-none text-danger">支持:jpg、jpeg、png； 尺寸：宽1927*高460px；大小：限5M内</span>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">链接<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="url" value="">
+                        </div>
+                    </div>
+                      	<input type="hidden" class="form-control" name="name" value="about">
+                      	<div class="form-group">
+                        <label class="col-sm-2 control-label">简介<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <textarea name="introduce" ></textarea>
+                        </div>
+                        </div>    
+                       	<div class="form-group">
                         <label class="col-sm-2 control-label">内容<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <textarea name="content" id="deitor"></textarea>
+                            <textarea name="articleContent" id="deitor"></textarea>
 <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.js"></script>
 <script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
@@ -96,21 +128,97 @@ var ue = UE.getEditor('deitor',{
 <script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="../layer-v3.1.1/layer/layer.js"></script>
-<!--<script src="/static/hplus/js/plugins/layer/layer.min.js"></script>-->
 <script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
 <script src="../hplus/js/contabs.min.js"></script>
 <script src="../hplus/js/plugins/pace/pace.min.js"></script>
-
-<!-- jqGrid -->
 <script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
 <script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
-<!--<script src="/static/hplus/js/plugins/iCheck/icheck.min.js"></script>-->
 <script src="../js/common.js"></script>
 
 <script>
-    $(document).ready(function(){
-
+    $(function(){
+    	var id=getQueryString("id");
+    	if(id!=null&&id!=''){
+    		$.ajax({
+    	        url: "/article/articleInfo",
+    	        data: {"id":id},
+    	        type: "POST",
+    	        dataType: "json",
+    	        async:false,
+    	        success: function (data) {
+    	        	 var img = '<div class="imgbox">';
+                     img += '<div class="removePic" onclick="removePic(this,\'/admin/addons/execute/_addons/JqueryUpload/_controller/File/_action/deleteFile\')">×</div>';
+                     img += '<input type="hidden" name="articleTitleImage" value="' + data.articleTitleImage + '">';
+                     img += '<img src="' + data.articleTitleImage + '">';
+                     img += '</div>';
+                     if(multi){
+                         $("#imgsbox_img").append(img);
+                     }else{
+                         $("#imgsbox_img").html(img);
+                     }
+    		       	$("input[name='id']").val(data.id);
+    		       	$("input[name='articleTitle']").val(data.articleTitle);
+    		       	$("input[name='introduce']").val(data.introduce);
+    		       	$("textarea[name='articleContent']").val(data.articleContent);
+    		       	$("textarea[name='introduce']").val(data.introduce);
+    	        }
+    	    });
+    	}
+        var multi = 0;
+        var name = "articleTitleImage";
+        if(multi){
+            name = name+'[]';
+            $("#imgUpload_img").attr('multiple','multiple');
+        }else{
+            $("#imgUpload_img").removeAttr('multiple');
+        }
+        
+        $("#imgUpload_img").fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                	console.log(data.result);
+                if (data.result.code == 0) {
+                    var img = '<div class="imgbox">';
+                    img += '<div class="removePic" onclick="removePic(this,\'/admin/addons/execute/_addons/JqueryUpload/_controller/File/_action/deleteFile\')">×</div>';
+                    img += '<input type="hidden" name="'+name+'" value="' + data.result.url + '">';
+                    img += '<img src="' + data.result.url + '">';
+                    img += '</div>';
+                    if(multi){
+                        $("#imgsbox_img").append(img);
+                    }else{
+                        $("#imgsbox_img").html(img);
+                    }
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            change: function (e, data) {
+                $("#imgUpload_name_img").html('上传图片...');
+            },
+            progressall: function (e, data) {
+                var progressnum = parseInt(data.loaded / data.total * 100);
+                if (progressnum == 100) {
+                    $("#progress_img").text('');
+                    $("#imgUpload_name_img").html('上传图片');
+                } else {
+                    $("#progress_img").text(progressnum + "%");
+                }
+            },
+            error: function(e,data){
+                layer.msg('上传请求失败');
+            }
+        });
     });
+
+    /**
+     * 移除图片
+     */
+    function removePic(_self,deleteurl){
+        $(_self).parent().remove();
+        if(deleteurl){
+            $.post(deleteurl,{path:$(_self).parent().find('img').attr('src')});
+        }
+    }
 </script>
 
 </body>

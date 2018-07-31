@@ -5,18 +5,26 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.util.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
+import com.palmble.dal.ZsGoodsCategoryMapper;
 import com.palmble.dal.ZsGoodsMapper;
+import com.palmble.dal.ZsGoodsPhotoAlbumMapper;
 import com.palmble.entity.ZsGoods;
+import com.palmble.entity.ZsGoodsCategory;
+import com.palmble.entity.ZsGoodsPhotoAlbum;
 import com.palmble.service.GoodsService;
 import com.palmble.utils.DateUtil;
 import com.palmble.utils.FileTypeUtils;
@@ -29,6 +37,11 @@ import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
 public class GoodsServiceImpl implements GoodsService{
   @Autowired
   private ZsGoodsMapper goodsMapper;
+  @Autowired
+  private ZsGoodsPhotoAlbumMapper potosMapper;
+  @Autowired
+  private ZsGoodsCategoryMapper goodsCateMapper;
+  
   @Value("${image.location}")
   private String filePath;
   @Value("${imgShow.url}")
@@ -54,6 +67,7 @@ public class GoodsServiceImpl implements GoodsService{
 	/**
 	 * 编辑商品的信息
 	 */
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public ResponsDatas operGoodsInfo(ZsGoods goods) {
 		try {
@@ -64,6 +78,16 @@ public class GoodsServiceImpl implements GoodsService{
 				}else {
 					goods=(ZsGoods) data.getData();
 					goodsMapper.insertSelective(goods);
+					Integer goodsId=goods.getId();
+					if(goods.getGoodsCoverImgs().length>0) {
+						String[] imgs=goods.getGoodsCoverImgs();
+					  for (String goodsImg : imgs) {
+						  ZsGoodsPhotoAlbum goodsPotos=new ZsGoodsPhotoAlbum(goodsImg, goodsId);
+						  //商品相册
+						  potosMapper.insertSelective(goodsPotos);
+//						  potosMapper.insertPotos(goodsPotos);//此方法暂未使用
+					}
+					}
 					
 				}
 				
@@ -74,9 +98,23 @@ public class GoodsServiceImpl implements GoodsService{
 				}else {
 					goods=(ZsGoods) data.getData();
 					goodsMapper.updateByPrimaryKeySelective(goods);
+					int goodsId=goods.getId();
+					if(goods.getGoodsCoverImgs()!=null) {
+						String[] imgs=goods.getGoodsCoverImgs();
+						potosMapper.deleteByGoodsId(goodsId);
+					  for (String goodsImg : imgs) {
+						  ZsGoodsPhotoAlbum goodsPotos=new ZsGoodsPhotoAlbum(goodsImg, goodsId);
+						  //商品相册
+						  potosMapper.insertSelective(goodsPotos);
+						  
+//						  potosMapper.insertPotos(goodsPotos);//此方法暂未使用
+				     	}
+					}
 				}
 			}else if(goods.getOper().equals(SysConstant.OPER_DEL)) {
 				Integer id=goods.getId();
+				Integer goodsId=goods.getId();
+				potosMapper.deleteByGoodsId(goodsId);				
 				int num =goodsMapper.deleteByPrimaryKey(id);
 				if(num>0) {
 					return ResponsDatas.success();
@@ -138,7 +176,10 @@ public class GoodsServiceImpl implements GoodsService{
 		if(StringUtil.isEmpty(goods.getGoodsDesc())) {
 			return  ResponsDatas.fail("商品描述不能为空！", null);
 		}
-			String createTime=DateUtil.getCurrentDateTime();//创建时间
+		if(StringUtils.isEmpty(goods.getGoodsContent())){
+			return  ResponsDatas.fail("商品详情不能为空！", null);
+		}
+		String createTime=DateUtil.getCurrentDateTime();//创建时间
 		goods.setCreateTime(DateUtil.stringToDateTime(createTime));
 		boolean isSale=goods.getIsSale();
 		if(isSale) {//上架时间
@@ -152,5 +193,56 @@ public class GoodsServiceImpl implements GoodsService{
 			return  ResponsDatas.fail("请选择分类！", null);
 		}
 		return ResponsDatas.success(goods);
+	}
+
+	@Override
+	public ResponsDatas getGoodsById(Integer goodsId) {
+		Map<String,Object> dataMap=new  HashMap<String,Object>();
+		
+			try {
+				dataMap=goodsMapper.getGoodsById(goodsId);
+				
+					if(dataMap!=null) {
+						List<ZsGoodsPhotoAlbum> goodslist=potosMapper.selectPotosByGoodsId(goodsId);
+						dataMap.put("potos", goodslist==null?null:goodslist);
+//						dataList.add(map);
+					return ResponsDatas.success(dataMap);
+				}else {
+					return  ResponsDatas.fail("商品为空！", null);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return  ResponsDatas.fail(e.getMessage(), null);
+			}
+		
+	}
+
+	@Override
+	public ResponsDatas getGoodsCategoryInfo(Integer goodsId) {
+		try {
+			Integer goodsGateId=null;
+			if(goodsId!=0) {
+				Map<String,Object> dataMap=dataMap=goodsMapper.getGoodsById(goodsId);
+				if(dataMap!=null) {
+					goodsGateId=Integer.valueOf(dataMap.get("goodsCateId").toString());
+				}
+			}
+			List<ZsGoodsCategory> goodsCate=goodsCateMapper.getToplevel();//获取顶级菜单
+			
+			for (ZsGoodsCategory zct : goodsCate) {
+				//获取子菜单
+				Integer pid=zct.getId();
+				List<ZsGoodsCategory> childCate= goodsCateMapper.getChildlevel(pid,goodsGateId);
+				zct.setChildLevel(childCate);
+			}
+			return ResponsDatas.success(goodsCate);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResponsDatas.fail(e.getMessage());
+		}
+		
+		
 	}
 }

@@ -12,6 +12,10 @@ public class Banner {
     private String bannerUrl;
 
     private Integer sequence;
+    
+    private Integer goodsId;
+    
+    private Integer type;//banner跳转类型 1:跳转商品 0:其他
 
     private Integer state;
 
@@ -58,8 +62,25 @@ public class Banner {
     public void setSequence(Integer sequence) {
         this.sequence = sequence;
     }
+    
 
-    public Integer getState() {
+    public Integer getGoodsId() {
+		return goodsId;
+	}
+
+	public void setGoodsId(Integer goodsId) {
+		this.goodsId = goodsId;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public Integer getState() {
         return state;
     }
 

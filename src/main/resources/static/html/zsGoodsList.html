@@ -27,7 +27,7 @@
     <script src="../hplus/js/content.min.js?v=1.0.0"></script>
    <script src="../layer-v3.1.1/layer/layer.js"></script>
  
-<script src="../js/common.js"></script>
+<script src="../js/common2.js"></script>
 <link rel="stylesheet" href="../css/common.css">
     
     <style>
@@ -70,7 +70,7 @@
 			    <div class="ibox-content">
 			        <div class="row">
 			           <div class="col-xs-3">
-			               <a href="javascript:;" url="test.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
+			               <a href="javascript:;" url="zsGoodsAdd.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
 			           </div>
 			           <div style="text-align: right;" id="seachForm">
                   <form class="form-inline" id="form-search" >
@@ -134,7 +134,7 @@
 		rowNum:10,
 		sortname: 'id',
 		rowList:[10,20,30],
-		colNames:["序号ID","商品编号","名称","分类","市场价","店铺价格","库存","排序","状态","推荐","商品详情","操作"],
+		colNames:["序号ID","商品编号","名称","分类","市场价","店铺价格","库存","排序","状态","推荐","操作"],
 		colModel:[
 					{name:"id",index:"id",editable:true,width:60,sorttype:"int",search:true},
 					{name:"goodsNo",index:"goodsNo",editable:true,width:60},
@@ -162,13 +162,15 @@
 			                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setIsAdminRecom(this)"><span class="label label-primary"  title="是">是</span></a>';
 			                    }
 						}},
-					{width:80,sortable: false,align:'left',formatter: function (a, b, c) {
+					/* {width:80,sortable: false,align:'left',formatter: function (a, b, c) {
 	                    var btn = '<a href="admin_add.html?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_list.html">';
-	                    btn += '<a href="javascript:;"><span class="label label-danger" id="xiangqing" title="详情"  data-id='+c.id+' onclick="del(this)">详情</span></a>';
+	                    btn += '<a href="javascript:;"><span class="label label-danger" id="xiangqing" title="详情"  data-id='+c.id+' onclick="de(this)">详情</span></a>';
 	                    return btn;
-                     }},
+                     }}, */
 					{width:80,sortable: false,align:'left',formatter: function (a, b, c) {
-						 var btn = '<a href="admin_add.html?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_list.html"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+						var editurl='zsGoodsAdd.html'+'?id='+c.id;
+					    var btn = '<a url="'+editurl+'" href="javascript:;" data-title="编辑商品" onclick="layer_open(this,1)"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+						// var btn = '<a href="?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_list.html"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
 		                    btn += '<a href="javascript:;"><span class="label label-danger" title="删除"  data-id='+c.id+' onclick="del(this)">删除</span></a>';
 		                    return btn;
                      }},
@@ -210,14 +212,14 @@
 	            var value = escape($("#value").val()); 
 	            var isAdminRecom = escape($("#isAdminRecom").val()); 
 	            var isSale=escape($("#isSale").val());
-	            $("#table_list_1").jqGrid('setGridParam',{ 
+	            $("#table").jqGrid('setGridParam',{ 
 	                url:HttpUrlCommon+_goodsList, 
 	                postData:{'value':value,'isAdminRecom':isAdminRecom,"isSale":isSale}, //发送数据 
 	                page:1 
 	            }).trigger("reloadGrid"); //重新载入 
 	        });
 	        $("#search-clear").click(function(){ 
-	            $("#table_list_1").jqGrid('setGridParam',{ 
+	            $("#table").jqGrid('setGridParam',{ 
 	                url:HttpUrlCommon+_goodsList,
 	                postData:{'value':"",'isAdminRecom':null,"isSale":null}, //发送数据 
 	                page:1
@@ -302,7 +304,7 @@
 	    		layer.closeAll('dialog');
 	    		$.ajax({ url: _delGoods, data:{id:id}, success: function(data){
 	    	          layer.msg(data.message);
-	    	          $("#table_list_1").trigger("reloadGrid");
+	    	          $("#table").trigger("reloadGrid");
 	    	           }
 	    	          });
 	    		}); 

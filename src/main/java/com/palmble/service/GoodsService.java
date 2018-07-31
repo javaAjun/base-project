@@ -34,4 +34,8 @@ public interface GoodsService {
 	 * @return
 	 */
 	public ResponsDatas IsNullGoodsParam(ZsGoods goods);
+
+	public ResponsDatas getGoodsById(Integer goodsId);
+
+	public ResponsDatas getGoodsCategoryInfo(Integer goodsId);
 }
