@@ -39,12 +39,14 @@ function ajax_get_fun(that) {
         $(that).attr('data-flag',1);
         $.get(target).success(function(data){
             if (data.code=="1") {
-                if (data.url) {
-                    updateAlert(data.msg,'alert-success');
-                }else{
-                    updateAlert(data.msg,'alert-success');
-                }
-                setTimeout(function(){
+//                if (data.url) {
+//                	layer.msg(data.msg);
+////                    updateAlert(data.msg,'alert-success');
+//                }else{
+////                    updateAlert(data.msg,'alert-success');
+//                }
+            	layer.msg(data.msg);
+//                setTimeout(function(){
                     if( $(that).hasClass('no-refresh')){
                         $('#top-alert').find('button').click();
                         $(that).attr('data-flag',0);
@@ -57,7 +59,7 @@ function ajax_get_fun(that) {
                             location.href=data.url;
                         }
                     }
-                },1500);
+//                },1500);
             }else{
                 updateAlert(data.msg,'alert-danger');
                 setTimeout(function(){

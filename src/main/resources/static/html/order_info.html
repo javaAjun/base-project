@@ -164,8 +164,19 @@ var postData={id:id};
                 +'</td>'
             +'</tr>';
             }
+            if(orderInfo.orderStatus==5||orderInfo.orderStatus==6){
+            	html+='<tr>'
+                +'<td>操作</td>'
+                +'<td>'
+                +'<button class="btn btn-sm btn-primary confirm" id="confirmReturn">退款</button>'
+                +'</td>'
+            +'</tr>';
+            }
 //     	);
     $('#orderInfo').append(html);
+    $('#confirmReturn').click(function confirmReturn(){
+    	parent.confirmReturn(orderInfo);
+    });
     });
 function confirmCollect(){
 	var data={id:id};

@@ -15,11 +15,13 @@ public interface OrderInfoService {
     
     int deleteById(Integer id);
     
+    
     int updateById(OrderInfo orderInfo);
 
 //    int updateFullyById(OrderInfo orderInfo);
     
     OrderInfo getById(Integer id);
+    OrderInfo getSimpleResultById(Integer id);
     
     //int startRow, int pageSize, object2map
     
@@ -29,6 +31,6 @@ public interface OrderInfoService {
     List<OrderInfo> findSimpleResult(Map<String, Object> params);
     List<OrderInfo> fuzzyQuery(Map<String, Object> params);
     
-    XSSFWorkbook createAllWorkbooks();
+    XSSFWorkbook createAllWorkbooks(Map<String, Object> params);
     
 }

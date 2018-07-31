@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.palmble.dal.BillDao" >
+
+  <resultMap id="BaseResultMap" type="com.palmble.entity.Bill">
+  <id column = "id" property = "id" jdbcType = "INTEGER"/>
+  <result column = "type" property = "type" jdbcType = "INTEGER"/>
+  <result column = "state" property = "state" jdbcType = "INTEGER"/>
+  <result column = "transaction_id" property = "transactionId" jdbcType = "VARCHAR"/>
+  <result column = "user_id" property = "userId" jdbcType = "INTEGER"/>
+  <result column = "create_time" property = "createTime" jdbcType = "TIMESTAMP"/>
+  <result column = "update_time" property = "updateTime" jdbcType = "TIMESTAMP"/>
+  <result column = "remarks" property = "remarks" jdbcType = "VARCHAR"/>
+  <result column = "merchant_id" property = "merchantId" jdbcType = "INTEGER"/>
+  <result column = "amount" property = "amount" jdbcType = "DOUBLE"/>
+  </resultMap>
+  
+
+  <insert id="insert" parameterType="com.palmble.entity.Bill" >
+    insert into bill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="transactionId != null" >
+        transaction_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="merchantId != null" >
+        merchant_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="type != null" >
+        #{type},
+      </if>
+      <if test="state != null" >
+        #{state},
+      </if>
+      <if test="transactionId != null" >
+        #{transactionId},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+      <if test="remarks != null" >
+        #{remarks},
+      </if>
+      <if test="merchantId != null" >
+        #{merchantId},
+      </if>
+      <if test="amount != null" >
+        #{amount},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insertFully" parameterType="com.palmble.entity.Bill" >
+    insert into user (id,type,state,transaction_id,user_id,create_time,update_time,remarks,merchant_id,amount)
+    values (#{id,jdbcType=INTEGER},#{type,jdbcType=INTEGER},#{state,jdbcType=INTEGER},#{transactionId,jdbcType=VARCHAR},#{userId,jdbcType=INTEGER},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{remarks,jdbcType=VARCHAR},#{merchantId,jdbcType=INTEGER},#{amount,jdbcType=DOUBLE})
+  </insert>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from bill
+    where id = #{id}
+  </delete>
+  
+  <update id="updateById" parameterType="com.palmble.entity.Bill">
+  update bill
+  <set>
+      <if test="id != null" >
+        id = #{id},
+      </if>
+      <if test="type != null" >
+        type = #{type},
+      </if>
+      <if test="state != null" >
+        state = #{state},
+      </if>
+      <if test="transactionId != null" >
+        transaction_id = #{transactionId},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks},
+      </if>
+      <if test="merchantId != null" >
+        merchant_id = #{merchantId},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount},
+      </if>
+  </set>
+    where id = #{id}
+  </update>
+  
+  <update id="updateFullyById" parameterType="com.palmble.entity.Bill" >
+   update bill 
+   set 
+   type=#{type,jdbcType=INTEGER},
+   state=#{state,jdbcType=INTEGER},
+   transaction_id=#{transactionId,jdbcType=VARCHAR},
+   user_id=#{userId,jdbcType=INTEGER},
+   create_time=#{createTime,jdbcType=TIMESTAMP},
+   update_time=#{updateTime,jdbcType=TIMESTAMP},
+   remarks=#{remarks,jdbcType=VARCHAR},
+   merchant_id=#{merchantId,jdbcType=INTEGER},
+   amount=#{amount,jdbcType=DOUBLE}
+   where id = #{id}
+  </update>
+  
+  <sql id="baseColumns">
+    id,
+    type,
+    state,
+    transaction_id,
+    user_id,
+    create_time,
+    update_time,
+    remarks,
+    merchant_id,
+    amount
+  </sql>
+  
+  <sql id="queryParams">
+    <where >
+      <if test="type != null and type != ''">
+      type=#{type} 
+      </if>
+      <if test="state != null and state != ''" >
+      and  state=#{state} 
+      </if>
+      <if test="transactionId != null and transactionId != ''" >
+      and  transaction_id=#{transactionId} 
+      </if>
+      <if test="userId != null and userId != ''" >
+      and  user_id=#{userId} 
+      </if>
+      <if test="createTime != null and createTime != ''" >
+      and  create_time=#{createTime} 
+      </if>
+      <if test="updateTime != null and updateTime != ''" >
+      and  update_time=#{updateTime} 
+      </if>
+      <if test="remarks != null and remarks != ''" >
+      and  remarks=#{remarks} 
+      </if>
+      <if test="merchantId != null and merchantId != ''" >
+      and  merchant_id=#{merchantId} 
+      </if>
+      <if test="amount != null and amount != ''" >
+      and  amount=#{amount} 
+      </if>
+    </where >
+  </sql>
+  
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+    select 
+    <include refid="baseColumns" />
+    from bill
+    where id = #{id}
+  </select>
+  
+  <select id="find" parameterType="java.util.Map" resultMap="BaseResultMap" >
+    select
+    <include refid="baseColumns" />
+    from bill
+    <include refid="queryParams" />
+    <if test="sort != null and order != null" >
+      order by ${sort} ${order}
+    </if>
+    <if test="startRow != null and pageSize != null" >
+      limit #{startRow},#{pageSize}
+    </if>
+  </select>
+  
+  <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer" >
+    select count(*) from bill
+    <include refid="queryParams" />
+  </select>
+</mapper>

@@ -15,6 +15,7 @@
 		<result column="total_amount" property="totalAmount" jdbcType="DOUBLE" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
 		<association property="consignee" javaType="com.palmble.entity.Consignee">
 			<result column="name" property="name" jdbcType="VARCHAR" />
 			<result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -59,6 +60,7 @@
 		<result column="total_amount" property="totalAmount" jdbcType="DOUBLE" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
 	</resultMap>
 
 	<!-- 根据订单查询商品信息 -->
@@ -70,7 +72,8 @@
 		a.marketPrice, a.shopPrice, a.goodsStock,
 		a.saleCount, a.goodsSpec, a.isSale, a.isAdminRecom, a.goodsDesc,
 		a.saleTime,
-		a.createTime, a.goodsPhotoAlbumId,
+		a.createTime, 
+		a.goodsPhotoAlbumId,
 		a.goodsCateId,
 		b.number
 		from
@@ -120,6 +123,9 @@
 			<if test="updateTime != null">
 				update_time = #{updateTime},
 			</if>
+			<if test="userId!=null">
+				user_id=#{userId}
+			</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -135,7 +141,8 @@
 		user_notes=#{userNotes,jdbcType=VARCHAR},
 		total_amount=#{totalAmount,jdbcType=DOUBLE},
 		create_time=#{createTime,jdbcType=TIMESTAMP},
-		update_time=#{updateTime,jdbcType=TIMESTAMP}
+		update_time=#{updateTime,jdbcType=TIMESTAMP},
+		user_id=#{userId,jdbcType=INTEGER}
 		where id = #{id}
 	</update>
 
@@ -151,6 +158,7 @@
 		a.total_amount as total_amount,
 		date_format(a.create_time,'%Y-%m-%d %H:%i:%s') as create_time,
 		date_format(a.update_time,'%Y-%m-%d %H:%i:%s') as update_time,
+		a.user_id as user_id,
 		b.name as name,
 		b.phone as phone,
 		b.province as province,
@@ -178,6 +186,9 @@
 			<if test="userNotes != null and userNotes != ''">
 				and a.user_notes=#{userNotes}
 			</if>
+			<if test="userId != null and userId != ''">
+				and a.user_id=#{userId}
+			</if>
 			<if test="totalAmount != null and totalAmount != ''">
 				and a.total_amount=#{totalAmount}
 			</if>
@@ -192,6 +203,15 @@
 
 	<select id="getById" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
+		select
+		<include refid="baseColumns" />
+		from order_info a join consignee b on a.consignee_id=b.id
+		where a.id =
+		#{id}
+	</select>
+	
+	<select id="getSimpleResultById" parameterType="java.lang.Integer"
+		resultMap="simpleResult">
 		select
 		<include refid="baseColumns" />
 		from order_info a join consignee b on a.consignee_id=b.id

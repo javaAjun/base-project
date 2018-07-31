@@ -45,8 +45,23 @@ public class MemberUser{
 
     
     private Integer delState;
+    
+    private String nickName;
+    
 
-    public Integer getId() {
+    public String geteMail() {
+		return eMail;
+	}
+	public void seteMail(String eMail) {
+		this.eMail = eMail;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	public Integer getId() {
        return id;
     }
     public void setId(Integer id) {
