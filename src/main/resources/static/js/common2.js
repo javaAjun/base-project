@@ -268,8 +268,8 @@ function updateSort(_self) {
     var url = $(_self).attr('data-url');;
     var id = $(_self).attr('data-id');
     var old = $(_self).attr('data-old');
-    var sort = $(_self).val();
-    $.post(url,{id:id,sort:sort},function(data){
+    var catSort = $(_self).val();
+    $.post(url,{id:id,catSort:catSort},function(data){
         if(data.status="200"){
             $("#table").trigger("reloadGrid");
         }else{

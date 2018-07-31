@@ -1,0 +1,9 @@
+.navbar-nav .nav-current{
+    background: rgba(0,0,0,0.1);
+    color: #f6f6f6;
+}
+
+.content-form{
+    max-width:600px;
+    overflow: auto;
+}

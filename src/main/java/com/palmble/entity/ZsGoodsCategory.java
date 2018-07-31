@@ -11,8 +11,10 @@ public class ZsGoodsCategory {
 
     private Integer catSort;
 
+    private Boolean state;
     private List<ZsGoodsCategory> childLevel;
     
+    private String oper;
     public Integer getId() {
         return id;
     }
@@ -51,6 +53,23 @@ public class ZsGoodsCategory {
 
 	public void setChildLevel(List<ZsGoodsCategory> childLevel) {
 		this.childLevel = childLevel;
+	}
+
+
+	public String getOper() {
+		return oper;
+	}
+
+	public void setOper(String oper) {
+		this.oper = oper;
+	}
+
+	public Boolean getState() {
+		return state==null?null:state;
+	}
+
+	public void setState(Boolean state) {
+		this.state = state;
 	}
     
 }

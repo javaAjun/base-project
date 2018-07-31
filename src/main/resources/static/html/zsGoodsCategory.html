@@ -1,10 +1,189 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
 </head>
-<body>
-  <h1>商品分类</h1>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+
+<div class="ibox">
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript:;" url="/admin/goods/cateadd.html" data-title="新增分类" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>
+            </div>
+            <div class="col-xs-9" style="text-align: right;">
+               <form class="form-inline" id="form-search" action="/goods/getGoodsCateInfo">
+		                 <div class="input-group">
+		                        <input type="text" class="form-control" id="value" name="value" placeholder="关键字查询">
+		                    </div>
+                          <div class="form-group">
+								<!-- <label class="col-sm-2 control-label">分类<span class="text-danger">*</span></label> -->
+								<div class="col-sm-6">
+
+									<select name="id" id="goodsCateId" class="form-control">
+										
+									</select>
+								</div>
+							</div>
+                    <div class="input-group">
+                          
+                    
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary" type="button" id ="search-btn" ><i class="fa fa-search"></i></button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <div class="jqGrid_wrapper">
+            <table id="table" style="border-collapse: collapse"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common2.js"></script>
+<script src="../js/pathJs.js"></script>
+<script>
+    $(function () {
+        $(window).bind("resize",function(){
+            var width=$(".jqGrid_wrapper").width();
+            $("#table").setGridWidth(width);
+            
+        });
+         $(document).ready(function() {
+				getCatInfo(0);
+			
+		});
+ 
+        $.jgrid.defaults.styleUI="Bootstrap";
+        $("#table").jqGrid({
+            url:_getGoodsCatePageInfo,
+            datatype: "json",
+            colModel:[
+                {label:'ID',name:'id',index:'id',width:30,editable: false,sortable: false},
+                {label:'名称',name:'catName',index:'catName',width:100,editable: false,sortable: false},
+                {label:'排序',name:'catSort',index:'catSort',width:30,sortable: true,formatter: function (a, b, c) {
+                	var url=_operEditGoodsCateInfor;
+                    return '<input type="number" onchange="updateSort(this)" data-url="'+url+'" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
+                }},
+                {label:'状态',name:'state',index:'state',width:50,editable: false,sortable: false,formatter:function (a,b,c){
+                    if(a == 0){
+                        var url =_operEditGoodsCateInfor+"&id="+c.id+"&state=1";
+                        return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
+                    } else{
+                    	 var url =_operEditGoodsCateInfor+"&id="+c.id+"&state=0";
+                        return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
+                    }
+                }},
+                {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
+                    var editurl = "/admin/goods/cateadd/id/"+c.id;
+                    var delurl = "/admin/goods/catedel/id/"+c.id;
+                    var btn = '<a url="'+editurl+'"  href="javascript:;" data-title="编辑分类" onclick="layer_open(this,1)"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+                    btn += '<a href="'+delurl+'" class="confirm ajax-get" data-confirm="确定要删除此记录吗?" data-table="1"><span class="label label-danger" title="删除">删除</span></a>';
+                    return btn;
+                }},
+            ],
+            rowNum:10,
+            rowList:[10,20,30],
+            pager: '#pager',
+            sortname: 'id',
+            viewrecords: true,
+            autowidth:true,
+            mtype: 'post',
+            height: 'auto',
+            emptyrecords: "暂无数据",
+            sortorder: "desc",
+            caption:"分类列表",
+            hidegrid:false,
+    		jsonReader: {    //jsonReader来跟服务器端返回的数据做对应  
+    	           //包含实际数据的数组  
+    		        root: "data",  //包含实际数据的数组  
+    	            page: "pageInfo.pageNo",  //当前页  
+    	            total: "pageInfo.totalPages",//总页数  
+    	            records:"pageInfo.total", //查询出的记录数  
+    	            rowNum:"pageInfo.pageSize",
+    	            repeatitems : false  
+    	        },
+            loadComplete: function (xhr) {
+                if(xhr.status!='200'){
+                    layer.msg(xhr.message);
+                    return false;
+                }
+            },
+        });
+    });
+    
+    
+  //获取分类
+	function getCatInfo(id){
+		$.ajax({ 
+			  type:"POST", 
+			  url:_getGoodsCatePageById+"?id="+id,
+			  dataType:"json",
+			  async:false,
+			  success:function(data){ 
+				  if(data.status=="200"){//goodsCateId
+					  var opthtml=' <option value="">选择分类</option>'
+					  if(id!=null){
+						  var parent=data.data;
+						 
+						  for(var i=0;i<parent.length;i++){
+						      opthtml+='<option value="'+parent[i].id+'">'+parent[i].catName+'</option>';
+								   
+							   
+							   opthtml+='</option>';
+							  
+						  }
+						 
+						  $("#goodsCateId").html(opthtml);
+						  
+						
+					  }
+				  }
+			  }
+		})
+	}
+</script>
+
 </body>
 </html>
