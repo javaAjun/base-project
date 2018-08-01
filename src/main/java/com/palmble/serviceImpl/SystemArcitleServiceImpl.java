@@ -40,10 +40,11 @@ public class SystemArcitleServiceImpl implements SystemArticleService {
 		Integer num=0;
 		String url="";
 		if(systemArticle.getId()!=null&&!systemArticle.getId().equals("")) {
-			num= articleMapper.updateByPrimaryKey(systemArticle);
+			num= articleMapper.updateByPrimaryKeySelective(systemArticle);
+			url="system_article_edit.html?id="+systemArticle.getId();
 		}else {
 			articleMapper.insert(systemArticle);
-			url="";
+			url="system_article_edit.html";
 		}
 		
 		if(num>0) {

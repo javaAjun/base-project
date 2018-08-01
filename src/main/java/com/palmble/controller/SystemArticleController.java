@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
 import com.palmble.base.PalmbleBaseController;
+import com.palmble.entity.Result;
 import com.palmble.entity.SystemArticle;
 import com.palmble.service.SystemArticleService;
 import com.palmble.utils.ResultInfo;
@@ -36,8 +37,8 @@ public class SystemArticleController extends PalmbleBaseController{
 	}
 	
 	@RequestMapping("/addOrEditArticle")
-	public void addOrEditArticle(SystemArticle systemArticle) {
-		systemArticleService.addOrEditArticle(systemArticle);
+	public Result addOrEditArticle(SystemArticle systemArticle) {
+		return systemArticleService.addOrEditArticle(systemArticle);
 	}
 	
 	@RequestMapping("/delArticle")
