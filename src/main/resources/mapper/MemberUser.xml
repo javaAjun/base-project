@@ -19,6 +19,8 @@
   <result column = "capital" property = "capital" jdbcType = "BIGINT"/>
   <result column = "del_state" property = "delState" jdbcType = "INTEGER"/>
   <result column = "nick_name" property = "nickName" jdbcType = "VARCHAR"/>
+    <result column = "user_name" property = "userName" jdbcType = "VARCHAR"/>
+  <result column = "password" property = "password" jdbcType = "VARCHAR"/>
   </resultMap>
   
 
@@ -70,6 +72,12 @@
       <if test="nickName != null" >
         nick_name,
       </if>
+       <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -117,12 +125,18 @@
       <if test="nickName != null" >
         #{nickName},
       </if>
+      <if test="userName != null" >
+        #{userName},
+      </if>
+      <if test="password != null" >
+        #{password},
+      </if>
     </trim>
   </insert>
   
-  <insert id="insertFully" parameterType="com.palmble.entity.MemberUser" >
-    insert into user (id,name,phone,role,grade,e_mail,address,state,id_number,create_time,update_time,qq,capital,del_state,nick_name)
-    values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{role,jdbcType=INTEGER},#{grade,jdbcType=INTEGER},#{eMail,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{state,jdbcType=INTEGER},#{idNumber,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{qq,jdbcType=VARCHAR},#{capital,jdbcType=BIGINT},#{delState,jdbcType=INTEGER},#{nickName,jdbcType=VARCHAR})
+   <insert id="insertFully" parameterType="com.palmble.entity.MemberUser" >
+    insert into user (id,name,phone,role,grade,e_mail,address,state,id_number,create_time,update_time,qq,capital,del_state,nick_name,user_name,password)
+    values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{role,jdbcType=INTEGER},#{grade,jdbcType=INTEGER},#{eMail,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{state,jdbcType=INTEGER},#{idNumber,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{qq,jdbcType=VARCHAR},#{capital,jdbcType=BIGINT},#{delState,jdbcType=INTEGER},#{nickName,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR})
   </insert>
   
   <delete id="deleteById" parameterType="java.lang.Integer" >
@@ -175,8 +189,14 @@
       <if test="delState != null" >
         del_state = #{delState},
       </if>
-       <if test="nickName != null" >
+      <if test="nickName != null" >
         nick_name = #{nickName},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName},
+      </if>
+      <if test="password != null" >
+        password = #{password},
       </if>
   </set>
     where id = #{id}
@@ -198,11 +218,13 @@
    qq=#{qq,jdbcType=VARCHAR},
    capital=#{capital,jdbcType=BIGINT},
    del_state=#{delState,jdbcType=INTEGER},
-   nick_name=#{nickName,jdbcType=VARCHAR}
+   nick_name=#{nickName,jdbcType=VARCHAR},
+   user_name=#{userName,jdbcType=VARCHAR},
+   password=#{password,jdbcType=VARCHAR}
    where id = #{id}
   </update>
   
-  <sql id="baseColumns">
+   <sql id="baseColumns">
     id,
     name,
     phone,
@@ -212,12 +234,14 @@
     address,
     state,
     id_number,
-    date_format(create_time,'%Y-%m-%d %H:%i:%s') as create_time,
-    date_format(update_time,'%Y-%m-%d %H:%i:%s') as update_time,
+    create_time,
+    update_time,
     qq,
     capital,
     del_state,
-    nick_name
+    nick_name,
+    user_name,
+    password
   </sql>
   
   <sql id="queryParams">
@@ -261,8 +285,14 @@
       <if test="delState != null and delState != ''" >
       and  del_state=#{delState} 
       </if>
-       <if test="nickName != null and nickName != ''" >
+      <if test="nickName != null and nickName != ''" >
       and  nick_name=#{nickName} 
+      </if>
+      <if test="userName != null and userName != ''" >
+      and  user_name=#{userName} 
+      </if>
+      <if test="password != null and password != ''" >
+      and  password=#{password} 
       </if>
     </where >
   </sql>
@@ -336,6 +366,12 @@
       </if>
       <if test="nickName != null and nickName != ''" >
       and  nick_name like concat(concat('%',#{nickName}),'%') 
+      </if>
+       <if test="userName != null and userName != ''" >
+      and  user_name like concat(concat('%',#{userName}),'%') 
+      </if>
+      <if test="password != null and password != ''" >
+       and  password like concat(concat('%',#{password}),'%') 
       </if>
       <if test="startTime != null and startTime != ''" >
       <![CDATA[ and  create_time  > #{startTime}]]>
