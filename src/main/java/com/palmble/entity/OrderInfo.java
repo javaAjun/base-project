@@ -11,9 +11,6 @@ public class OrderInfo{
     private String orderNumber;
 
     
-    private Integer memberId;
-
-    
     private Integer integral;
 
     
@@ -34,12 +31,22 @@ public class OrderInfo{
     
     private String updateTime;
     
-    private Integer userId;
+    private String memberNumber;
     
-    public Integer getuserId() {
+    
+    
+    public String getMemberNumber() {
+		return memberNumber;
+	}
+	public void setMemberNumber(String memberNumber) {
+		this.memberNumber = memberNumber;
+	}
+	private Integer userId;
+    
+    public Integer getUserId() {
 		return userId;
 	}
-	public void setuserId(Integer userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 	private Consignee consignee;
@@ -70,13 +77,6 @@ public class OrderInfo{
     }
     public void setOrderNumber(String orderNumber) {
        this.orderNumber = orderNumber;
-    }
-
-    public Integer getMemberId() {
-       return memberId;
-    }
-    public void setMemberId(Integer memberId) {
-       this.memberId = memberId;
     }
 
     public Integer getIntegral() {

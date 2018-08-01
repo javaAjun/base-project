@@ -6,7 +6,6 @@
 	<resultMap id="BaseResultMap" type="com.palmble.entity.OrderInfo">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
-		<result column="member_id" property="memberId" jdbcType="INTEGER" />
 		<result column="integral" property="integral" jdbcType="INTEGER" />
 		<result column="payment_method" property="paymentMethod"
 			jdbcType="INTEGER" />
@@ -16,6 +15,7 @@
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="user_name" property="memberNumber" jdbcType="INTEGER" />
 		<association property="consignee" javaType="com.palmble.entity.Consignee">
 			<result column="name" property="name" jdbcType="VARCHAR" />
 			<result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -51,7 +51,6 @@
 	<resultMap id="simpleResult" type="com.palmble.entity.OrderInfo">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
-		<result column="member_id" property="memberId" jdbcType="INTEGER" />
 		<result column="integral" property="integral" jdbcType="INTEGER" />
 		<result column="payment_method" property="paymentMethod"
 			jdbcType="INTEGER" />
@@ -99,9 +98,6 @@
 			<if test="orderNumber != null">
 				order_number = #{orderNumber},
 			</if>
-			<if test="memberId != null">
-				member_id = #{memberId},
-			</if>
 			<if test="integral != null">
 				integral = #{integral},
 			</if>
@@ -134,7 +130,6 @@
 		update order_info
 		set
 		order_number=#{orderNumber,jdbcType=VARCHAR},
-		member_id=#{memberId,jdbcType=INTEGER},
 		integral=#{integral,jdbcType=INTEGER},
 		payment_method=#{paymentMethod,jdbcType=INTEGER},
 		order_status=#{orderStatus,jdbcType=INTEGER},
@@ -149,8 +144,6 @@
 	<sql id="baseColumns">
 		a.id as id,
 		a.order_number as order_number,
-		a.member_id as
-		member_id,
 		a.integral as integral,
 		a.payment_method as payment_method,
 		a.order_status as order_status,
@@ -163,16 +156,31 @@
 		b.phone as phone,
 		b.province as province,
 		b.city as city,
-		b.address_info as addredd_info
+		b.address_info as address_info,
+	</sql>
+	<sql id="joinUserColumns">
+		a.id as id,
+		a.order_number as order_number,
+		a.integral as integral,
+		a.payment_method as payment_method,
+		a.order_status as order_status,
+		a.user_notes as user_notes,
+		a.total_amount as total_amount,
+		date_format(a.create_time,'%Y-%m-%d %H:%i:%s') as create_time,
+		date_format(a.update_time,'%Y-%m-%d %H:%i:%s') as update_time,
+		a.user_id as user_id,
+		b.name as name,
+		b.phone as phone,
+		b.province as province,
+		b.city as city,
+		b.address_info as address_info,
+		c.user_name
 	</sql>
 
 	<sql id="queryParams">
 		<where>
 			<if test="orderNumber != null and orderNumber != ''">
 				a.order_number=#{orderNumber}
-			</if>
-			<if test="memberId != null and memberId != ''">
-				and a.member_id=#{memberId}
 			</if>
 			<if test="integral != null and integral != ''">
 				and a.integral=#{integral}
@@ -204,8 +212,9 @@
 	<select id="getById" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
 		select
-		<include refid="baseColumns" />
-		from order_info a join consignee b on a.consignee_id=b.id
+		<include refid="joinUserColumns" />
+		from order_info a join consignee b on a.consignee_id=b.id join member_user c
+		on a.user_id=c.id
 		where a.id =
 		#{id}
 	</select>
@@ -221,8 +230,9 @@
 
 	<select id="find" parameterType="java.util.Map" resultMap="BaseResultMap">
 		select
-		<include refid="baseColumns" />
-		from order_info a join consignee b on a.consignee_id=b.id
+		<include refid="joinUserColumns" />
+		from order_info a join consignee b on a.consignee_id=b.id join member_user c
+		on a.user_id=c.id
 		<include refid="queryParams" />
 		<if test="sort != null and order != null">
 			order by ${sort} ${order}
@@ -235,8 +245,41 @@
 	<select id="findSimpleResult" parameterType="java.util.Map"
 		resultMap="simpleResult">
 		select
-		<include refid="baseColumns" />
+		id as id,
+		order_number as order_number,
+		integral as integral,
+		payment_method as payment_method,
+		order_status as order_status,
+		user_notes as user_notes,
+		total_amount as total_amount,
+		date_format(create_time,'%Y-%m-%d %H:%i:%s') as create_time,
+		date_format(update_time,'%Y-%m-%d %H:%i:%s') as update_time,
+		user_id as user_id,
 		from order_info a join consignee b on a.consignee_id=b.id
+		<include refid="queryParams" />
+		<if test="sort != null and order != null">
+			order by ${sort} ${order}
+		</if>
+		<if test="startRow != null and pageSize != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</select>
+	
+	<select id="findSimpleResultToMap" parameterType="java.util.Map"
+		resultType="map">
+		select
+		a.id as id,
+		a.order_number as orderNumber,
+		a.integral as integral,
+		a.payment_method as paymentMethod,
+		a.order_status as orderStatus,
+		a.user_notes as userNotes,
+		a.total_amount as totalAmount,
+		date_format(a.create_time,'%Y-%m-%d %H:%i:%s') as createTime,
+		date_format(a.update_time,'%Y-%m-%d %H:%i:%s') as updateTime,
+		a.user_id as userId,
+		b.user_name as userName
+		from order_info a join member_user b on a.user_id=b.id
 		<include refid="queryParams" />
 		<if test="sort != null and order != null">
 			order by ${sort} ${order}
@@ -255,9 +298,6 @@
     <where >
       <if test="orderNumber != null and orderNumber != ''">
       a.order_number like concat(concat('%',#{orderNumber}),'%')  
-      </if>
-      <if test="memberId != null and memberId != ''" >
-      and  a.member_id like concat(concat('%',#{memberId}),'%')  
       </if>
       <if test="integral != null and integral != ''" >
       and  a.integral like concat(concat('%',#{integral}),'%')  

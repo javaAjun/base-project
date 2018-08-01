@@ -135,7 +135,7 @@
 			$("#table")
 					.jqGrid(
 							{
-								url : "/order/getOrderList",
+								url : "/order/getOrderListToMap",
 								datatype : "json",
 								colModel : [
 										{
@@ -148,8 +148,8 @@
 										},
 										{
 											label : '会员编号',
-											name : 'memberId',
-											index : 'memberId',
+											name : 'userName',
+											index : 'userName',
 											width : 60,
 											editable : false,
 											sortable : false

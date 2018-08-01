@@ -89,7 +89,7 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 	        		 row = sheet.createRow(startRow);
 	        		 row.createCell(0).setCellValue(order.getId());
 	        		 row.createCell(1).setCellValue(order.getOrderNumber());
-	        		 row.createCell(2).setCellValue(order.getMemberId());
+	        		 row.createCell(2).setCellValue(order.getUserId());
 	        		 row.createCell(3).setCellValue(order.getIntegral());
 	        		 row.createCell(4).setCellValue(order.getPaymentMethod());
 	        		 row.createCell(5).setCellValue(order.getOrderStatus());
@@ -116,6 +116,10 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 	@Override
 	public OrderInfo getSimpleResultById(Integer id) {
 		return orderInfoDao.getSimpleResultById(id);
+	}
+	@Override
+	public List<Map<String, Object>> findSimpleResultToMap(Map<String, Object> params) {
+		return orderInfoDao.findSimpleResultToMap(params);
 	}
 
 }
