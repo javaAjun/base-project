@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.palmble.entity.SystemArticle" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
     <result column="article_title_image" property="articleTitleImage" jdbcType="VARCHAR" />
     <result column="introduce" property="introduce" jdbcType="VARCHAR" />
     <result column="article_content" property="articleContent" jdbcType="VARCHAR" />
@@ -11,7 +12,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, article_title, article_title_image, introduce, article_content, create_time, 
+    id, article_title,author, article_title_image, introduce, article_content, create_time, 
     update_time
   </sql>
   <select id="getArticleList" resultMap="BaseResultMap" >
@@ -36,10 +37,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.palmble.entity.SystemArticle" >
-    insert into system_article (id, article_title, article_title_image, 
+    insert into system_article (id, article_title,author, article_title_image, 
       introduce, article_content, create_time, 
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{articleTitle,jdbcType=VARCHAR}, #{articleTitleImage,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{articleTitle,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{articleTitleImage,jdbcType=VARCHAR}, 
       #{introduce,jdbcType=VARCHAR}, #{articleContent,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -48,6 +49,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="author != null" >
+        author,
       </if>
       <if test="articleTitle != null" >
         article_title,
@@ -75,6 +79,9 @@
       <if test="articleTitle != null" >
         #{articleTitle,jdbcType=VARCHAR},
       </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
       <if test="articleTitleImage != null" >
         #{articleTitleImage,jdbcType=VARCHAR},
       </if>
@@ -98,6 +105,9 @@
       <if test="articleTitle != null" >
         article_title = #{articleTitle,jdbcType=VARCHAR},
       </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
       <if test="articleTitleImage != null" >
         article_title_image = #{articleTitleImage,jdbcType=VARCHAR},
       </if>
@@ -119,6 +129,7 @@
   <update id="updateByPrimaryKey" parameterType="com.palmble.entity.SystemArticle" >
     update system_article
     set article_title = #{articleTitle,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
       article_title_image = #{articleTitleImage,jdbcType=VARCHAR},
       introduce = #{introduce,jdbcType=VARCHAR},
       article_content = #{articleContent,jdbcType=VARCHAR},

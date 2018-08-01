@@ -28,6 +28,7 @@ import com.palmble.entity.ZsGoodsPhotoAlbum;
 import com.palmble.service.GoodsService;
 import com.palmble.utils.DateUtil;
 import com.palmble.utils.FileTypeUtils;
+import com.palmble.utils.GoodsCateLev;
 import com.palmble.utils.PageInfoUtil;
 import com.palmble.utils.ResponsDatas;
 import com.palmble.utils.SysConstant;
@@ -244,5 +245,108 @@ public class GoodsServiceImpl implements GoodsService{
 		}
 		
 		
+	}
+
+//	@Override
+//	public ResponsDatas<List<Map<String,Object>>> getPageGoodsInfo(Integer page, Integer rows,Integer pid, String value) {
+//		if(page==null)page=1;
+//		if(rows==null)rows=10;
+//		page=(page-1)*rows;
+//		try{
+//		List<Map<String,Object>> goodsCateInfo=goodsCateMapper.getPageGoodsCateInfo(page,rows,value,pid);
+//		Integer totalCount=goodsCateMapper.getTotalCountCateInfo(value,pid);
+//		return ResponsDatas.success(goodsCateInfo, totalCount.longValue(), page+1, rows);
+//	} catch (Exception e) {
+//		e.printStackTrace();
+//		return   ResponsDatas.fail(e.getMessage());
+//	}
+//	}
+	@Override
+	public ResponsDatas<List<ZsGoodsCategory>> getPageGoodsInfo(Integer page, Integer rows,Integer pid, String value) {
+		if(page==null)page=1;
+		if(rows==null)rows=10;
+		page=(page-1)*rows;
+		try{
+			List<ZsGoodsCategory> goodsCateInfo=goodsCateMapper.getPageGoodsCateInfo(page,rows,value,pid);
+			
+		   Integer totalCount=goodsCateMapper.getTotalCountCateInfo(value,pid);
+		   List<GoodsCateLev> backList=new ArrayList<GoodsCateLev>();
+		   recMessageType(backList, goodsCateInfo, 0, 0);
+		   for (GoodsCateLev goodsCateLev : backList) {
+			   goodsCateLev.setCatName(setNBSP(goodsCateLev)
+	                    + goodsCateLev.getCatName());
+		}
+		return ResponsDatas.success(backList, totalCount.longValue(), page+1, rows);
+	} catch (Exception e) {
+		e.printStackTrace();
+		return   ResponsDatas.fail(e.getMessage());
+	}
+	}
+	/**
+     * 根据层级的关系处理 类别名称显示
+     * @param messageType
+     * @return
+     */
+    private String setNBSP(GoodsCateLev messageType) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < messageType.getLev(); i++) {
+            sb.append("&nbsp;&nbsp;&nbsp;|---");
+        }
+        return sb.toString();
+    }
+    /**
+     * 对无限分类集合 数组进行排序
+     * 
+     * @param mlist 要排序的集合
+     * @param id    父id 为0开始 
+     * @param lev 层数 为了显示缩进 而添加的
+     */
+    public void recMessageType(List<GoodsCateLev> bList,
+        List<ZsGoodsCategory> mlist, int id, int lev) {
+        for (ZsGoodsCategory messageType : mlist) {
+            if (messageType.getParentId() == id) {
+            	GoodsCateLev messageTypeLev = new GoodsCateLev();
+            /*为了显示层数 而 又封装了一个MessageTypeLev 类型，而且在继承原来MessageType 还做了一下转换 [messageTypeLev.from(messageType);
+     ]此处方法觉得有点 小小的不可取 ，以后解决 ，目前先解决问题再说 */
+                messageTypeLev.from(messageType);
+                messageTypeLev.setLev(lev);
+                bList.add(messageTypeLev);
+                recMessageType(bList, mlist, messageType.getId(), lev + 1);
+            }
+        }
+    }
+	@Override
+	public ResponsDatas<List<ZsGoodsCategory>> getPageGoodsTopLevel(Integer pid,String value) {
+		try{
+		List<ZsGoodsCategory> goodsCateInfo=goodsCateMapper.getPageGoodsTopLevel(pid,value);
+		
+		
+		
+		return ResponsDatas.success(goodsCateInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return   ResponsDatas.fail(e.getMessage());
+		}
+	}
+
+	@Override
+	public ResponsDatas operGoodsCateInfo(ZsGoodsCategory goods) {
+		try {
+			if(goods.getOper().equals(SysConstant.OPER_ADD)) {
+				
+			}else if(goods.getOper().equals(SysConstant.OPER_EDIT)){
+				goodsCateMapper.updateByPrimaryKeySelective(goods);
+				return ResponsDatas.success();
+			}else if(goods.getOper().equals(SysConstant.OPER_DEL)) {
+				
+			}else {
+				return ResponsDatas.fail("oper参数不对", null);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResponsDatas.fail(e.getMessage(), null);
+		}
+		return null;
 	}
 }

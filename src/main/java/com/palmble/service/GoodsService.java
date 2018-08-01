@@ -1,9 +1,13 @@
 package com.palmble.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 import com.palmble.entity.ZsGoods;
+import com.palmble.entity.ZsGoodsCategory;
 import com.palmble.utils.ResponsDatas;
 
 /**
@@ -38,4 +42,15 @@ public interface GoodsService {
 	public ResponsDatas getGoodsById(Integer goodsId);
 
 	public ResponsDatas getGoodsCategoryInfo(Integer goodsId);
+
+//	ResponsDatas<List<Map<String,Object>>> getPageGoodsInfo(Integer page, Integer rows,Integer id, String value);
+	ResponsDatas<List<ZsGoodsCategory>> getPageGoodsInfo(Integer page, Integer rows,Integer id, String value);
+	public ResponsDatas<List<ZsGoodsCategory>> getPageGoodsTopLevel(Integer id,String value);
+
+	/**
+	 * 编辑商品分类
+	 * @param goods
+	 * @return
+	 */
+	public ResponsDatas operGoodsCateInfo(ZsGoodsCategory goods);
 }

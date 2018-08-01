@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.palmble.entity.ZsGoods;
+import com.palmble.entity.ZsGoodsCategory;
 import com.palmble.service.GoodsService;
 import com.palmble.ueditor.ActionEnter;
 import com.palmble.utils.FileTypeUtils;
@@ -32,6 +35,9 @@ import com.palmble.utils.ResponsDatas;
 public class GoodsController {
     @Autowired
      private GoodsService goodsService;
+    
+   
+    
     @Value("${image.location}")
     private String filePath;
 	//根据 关键字段 获取商品的列表
@@ -151,5 +157,43 @@ public class GoodsController {
 		if(!flag) {
 			FileTypeUtils.deleteFile(Url);
 		}
+	}
+	/**
+	 * 获取商品分类
+	 * @param response
+	 * @param page
+	 * @param rows
+	 * @param value
+	 * @throws IOException
+	 */
+	@RequestMapping("/getGoodsCateInfo")
+	public ResponsDatas getGoodsCateInfo(HttpServletResponse response,Integer page,Integer rows,Integer id,String value) throws IOException {
+		ResponsDatas result= goodsService.getPageGoodsInfo(page,rows,id,value);
+		return result;
+	}
+	/**
+	 * 获取商品分类顶级菜单 下拉框
+	 * @param response
+	 * @param page
+	 * @param rows
+	 * @param value
+	 * @throws IOException
+	 */
+	@RequestMapping("/getGoodsCateTopLevel")
+	public ResponsDatas getGoodsCateInfo(HttpServletResponse response,Integer  id,String value) throws IOException {
+		ResponsDatas result= goodsService.getPageGoodsTopLevel(id,value);
+		return result;
+	}
+	/**
+	 * 编辑商品分类
+	 * @param goods
+	 * @return
+	 */
+	@RequestMapping("/operGoodsCateInfo")
+	public ResponsDatas operGoodsCateInfo(HttpServletRequest request,ZsGoodsCategory goods) {
+
+		ResponsDatas response=goodsService.operGoodsCateInfo(goods);
+		return response;
+		
 	}
 }

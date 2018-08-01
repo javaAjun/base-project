@@ -6,9 +6,10 @@
     <result column="parentId" property="parentId" jdbcType="INTEGER" />
     <result column="catName" property="catName" jdbcType="VARCHAR" />
     <result column="catSort" property="catSort" jdbcType="INTEGER" />
+    <result column="state" property="state"  />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, parentId, catName, catSort
+    id, parentId, catName, catSort,state
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -41,6 +42,7 @@
       <if test="catSort != null" >
         catSort,
       </if>
+      <if test="state!=null">state,</if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -55,6 +57,7 @@
       <if test="catSort != null" >
         #{catSort,jdbcType=INTEGER},
       </if>
+      <if test="state!=null">#{state},</if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.ZsGoodsCategory" >
@@ -69,6 +72,7 @@
       <if test="catSort != null" >
         catSort = #{catSort,jdbcType=INTEGER},
       </if>
+      <if test="state!=null">state=#{state},</if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -95,5 +99,104 @@
 		  1=1
 			 <if test="pid!=null"> and zc.parentId = #{pid}</if>
   
+  </select>
+<!--   <select id="getPageGoodsCateInfo" resultType="java.util.Map" > -->
+  <select id="getPageGoodsCateInfo" resultMap="BaseResultMap" >
+		  SELECT
+			zc.*
+		FROM
+			zs_goods_category zc
+		where 1=1
+		 <if test="value!=null">
+		    and	 zc.catName LIKE '%${value}%'
+		</if>
+		<if test="pid!=null">
+		  AND zc.parentId=#{pid}
+		</if>
+		ORDER BY	zc.catSort DESC
+		LIMIT #{page}, #{rows}
+      <!-- 	SELECT
+			zc.id,
+			concat(pc.pcatName, '<![CDATA[&]]>', zc.catName) as catName,
+			zc.parentId pid,
+		    zc.state,
+		      zc.catSort
+		FROM
+			zs_goods_category zc
+		RIGHT JOIN (SELECT
+				     zp.catName pcatName,
+				     zp.id pcatId
+			       FROM
+				     zs_goods_category zp
+			     WHERE
+				    zp.parentId = 0
+			    ORDER BY
+				   zp.catSort DESC
+		) AS pc ON zc.parentId = pc.pcatId
+		WHERE
+		    1=1
+		   <if test="value!=null">
+		    and	 zc.catName LIKE '%${value}%'
+		</if>
+		<if test="pid!=null">
+		  AND zc.parentId=#{pid}
+		</if>
+		ORDER BY
+			zc.catSort DESC
+		LIMIT #{page}, #{rows} -->
+  </select>
+  <select id="getTotalCountCateInfo" resultType="INTEGER">
+      SELECT
+			count(1)
+		FROM
+			zs_goods_category zc
+			
+		where 1=1
+		 <if test="value!=null">
+		    and	 zc.catName LIKE '%${value}%'
+		</if>
+		<if test="pid!=null">
+		  AND zc.parentId=#{pid}
+		</if>
+		ORDER BY	zc.catSort DESC
+      <!--  SELECT
+			count(1)
+		FROM
+			zs_goods_category zc
+		RIGHT JOIN (SELECT
+				     zp.catName pcatName,
+				     zp.id pcatId
+			       FROM
+				     zs_goods_category zp
+			     WHERE
+				    zp.parentId = 0
+			    ORDER BY
+				   zp.catSort DESC
+		) AS pc ON zc.parentId = pc.pcatId
+		WHERE
+		    1=1
+		   <if test="value!=null">
+		    and	 zc.catName LIKE '%${value}%'
+		</if>
+		<if test="pid!=null">
+		   AND zc.parentId=#{pid}
+		</if>
+		ORDER BY
+			zc.catSort DESC -->
+  
+  </select>
+  <select id="getPageGoodsTopLevel"  resultMap="BaseResultMap">
+  
+		   SELECT
+			zp.*
+		FROM
+			zs_goods_category zp
+		WHERE
+			zp.parentId = #{pid}
+			<if test="value!=null">
+			  and zp.catName '%${value}%'
+			</if>
+		ORDER BY
+			zp.catSort DESC
   </select>
 </mapper>

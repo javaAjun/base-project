@@ -1,87 +1,98 @@
-</pre><pre name="code" class="html"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
-<style type="text/css">
-.divX
-{
-    z-index:200;
-    -moz-border-radius:20px;
-    -webkit-border-radius:20px;
-    line-height:10px;
-    text-align:center;
-    font-weight:bold;
-    cursor:pointer;
-    font-size:10px;
-	display: none;
-}
-</style>
-</head>
- 
-<body>
-	<div id="imgsbox_imgs" class="imgsbox">
-	<div class="imgbox"><div class="removePic" onclick="removePic(this,'/goods/deleteFile')">×</div>
-	<input type="hidden" name="goodsCoverImgs[]" value="/goods/showImg\8.jpg\20187281112">
-	<img src="/goods/showImg\8.jpg\20187281112"></div>
-	<div class="imgbox">
-	<div class="removePic" onclick="removePic(this,'/goods/deleteFile')">×</div>
-	<input type="hidden" name="goodsCoverImgs[]" value="/goods/showImg\6.jpg\20187281112">
-	<img src="/goods/showImg\6.jpg\20187281112"></div><div class="imgbox">
-	<div class="removePic" onclick="removePic(this,'/goods/deleteFile')">×</div>
-	<input type="hidden" name="goodsCoverImgs[]" value="/goods/showImg\default - 副本.jpeg\20187281112">
-	<img src="/goods/showImg\default - 副本.jpeg\20187281112"></div><div class="imgbox">
-	<div class="removePic" onclick="removePic(this,'/goods/deleteFile')">×</div>
-	<input type="hidden" name="goodsCoverImgs[]" value="/goods/showImg\6 - 副本.jpg\20187281112">
-	<img src="/goods/showImg\6 - 副本.jpg\20187281112"></div>
-	<div class="imgbox"><div class="removePic" onclick="removePic(this,'/goods/deleteFile')">×</div>
-	<input type="hidden" name="goodsCoverImgs[]" value="/goods/showImg\7.jpg\20187281112">
-	<img src="/goods/showImg\7.jpg\20187281112"></div><div class="imgbox">
-	<div class="removePic" onclick="removePic(this,'/goods/deleteFile')">×</div>
-	<input type="hidden" name="goodsCoverImgs[]" value="/goods/showImg\8 - 副本.jpg\20187281112">
-	<img src="/goods/showImg\8 - 副本.jpg\20187281112"></div>
-	<div class="imgbox"><div class="removePic" onclick="removePic(this,'/goods/deleteFile')">×</div>
-	<input type="hidden" name="goodsCoverImgs[]" value="/goods/showImg\default.jpeg\20187281112">
-	<img src="/goods/showImg\default.jpeg\20187281112"></div>
-	</div>
-</body>
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<TITLE> ZTREE DEMO - beforeClick / onClick</TITLE>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="../zTree/css/demo.css" type="text/css">
+	<link rel="stylesheet" href="../zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="../zTree/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="../zTree/js/jquery.ztree.core.js"></script>
+	<!--  <script type="text/javascript" src="../../../js/jquery.ztree.excheck.js"></script>
+	  <script type="text/javascript" src="../../../js/jquery.ztree.exedit.js"></script>-->
+	<SCRIPT type="text/javascript">
+		<!--
+		var setting = {
+			data: {
+				key: {
+					title:"t"
+				},
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				beforeClick: beforeClick,
+				onClick: onClick
+			}
+		};
 
-<script type="text/javascript">
-window.onload =function(){
-	var numArr = [];
-	var test = document.getElementById('imgsbox_imgs');
-	var inputs = test.getElementsByTagName('input');
-      for (var i = 0; i < inputs.length; i++) {
-          numArr.push(inputs[i].value); // 将文本框的值添加到数组中
-      }
-	/* var sum = 0;
-	for(var i = 0; i < inputs.length; i++) {
-	sum += parseInt(inputs[i].get(0).defaultValue);
-	} */
-	alert(numArr);
-	}
-	function addFile(ths) {
-		var objUrl = getObjectURL(ths.files[0]);
-		var left = $('#file_img').position().left;
-		var top = $('#file_img').position().top;
-		$('#img_zindex_div_1').css({position: "absolute", left: left + 75, top: top + 10, display: "block" });
-		$('#file_img').attr("src", objUrl);
-	}
-	
-	function del() {
-		alert("删除");
-	}	
-	
-	function getObjectURL(file) {
-		var url = null ; 
-		if (window.createObjectURL!=undefined) { // basic
-			url = window.createObjectURL(file) ;
-		} else if (window.URL!=undefined) { // mozilla(firefox)
-			url = window.URL.createObjectURL(file) ;
-		} else if (window.webkitURL!=undefined) { // webkit or chrome
-			url = window.webkitURL.createObjectURL(file) ;
+		var zNodes =[
+			{ id:1, pId:0, name:"普通的父节点", t:"我很普通，随便点我吧", open:true},
+			{ id:11, pId:1, name:"叶子节点 - 1", t:"我很普通，随便点我吧"},
+			{ id:12, pId:1, name:"叶子节点 - 2", t:"我很普通，随便点我吧"},
+			{ id:13, pId:1, name:"叶子节点 - 3", t:"我很普通，随便点我吧"},
+			{ id:2, pId:0, name:"NB的父节点", t:"点我可以，但是不能点我的子节点，有本事点一个你试试看？", open:true},
+			{ id:21, pId:2, name:"叶子节点2 - 1", t:"你哪个单位的？敢随便点我？小心点儿..", click:false},
+			{ id:22, pId:2, name:"叶子节点2 - 2", t:"我有老爸罩着呢，点击我的小心点儿..", click:false},
+			{ id:23, pId:2, name:"叶子节点2 - 3", t:"好歹我也是个领导，别普通群众就来点击我..", click:false},
+			{ id:3, pId:0, name:"郁闷的父节点", t:"别点我，我好害怕...我的子节点随便点吧...", open:true, click:false },
+			{ id:31, pId:3, name:"叶子节点3 - 1", t:"唉，随便点我吧"},
+			{ id:32, pId:3, name:"叶子节点3 - 2", t:"唉，随便点我吧"},
+			{ id:33, pId:3, name:"叶子节点3 - 3", t:"唉，随便点我吧"}
+		];
+
+		var log, className = "dark";
+		function beforeClick(treeId, treeNode, clickFlag) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
+			return (treeNode.click != false);
 		}
-		return url ;
-	}
-</script>
-</html>
+		function onClick(event, treeId, treeNode, clickFlag) {
+			showLog("[ "+getTime()+" onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "普通选中": (clickFlag===0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
+		}		
+		function showLog(str) {
+			if (!log) log = $("#log");
+			log.append("<li class='"+className+"'>"+str+"</li>");
+			if(log.children("li").length > 8) {
+				log.get(0).removeChild(log.children("li")[0]);
+			}
+		}
+		function getTime() {
+			var now= new Date(),
+			h=now.getHours(),
+			m=now.getMinutes(),
+			s=now.getSeconds();
+			return (h+":"+m+":"+s);
+		}
+
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		});
+		//-->
+	</SCRIPT>
+</HEAD>
+
+<BODY>
+
+<div class="content_wrap">
+	<div class="zTreeDemoBackground left">
+		<ul id="treeDemo" class="ztree"></ul>
+	</div>
+	<div class="right">
+		<ul class="info">
+			<li class="title">
+				<ul class="list">
+				<li>利用 click 事件回调函数 可以进行各种其他的附加操作，这里简单演示如何监控此事件</li>
+				<li><p><span class="highlight_red">请尝试按下 <b>Ctrl</b> 或 <b>Cmd</b> 键进行 多节点选择 和 取消选择</span><br/>
+					click log:<br/>
+					<ul id="log" class="log"></ul></p>
+				</li>
+				</ul>
+			</li>
+			
+			
+		</ul>
+	</div>
+</div>
+</BODY>
+</HTML>

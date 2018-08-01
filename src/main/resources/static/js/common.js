@@ -30,7 +30,6 @@ $(document).on('click','.ajax-get',function(){
 
 function ajax_get_fun(that) {
     var target;
-    console.log(0);
     if ( (target = $(that).attr('href')) || (target = $(that).attr('url')) ) {
         var flag = $(that).attr('data-flag');
         if(flag == 1){
@@ -38,15 +37,14 @@ function ajax_get_fun(that) {
         }
         $(that).attr('data-flag',1);
         $.get(target).success(function(data){
+        	console.log(data);
             if (data.code=="1") {
-//                if (data.url) {
-//                	layer.msg(data.msg);
-////                    updateAlert(data.msg,'alert-success');
-//                }else{
-////                    updateAlert(data.msg,'alert-success');
-//                }
-            	layer.msg(data.msg);
-//                setTimeout(function(){
+                if (data.url) {
+                    updateAlert(data.message,'alert-success');
+                }else{
+                    updateAlert(data.message,'alert-success');
+                }
+                setTimeout(function(){
                     if( $(that).hasClass('no-refresh')){
                         $('#top-alert').find('button').click();
                         $(that).attr('data-flag',0);
@@ -59,9 +57,9 @@ function ajax_get_fun(that) {
                             location.href=data.url;
                         }
                     }
-//                },1500);
+                },1500);
             }else{
-                updateAlert(data.msg,'alert-danger');
+                updateAlert(data.message,'alert-danger');
                 setTimeout(function(){
                     if (data.url) {
                         location.href=data.url;
@@ -196,6 +194,7 @@ function ajax_post_fun(target,that,query) {
             },1500);
         }else{
             updateAlert(data.message,'alert-danger');
+            alert(data.message);
             setTimeout(function(){
                 $(that).removeClass('disabled').prop('disabled',false);
                 if (data.url) {
@@ -243,8 +242,7 @@ function formSetValue(name, value){
     } else {
         input = $("[name='" + name + "']");
     }
-
-    if(input.eq(0).is(":radio")) { //单选按钮
+ if(input.eq(0).is(":radio")) { //单选按钮
         input.filter("[value='" + value + "']").each(function(){this.checked = true});
     } else if(input.eq(0).is(":checkbox")) { //复选框
         if(!$.isArray(value)){
@@ -451,6 +449,5 @@ $.ajaxSetup( {
         		  skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
         		});
         }  
-    },  
-
-});   
+    }, 
+});
