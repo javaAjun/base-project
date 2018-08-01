@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import com.palmble.entity.ZsGoods;
 import com.palmble.entity.ZsGoodsCategory;
 
 public interface ZsGoodsCategoryMapper {
@@ -35,4 +36,6 @@ public interface ZsGoodsCategoryMapper {
 	Integer getTotalCountCateInfo(@Param("value")String value,@Param("pid")Integer pid);
 
 	List<ZsGoodsCategory> getPageGoodsTopLevel(@Param("pid")Integer pid,@Param("value") String value);
+     @Select("SELECT * FROM zs_goods WHERE goodsCateId=#{cateId}")
+	List<ZsGoods> selectGoodsByCateId(@Param("cateId")Integer cateId);
 }

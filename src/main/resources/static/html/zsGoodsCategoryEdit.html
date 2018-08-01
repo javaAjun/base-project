@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <form method="post" action="/goods/operGoodsCateInfo" class="form-horizontal">
+                    <input type="hidden" name="id" id="id" value="">
+                    <input type="hidden" name="oper" id="oper" value="0">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题<span class="text-danger">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="catName" name="catName" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">上级<span class="text-danger">*</span></label>
+                        <div class="col-sm-4" id="gdcate">
+                            <select name="parentId" id="parentId" class="form-control">
+                               
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图片<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+<link rel="stylesheet" href="../hplus/jqueryFileUpload/style.css">
+<script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
+<script src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
+<script src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
+<div>
+    <a href="javascript:;" class="btn btn-primary btn-sm jqfivefile" type="button">
+        <span id="imgUpload_name_img">上传图片</span><span id="progress_img"></span>
+        <input id="imgUpload_img" type="file" name="file" title="上传图片" accept="image/*" data-url="/goods/uploadImg" />
+    </a>
+    <div id="imgsbox_img" class="imgsbox">
+            </div>
+</div>
+<script>
+    $(function(){
+
+        var multi = 0;
+        var name = "goodsCateImg";
+        if(multi){
+            name = name+'[]';
+            $("#imgUpload_img").attr('multiple','multiple');
+        }else{
+            $("#imgUpload_img").removeAttr('multiple');
+        }
+        $("#imgUpload_img").fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                if (data.result && data.result.status == "200") {
+                    var img = '<div class="imgbox">';
+                    img += '<div class="removePic" onclick="removePic(this,\'/goods/deleteFile\')">×</div>';
+                    img += '<input type="hidden" name="'+name+'" value="' + data.result.data + '">';
+                    img += '<img src="' + data.result.data + '">';
+                    img += '</div>';
+                    if(multi){
+                        $("#imgsbox_img").append(img);
+                    }else{
+                        $("#imgsbox_img").html(img);
+                    }
+                } else {
+                    layer.msg(data.result.message);
+                }
+            },
+            change: function (e, data) {
+                $("#imgUpload_name_img").html('上传图片...');
+            },
+            progressall: function (e, data) {
+                var progressnum = parseInt(data.loaded / data.total * 100);
+                if (progressnum == 100) {
+                    $("#progress_img").text('');
+                    $("#imgUpload_name_img").html('上传图片');
+                } else {
+                    $("#progress_img").text(progressnum + "%");
+                }
+            },
+            error: function(e,data){
+                layer.msg('上传请求失败');
+            }
+        });
+    });
+
+    /**
+     * 移除图片
+     */
+    function removePic(_self,deleteurl){
+        $(_self).parent().remove();
+        if(deleteurl){
+            $.post(deleteurl,{path:$(_self).parent().find('img').attr('src')});
+        }
+    }
+</script>
+                            <span class="help-block m-b-none text-danger">支持:jpg、jpeg、png； 尺寸：宽150*高150px；大小：限5M内</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">排序</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="catSort" name="catSort" value="50">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">状态</label>
+                        <div class="col-sm-4">
+                            <label class="cr-inline">
+                                <input type="radio" value="1" name="state">正常&nbsp;&nbsp;
+                            </label>
+                            <label class="cr-inline">
+                                <input type="radio" value="0" name="state">禁用
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <button class="btn btn-primary ajax-post" target-form="form-horizontal" type="submit">确 定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common2.js"></script>
+<script src="../js/pathJs.js"></script>
+<script>
+
+    $(document).ready(function(){
+    	var id= getUrlParam("id");
+		if(id!=null){
+			$("#oper").val("edit");
+			$("#id").val(id);
+			setFormValue(id);
+			getCatInfo(id,"#parentId")
+		}else{
+		  $("#oper").val("add");
+		  formSetValue("state", "1");
+		  getCatInfo(null,"#parentId");
+			 
+		}
+    	
+      
+    });
+	//获取分类
+	function getCatInfo(id,_$id){
+		var url=_getGoodsCatePageById;
+		$.ajax({ 
+			  type:"POST", 
+			  url:url,
+			  dataType:"json",
+			  async:false,
+			  success:function(data){ 
+				  if(data.status=="200"){//goodsCateId
+					  var opthtml='<option value="0">顶级分类</option>'
+						  var parent=data.data;
+						  for(var i=0;i<parent.length;i++){
+							  if(id!=null&&id==parent[i].id){
+							     opthtml+='<option selected="selected" value="'+parent[i].parentId+'">'+parent[i].pcatName;  
+							  }else{
+								  opthtml+='<option value="'+parent[i].id+'">'+parent[i].catName;
+							  }
+							  opthtml+='</option>';
+						  }
+						  $(_$id).html(opthtml);
+						  
+							
+				  }
+			  }
+		})
+	}
+	function setFormValue(id){
+		var url=_getGoodsCateInfoById+"?id="+id;
+		$.ajax({ 
+			  type:"POST", 
+			  url:url,
+			  dataType:"json",
+			  async:false,
+			  success:function(data){ 
+				  if(data.status=="200"){//goodsCateId
+					 $("#catName").val(data.data.catName);
+				     $("#catSort").val(data.data.catSort);
+					if(data.data.state){
+						 formSetValue("state", "1");
+					}else{
+						formSetValue("state", "0");
+					}
+					var img = '<div class="imgbox">';
+	                    img += '<div class="removePic" onclick="removePic(this,\'/goods/deleteFile\')">×</div>';
+	                    img += '<input type="hidden" name="'+name+'" value="' + data.data.goodsCateImg + '">';
+	                    img += '<img src="' + data.data.goodsCateImg + '">';
+	                    img += '</div>';
+	                    if(data.data.goodsCateImg!=null){
+	                        $("#imgsbox_img").append(img);
+	                    }
+	                    
+				  }else{
+					  layer.msg(data.data.message);
+				  }
+			  }
+		})
+	}
+</script>
+
+</body>
+</html>

@@ -14,7 +14,13 @@
     <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
     <link rel="stylesheet" href="../css/common.css">
     <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
-    
+    <style type="text/css">
+     .ui-jqgrid tr.ui-row-ltr td {
+            /* text-align: center; */
+            font-size: 14px;
+            font-weight:500;
+        } 
+    </style>
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
@@ -29,23 +35,23 @@
     <div class="ibox-content">
         <div class="row">
             <div class="col-xs-3">
-                <a href="javascript:;" url="/admin/goods/cateadd.html" data-title="新增分类" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>
+                <a href="javascript:;" url="/html/zsGoodsCategoryEdit.html" data-title="新增分类" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>
             </div>
             <div class="col-xs-9" style="text-align: right;">
                <form class="form-inline" id="form-search" action="/goods/getGoodsCateInfo">
-		                 <div class="input-group">
+		                 <!-- <div class="input-group">
 		                        <input type="text" class="form-control" id="value" name="value" placeholder="关键字查询">
-		                    </div>
-                          <div class="form-group">
-								<!-- <label class="col-sm-2 control-label">分类<span class="text-danger">*</span></label> -->
+		                    </div> -->
+                         <!--  <div class="form-group">
+								<label class="col-sm-2 control-label">分类<span class="text-danger">*</span></label>
 								<div class="col-sm-6">
 
 									<select name="id" id="goodsCateId" class="form-control">
 										
 									</select>
 								</div>
-							</div>
-                    <div class="input-group">
+							</div> -->
+                    <!-- <div class="input-group">
                           
                     
                         <span class="input-group-btn">
@@ -54,7 +60,7 @@
                         <span class="input-group-btn">
                             <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
                         </span>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </div>
@@ -90,41 +96,42 @@
             $("#table").setGridWidth(width);
             
         });
-         $(document).ready(function() {
+        /*  $(document).ready(function() {
 				getCatInfo(0);
 			
-		});
+		}); */
  
         $.jgrid.defaults.styleUI="Bootstrap";
         $("#table").jqGrid({
             url:_getGoodsCatePageInfo,
             datatype: "json",
             colModel:[
-                {label:'ID',name:'id',index:'id',width:30,editable: false,sortable: false},
-                {label:'名称',name:'catName',index:'catName',width:100,editable: false,sortable: false},
-                {label:'排序',name:'catSort',index:'catSort',width:30,sortable: true,formatter: function (a, b, c) {
-                	var url=_operEditGoodsCateInfor;
+                {label:'ID',name:'id',index:'id',width:20,height:20,editable: false,sortable: false},
+                {label:'图片',name: 'goodsCateImg', index: 'goodsCateImg', width: 50, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
+                {label:'名称',name:'catName',index:'catName',width:100,height:20,editable: false,sortable: false},
+                {label:'排序',name:'catSort',index:'catSort',width:30,height:20,sortable: true,formatter: function (a, b, c) {
+                	var url=_operEditGoodsCateSort;
                     return '<input type="number" onchange="updateSort(this)" data-url="'+url+'" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
                 }},
-                {label:'状态',name:'state',index:'state',width:50,editable: false,sortable: false,formatter:function (a,b,c){
+                {label:'状态',name:'state',index:'state',width:50,height:20,editable: false,sortable: false,formatter:function (a,b,c){
                     if(a == 0){
-                        var url =_operEditGoodsCateInfor+"&id="+c.id+"&state=1";
+                        var url =_operEditGoodsCateState+"&id="+c.id+"&state=1";
                         return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
                     } else{
-                    	 var url =_operEditGoodsCateInfor+"&id="+c.id+"&state=0";
+                    	 var url =_operEditGoodsCateState+"&id="+c.id+"&state=0";
                         return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
                     }
                 }},
-                {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
-                    var editurl = "/admin/goods/cateadd/id/"+c.id;
-                    var delurl = "/admin/goods/catedel/id/"+c.id;
+                {label:'操作',width:100,height:20,sortable: false,align:'left',formatter: function (a, b, c) {
+                    var editurl = "/html/zsGoodsCategoryEdit.html?id="+c.id;
+                    var delurl = _operDelGoodsCateInfor+"&id="+c.id;
                     var btn = '<a url="'+editurl+'"  href="javascript:;" data-title="编辑分类" onclick="layer_open(this,1)"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
                     btn += '<a href="'+delurl+'" class="confirm ajax-get" data-confirm="确定要删除此记录吗?" data-table="1"><span class="label label-danger" title="删除">删除</span></a>';
                     return btn;
                 }},
             ],
-            rowNum:10,
-            rowList:[10,20,30],
+            rowNum:999999,
+            rowList:[9999999],
             pager: '#pager',
             sortname: 'id',
             viewrecords: true,
@@ -138,21 +145,34 @@
     		jsonReader: {    //jsonReader来跟服务器端返回的数据做对应  
     	           //包含实际数据的数组  
     		        root: "data",  //包含实际数据的数组  
-    	            page: "pageInfo.pageNo",  //当前页  
-    	            total: "pageInfo.totalPages",//总页数  
+    	           // page: "pageInfo.pageNo",  //当前页  
+    	           // total: "pageInfo.totalPages",//总页数  
     	            records:"pageInfo.total", //查询出的记录数  
-    	            rowNum:"pageInfo.pageSize",
+    	            //rowNum:"pageInfo.pageSize",
     	            repeatitems : false  
     	        },
             loadComplete: function (xhr) {
-                if(xhr.status!='200'){
+            	$("#pager_center").hide();
+            	/* var grid = $("#table");  
+                var ids = grid.getDataIDs();  
+                for (var i = 0; i < ids.length; i++) {  
+                    grid.setRowData ( ids[i], false, {height: 35+i*2} );  
+                }   */
+                /* if(xhr.status!='200'){
                     layer.msg(xhr.message);
                     return false;
-                }
+                } */
             },
         });
     });
     
+    //自定义报警列格式
+      function alarmFormatter(cellvalue, options, rowdata){
+          if (cellvalue != null)
+              return '<img width="50" height="50" src="'+cellvalue+'" alt="' + cellvalue + '" />';
+          else 
+              return '<img width="50" height="50" src="../hplus/img/del.jpg" alt="' + cellvalue + '" />';
+      }
     
   //获取分类
 	function getCatInfo(id){
@@ -166,13 +186,8 @@
 					  var opthtml=' <option value="">选择分类</option>'
 					  if(id!=null){
 						  var parent=data.data;
-						 
 						  for(var i=0;i<parent.length;i++){
 						      opthtml+='<option value="'+parent[i].id+'">'+parent[i].catName+'</option>';
-								   
-							   
-							   opthtml+='</option>';
-							  
 						  }
 						 
 						  $("#goodsCateId").html(opthtml);

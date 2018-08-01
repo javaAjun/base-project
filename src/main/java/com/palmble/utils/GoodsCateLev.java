@@ -20,5 +20,7 @@ public class GoodsCateLev extends ZsGoodsCategory {
 	    this.setState(goodsCate.getState());
 	    this.setCatName(goodsCate.getCatName());
 	    this.setCatSort(goodsCate.getCatSort());
+	    this.setPcatName(goodsCate.getPcatName());
+	    this.setGoodsCateImg(goodsCate.getGoodsCateImg());
 	}
 }

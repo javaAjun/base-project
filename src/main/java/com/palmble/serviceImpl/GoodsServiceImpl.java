@@ -53,12 +53,12 @@ public class GoodsServiceImpl implements GoodsService{
 	public ResponsDatas getGoodsList(String value,Integer page,Integer size,String sord,Integer isAdminRecom,Integer isSale) {
 		if(page==null)page=1;
 		if(size==null)size=10;
-		page=(page-1)*size;
+		
 		List<Map<String,Object>> dataList=new ArrayList<Map<String,Object>>();
 		try {
-			dataList=goodsMapper.getGoodsList(value,page,size,sord,isAdminRecom,isSale);
+			dataList=goodsMapper.getGoodsList(value,(page-1)*size,size,sord,isAdminRecom,isSale);
 			Integer totalCount=goodsMapper.selectGoodsTotalCount(value,isAdminRecom,isSale);
-			return ResponsDatas.success(dataList, totalCount.longValue(), page+1, size);
+			return ResponsDatas.success(dataList, totalCount.longValue(), page, size);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return   ResponsDatas.fail(e.getMessage(),dataList);
@@ -112,7 +112,11 @@ public class GoodsServiceImpl implements GoodsService{
 				     	}
 					}
 				}
-			}else if(goods.getOper().equals(SysConstant.OPER_DEL)) {
+			}else if(goods.getOper().equals("isSale")){
+				goodsMapper.updateByPrimaryKeySelective(goods);
+			}else if(goods.getOper().equals("isAdminRecom")){
+				goodsMapper.updateByPrimaryKeySelective(goods);
+			} if(goods.getOper().equals(SysConstant.OPER_DEL)) {
 				Integer id=goods.getId();
 				Integer goodsId=goods.getId();
 				potosMapper.deleteByGoodsId(goodsId);				
@@ -161,6 +165,11 @@ public class GoodsServiceImpl implements GoodsService{
 	public ResponsDatas IsNullGoodsParam(ZsGoods goods) {
 		if(StringUtil.isEmpty(goods.getGoodsNo())) {//如果编号为空
 			return  ResponsDatas.fail("商品编号不能为空!", null);
+		}else if(goods.getOper().equals(SysConstant.OPER_ADD)){
+			int num=goodsMapper.selectGoodsInfoByGoodsNo(goods);
+			if(num>=1) {
+				return  ResponsDatas.fail("商品编号重复!", null);
+			}
 		}
 		if(StringUtil.isEmpty(goods.getGoodsCoverImg())) {//封面图片为空
 			return  ResponsDatas.fail("封面图片为空!", null);
@@ -263,15 +272,20 @@ public class GoodsServiceImpl implements GoodsService{
 //	}
 	@Override
 	public ResponsDatas<List<ZsGoodsCategory>> getPageGoodsInfo(Integer page, Integer rows,Integer pid, String value) {
-		if(page==null)page=1;
-		if(rows==null)rows=10;
-		page=(page-1)*rows;
+		if(page!=null&&rows!=null)	page=(page-1)*rows;
+	
+	
 		try{
 			List<ZsGoodsCategory> goodsCateInfo=goodsCateMapper.getPageGoodsCateInfo(page,rows,value,pid);
 			
 		   Integer totalCount=goodsCateMapper.getTotalCountCateInfo(value,pid);
 		   List<GoodsCateLev> backList=new ArrayList<GoodsCateLev>();
-		   recMessageType(backList, goodsCateInfo, 0, 0);
+		   int id=0; int lev=0;
+		   if(pid!=null) {
+			   id=pid;
+			   lev=1;
+		   }
+		   recMessageType(backList, goodsCateInfo, id, lev);
 		   for (GoodsCateLev goodsCateLev : backList) {
 			   goodsCateLev.setCatName(setNBSP(goodsCateLev)
 	                    + goodsCateLev.getCatName());
@@ -290,7 +304,7 @@ public class GoodsServiceImpl implements GoodsService{
     private String setNBSP(GoodsCateLev messageType) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < messageType.getLev(); i++) {
-            sb.append("&nbsp;&nbsp;&nbsp;|---");
+            sb.append("&nbsp;&nbsp;&nbsp;|--");
         }
         return sb.toString();
     }
@@ -318,28 +332,62 @@ public class GoodsServiceImpl implements GoodsService{
 	@Override
 	public ResponsDatas<List<ZsGoodsCategory>> getPageGoodsTopLevel(Integer pid,String value) {
 		try{
-		List<ZsGoodsCategory> goodsCateInfo=goodsCateMapper.getPageGoodsTopLevel(pid,value);
+//		List<ZsGoodsCategory> goodsCateInfo=goodsCateMapper.getPageGoodsTopLevel(pid,value);
+			List<ZsGoodsCategory> goodsCateInfo=goodsCateMapper.getPageGoodsCateInfo(null,null,value,pid);
+		 List<GoodsCateLev> backList=new ArrayList<GoodsCateLev>();
+		   recMessageType(backList, goodsCateInfo, 0, 0);
+		   for (GoodsCateLev goodsCateLev : backList) {
+			   goodsCateLev.setCatName(setNBSP(goodsCateLev)
+	                    + goodsCateLev.getCatName());
+		}
 		
-		
-		
-		return ResponsDatas.success(goodsCateInfo);
+		return ResponsDatas.success(backList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return   ResponsDatas.fail(e.getMessage());
 		}
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public ResponsDatas operGoodsCateInfo(ZsGoodsCategory goods) {
 		try {
 			if(goods.getOper().equals(SysConstant.OPER_ADD)) {
-				
+				if(StringUtil.isEmpty(goods.getCatName())) {
+					 return ResponsDatas.fail(SysConstant.ERROR_CATE, null);
+				}
+				goodsCateMapper.insertSelective(goods);
 			}else if(goods.getOper().equals(SysConstant.OPER_EDIT)){
+				if(StringUtil.isEmpty(goods.getCatName())) {
+					 return ResponsDatas.fail(SysConstant.ERROR_CATE, null);
+				}
 				goodsCateMapper.updateByPrimaryKeySelective(goods);
-				return ResponsDatas.success();
-			}else if(goods.getOper().equals(SysConstant.OPER_DEL)) {
 				
-			}else {
+			}else if(goods.getOper().equals(SysConstant.OPER_DEL)) {//删除
+				Integer pid=goods.getId();
+				List<ZsGoodsCategory> cateList=goodsCateMapper.getPageGoodsCateInfo(null,null,null,pid);
+				if(!cateList.isEmpty()&&cateList!=null) {
+					return ResponsDatas.fail("有子类无法删除", null);
+				}
+				Integer cateId=goods.getId();
+				List<ZsGoods> gdL=goodsCateMapper.selectGoodsByCateId(cateId); 
+				if(!gdL.isEmpty()&&gdL!=null) {
+					return ResponsDatas.fail("该类有商品删除失败!", null);
+				}
+				
+				Integer id=goods.getId();
+				ZsGoodsCategory zc=goodsCateMapper.selectByPrimaryKey(id);
+				String imgurl=zc.getGoodsCateImg();
+				if(StringUtil.isNotEmpty(imgurl)) {
+					this.delImgFile(imgurl);//删除硬盘文件
+				}
+				goodsCateMapper.deleteByPrimaryKey(id);
+				
+			}else if(goods.getOper().equals(SysConstant.OPER_STATE)){
+				goodsCateMapper.updateByPrimaryKeySelective(goods);
+			}else if(goods.getOper().equals(SysConstant.OPER_SORT)){
+				goodsCateMapper.updateByPrimaryKeySelective(goods);
+			}else{
 				return ResponsDatas.fail("oper参数不对", null);
 			}
 		} catch (Exception e) {
@@ -347,6 +395,33 @@ public class GoodsServiceImpl implements GoodsService{
 			e.printStackTrace();
 			return ResponsDatas.fail(e.getMessage(), null);
 		}
-		return null;
+		return ResponsDatas.success();
+	}
+
+	@Override
+	public ResponsDatas operGoodsCateInfoById(Integer id) {
+		try {
+			ZsGoodsCategory goodsCate=goodsCateMapper.selectByPrimaryKey(id);
+			return ResponsDatas.success(goodsCate);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResponsDatas.fail(e.getMessage(), null);
+		}
+	
+		
+	
+	}
+
+	@Override
+	public void delImgFile(String path) {
+		String fileName=path.substring(path.lastIndexOf("\\")+1);
+		String name=path.substring(15, path.lastIndexOf("\\")+1);
+		String Url=filePath+fileName+"/"+name;
+		boolean flag=FileTypeUtils.deleteFile(Url);
+		if(!flag) {
+			FileTypeUtils.deleteFile(Url);
+		}
+		
 	}
 }
