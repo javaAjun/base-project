@@ -310,4 +310,7 @@
 				   zc.catName  LIKE  '%${value}%')
 			</if>
    </select>
+   <select id="selectGoodsInfoByGoodsNo" parameterType="com.palmble.entity.ZsGoods" resultType="INTEGER">
+     select count(1) from zs_goods where goodsNo=#{goodsNo}
+   </select>
 </mapper>

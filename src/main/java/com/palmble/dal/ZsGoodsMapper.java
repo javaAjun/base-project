@@ -33,4 +33,7 @@ public interface ZsGoodsMapper {
 	@Select(" SELECT zg.*, zc.catName,  zc.catSort FROM zs_goods zg LEFT JOIN zs_goods_category zc ON zg.goodsCateId = zc.id  " + 
 			"		WHERE zg.id=#{goodsId}")
 	Map<String, Object> getGoodsById(@Param("goodsId")Integer goodsId);
+
+	//根据编号查询商品
+	int selectGoodsInfoByGoodsNo(ZsGoods goods);
 }

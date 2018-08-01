@@ -352,54 +352,40 @@
 			if(id!=null){
 			$("#oper").val("edit");
 			$("#goodsId").val(id);
+			$("#goodsNo").attr("disabled","disabled");
 			 getGoodsInfoByGoodsId(id);
-			 getCatInfo(id);
+			
 			}else{
+				 formSetValue("isSale", "1");
+				 formSetValue("isAdminRecom", "1");
 				$("#oper").val("add");
-				getCatInfo(0);
+				getCatInfo(0,"#goodsCateId");
 			}
 		});
 	
 		//获取分类
-		function getCatInfo(id){
+		function getCatInfo(id,_$id){
+			var url=_getGoodsCatePageById;
 			$.ajax({ 
 				  type:"POST", 
-				  url:_getGoodsCate+"?goodsId="+id,
+				  url:url,
 				  dataType:"json",
 				  async:false,
 				  success:function(data){ 
 					  if(data.status=="200"){//goodsCateId
-						  var opthtml=' <option value="">选择分类</option>'
-						  if(id!=null){
+						  var opthtml='<option value="0">顶级分类</option>'
+						 
 							  var parent=data.data;
-							 
 							  for(var i=0;i<parent.length;i++){
-								  opthtml+='<optgroup label="'+parent[i].catName+'">';
-								   for(var j=0;j<parent[i].childLevel.length;j++){
-									   
-									   var child=parent[i].childLevel[j];
-									   if(child.flag){
-										   opthtml+='<option selected="selected"  value="'+child.id+'">'+child.catName+'</option>';
-									   }else{
-										   opthtml+='<option value="'+child.id+'">'+child.catName+'</option>';
-									   }
-								   }
-								   opthtml+='</optgroup>';
-								  
+								  if(id!=null&&id==parent[i].id){
+								     opthtml+='<option selected="selected" value="'+parent[i].id+'">'+parent[i].catName+'</option>';  
+								  }else{
+									  opthtml+='<option value="'+parent[i].id+'">'+parent[i].catName+'</option>';
+								  }
 							  }
-							 
-							  $("#goodsCateId").html(opthtml);
+							  $(_$id).html(opthtml);
 							  
-								/* <optgroup label="体脂称">
-									<option value="21">华兴专属</option>
-									<option value="17">测试</option>
-									<option value="18">测试2</option>
-								</optgroup>
-								<optgroup label="真爱护肤">
-									<option value="22">洗面膜</option>
-									<option value="20">和田玉</option>
-								</optgroup> */
-						  }
+								
 					  }
 				  }
 			})
@@ -469,7 +455,7 @@
 							    $("#imgsbox_imgs").append(img);
 							}
 						}
-						    
+						 getCatInfo(data.data.goodsCateId,"#goodsCateId");
 						    
 				    }
 				    }, 
@@ -486,15 +472,6 @@
 		
 		
 		
-		function getUrlParam(name) {
-		      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-		      var r = window.location.search.substr(1).match(reg); //匹配目标参数
-		      if(r != null){
-		          return decodeURIComponent(r[2]);
-		//这里为什么是从第三个字符解析呢？不知道这样理解对不对，因为路径后面的参数形式为参数名=参数值，而第一个字符为参数名，第二个为=，第三个就为参数值了。。。因为下面调用的时候得出的就是参数值
-		      }
-		      return null;//返回参数值
-		}
 
 		// 合并单元格
 		function hbdyg() {

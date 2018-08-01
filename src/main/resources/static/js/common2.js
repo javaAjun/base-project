@@ -41,8 +41,10 @@ function ajax_get_fun(that) {
             if (data.status=="200") {
                 if (data.url) {
                     updateAlert(data.message,'alert-success');
+                    layer.msg(data.message);
                 }else{
                     updateAlert(data.message,'alert-success');
+                    layer.msg(data.message);
                 }
                 setTimeout(function(){
                     if( $(that).hasClass('no-refresh')){
@@ -58,6 +60,7 @@ function ajax_get_fun(that) {
                         }
                     }
                 },1500);
+                
             }else{
                 updateAlert(data.message,'alert-danger');
                 setTimeout(function(){
@@ -68,6 +71,7 @@ function ajax_get_fun(that) {
                         $(that).attr('data-flag',0);
                     }
                 },1500);
+                layer.msg(data.message);
             }
         });
     }
@@ -167,9 +171,11 @@ function ajax_post_fun(target,that,query) {
         if (data.status=="200") {
             if (data.url) {
                 updateAlert(data.message,'alert-success');
+                layer.msg(data.message);
 //                 updateAlert(data.message + ' 页面即将自动跳转~','alert-success');
-            }else{
+            }else{	console.log(1234);
                 updateAlert(data.message ,'alert-success');
+                layer.msg(data.message);
             }
             setTimeout(function(){
                 $(that).removeClass('disabled').prop('disabled',false);
@@ -193,6 +199,7 @@ function ajax_post_fun(target,that,query) {
                     }
                 }
             },1500);
+            parent.layer.closeAll();
         }else{
             updateAlert(data.message,'alert-danger');
             setTimeout(function(){
@@ -229,6 +236,7 @@ window.updateAlert = function (text,c) {
     }
     if ( c!=false ) {
         top_alert.removeClass('alert-danger alert-warning alert-info alert-success').addClass(c);
+    
     }
 };
 
@@ -452,3 +460,12 @@ $.ajaxSetup( {
         }  
     },  
 });   
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg); //匹配目标参数
+    if(r != null){
+        return decodeURIComponent(r[2]);
+//这里为什么是从第三个字符解析呢？不知道这样理解对不对，因为路径后面的参数形式为参数名=参数值，而第一个字符为参数名，第二个为=，第三个就为参数值了。。。因为下面调用的时候得出的就是参数值
+    }
+    return null;//返回参数值
+}

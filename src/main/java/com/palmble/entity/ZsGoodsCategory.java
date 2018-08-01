@@ -12,6 +12,10 @@ public class ZsGoodsCategory {
     private Integer catSort;
 
     private Boolean state;
+    
+    private String goodsCateImg;//图片
+   private String pcatName;
+    
     private List<ZsGoodsCategory> childLevel;
     
     private String oper;
@@ -70,6 +74,22 @@ public class ZsGoodsCategory {
 
 	public void setState(Boolean state) {
 		this.state = state;
+	}
+
+	public String getGoodsCateImg() {
+		return goodsCateImg;
+	}
+
+	public void setGoodsCateImg(String goodsCateImg) {
+		this.goodsCateImg = goodsCateImg==null?null:goodsCateImg.trim();
+	}
+
+	public String getPcatName() {
+		return pcatName;
+	}
+
+	public void setPcatName(String pcatName) {
+		this.pcatName = pcatName==null?null:pcatName.trim();
 	}
     
 }

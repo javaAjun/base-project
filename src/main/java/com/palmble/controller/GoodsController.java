@@ -149,14 +149,9 @@ public class GoodsController {
 	 */
 	@RequestMapping("/deleteFile")
 	public void deleteFile(HttpServletResponse response,String path) throws IOException {
-//		/goods/showImg\4.jpg\2018726223333
-		String fileName=path.substring(path.lastIndexOf("\\")+1);
-		String name=path.substring(15, path.lastIndexOf("\\")+1);
-		String Url=filePath+fileName+"/"+name;
-		boolean flag=FileTypeUtils.deleteFile(Url);
-		if(!flag) {
-			FileTypeUtils.deleteFile(Url);
-		}
+		goodsService.delImgFile(path);
+
+		
 	}
 	/**
 	 * 获取商品分类
@@ -191,8 +186,18 @@ public class GoodsController {
 	 */
 	@RequestMapping("/operGoodsCateInfo")
 	public ResponsDatas operGoodsCateInfo(HttpServletRequest request,ZsGoodsCategory goods) {
-
 		ResponsDatas response=goodsService.operGoodsCateInfo(goods);
+		return response;
+		
+	}
+	/**
+	 * 根据id获取分类的信息
+	 * @param goods
+	 * @return
+	 */
+	@RequestMapping("/operGoodsCateInfoByid")
+	public ResponsDatas operGoodsCateInfo(HttpServletRequest request,Integer id) {
+		ResponsDatas response=goodsService.operGoodsCateInfoById(id);
 		return response;
 		
 	}

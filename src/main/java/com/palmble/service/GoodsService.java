@@ -53,4 +53,17 @@ public interface GoodsService {
 	 * @return
 	 */
 	public ResponsDatas operGoodsCateInfo(ZsGoodsCategory goods);
+
+	/**
+	 * 根据id获取分类信息
+	 * @param id
+	 * @return
+	 */
+	public ResponsDatas operGoodsCateInfoById(Integer id);
+
+	/**
+	 * 删除 封面图片 和分类图片
+	 * @param path
+	 */
+	public void delImgFile(String path);
 }
