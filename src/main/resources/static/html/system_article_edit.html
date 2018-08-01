@@ -42,13 +42,13 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">标题<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="articleTitle" value="关于我们">
+                            <input type="text" class="form-control" name="articleTitle" value="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">作者<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="articleTitle" value="关于我们">
+                            <input type="text" class="form-control" name="author" value="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -120,7 +120,6 @@ var ue = UE.getEditor('deitor',{
                     <div class="form-group">
                         <div class="col-sm-8 col-sm-offset-2">
                             <button class="btn btn-primary ajax-post" target-form="form-horizontal" type="submit">确 定</button>
-                            <a class="btn btn-default" href="/admin/addons/adminlist/name/SystemArticle.html">取 消</a>
                         </div>
                     </div>
                 </form>
@@ -164,6 +163,8 @@ var ue = UE.getEditor('deitor',{
                      }
     		       	$("input[name='id']").val(data.id);
     		       	$("input[name='articleTitle']").val(data.articleTitle);
+    		       	$("input[name='author']").val(data.author);
+    		       	$("input[name='url']").val(data.url);
     		       	$("input[name='introduce']").val(data.introduce);
     		       	$("textarea[name='articleContent']").val(data.articleContent);
     		       	$("textarea[name='introduce']").val(data.introduce);
@@ -224,6 +225,10 @@ var ue = UE.getEditor('deitor',{
         if(deleteurl){
             $.post(deleteurl,{path:$(_self).parent().find('img').attr('src')});
         }
+    }
+    
+    function closeLayer(){
+    	layer.closeAll();
     }
 </script>
 

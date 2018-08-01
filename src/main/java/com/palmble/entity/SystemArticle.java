@@ -11,6 +11,8 @@ public class SystemArticle {
 
     private String articleTitleImage;
     
+    private String url;
+    
     private String introduce;
 
     private String articleContent;
@@ -52,7 +54,16 @@ public class SystemArticle {
         this.articleTitleImage = articleTitleImage == null ? null : articleTitleImage.trim();
     }
 
-    public String getIntroduce() {
+    
+    public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getIntroduce() {
         return introduce;
     }
 
