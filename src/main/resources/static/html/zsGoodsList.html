@@ -36,7 +36,7 @@
         #alertmod_table_list_2 {
             top: 900px !important;
         }
-        #bigBody{margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
+       /*  #bigBody{margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
         padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px}
         #ibox-content{
         margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
@@ -48,19 +48,22 @@
             position: relative;
               left: -150px;
              width: 950px;
-        }
-        #imgs_group{
+        } */
+        /* #imgs_group{
          position: relative;
               left: -150px;
-        }
-        .ibox-content{
+        } */
+        /* .ibox-content{
         padding: 0px 10px 20px;
         margin-top: 1px;
         }
         .ibox{
         margin-top: 1px;
-        }
-        
+        } */
+        .ui-jqgrid td input, .ui-jqgrid td select, .ui-jqgrid td textarea {
+          margin-left: -4px;
+                  /* padding-right: 5px; */
+         }
         .ui-jqgrid {
             font-size: 18px;
         }
@@ -107,57 +110,66 @@
 
 </head>
 
-<body class="gray-bg">
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+
+<div style="padding: 10px;">
+    
+
+<div class="ibox">
    <!--  <div class="wrapper wrapper-content  animated fadeInRight"  id="bigBody"> -->
 			    <div class="ibox-content">
 			        <div class="row">
-			           <div class="col-xs-3">
-			               <a href="javascript:;" url="zsGoodsAdd.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
-			           </div>
-			           <div style="text-align: right;" id="seachForm">
-                  <form class="form-inline" id="form-search" >
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="value" name="value" placeholder="关键字查询">
-                    </div>
-                    <div class="input-group">
-                        <select name="isAdminRecom" class="form-control" id="isAdminRecom">
-                               <option value="">选择是否推荐</option>
-                              <option value="1">是</option>
-                              <option value="0">否</option>
-                        </select>
-                    </div>
-                    
-                    <div class="input-group">
-                        <select name="isSale" class="form-control" id="isSale">
-                               <option value="">状态</option>
-                            <option value="1">上架</option>
-                            <option value="0">下架</option>
-                        </select>
-                    </div>
-                   
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <button class="btn-sm btn-primary" type="button" id ="search-btn" ><i class="fa fa-search"></i></button>
-                        </span>
-                        <span class="input-group-btn">
-                            <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
-                        </span>
-                    </div>
-                </form>
-                </div>
-			 </div>
-     
+				           <div class="col-xs-3">
+				               <a href="javascript:;" url="zsGoodsAdd.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
+				           </div>
+				           <div class="col-xs-9" style="text-align: right;">
+			                 <form class="form-inline" id="form-search" action="/goods/getGoodsList">
+					             <div class="input-group">
+			                        <input type="text" class="form-control" id="value" name="value" placeholder="关键字查询">
+			                    </div>
+			                    <div class="input-group">
+			                    <div class="col-sm-6">
+			                        <select name="isAdminRecom" class="form-control" id="isAdminRecom">
+			                               <option value="">选择是否推荐</option>
+			                              <option value="1">是</option>
+			                              <option value="0">否</option>
+			                        </select>
+			                        </div>
+			                    </div>
+			                    
+			                    <div class="input-group">
+			                      <div class="col-sm-6">
+			                        <select name="isSale" class="form-control" id="isSale">
+			                             <option value="">状态</option>
+			                            <option value="1">上架</option>
+			                            <option value="0">下架</option>
+			                        </select>
+			                        </div>
+			                    </div>
+			                   
+			                    <div class="input-group">
+			                        <span class="input-group-btn">
+			                            <button class="btn-sm btn-primary" type="button" id ="search-btn" ><i class="fa fa-search"></i></button>
+			                        </span>
+			                        <span class="input-group-btn">
+			                            <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
+			                        </span>
+			                    </div>
+			                 </form>
+                         </div>
+			         </div>
             
-              <div class="ibox-content">
-                <div class="ibox ">
-                       <div class="jqGrid_wrapper">
-                           <table id="table"></table>
-                           <div id="pager_list_1"></div>
-                       </div>
-                    </div>
                 </div>
-            
-        </div>
+        <div class="ibox-content">
+          <div class="ibox ">
+                 <div class="jqGrid_wrapper">
+                     <table id="table"></table>
+                     <div id="pager_list_1"></div>
+                 </div>
+              </div>
+          </div>
+      </div>
+      </div>
    <!--  </div> -->
    <script src="../js/pathjs.js"></script>
     <script>
@@ -174,21 +186,21 @@
 		autowidth:true,
 		shrinkToFit:true,
 		rowNum:5,
-		sortname: 'id',
+		sortname: 'sort',
 		rowList:[10,20,30],
 		colNames:["ID","图片","商品编号","名称","分类","市场价","店铺价格","库存","排序","状态","推荐","操作"],
 		colModel:[
 					{name:"id",index:"id",editable:true,width:25,sorttype:"int",search:true},
-					{name: 'goodsCoverImg', index: 'goodsCoverImg', width: 55, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
-				
-					{name:"goodsNo",index:"goodsNo",editable:true,width:60},
+					{name:'goodsCoverImg', index: 'goodsCoverImg', width: 55, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
+				    {name:"goodsNo",index:"goodsNo",editable:true,width:60},
 					{name:"goodsName",index:"goodsName",editable:true,width:80},
 					{name:"catName",index:"catName",editable:true,width:80},
 					{name:"marketPrice",index:"marketPrice",editable:true,width:60,sorttype:"float"},
 					{name:"shopPrice",index:"shopPrice",editable:true,width:60,sorttype:"float"},
 					{name:"goodsStock",index:"goodsStock",editable:true,width:40},
-					{name:"catSort",index:"catSort",width:40,sortable: true,hidden:true,formatter: function (a, b, c) {
-	                    return '<input type="number" onchange="updateSort(this)" data-url="" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
+					{name:"catSort",index:"catSort",width:40,sortable: true,hidden:false,formatter: function (a, b, c) {
+						var url=_editGoodsSort+"&id="+c.id;
+	                    return '<input type="number" onchange="updateSort(this)" data-url="'+url+'" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
 	                }},
 					{name:"isSale",index:"isSale",editable: false,sortable: false,width:40,
 						formatter:function(a,b,c){
@@ -257,7 +269,7 @@
 	   
 	   
 		//查询
-		$(function(){ 
+		 $(function(){ 
 	        $("#search-btn").click(function(){ 
 	            var value = escape($("#value").val()); 
 	            var isAdminRecom = escape($("#isAdminRecom").val()); 
@@ -269,13 +281,21 @@
 	            }).trigger("reloadGrid"); //重新载入 
 	        });
 	        $("#search-clear").click(function(){ 
+	        	var page = $('#table').getGridParam('page'); // current page
+	            var rows = $('#table').getGridParam('rows'); // rows  
+	            //var sidx = $('#table').getGridParam('sidx'); // sidx
+	            var sord = $('#table').getGridParam('sord'); // sord
 	            $("#table").jqGrid('setGridParam',{ 
 	                url:HttpUrlCommon+_goodsList,
-	                postData:{'value':"",'isAdminRecom':null,"isSale":null}, //发送数据 
-	                page:1
+	                postData:{'page':page,'rows':rows,'sord':sord,'value':"",'isAdminRecom':null,"isSale":null}, //发送数据 
+	                page:page
 	            }).trigger("reloadGrid"); //重新载入 
+	            $("#value").val('');
+	            $("#isAdminRecom").val('');
+	            $("#isSale").val('');
+	            //location.reload();
 	        });
-	    });
+	    }); 
 		//修改状态setIsSale  上架下架
 		function setIsSale(a){
 			var num=$(a).data("status");

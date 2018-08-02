@@ -46,13 +46,13 @@
 										   <div class="form-group">
 												<label class="col-sm-2 control-label">商品编号<span class="text-danger">*</span></label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" name="goodsNo" id="goodsNo"	value="">
+													<input type="text" class="form-control" name="goodsNo" id="goodsNo"	 placeholder="商品编号，唯一" value="">
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-sm-2 control-label">名称<span	class="text-danger">*</span></label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" name="goodsName" id=goodsName	value="">
+													<input type="text" class="form-control" name="goodsName" id=goodsName  placeholder="商品名称"	value="">
 												</div>
 											</div>
 											
@@ -80,13 +80,13 @@
 											<div class="form-group">
 												<label class="col-sm-2 control-label">规格<span class="text-danger">*</span></label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" name="goodsSpec"	id="goodsSpec" value="">
+													<input type="text" class="form-control" name="goodsSpec"  placeholder="商品规格"	id="goodsSpec" value="">
 												</div>
 											</div>
 											  <div class="form-group">
-												<label class="col-sm-2 control-label">商品描述<span class="text-danger">*</span></label>
+												<label class="col-sm-2 control-label">商品简介<span class="text-danger">*</span></label>
 												<div class="col-sm-6">
-												<textarea class="form-control" name="goodsDesc" id="goodsDesc" rows="3" cols="20"></textarea>
+												<textarea class="form-control" maxlength="200"  name="goodsDesc" id="goodsDesc" rows="3" cols="20"  placeholder="输入200字以内"></textarea>
 													<!-- <input type="text" class="form-control" name="goodsDesc"	value=""> -->
 												</div>
 											</div>
@@ -189,7 +189,7 @@
 															}
 														}
 													</script>
-													<span class="help-block m-b-none text-danger">支持:jpg、jpeg、png、gif;大小：限5M内</span>
+													<span class="help-block m-b-none text-danger">支持:jpg、jpeg、png、gif;大小：限5M内超过上传失败，</span>
 												</div>
 											</div>
 											<div class="form-group">
@@ -303,7 +303,7 @@
 															<th class="text-center">销售量</th>
 														</tr>
 														<tr>
-															<td><input type="text" name="goodsStock" id="goodsStock"	onkeyup="clearNoNum3(this)" onpaste="clearNoNum3(this)"	value="0" class="form-control"></td>
+															<td><input type="text" name="goodsStock" id="goodsStock"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
 															<td><input type="text" name="marketPrice" id="marketPrice" onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)" value="0" class="form-control"></td>
 															<td><input type="text" name="shopPrice" id="shopPrice"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
 														    <td><input type="text" name="saleCount" id="saleCount"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
@@ -410,6 +410,7 @@
 				    	$("#shopPrice").val(data.data.shopPrice);
 				    	$("#goodsDesc").val(data.data.goodsDesc);
 				    	$("#goodsSpec").val(data.data.goodsSpec);
+				    	$("#goodsStock").val(data.data.goodsStock);
 				    	var isAdminRecom=data.data.isAdminRecom;//推荐
 				    	
 				    	if(isAdminRecom){
