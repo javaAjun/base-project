@@ -202,6 +202,7 @@ function ajax_post_fun(target,that,query) {
             parent.layer.closeAll();
         }else{
             updateAlert(data.message,'alert-danger');
+            layer.msg(data.message);
             setTimeout(function(){
                 $(that).removeClass('disabled').prop('disabled',false);
                 if (data.url) {
