@@ -96,28 +96,30 @@ $("input[name='userId']").val(userId);
 		                    }else{
 		                    	allMenuHTML+="<label><input type=\"checkbox\" name='checkId' onchange='baseMenuChange(this)' id='menu"+data[i].menuId+"' value='"+data[i].menuId+"'>"+data[i].menuName+"</label>";
 		                    }
-		                    allMenuHTML+="</div>";
+		                    allMenuHTML+="</div><tr>";
 	                var parentMenus=data[i].menuInfo;
 	             	parentMenus=JSON.parse(parentMenus);
+	             	allMenuHTML+="<table class='table table-bordered'>";
 	             	for(var j=0; j<parentMenus.length;j++){
-	             		allMenuHTML+="<div class=\"panel-body\">";
+	             	allMenuHTML+="<tr><td width='15%'>";
 	             		if(parentMenus[j].flag=='true'){
-	             			allMenuHTML+="<label><input type=\"checkbox\" name='checkId' id='menu"+parentMenus[j].menuId+"' onchange=childMenu(this) class='parentMenu"+parentMenus[j].menuId+"' value='"+parentMenus[j].menuId+"'  checked='checked'> "+parentMenus[j].menuName+"</label></br>";
+	             			allMenuHTML+="<label><input type=\"checkbox\" name='checkId' id='menu"+parentMenus[j].menuId+"' onchange=childMenu(this) class='parentMenu"+parentMenus[j].menuId+"' value='"+parentMenus[j].menuId+"'  checked='checked'> "+parentMenus[j].menuName+"</label>";
 	             		}else{
 	             			allMenuHTML+="<label><input type=\"checkbox\" name='checkId' id='menu"+parentMenus[j].menuId+"' onchange=childMenu(this) class='parentMenu"+parentMenus[j].menuId+"' value='"+parentMenus[j].menuId+"'> "+parentMenus[j].menuName+"</label></br>";
 	             		}
 						var menus=parentMenus[j].menuInfo;
 						menus=JSON.parse(menus);
+						allMenuHTML+="</td><td>";
 						for(var m=0; m< menus.length;m++){
 							if(menus[m].flag=='true'){
-								allMenuHTML+="<label style=\"padding: 10px 0px 0px 30px;\"><input name='checkId' class='parentMenu"+parentMenus[j].menuId+"' onchange=childMenu(this) type='checkbox'id='menu"+menus[m].menuId+"'  value='"+menus[m].menuId+"' checked='checked' >"+menus[m].menuName+"</label>";
+								allMenuHTML+="<label style=\"padding: 0px 0px 0px 30px;\"><input name='checkId' class='parentMenu"+parentMenus[j].menuId+"' onchange=btnMenu(this) type='checkbox'id='menu"+menus[m].menuId+"'  value='"+menus[m].menuId+"' checked='checked' >"+menus[m].menuName+"</label>";
 							}else{
-								allMenuHTML+="<label style=\"padding: 10px 0px 0px 30px;\"><input name='checkId' class='parentMenu"+parentMenus[j].menuId+"' onchange=childMenu(this) type='checkbox'id='menu"+menus[m].menuId+"'  value='"+menus[m].menuId+"'  >"+menus[m].menuName+"</label>";
+								allMenuHTML+="<label style=\"padding: 0px 0px 0px 30px;\"><input name='checkId' class='parentMenu"+parentMenus[j].menuId+"' onchange=btnMenu(this) type='checkbox'id='menu"+menus[m].menuId+"'  value='"+menus[m].menuId+"'  >"+menus[m].menuName+"</label>";
 							}
 						}
-						allMenuHTML+="</div>";
+						allMenuHTML+="</td></tr>";
              		}
-					allMenuHTML+="</div>";
+					allMenuHTML+="</table></div>";
                 
                 }
             	$("#inner").html(allMenuHTML);
@@ -172,28 +174,23 @@ $("input[name='userId']").val(userId);
     }
     
     function childMenu(obj){
-    	var style=$(obj).parent().attr('style')
-    	var menuClass=$(obj).attr("class");
-		if(style==undefined){
-			console.log($(obj).parent().has('style'));
-			if($(obj).prop('checked')){
-				$(obj).parent().parent().find("input[type='checkbox']").prop("checked","checked");
-	    	}else{
-	    		$(obj).parent().parent().find("input[type='checkbox']").removeAttr("checked");
-	    	}
-		}else{
-			if($(obj).prop('checked')){
-	    		$("."+menuClass+":eq(0)").prop("checked","checked");
-	    	}else{
-	    		var subMenu=$(obj).parent().parent().find("input[type='checkbox']:checked");
-	    		if(subMenu.slice(1,subMenu.length).length==0){
-	    			$("."+menuClass+":eq(0)").removeAttr("checked");
-	    		}
-	    	}
-	    	$(obj).parent().parent().parent().find("input[type='checkbox']:eq(0)").prop("checked","checked");
-		}
+    	if($(obj).prop('checked')){
+	    	$(obj).parent().parent().parent().find("input[type='checkbox']").prop("checked","checked")
+    	}else{
+    		$(obj).parent().parent().parent().find("input[type='checkbox']").removeAttr("checked")
+    	}
     }
-    
+    function btnMenu(obj){
+    	console.log(123);
+    	if($(obj).prop('checked')){
+    		console.log()
+	    	$(obj).parent().parent().parent().find("td:eq(0)").find("input[type='checkbox']").prop("checked","checked")
+    	}else{
+    		if($(obj).parent().parent().parent().find("td:eq(1)").find("input[type='checkbox']:checked").length==0){
+    			$(obj).parent().parent().parent().find("td:eq(0)").find("input[type='checkbox']").removeAttr("checked")
+    		}
+    	}
+    }
     function cancel(){
     	layer.close();
     }

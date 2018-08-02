@@ -42,9 +42,29 @@ public class ZsGoods {
     
     private Integer number;
     
+  /*  private Integer sort;//排序
+*/    
+    private Integer catSort;
+    
     
 
-    public Integer getNumber() {
+    public Integer getCatSort() {
+		return catSort;
+	}
+
+	public void setCatSort(Integer catSort) {
+		this.catSort = catSort;
+	}
+//
+//	public Integer getSort() {
+//		return sort;
+//	}
+//
+//	public void setSort(Integer sort) {
+//		this.sort = sort;
+//	}
+
+	public Integer getNumber() {
 		return number;
 	}
 

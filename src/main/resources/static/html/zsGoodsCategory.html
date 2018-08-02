@@ -20,6 +20,10 @@
             font-size: 14px;
             font-weight:500;
         } 
+        .ui-jqgrid td input, .ui-jqgrid td select, .ui-jqgrid td textarea {
+           margin-left: -4px;
+    /* padding-right: 5px; */
+          }
     </style>
 </head>
 
@@ -33,12 +37,12 @@
 
 <div class="ibox">
     <div class="ibox-content">
-        <div class="row">
-            <div class="col-xs-3">
-                <a href="javascript:;" url="/html/zsGoodsCategoryEdit.html" data-title="新增分类" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>
-            </div>
-            <div class="col-xs-9" style="text-align: right;">
-               <form class="form-inline" id="form-search" action="/goods/getGoodsCateInfo">
+           <div class="row">
+	             <div class="col-xs-3">
+	                <a href="javascript:;" url="/html/zsGoodsCategoryEdit.html" data-title="新增分类" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>
+	              </div>
+              <div class="col-xs-9" style="text-align: right;">
+                 <form class="form-inline" id="form-search" action="/goods/getGoodsCateInfo">
 		                 <!-- <div class="input-group">
 		                        <input type="text" class="form-control" id="value" name="value" placeholder="关键字查询">
 		                    </div> -->

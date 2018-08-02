@@ -34,6 +34,26 @@ public  class BannerServiceImpl implements BannerService {
 		Result result=new Result();
 		int operateCount=0;//初始化添加成功/修改成功数据条数
 		String url="";
+		if(banner.getBannerTitle()==null||banner.getBannerTitle().equals("")) {
+			result.setCode(0);
+			result.setMsg("banner标题不能为空");
+			return result;
+		}
+		if(banner.getImageUrl()==null||banner.getImageUrl().equals("")) {
+			result.setCode(0);
+			result.setMsg("图片不能为空");
+			return result;
+		}
+		if(banner.getType()==0) {//跳转链接
+			if(banner.getBannerUrl()==null||banner.getBannerUrl().equals("")){
+				result.setCode(0);
+				result.setMsg("跳转链接不能为空");
+				return result;
+			}
+		}
+		if(banner.getType()==0) {//关联商品
+			
+		}
 		if(banner.getId()!=null&&!banner.getId().equals("")) {
 			operateCount = bannerMapper.updateByPrimaryKeySelective(banner);
 			url="banner_add.html?id="+banner.getId();
