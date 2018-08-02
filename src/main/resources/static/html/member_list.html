@@ -19,10 +19,6 @@
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
-<div id="top-alert" class="alert alert-danger alert-dismissable">
-    <button aria-hidden="true" class="close" type="button">×</button>
-    <span class="alert-content"></span>
-</div>
 <div style="padding: 10px;">
     
 <div class="ibox">
@@ -96,7 +92,7 @@
         </div>
     </div>
     <div class="ibox-content">
-        <div class="jqGrid_wrapper">
+        <div class="jqGrid_wrapper wrapper wrapper-content  animated fadeInRight">
             <table id="table" style="border-collapse: collapse"></table>
             <div id="pager"></div>
         </div>
@@ -161,7 +157,7 @@
 //                     return '<a href="javascript:;" url="'+editurl+'" data-title="编辑用户" onclick="layer_open(this,1)">'+ a +'</a>';
 //                 }
                 },
-                {label:'姓名',name:'name',index:'name',width:40,editable: false,sortable: false},
+                {label:'昵称',name:'nickName',index:'nickName',width:40,editable: false,sortable: false},
                 {label:'电话',name:'phone',index:'phone',width:40,editable: false,sortable: false},
                 {label:'角色',name:'role',index:'role',width:40,editable: false,sortable: false,formatter:function (a,b,c){
                  	if(a == 0){

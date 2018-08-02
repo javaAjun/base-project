@@ -32,10 +32,10 @@ public class MemberUser{
     private String idNumber;
 
     
-    private String createTime;
+    private Date createTime;
 
     
-    private String updateTime;
+    private Date updateTime;
 
     
     private String qq;
@@ -45,23 +45,17 @@ public class MemberUser{
 
     
     private Integer delState;
+
     
     private String nickName;
-    
 
-    public String geteMail() {
-		return eMail;
-	}
-	public void seteMail(String eMail) {
-		this.eMail = eMail;
-	}
-	public String getNickName() {
-		return nickName;
-	}
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-	public Integer getId() {
+    
+    private String userName;
+
+    
+    private String password;
+
+    public Integer getId() {
        return id;
     }
     public void setId(Integer id) {
@@ -124,17 +118,17 @@ public class MemberUser{
        this.idNumber = idNumber;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
        return createTime;
     }
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
        this.createTime = createTime;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
        return updateTime;
     }
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
        this.updateTime = updateTime;
     }
 
@@ -158,13 +152,27 @@ public class MemberUser{
     public void setDelState(Integer delState) {
        this.delState = delState;
     }
-	@Override
-	public String toString() {
-		return "MemberUser [id=" + id + ", name=" + name + ", phone=" + phone + ", role=" + role + ", grade=" + grade
-				+ ", eMail=" + eMail + ", address=" + address + ", state=" + state + ", idNumber=" + idNumber
-				+ ", createTime=" + createTime + ", updateTime=" + updateTime + ", qq=" + qq + ", capital=" + capital
-				+ ", delState=" + delState + "]";
-	}
+
+    public String getNickName() {
+       return nickName;
+    }
+    public void setNickName(String nickName) {
+       this.nickName = nickName;
+    }
+
+    public String getUserName() {
+       return userName;
+    }
+    public void setUserName(String userName) {
+       this.userName = userName;
+    }
+
+    public String getPassword() {
+       return password;
+    }
+    public void setPassword(String password) {
+       this.password = password;
+    }
 
 
 }

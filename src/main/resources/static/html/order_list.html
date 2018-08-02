@@ -21,10 +21,6 @@
 
 <body class="fixed-sidebar full-height-layout gray-bg fixed-nav"
 	style="overflow-x: hidden;">
-	<div id="top-alert" class="alert alert-danger alert-dismissable">
-		<button aria-hidden="true" class="close" type="button">×</button>
-		<span class="alert-content"></span>
-	</div>
 	<div style="padding: 10px;">
 
 
@@ -46,8 +42,14 @@
 							<div class="input-group">
 								<select name="orderStatus" class="form-control">
 									<option value="">选择状态</option>
+									<option value="0">待付款</option>
+									<option value="1">待发货</option>
 									<option value="2">待收货</option>
 									<option value="3">已收货</option>
+									<option value="4">申请退货</option>
+									<option value="5">待退货</option>
+									<option value="6">退货中</option>
+									<option value="7">已退货</option>
 								</select>
 							</div>
 							<div class="input-group">
@@ -74,8 +76,9 @@
 				</div>
 			</div>
 			<div class="ibox-content">
-				<div class="jqGrid_wrapper">
+				<div class="jqGrid_wrapper wrapper wrapper-content  animated fadeInRight">
 					<table id="table" style="border-collapse: collapse"></table>
+					
 					<div id="pager"></div>
 				</div>
 			</div>
@@ -132,7 +135,7 @@
 			$("#table")
 					.jqGrid(
 							{
-								url : "/order/getOrderList",
+								url : "/order/getOrderListToMap",
 								datatype : "json",
 								colModel : [
 										{
@@ -145,8 +148,8 @@
 										},
 										{
 											label : '会员编号',
-											name : 'memberId',
-											index : 'memberId',
+											name : 'userName',
+											index : 'userName',
 											width : 60,
 											editable : false,
 											sortable : false

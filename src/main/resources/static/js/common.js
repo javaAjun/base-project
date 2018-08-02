@@ -37,12 +37,11 @@ function ajax_get_fun(that) {
         }
         $(that).attr('data-flag',1);
         $.get(target).success(function(data){
-        	console.log(data);
             if (data.code=="1") {
                 if (data.url) {
-                    updateAlert(data.message,'alert-success');
+                    updateAlert(data.msg,'alert-success');
                 }else{
-                    updateAlert(data.message,'alert-success');
+                    updateAlert(data.msg,'alert-success');
                 }
                 setTimeout(function(){
                     if( $(that).hasClass('no-refresh')){
@@ -59,7 +58,7 @@ function ajax_get_fun(that) {
                     }
                 },1500);
             }else{
-                updateAlert(data.message,'alert-danger');
+                updateAlert(data.msg,'alert-danger');
                 setTimeout(function(){
                     if (data.url) {
                         location.href=data.url;
@@ -82,7 +81,6 @@ $(document).on('click','.ajax-post',function(){
     var confirm_msg = $(this).attr('data-confirm')?$(this).attr('data-confirm'):'确认要执行该操作吗?';
     if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
         form = $('.'+target_form);
-
         if ($(this).attr('hide-data') === 'true'){//无数据时也可以使用的功能
             form = $('.hide-data');
             query = form.serialize();
@@ -165,10 +163,10 @@ function ajax_post_fun(target,that,query) {
     $.post(target,query).success(function(data){
         if (data.code=="1") {
             if (data.url) {
-                updateAlert(data.message,'alert-success');
-                // updateAlert(data.message + ' 页面即将自动跳转~','alert-success');
+                updateAlert(data.msg,'alert-success');
+                // updateAlert(data.msg + ' 页面即将自动跳转~','alert-success');
             }else{
-                updateAlert(data.message ,'alert-success');
+                updateAlert(data.msg ,'alert-success');
             }
             setTimeout(function(){
                 $(that).removeClass('disabled').prop('disabled',false);
@@ -193,8 +191,7 @@ function ajax_post_fun(target,that,query) {
                 }
             },1500);
         }else{
-            updateAlert(data.message,'alert-danger');
-            alert(data.message);
+            updateAlert(data.msg,'alert-danger');
             setTimeout(function(){
                 $(that).removeClass('disabled').prop('disabled',false);
                 if (data.url) {
@@ -273,7 +270,7 @@ function updateSort(_self) {
             $("#table").trigger("reloadGrid");
         }else{
             $(_self).val(old);
-            updateAlert(data.message,'alert-danger');
+            updateAlert(data.msg,'alert-danger');
             setTimeout(function(){
                 if (data.url) {
                     location.href=data.url;

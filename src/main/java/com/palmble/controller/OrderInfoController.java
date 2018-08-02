@@ -47,6 +47,13 @@ public class OrderInfoController {
 		PageInfo<OrderInfo> page=new PageInfo<OrderInfo>(pageList);
 		return page;
 	}
+	@RequestMapping("/getOrderListToMap")
+	public PageInfo<Map<String,Object>> getOrderListToMap(@RequestParam Map<String,Object> map) {
+		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()));
+		List<Map<String,Object>> pageList=orderInfoService.findSimpleResultToMap(map);
+		PageInfo<Map<String,Object>> page=new PageInfo<Map<String,Object>>(pageList);
+		return page;
+	}
 //	@RequestMapping("/deleteById")
 //	public int deleteById(Integer id) {
 //		return orderInfoService.deleteById(id);
@@ -136,7 +143,7 @@ public class OrderInfoController {
 		int updateStatus=orderInfoService.updateById(order);
 		Bill bill=new Bill();
 		bill.setType(0);
-		bill.setUserId(order.getuserId());
+		bill.setUserId(order.getUserId());
 		Date date=new Date();
 		bill.setUpdateTime(date);
 		bill.setCreateTime(date);
@@ -146,7 +153,7 @@ public class OrderInfoController {
 		bill.setTransactionId(TransactionUtil.getTransactionNum(4));
 		int insertBillState=billService.insert(bill);
 		Account account=new Account();
-		account.setUserId(order.getuserId());
+		account.setUserId(order.getUserId());
 		account.setBalance(number);
 		int updateAccountStatus=accountService.updateByUserId(account);
 		if(updateStatus==1&&insertBillState==1&&updateAccountStatus==1) {

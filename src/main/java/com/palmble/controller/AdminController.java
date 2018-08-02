@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,6 +61,7 @@ public class AdminController {
 		return resultNum;
 	}
 
+	@Transactional
 	@RequestMapping("/add_or_edit")
 	public Result add_or_edit(AdminUser user, String url) {
 		Result result = new Result();
@@ -82,7 +85,7 @@ public class AdminController {
 		}
 		String md5Pwd=DigestUtils.md5Hex("palmble"+pwd);
 		AdminUser adminTemplate=adminUserService.selectOne("loginiNo", user.getLoginiNo());
-		if (user.getId() == null || user.getId().equals("")) {
+		if (user.getId() == null) {
 			if(adminTemplate==null) {
 				user.setPwd(md5Pwd);
 				statusNum = adminUserService.insertSelective(user);
@@ -92,8 +95,9 @@ public class AdminController {
 				return result;
 			}
 		} else {
-			if(!md5Pwd.equals(adminTemplate.getPwd())) {
-				user.setPwd(DigestUtils.md5Hex("palmble"+pwd));
+			if(user.getPwd()==null) {
+				String userPwd=adminUserService.selectByPrimaryKey(user.getId()).getPwd();
+				user.setPwd(userPwd);
 			}
 			statusNum = adminUserService.updateByPrimaryKeySelective(user);
 		}
@@ -103,6 +107,7 @@ public class AdminController {
 			result.setUrl(url);
 		} else {
 			result.setMsg("操作失败");
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 		}
 		return result;
 	}

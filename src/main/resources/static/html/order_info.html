@@ -78,6 +78,12 @@ var postData={id:id};
     	var consignee=orderInfo.consignee;
     	console.log(obj);
     	$.each(goods,function(i,val){
+    		var img;
+    		if(val.goodsCoverThums){
+    			img=val.goodsCoverThums;
+    		}else{
+    			img=val.goodsCoverImg;
+    		}
     		$('#goodsInfo').append('<tr>'
                         +'<th colspan="2">'
                            +' 商品信息'
@@ -86,7 +92,7 @@ var postData={id:id};
                     +'</tr>'
                                         +'<tr>'
                         +'<td width="50">'
-                            +'<img src="'+val.goodsCoverThums+'" width="50" height="50">'
+                            +'<img src="'+img+'" width="50" height="50">'
                         +'</td>'
                         +'<td>'
                             +'<p><strong>'+val.goodsName+'</strong></p>'
@@ -125,7 +131,7 @@ var postData={id:id};
             +'</tr>'
             +'<tr>'
                 +'<td>会员编号</td>'
-                +'<td>'+orderInfo.memberId+'</td>'
+                +'<td>'+orderInfo.memberNumber+'</td>'
             +'</tr>'
             +'<tr>'
                 +'<td>订单状态</td>'
