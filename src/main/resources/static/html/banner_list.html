@@ -27,7 +27,7 @@
 
 <div class="ibox">
 <div id="bigPic" style=" position:absolute;display:none;z-index:999;">
-<img src="" width="600px" id="pre_view"/><br />
+<img src="" width="260px" id="pre_view"/><br />
 </div>
     <div class="ibox-content">
         <div class="row">
@@ -93,8 +93,8 @@
                 }},
                 {label:'标题',name:'bannerTitle',index:'bannerTitle',width:100,editable: false,sortable: false},
                 {label:'链接',name:'bannerUrl',index:'bannerUrl',width:100,editable: false,sortable: false},
-                {label:'排序',name:'sequence',index:'sequence',width:30,sortable: true,formatter: function (a, b, c) {
-                    return '<input type="number" onchange="updateSort(this)" data-url="/banner/changesort" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
+                {label:'排序',name:'sequence',index:'sequence',width:26,sortable: true,formatter: function (a, b, c) {
+                    return '<input type="number" style="width:60px" onchange="updateSort(this)" data-url="/banner/changesort" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
                 }},
                 {label:'状态',name:'state',index:'state',width:50,editable: false,sortable: false,formatter:function (a,b,c){
                     if(a == 1){

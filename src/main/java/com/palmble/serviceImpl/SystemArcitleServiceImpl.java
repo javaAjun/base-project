@@ -39,6 +39,16 @@ public class SystemArcitleServiceImpl implements SystemArticleService {
 		Result result=new Result<>();
 		Integer num=0;
 		String url="";
+		if(systemArticle.getArticleTitle()==null||systemArticle.getArticleTitle().equals("")) {
+			result.setCode(0);
+			result.setMsg("标题不能为空");
+			return result;
+		}
+		if(systemArticle.getArticleContent()==null||systemArticle.getArticleContent().equals("")) {
+			result.setCode(0);
+			result.setMsg("文章内容不能为空");
+			return result;
+		}
 		if(systemArticle.getId()!=null&&!systemArticle.getId().equals("")) {
 			num= articleMapper.updateByPrimaryKeySelective(systemArticle);
 			url="system_article_edit.html?id="+systemArticle.getId();

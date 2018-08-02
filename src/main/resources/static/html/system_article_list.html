@@ -27,6 +27,9 @@
     
 
 <div class="ibox">
+<div id="bigPic" style=" position:absolute;display:none;z-index:999;">
+<img src="" width="300px" id="pre_view"/><br />
+</div>
     <div class="ibox-content">
         <div class="row">
             <div class="col-xs-3">
@@ -88,7 +91,7 @@
                 {label:'ID',name:'id',index:'id',width:40,editable: false,sortable: false},
                 {label:'标题',name:'articleTitle',index:'articleTitle',width:100,editable: false,sortable: false},
                 {label:'封面图',name:'articleTitleImage',index:'articleTitleImage',width:50,editable: false,sortable: false,formatter: function (a, b, c) {
-                    return '<img src="'+a+'" width="20" height="20"/>';
+                    return '<img src="'+a+'" onmousemove="showBigPic(this.src)" onmouseout="closeimg()" width="20" height="20"/>';
                 }},
                 {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
                     var editurl = "system_article_edit.html?id="+c.id;
@@ -132,6 +135,29 @@
             },
         });
     });
+    
+    function showBigPic(filepath) {
+
+        //将文件路径传给img大图
+        document.getElementById('pre_view').src = filepath;
+        //获取大图div是否存在
+        var div = document.getElementById("bigPic");
+        if (!div) {
+            return;
+        }
+        //如果存在则展示
+        document.getElementById("bigPic").style.display="block";
+        //获取鼠标坐标
+        var intX = window.event.clientX;
+        var intY = window.event.clientY;
+        //设置大图左上角起点位置
+        div.style.left = intX +10+ "px";
+        div.style.top = intY + 10+"px";
+    }
+    
+    function closeimg(){
+        document.getElementById("bigPic").style.display="none";
+    }
 </script>
 
 </body>

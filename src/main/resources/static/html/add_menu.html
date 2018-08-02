@@ -14,22 +14,22 @@
 <div style="padding:10px">
 		<form class="layui-form" action="" lay-filter="example">
 		  <div class="layui-form-item">
-		    <label class="layui-form-label">菜单名称</label>
+		    <label class="layui-form-label">菜单名称<span class="text-danger">*</span></label>
 		    <div class="layui-input-block">
-		      <input type="hidden" name="id" lay-verify="title"  class="layui-input">
-		      <input type="text" name="menuName" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+		      <input type="hidden" name="id"   class="layui-input">
+		      <input type="text" name="menuName" lay-verify="required" autocomplete="off" placeholder="请输入菜单名称" class="layui-input">
 		    </div>
 		  </div>
 		  <div class="layui-form-item">
 		    <label class="layui-form-label">菜单链接</label>
 		    <div class="layui-input-block">
-		      <input type="text" name="url" placeholder="请输入密码" autocomplete="off" class="layui-input">
+		      <input type="text" name="url"  placeholder="请输入菜单跳转链接,不跳转为空" autocomplete="off" class="layui-input" >
 		    </div>
 		  </div>
 		  <div class="layui-form-item">
 		    <label class="layui-form-label">菜单排序</label>
 		    <div class="layui-input-block">
-		      <input type="text" name="sequenceNumber" placeholder="请输入密码" autocomplete="off" class="layui-input">
+		      <input type="text" name="sequenceNumber" lay-verify="number" placeholder="请输入阿拉伯数字" autocomplete="off" class="layui-input" value="0">
 		    </div>
 		  </div>
 		  <div class="layui-form-item">
@@ -65,7 +65,7 @@
 		  <div class="layui-form-item layui-form-text">
 		    <label class="layui-form-label">菜单描述</label>
 		    <div class="layui-input-block">
-		      <textarea placeholder="请输入内容" class="layui-textarea" name="menuInfo"></textarea>
+		      <textarea placeholder="非必填项内容,最多可输入300字" class="layui-textarea" name="menuInfo"></textarea>
 		    </div>
 		  </div>
 		 
@@ -180,7 +180,6 @@ $(function(){
 	        }
 	    });
 	}else{
-		console.log(123);
 		getAllMenu(0);
 	}
 	
