@@ -75,6 +75,14 @@ public class GoodsServiceImpl implements GoodsService{
 	public ResponsDatas operGoodsInfo(ZsGoods goods) {
 		try {
 			if(goods.getOper().equals(SysConstant.OPER_ADD)) {//添加
+				if(StringUtil.isEmpty(goods.getGoodsNo())) {//如果编号为空
+					return  ResponsDatas.fail("商品编号不能为空!", null);
+				}else if(goods.getOper().equals(SysConstant.OPER_ADD)){
+					int num=goodsMapper.selectGoodsInfoByGoodsNo(goods);
+					if(num>=1) {
+						return  ResponsDatas.fail("商品编号重复!", null);
+					}
+				}
 				ResponsDatas data=this.IsNullGoodsParam(goods);
 				if(!data.getStatus().equals("200")) {
 					return data;
@@ -114,6 +122,8 @@ public class GoodsServiceImpl implements GoodsService{
 				     	}
 					}
 				}
+			}else if(goods.getOper().equals("sort")) {
+				goodsMapper.updateByPrimaryKeySelective(goods);
 			}else if(goods.getOper().equals("isSale")){
 				goodsMapper.updateByPrimaryKeySelective(goods);
 			}else if(goods.getOper().equals("isAdminRecom")){
@@ -165,14 +175,7 @@ public class GoodsServiceImpl implements GoodsService{
 
 	@Override
 	public ResponsDatas IsNullGoodsParam(ZsGoods goods) {
-		if(StringUtil.isEmpty(goods.getGoodsNo())) {//如果编号为空
-			return  ResponsDatas.fail("商品编号不能为空!", null);
-		}else if(goods.getOper().equals(SysConstant.OPER_ADD)){
-			int num=goodsMapper.selectGoodsInfoByGoodsNo(goods);
-			if(num>=1) {
-				return  ResponsDatas.fail("商品编号重复!", null);
-			}
-		}
+		
 		if(StringUtil.isEmpty(goods.getGoodsCoverImg())) {//封面图片为空
 			return  ResponsDatas.fail("封面图片为空!", null);
 		}

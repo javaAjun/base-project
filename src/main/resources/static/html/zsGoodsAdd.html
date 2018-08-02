@@ -303,7 +303,7 @@
 															<th class="text-center">销售量</th>
 														</tr>
 														<tr>
-															<td><input type="text" name="goodsStock" id="goodsStock"	onkeyup="clearNoNum3(this)" onpaste="clearNoNum3(this)"	value="0" class="form-control"></td>
+															<td><input type="text" name="goodsStock" id="goodsStock"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
 															<td><input type="text" name="marketPrice" id="marketPrice" onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)" value="0" class="form-control"></td>
 															<td><input type="text" name="shopPrice" id="shopPrice"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
 														    <td><input type="text" name="saleCount" id="saleCount"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
@@ -410,6 +410,7 @@
 				    	$("#shopPrice").val(data.data.shopPrice);
 				    	$("#goodsDesc").val(data.data.goodsDesc);
 				    	$("#goodsSpec").val(data.data.goodsSpec);
+				    	$("#goodsStock").val(data.data.goodsStock);
 				    	var isAdminRecom=data.data.isAdminRecom;//推荐
 				    	
 				    	if(isAdminRecom){

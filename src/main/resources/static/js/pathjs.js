@@ -6,6 +6,7 @@ var _goodsList="/goods/getGoodsList";
 var _editGoods="/goods/operGoodsInfo?oper=edit";
 
 var _editGoodsIsSale="/goods/operGoodsInfo?oper=isSale";
+var _editGoodsSort="/goods/operGoodsInfo?oper=sort";
 var _editGoodsIsAdminRecom="/goods/operGoodsInfo?oper=isAdminRecom";
 //删除
 var _delGoods="/goods/operGoodsInfo?oper=del";

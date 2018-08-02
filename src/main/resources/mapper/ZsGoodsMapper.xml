@@ -20,6 +20,7 @@
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
     <result column="goodsPhotoAlbumId" property="goodsPhotoAlbumId" jdbcType="INTEGER" />
     <result column="goodsCateId" property="goodsCateId" jdbcType="INTEGER" />
+    <result column="catSort" property="catSort" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.palmble.entity.ZsGoods" extends="BaseResultMap" >
     <result column="goodsContent" property="goodsContent" jdbcType="LONGVARCHAR" />
@@ -27,7 +28,7 @@
   <sql id="Base_Column_List" >
     id, goodsNo, goodsName, goodsCoverImg, goodsCoverThums, marketPrice, shopPrice, goodsStock, 
     saleCount, goodsSpec, isSale, isAdminRecom, goodsDesc, saleTime, createTime, goodsPhotoAlbumId, 
-    goodsCateId
+    goodsCateId,catSort
   </sql>
   <sql id="Blob_Column_List" >
     goodsContent
@@ -117,6 +118,7 @@
       <if test="goodsContent != null" >
         goodsContent,
       </if>
+      <if test="catSort!=null"> catSort,</if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -173,6 +175,7 @@
       <if test="goodsContent != null" >
         #{goodsContent,jdbcType=LONGVARCHAR},
       </if>
+          <if test="catSort!=null"> #{catSort},</if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.ZsGoods" >
@@ -226,6 +229,7 @@
       <if test="goodsCateId != null" >
         goodsCateId = #{goodsCateId,jdbcType=INTEGER},
       </if>
+      <if test="catSort!=null"> catSort=#{catSort},</if>
       <if test="goodsContent != null" >
         goodsContent = #{goodsContent,jdbcType=LONGVARCHAR},
       </if>
@@ -276,7 +280,7 @@
   <select id="getGoodsList" resultType="java.util.Map">
             SELECT
 	            zg.*, zc.catName,
-	            zc.catSort
+	            zg.catSort
            FROM
 	         	zs_goods zg LEFT JOIN zs_goods_category zc ON zg.goodsCateId = zc.id
 		WHERE
@@ -291,7 +295,7 @@
 				 OR 
 				   zc.catName  LIKE  '%${value}%') 
 			</if>
-		  <if test="sord!=null">order by zg.id  ${sord}  </if>
+		  <if test="sord!=null">order by zg.catSort  ${sord}  </if>
 		   limit #{page},#{size}
   </select>
   <select id="selectGoodsTotalCount" resultType="INTEGER">

@@ -60,7 +60,10 @@
         .ibox{
         margin-top: 1px;
         } */
-        
+        .ui-jqgrid td input, .ui-jqgrid td select, .ui-jqgrid td textarea {
+          margin-left: -4px;
+                  /* padding-right: 5px; */
+         }
         .ui-jqgrid {
             font-size: 18px;
         }
@@ -183,20 +186,21 @@
 		autowidth:true,
 		shrinkToFit:true,
 		rowNum:5,
-		sortname: 'id',
+		sortname: 'sort',
 		rowList:[10,20,30],
 		colNames:["ID","图片","商品编号","名称","分类","市场价","店铺价格","库存","排序","状态","推荐","操作"],
 		colModel:[
 					{name:"id",index:"id",editable:true,width:25,sorttype:"int",search:true},
-					{name: 'goodsCoverImg', index: 'goodsCoverImg', width: 55, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
+					{name:'goodsCoverImg', index: 'goodsCoverImg', width: 55, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
 				    {name:"goodsNo",index:"goodsNo",editable:true,width:60},
 					{name:"goodsName",index:"goodsName",editable:true,width:80},
 					{name:"catName",index:"catName",editable:true,width:80},
 					{name:"marketPrice",index:"marketPrice",editable:true,width:60,sorttype:"float"},
 					{name:"shopPrice",index:"shopPrice",editable:true,width:60,sorttype:"float"},
 					{name:"goodsStock",index:"goodsStock",editable:true,width:40},
-					{name:"catSort",index:"catSort",width:40,sortable: true,hidden:true,formatter: function (a, b, c) {
-	                    return '<input type="number" onchange="updateSort(this)" data-url="" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
+					{name:"catSort",index:"catSort",width:40,sortable: true,hidden:false,formatter: function (a, b, c) {
+						var url=_editGoodsSort+"&id="+c.id;
+	                    return '<input type="number" onchange="updateSort(this)" data-url="'+url+'" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
 	                }},
 					{name:"isSale",index:"isSale",editable: false,sortable: false,width:40,
 						formatter:function(a,b,c){
