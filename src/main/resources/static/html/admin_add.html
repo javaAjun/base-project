@@ -111,10 +111,15 @@
         var id=getQueryString("id");
         if(id==null){
         	formSetValue("id", null);
+        }else{
+        	 formSetValue("id", id);
         }
-        formSetValue("id", id);
         var username=getQueryString("name");
-        formSetValue("loginiNo", username);
+        if(username){
+        	formSetValue("loginiNo", null);
+        }else{
+        	formSetValue("loginiNo", username);
+        }
         var groupId=getQueryString("groupId");
         var url=getQueryString("url");
         formSetValue("url", url);
