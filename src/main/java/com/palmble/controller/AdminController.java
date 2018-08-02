@@ -62,8 +62,8 @@ public class AdminController {
 	}
 
 	@Transactional
-	@RequestMapping("/add_or_edit")
-	public Result add_or_edit(AdminUser user, String url) {
+	@RequestMapping("/add")
+	public Result add(AdminUser user, String url) {
 		Result result = new Result();
 		int statusNum = 0;
 		if (user == null) {
@@ -85,21 +85,13 @@ public class AdminController {
 		}
 		String md5Pwd=DigestUtils.md5Hex("palmble"+pwd);
 		AdminUser adminTemplate=adminUserService.selectOne("loginiNo", user.getLoginiNo());
-		if (user.getId() == null) {
-			if(adminTemplate==null) {
-				user.setPwd(md5Pwd);
-				statusNum = adminUserService.insertSelective(user);
-			}else {
-				result.setCode(0);
-				result.setMsg("账号已存在!");
-				return result;
-			}
-		} else {
-			if(user.getPwd()==null) {
-				String userPwd=adminUserService.selectByPrimaryKey(user.getId()).getPwd();
-				user.setPwd(userPwd);
-			}
-			statusNum = adminUserService.updateByPrimaryKeySelective(user);
+		if(adminTemplate==null) {
+			user.setPwd(md5Pwd);
+			statusNum = adminUserService.insertSelective(user);
+		}else {
+			result.setCode(0);
+			result.setMsg("账号已存在!");
+			return result;
 		}
 		result.setCode(statusNum);
 		if (statusNum == 1) {
@@ -111,6 +103,48 @@ public class AdminController {
 		}
 		return result;
 	}
+	
+	@Transactional
+	@RequestMapping("/edit")
+	public Result edit(AdminUser user, String url) {
+		Result result = new Result();
+		int statusNum = 0;
+		if (user == null) {
+			result.setCode(0);
+			result.setMsg("操作失败!");
+			return result;
+		}
+		String pwd=user.getPwd();
+		String username=user.getLoginiNo();
+		if(username==null||username.trim().equals("")) {
+			result.setCode(0);
+			result.setMsg("账号不能为空!");
+			return result;
+		}
+		AdminUser adminTemplate=adminUserService.selectOne("loginiNo", user.getLoginiNo());
+			if(adminTemplate!=null&&adminTemplate.getId()!=user.getId()) {
+				result.setCode(0);
+				result.setMsg("账号已存在!");
+				return result;
+			}else {
+				String md5Pwd=null;
+				if(pwd!=null&&!pwd.trim().equals("")) {
+					 md5Pwd=DigestUtils.md5Hex("palmble"+pwd);
+				}
+				user.setPwd(md5Pwd);
+			}
+			statusNum = adminUserService.updateByPrimaryKeySelective(user);
+		result.setCode(statusNum);
+		if (statusNum == 1) {
+			result.setMsg("操作成功");
+			result.setUrl(url);
+		} else {
+			result.setMsg("操作失败");
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return result;
+	}
+
 
 	@RequestMapping("/updatePassword")
 	public Result updatePassword(HttpServletRequest request,String old_pass,String password,String password_confirm) {

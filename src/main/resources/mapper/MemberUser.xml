@@ -21,6 +21,7 @@
   <result column = "nick_name" property = "nickName" jdbcType = "VARCHAR"/>
     <result column = "user_name" property = "userName" jdbcType = "VARCHAR"/>
   <result column = "password" property = "password" jdbcType = "VARCHAR"/>
+  <result column = "remarks" property = "remarks" jdbcType = "VARCHAR"/>
   </resultMap>
   
 
@@ -78,6 +79,9 @@
       <if test="password != null" >
         password,
       </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -131,12 +135,15 @@
       <if test="password != null" >
         #{password},
       </if>
+       <if test="remarks != null" >
+        #{remarks},
+      </if>
     </trim>
   </insert>
   
    <insert id="insertFully" parameterType="com.palmble.entity.MemberUser" >
-    insert into user (id,name,phone,role,grade,e_mail,address,state,id_number,create_time,update_time,qq,capital,del_state,nick_name,user_name,password)
-    values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{role,jdbcType=INTEGER},#{grade,jdbcType=INTEGER},#{eMail,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{state,jdbcType=INTEGER},#{idNumber,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{qq,jdbcType=VARCHAR},#{capital,jdbcType=BIGINT},#{delState,jdbcType=INTEGER},#{nickName,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR})
+    insert into user (id,name,phone,role,grade,e_mail,address,state,id_number,create_time,update_time,qq,capital,del_state,nick_name,user_name,password,remarks)
+    values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{role,jdbcType=INTEGER},#{grade,jdbcType=INTEGER},#{eMail,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{state,jdbcType=INTEGER},#{idNumber,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{qq,jdbcType=VARCHAR},#{capital,jdbcType=BIGINT},#{delState,jdbcType=INTEGER},#{nickName,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{remarks,jdbcType=VARCHAR})
   </insert>
   
   <delete id="deleteById" parameterType="java.lang.Integer" >
@@ -198,6 +205,9 @@
       <if test="password != null" >
         password = #{password},
       </if>
+       <if test="remarks != null" >
+        remarks = #{remarks},
+      </if>
   </set>
     where id = #{id}
   </update>
@@ -220,7 +230,8 @@
    del_state=#{delState,jdbcType=INTEGER},
    nick_name=#{nickName,jdbcType=VARCHAR},
    user_name=#{userName,jdbcType=VARCHAR},
-   password=#{password,jdbcType=VARCHAR}
+   password=#{password,jdbcType=VARCHAR},
+   remarks=#{remarks,jdbcType=VARCHAR}
    where id = #{id}
   </update>
   
@@ -234,14 +245,15 @@
     address,
     state,
     id_number,
-    create_time,
-    update_time,
+    date_format(create_time,'%Y-%m-%d %H:%i:%s') as create_time,
+    date_format(update_time,'%Y-%m-%d %H:%i:%s') as update_time,
     qq,
     capital,
     del_state,
     nick_name,
     user_name,
-    password
+    password,
+    remarks
   </sql>
   
   <sql id="queryParams">
@@ -293,6 +305,9 @@
       </if>
       <if test="password != null and password != ''" >
       and  password=#{password} 
+      </if>
+      <if test="remarks != null and remarks != ''" >
+      and  remarks=#{remarks} 
       </if>
     </where >
   </sql>
@@ -378,6 +393,9 @@
       </if>
       <if test="endTime != null and endTime != ''" >
       <![CDATA[ and  create_time  < #{endTime}]]>
+      </if>
+      <if test="remarks != null and remarks != ''" >
+       and  remarks like concat(concat('%',#{remarks}),'%') 
       </if>
     </where >
     <if test="sidx != null and sord != null" >

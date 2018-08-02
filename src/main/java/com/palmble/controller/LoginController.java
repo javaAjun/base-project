@@ -74,6 +74,9 @@ public class LoginController extends PalmbleBaseController{
 			return result;
 		}
 		request.getSession().setAttribute("userId", adminUser.getId());
+		request.getSession().setAttribute("userName", adminUser.getLoginiNo());
+		
+		request.getSession().setAttribute("groupId", adminUser.getGroupId());
 		Integer loginCount=adminUser.getLoginCount()==null?0:1;
 		adminUser.setLoginCount(loginCount+1);
 		adminUser.setLastLoginIp(getUserIP(request));

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,57 +29,45 @@
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>编辑用户</h5>
+                <h5>新增用户组</h5>
                 <div class="ibox-tools">
-                    <a class="toback" href="index.html">
-                        返回上一页
-                    </a>
+                    <a class="toback" href="admin_auth_manager.html">返回上一页</a>
                 </div>
             </div>
             <div class="ibox-content">
-                <form method="post" action="/edit" class="form-horizontal" id="form">
-                    <input type="hidden" name="id" value="">
-                    <input type="hidden" name="url" value="">
+                <form method="post" action="/groups/add" class="form-horizontal">
+                    <input type="hidden" name="id" value="0">
+                    <input type="hidden" name="url" value="admin_auth_manager.html">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">用户名<span class="text-danger">*</span></label>
+                        <label class="col-sm-2 control-label">名称<span class="text-danger">*</span></label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="loginiNo" value="" id="loginiNo" placeholder="请输入用户名" lay-verify="email">
+                            <input type="text" class="form-control" name="groupName" value="">
                         </div>
                     </div>
-
+                    <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" id="pwd">密码</label>
+                        <label class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-4">
-                            <input type="password" class="form-control" name="pwd" placeholder="请输入密码">
+                            <textarea name="remarks" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
-
-                                        <div class="form-group" id="Admingroup">
-                        <label class="col-sm-2 control-label">用户组</label>
-                        <div class="col-sm-4">
-                            <select class="form-control m-b" name=groupName>
-                                <option value="超级管理员">超级管理员</option>
-                                                                <option value="一般管理员">一般管理员</option>
-                                                            </select>
-                        </div>
-                    </div>
+                    <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">状态</label>
                         <div class="col-sm-4">
-                            <label class="cr-inline">
+                            <label>
                                 <input type="radio" value="1" name="enableFlag">正常&nbsp;&nbsp;
                             </label>
-                            <label class="cr-inline">
+                            <label>
                                 <input type="radio" value="0" name="enableFlag">禁用
                             </label>
                         </div>
                     </div>
-                    
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-2">
                             <button class="btn btn-primary ajax-post" target-form="form-horizontal" type="submit">确 定</button>
-                            <a class="btn btn-default" href="javaScript:;history.back(-1)">取 消</a>
+                            <a class="btn btn-default" href="../auth_manager/index.html">取 消</a>
                         </div>
                     </div>
                 </form>
@@ -102,33 +91,10 @@
 <script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
 <!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
 <script src="../js/common.js"></script>
-<script src="../plugins/layui/layui.js" charset="utf-8"></script>
 
 <script>
     $(document).ready(function(){
-    	 $('#top-alert').find('button').click();
-        formSetValue("enableFlag", 1);
-        var id=getQueryString("id");
-        if(id==null){
-        	$('#form').attr('action','/add')
-        	formSetValue("id", null);
-        	$('#pwd').append('<span class="text-danger">*</span>');
-        	eableEmptyPwd=true;
-        }else{
-        	 formSetValue("id", id);
-        }
-        var username=getQueryString("name");
-        if(username){
-        	formSetValue("loginiNo", null);
-        }else{
-        	formSetValue("loginiNo", username);
-        }
-        var groupId=getQueryString("groupId");
-        var url=getQueryString("url");
-        formSetValue("url", url);
-        if(groupId==0){
-        	formSetValue("groupId", 0);
-        }
+        formSetValue("status", "1");
     });
 </script>
 

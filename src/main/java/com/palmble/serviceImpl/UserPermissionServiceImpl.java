@@ -51,12 +51,12 @@ public class UserPermissionServiceImpl implements UserPermissionService {
 	}
 
 	@Override
-	public Boolean privilegeStatus(Integer userId, String path) {
+	public Boolean privilegeStatus(Integer groupId, String path) {
 		if(path.endsWith(".html")&&path.startsWith("/")) {
 			path=path.substring(1);
 		}
 		Map<String,Object> param=new HashMap<String,Object>();
-		param.put("userId", userId);
+		param.put("groupId", groupId);
 		param.put("path", path);
 		Map<String,Object> map=userPermissionMapper.getByUserIdAndUrl(param);
 		if(map==null) {
