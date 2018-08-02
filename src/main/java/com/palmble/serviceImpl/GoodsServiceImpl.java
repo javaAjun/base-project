@@ -47,6 +47,8 @@ public class GoodsServiceImpl implements GoodsService{
   private String filePath;
   @Value("${imgShow.url}")
   private String ImgHttpTop;
+  @Value("${web.location}")
+  private String HttpTopImg;
   
   
 	@Override
@@ -146,7 +148,7 @@ public class GoodsServiceImpl implements GoodsService{
 					String path=dir.getPath()+File.separator+files[i].getOriginalFilename();
 					File fileImg=new File(dir, files[i].getOriginalFilename());
 					files[i].transferTo(fileImg);
-					String url=ImgHttpTop+File.separator+files[i].getOriginalFilename()+File.separator+fileName;
+					String url=HttpTopImg+File.separator+File.separator+fileName+File.separator+files[i].getOriginalFilename();
 					pathList.add(url);
 				}
 				return ResponsDatas.success("上传成功", pathList);
@@ -415,9 +417,10 @@ public class GoodsServiceImpl implements GoodsService{
 
 	@Override
 	public void delImgFile(String path) {
-		String fileName=path.substring(path.lastIndexOf("\\")+1);
-		String name=path.substring(15, path.lastIndexOf("\\")+1);
-		String Url=filePath+fileName+"/"+name;
+		
+		
+		
+		String Url=path.replace(HttpTopImg, filePath);
 		boolean flag=FileTypeUtils.deleteFile(Url);
 		if(!flag) {
 			FileTypeUtils.deleteFile(Url);
