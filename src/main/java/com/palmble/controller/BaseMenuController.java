@@ -60,6 +60,7 @@ public class BaseMenuController extends PalmbleBaseController{
 	 */
 	@RequestMapping("/addMenu")
 	public ResultInfo addMenu(BaseMenu baseMenu) {
+		permissionMenuService.getMenuInfoByselect(baseMenu);
 		return permissionMenuService.addMenu(baseMenu);
 	}
 	
@@ -114,7 +115,7 @@ public class BaseMenuController extends PalmbleBaseController{
 	@RequestMapping("/getAllMenu")
 	public String getAllMenu(@RequestParam("userid")Integer userid) {
 		if(userid==-1) {
-			userid=(Integer)getSession().getAttribute("userId");
+			userid=(Integer)getSession().getAttribute("groupId");
 		}
 		logger.debug("*************************************"+userid+"***************************");
 		List<Integer> qxlist = userPermissionService.selectPrivilegeUrlByGroupOrUserId(userid);

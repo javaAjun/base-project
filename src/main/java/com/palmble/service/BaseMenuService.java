@@ -21,4 +21,6 @@ public interface BaseMenuService {
 	ResultInfo addMenu(BaseMenu baseMenu);
 	
 	List<BaseMenu> getAll();
+
+	BaseMenu getMenuInfoByselect(BaseMenu baseMenu);
 }

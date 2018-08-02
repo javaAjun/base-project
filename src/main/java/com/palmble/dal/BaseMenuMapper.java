@@ -21,4 +21,6 @@ public interface BaseMenuMapper{
     List<BaseMenu> byAllMenuList(Map<String, String> map);
     
     List<BaseMenu> getAll();
+    
+    BaseMenu selectBySelective(BaseMenu record);
 }

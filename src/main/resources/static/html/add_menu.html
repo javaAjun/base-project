@@ -120,7 +120,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
           success: function (data) {
           	if(data.code=="1"){
            	showMsg(data.info,function(){
-           		history.back(-1);
+           		
            	});
           	}else{
           		showMsg(data.info);
