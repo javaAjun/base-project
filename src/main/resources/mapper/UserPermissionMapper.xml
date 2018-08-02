@@ -29,7 +29,7 @@
 	<select id="getByUserIdAndUrl" resultType="map" parameterType="map">
 		SELECT * from base_menu b1 JOIN user_permission b2
 		on b1.id=b2.privilege_id
-		where b2.group_or_user_id=#{userId} and b1.url=#{path}
+		where b2.group_or_user_id=#{groupId} and b1.url=#{path}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from user_permission

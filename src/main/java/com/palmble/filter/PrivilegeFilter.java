@@ -21,8 +21,8 @@ import com.palmble.entity.BaseMenu;
 import com.palmble.service.BaseMenuService;
 import com.palmble.service.UserPermissionService;
 
-//@Order(value = 2)
-//@WebFilter(filterName = "PrivilegeFilter", urlPatterns =  "*")
+@Order(value = 2)
+@WebFilter(filterName = "PrivilegeFilter", urlPatterns =  "*")
 public class PrivilegeFilter implements Filter {
 	@Autowired
 	private UserPermissionService userPermissionService;
@@ -57,8 +57,8 @@ public class PrivilegeFilter implements Filter {
 			 chain.doFilter(request, response);
 			 return;
 		 }
-		 Integer userId=(Integer)req.getSession().getAttribute("userId");
-		 Boolean privilege=userPermissionService.privilegeStatus(userId,path);
+		 Integer groupId=(Integer)req.getSession().getAttribute("groupId");
+		 Boolean privilege=userPermissionService.privilegeStatus(groupId,path);
 		 if(privilege) {
 			 chain.doFilter(request, response);
 		 }else {
@@ -66,9 +66,6 @@ public class PrivilegeFilter implements Filter {
 			 String type = req.getHeader("X-Requested-With")==null?"":req.getHeader("X-Requested-With");  
                 if ("XMLHttpRequest".equals(type)) {  
                     res.setHeader("no_privilege", "no_privilege");//告诉ajax这是重定向    
-//                    res.setHeader("CONTEXTPATH", sendPath);//重定向地址    
-//                    res.setStatus(HttpServletResponse.SC_FORBIDDEN);  
-//                      res.getOutputStream().print(0);
                     return;  
                 }else{//如果不是ajax请求，则直接重定向  
                 	res.sendRedirect(sendPath);    

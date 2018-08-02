@@ -32,10 +32,10 @@ public class MemberUser{
     private String idNumber;
 
     
-    private Date createTime;
+    private String createTime;
 
     
-    private Date updateTime;
+    private String updateTime;
 
     
     private String qq;
@@ -54,8 +54,22 @@ public class MemberUser{
 
     
     private String password;
+    
+    private String remarks;
 
-    public Integer getId() {
+    public String geteMail() {
+		return eMail;
+	}
+	public void seteMail(String eMail) {
+		this.eMail = eMail;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	public Integer getId() {
        return id;
     }
     public void setId(Integer id) {
@@ -118,17 +132,17 @@ public class MemberUser{
        this.idNumber = idNumber;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
        return createTime;
     }
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
        this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
        return updateTime;
     }
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
        this.updateTime = updateTime;
     }
 
