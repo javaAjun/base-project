@@ -14,7 +14,7 @@
 <div style="padding:10px">
 		<form class="layui-form" action="" lay-filter="example">
 		  <div class="layui-form-item">
-		    <label class="layui-form-label">菜单名称<span class="text-danger">*</span></label>
+		    <label class="layui-form-label">菜单名称<span class="text-danger"><font color="ff3333">*</font></span></label>
 		    <div class="layui-input-block">
 		      <input type="hidden" name="id"   class="layui-input">
 		      <input type="text" name="menuName" lay-verify="required" autocomplete="off" placeholder="请输入菜单名称" class="layui-input">
@@ -120,7 +120,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
           success: function (data) {
           	if(data.code=="1"){
            	showMsg(data.info,function(){
-           		
+           		parent.layer.closeAll();
            	});
           	}else{
           		showMsg(data.info);
@@ -143,7 +143,6 @@ $(function(){
 	var id;
     var url = window.location.search; 
 	var menuId = getQueryString("id");
-	console.log(menuId);
 	if(menuId!=null&&menuId!=''){
 		id=menuId;
 		$.ajax({

@@ -85,7 +85,8 @@ public class BannerController extends PalmbleBaseController{
 	
 	@RequestMapping("/imgDel")
 	public void imgDelete(@RequestParam String path) {
-		FileTypeUtils.deleteFile(path);
+		
+		FileTypeUtils.deleteFile(path.replace(webPath, filePath));
 	}
 	
 	/**
