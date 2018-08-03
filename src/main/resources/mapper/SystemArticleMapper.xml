@@ -11,10 +11,15 @@
     <result column="article_content" property="articleContent" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="release_time" property="releaseTime" jdbcType="TIMESTAMP" />
+    <result column="commit_time" property="commitTime" jdbcType="TIMESTAMP" />
+    <result column="is_publish" property="isPublish" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="TIMESTAMP" />
+    <result column="is_display" property="isDisplay" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, article_title,author, article_title_image,url, introduce, article_content, create_time, 
-    update_time
+    update_time,release_time,commit_time,is_publish,is_delete,is_display
   </sql>
   <select id="getArticleList" resultMap="BaseResultMap" >
     select 
@@ -39,11 +44,12 @@
   </delete>
   <insert id="insert" parameterType="com.palmble.entity.SystemArticle" >
     insert into system_article (id, article_title,author, article_title_image, url,
-      introduce, article_content, create_time, 
-      update_time)
+      introduce, article_content, create_time, update_time,release_time,commit_time,is_publish,is_delete,is_display)
+      
     values (#{id,jdbcType=INTEGER}, #{articleTitle,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{articleTitleImage,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR},#{introduce,jdbcType=VARCHAR}, #{articleContent,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{updateTime,jdbcType=TIMESTAMP},#{releaseTime,jdbcType=TIMESTAMP},#{commitTime,jdbcType=TIMESTAMP},
+      #{isPublish,jdbcType=INTEGER},#{isDelete,jdbcType=INTEGER},#{isDisplay,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.palmble.entity.SystemArticle" >
     insert into system_article
@@ -75,6 +81,21 @@
       <if test="updateTime != null" >
         update_time,
       </if>
+      <if test="releaseTime != null" >
+        update_time,
+      </if>
+      <if test="commitTime != null" >
+        update_time,
+      </if>
+      <if test="isPublish != null" >
+        is_publish,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="isDisplay != null" >
+        is_display,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -103,6 +124,21 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="releaseTime != null" >
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commitTime != null" >
+        #{commitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPublish != null" >
+        #{isPublish,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="isDisplay != null" >
+        #{isDisplay,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -133,6 +169,21 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="releaseTime != null" >
+        release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commitTime != null" >
+        commit_time = #{commitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPublish != null" >
+        is_publish = #{isPublish,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="isDisplay != null" >
+        is_display = #{isDisplay,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -146,6 +197,11 @@
       article_content = #{articleContent,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
+      release_time = #{releaseTime,jdbcType=TIMESTAMP}
+      commit_time = #{commitTime,jdbcType=TIMESTAMP}
+      is_publish = #{isPublish,jdbcType=INTEGER}
+      is_delete = #{isDelete,jdbcType=INTEGER}
+      is_display = #{isDisplay,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

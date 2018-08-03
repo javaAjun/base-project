@@ -7,15 +7,45 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <title>后台管理</title>
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
     <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
     <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+
+    <!-- jqgrid-->
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+
     <link href="../hplus/css/animate.min.css" rel="stylesheet">
     <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
-    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
-    <link rel="stylesheet" href="../css/common.css">
-    <script src="../hplus/js/jquery.min.js"></script>
     
+      
+
+    <link href="../hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/chosen/chosen.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/cropper/cropper.min.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/switchery/switchery.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="../hplus/css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    
+    
+    
+	
+	<script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../hplus/js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+    <script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+    <script src="../hplus/js/content.min.js?v=1.0.0"></script>
+   <script src="../layer-v3.1.1/layer/layer.js"></script>
+ 
+<script src="../js/common2.js"></script>
+<link rel="stylesheet" href="../css/common.css">
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
@@ -160,28 +190,26 @@
     		$("#goods_type").hide();
     	}else{
     		$("#link_type").hide();
-    		$.ajax({
-    			url: "/goods/getGoodsList",
-    		    type:"POST",
-    		    data:{"page":1,"rows":10000},//传-1 代表在后台从session获取userid
-    		    dataType: "json",
-    	        success: function (data) {
-    	        	data=data.data;
-    	        	console.log(data);
-    	        	var html="";
-    				if(data!=null){
-    					html+='<option value="0" >---请选择---</option>';
-    					for(j=0;j<data.length;j++){
-    		             		if(goodsId==data[j].id){
-    		             			html+='<option value='+data[j].id+' selected="selected" >'+data[j].goodsName+'</option>';
-    		            		}else{
-    		            			html+='<option value='+data[j].id+'  >'+data[j].goodsName+'</option>';
-    		            		}
-    	             	}
-    				$("#select_goods").html(html);
-    	        	}
-    	        }	
-    	    })
+    	    var str="";
+	        var obj = document.getElementById("goodsId");
+			$.ajax({
+			type:"post",
+			//async:false,
+			url:"/goods/getGoodsList",
+			success:function(data){
+				if(data.status="200"&&data.data!=null){
+					$.each(data.data, function (index, e) {
+						if(goodsId==e.id){
+		                    obj.add(new Option(e.goodsName, e.id,true,true));
+						}else{
+		                    obj.add(new Option(e.goodsName, e.id));
+						}
+	                });
+	                $("#goodsId").trigger("chosen:updated");
+	                $("#goodsId").chosen();
+				}
+			  }
+			})
     		$("#goods_type").show();
     	}
     }
@@ -207,17 +235,19 @@
                         </div>
                     </div>
                     <div class="form-group" id="goods_type" style="display:none">
-                        <label class="col-sm-2 control-label">关联商品<span class="text-danger">*</span></label>
-                        <div class="col-sm-8">
-                           <select class="form-control" id="select_goods" name="goodsId" >
-                           	
-                           </select>
-                        </div>
-                    </div>
+                     	<label class="col-sm-2 control-label">关联商品<span class="text-danger">*</span></label>
+                     	<div class="col-sm-8">
+                        <select class="chosen-select" name="goodsId" id="goodsId"
+						        data-placeholder="请选择商品" 
+						        style="width: 150px">
+						    <option label='请选择商品'></option>
+						</select>
+						</div>
+	                </div>    
                     <div class="form-group">
                         <label class="col-sm-2 control-label">排序</label>
                         <div class="col-sm-8">
-                            <input type="text" oninput="clearNoNum1(this)" placeholder="请输入阿拉伯数字" class="form-control" name="sequence" value="">
+                            <input type="text" oninput="clearNoNum1(this)" placeholder="请输入阿拉伯数字" class="form-control" name="sequence" value="0">
                         </div>
                     </div>
 
@@ -261,6 +291,20 @@
 <script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
 <!--<script src="/static/hplus/js/plugins/iCheck/icheck.min.js"></script>-->
 <script src="../js/common.js"></script>
+
+    <script src="../hplus/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="../hplus/js/plugins/jsKnob/jquery.knob.js"></script>
+    <script src="../hplus/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+    <script src="../hplus/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="../hplus/js/plugins/prettyfile/bootstrap-prettyfile.js"></script>
+    <script src="../hplus/js/plugins/nouslider/jquery.nouislider.min.js"></script>
+    <script src="../hplus/js/plugins/switchery/switchery.js"></script>
+    <script src="../hplus/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../hplus/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+    <script src="../hplus/js/plugins/clockpicker/clockpicker.js"></script>
+    <script src="../hplus/js/plugins/cropper/cropper.min.js"></script>
 
 <script>
 $("input[name='type']").click(function(){

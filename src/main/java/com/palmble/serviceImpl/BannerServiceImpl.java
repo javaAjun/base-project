@@ -52,9 +52,13 @@ public  class BannerServiceImpl implements BannerService {
 			}
 		}
 		if(banner.getType()==0) {//关联商品
-			
+			if(banner.getGoodsId()==null){
+				result.setCode(0);
+				result.setMsg("请选择关联商品");
+				return result;
+			}
 		}
-		if(banner.getId()!=null&&!banner.getId().equals("")) {
+		if(banner.getId()!=null) {
 			operateCount = bannerMapper.updateByPrimaryKeySelective(banner);
 			url="banner_add.html?id="+banner.getId();
 		}else {
