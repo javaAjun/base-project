@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <form method="post" action="/edit" class="form-horizontal" id="form">
+                <form method="post" action="/admin/edit" class="form-horizontal" id="form">
                     <input type="hidden" name="id" value="">
                     <input type="hidden" name="url" value="">
                     <div class="form-group">
@@ -110,7 +110,7 @@
         formSetValue("enableFlag", 1);
         var id=getQueryString("id");
         if(id==null){
-        	$('#form').attr('action','/add')
+        	$('#form').attr('action','/admin/add')
         	formSetValue("id", null);
         	$('#pwd').append('<span class="text-danger">*</span>');
         	eableEmptyPwd=true;
