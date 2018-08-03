@@ -53,6 +53,9 @@ public class SystemArcitleServiceImpl implements SystemArticleService {
 			num= articleMapper.updateByPrimaryKeySelective(systemArticle);
 			url="system_article_edit.html?id="+systemArticle.getId();
 		}else {
+			systemArticle.setIsDelete(0);
+			systemArticle.setIsPublish(0);
+			systemArticle.setIsDisplay(0);
 			articleMapper.insert(systemArticle);
 			url="system_article_edit.html";
 		}
@@ -76,6 +79,25 @@ public class SystemArcitleServiceImpl implements SystemArticleService {
 			return new ResultInfo(1, "删除成功");
 		}else {
 			return new ResultInfo(-1, "删除失败");
+		}
+	}
+
+	@Override
+	public ResultInfo articlePublish(Integer isPublish, Integer id) {
+		SystemArticle article = articleMapper.selectByPrimaryKey(id);
+		if(article==null) {
+			return new ResultInfo(-1, "获取文章信息失败");
+		}
+		if(isPublish!=null) {
+			article.setIsPublish(isPublish);
+		}else {
+			return new ResultInfo(-1, "操作失败");
+		}
+		int num = articleMapper.updateByPrimaryKeySelective(article);
+		if(num>0) {
+			return new ResultInfo(1, "操作成功");
+		}else {
+			return new ResultInfo(-1, "操作失败");
 		}
 	}
 

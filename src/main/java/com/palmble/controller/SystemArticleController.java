@@ -46,4 +46,10 @@ public class SystemArticleController extends PalmbleBaseController{
 		return systemArticleService.delArticle(id);
 	}
 	
+	@RequestMapping("/publish")
+	public ResultInfo articlePublish(@RequestParam Integer isPublish,Integer id) {
+		return systemArticleService.articlePublish(isPublish,id);
+
+	}
+	
 }

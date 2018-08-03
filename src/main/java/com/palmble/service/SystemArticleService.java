@@ -36,4 +36,12 @@ public interface SystemArticleService {
 	 */
 	ResultInfo delArticle(Integer id);
 	
+	/**
+	 * <p>Title: 文章发布/取消发布</p>   
+	 * @author WangYanke  
+	 * @return 
+	 * @date 2018年8月3日
+	 */
+	ResultInfo articlePublish(Integer isPublish, Integer id);
+	
 }

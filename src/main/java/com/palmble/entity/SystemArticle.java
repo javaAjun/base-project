@@ -4,23 +4,19 @@ import java.util.Date;
 
 public class SystemArticle {
     private Integer id;
-
     private String articleTitle;
-
     private String author;
-
     private String articleTitleImage;
-    
     private String url;
-    
     private String introduce;
-
     private String articleContent;
-
     private Date createTime;
-
     private Date updateTime;
-
+    private Date releaseTime;
+    private Date commitTime;
+    private Integer isPublish;
+    private Integer isDelete;
+    private Integer isDisplay;
     public Integer getId() {
         return id;
     }
@@ -94,4 +90,46 @@ public class SystemArticle {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	public Date getReleaseTime() {
+		return releaseTime;
+	}
+
+	public void setReleaseTime(Date releaseTime) {
+		this.releaseTime = releaseTime;
+	}
+
+	public Date getCommitTime() {
+		return commitTime;
+	}
+
+	public void setCommitTime(Date commitTime) {
+		this.commitTime = commitTime;
+	}
+
+	public Integer getIsPublish() {
+		return isPublish;
+	}
+
+	public void setIsPublish(Integer isPublish) {
+		this.isPublish = isPublish;
+	}
+
+	public Integer getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	public Integer getIsDisplay() {
+		return isDisplay;
+	}
+
+	public void setIsDisplay(Integer isDisplay) {
+		this.isDisplay = isDisplay;
+	}
+    
+    
 }
