@@ -17,7 +17,7 @@ import com.palmble.utils.ResponsDatas;
  */
 public interface GoodsService {
 
-	public ResponsDatas getGoodsList(String value,Integer page,Integer size,String sord,Integer isAdminRecom,Integer isSale);
+	public ResponsDatas getGoodsList(String value,Integer page,Integer size,String sord,Integer isAdminRecom,Integer isSale,Integer goodsCateId,Integer goodsId);
 
 	/**
 	 * 编辑商品信息

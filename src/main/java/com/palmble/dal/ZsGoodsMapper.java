@@ -25,10 +25,10 @@ public interface ZsGoodsMapper {
 
 	List<Map<String, Object>> getGoodsList(@Param("value")String value,@Param("page")Integer page,
 			@Param("size")Integer size,@Param("sord")String sord,@Param("isAdminRecom")Integer isAdminRecom,
-			@Param("isSale")Integer isSale);
+			@Param("isSale")Integer isSale,@Param("goodsCateId")Integer goodsCateId,@Param("goodsId")Integer goodsId);
 
 	Integer selectGoodsTotalCount(@Param("value")String value,@Param("isAdminRecom")Integer isAdminRecom,
-			@Param("isSale")Integer isSale);
+			@Param("isSale")Integer isSale,@Param("goodsCateId")Integer goodsCateId,@Param("goodsId")Integer goodsId);
 
 	@Select(" SELECT zg.*, zc.catName,  zc.catSort FROM zs_goods zg LEFT JOIN zs_goods_category zc ON zg.goodsCateId = zc.id  " + 
 			"		WHERE zg.id=#{goodsId}")
