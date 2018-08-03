@@ -24,6 +24,7 @@ import com.palmble.service.AdminUserService;
 import com.palmble.service.UserPermissionService;
 
 @RestController
+@RequestMapping("/admin")
 public class AdminController {
 	@Autowired
 	private AdminUserService adminUserService;

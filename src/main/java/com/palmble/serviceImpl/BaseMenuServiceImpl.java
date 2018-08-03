@@ -57,7 +57,6 @@ public class BaseMenuServiceImpl implements BaseMenuService {
 	}
 	@Override
 	public ResultInfo noAvailMenu(Integer menuId,Integer idEffective) {
-		
 		BaseMenu menu = this.getMenuInfo(menuId);
 		if(menu==null) {
 			return new ResultInfo(-1, "获取菜单信息失败");
@@ -80,8 +79,13 @@ public class BaseMenuServiceImpl implements BaseMenuService {
 		int operateCount=0;//初始化添加成功/修改成功数据条数
 		if(baseMenu.getId()!=null&&!baseMenu.getId().equals("")) {
 			operateCount = baseMenuMapper.updateByPrimaryKey(baseMenu);
-		}else {
-			operateCount = baseMenuMapper.insert(baseMenu);
+		}else {//添加数据
+			BaseMenu menu = baseMenuMapper.selectBySelective(baseMenu);//验证菜单是否已存在
+			if(menu!=null) {
+				return new ResultInfo(-1, "菜单名称已存在");
+			}else {
+				operateCount = baseMenuMapper.insert(baseMenu);
+			}
 		}
 		if(operateCount>0) {
 			return new ResultInfo(1, "操作成功");

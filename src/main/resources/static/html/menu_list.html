@@ -29,7 +29,7 @@
         <div class="row">
         	
             <div class="col-xs-2">
-            	<a href="javaScript:;" url="add_menu.html" data-title="新增菜单" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增菜单</a>
+            	<a href="javaScript:;" url="add_menu.html" data-title="新增菜单" onclick="layer_open_smaill(this,1)" class="btn btn-sm btn-primary">新增菜单</a>
             	<a href="javascript:;history.back(-1)" id="call_back" class="btn btn-sm btn-primary"  >返回上一级</a>
                 <!--<a href="javascript:;" url="/admin/user/add.html" data-title="新增会员" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>-->
             </div>
@@ -198,6 +198,26 @@
             },
         });
     });
+    function layer_open_smaill(_self,flag){
+        var url = $(_self).attr('url');
+        var title = $(_self).attr('data-title');
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.3,
+            maxmin: true,
+            area: ['40%', '90%'],
+            content: url,
+            end: function () {
+                if(flag==1){
+                    $("#table").trigger("reloadGrid");
+                }else if(flag==2){
+                    window.location.reload();
+                }
+            }
+        });
+    }
 </script>
 
 </body>

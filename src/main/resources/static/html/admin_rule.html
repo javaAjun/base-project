@@ -76,7 +76,6 @@
 var userId=getQueryString("userId");
 $("input[name='userId']").val(userId);
     $(document).ready(function(){
-    	console.log(userId);
     	 $('#top-alert').find('button').click();
     	//动态往静态页填充所有权限信息
     	$.ajax({
@@ -138,17 +137,18 @@ $("input[name='userId']").val(userId);
 				return false;
 			}
 		    $.ajax({
-		        url:ctx+"/addOreditRule" ,
+		        url:ctx+"/admin/addOreditRule" ,
 		        data: {"urids":urids,
 		        		"userId":$("input[name='userId']").val()},
 		        type: "POST",
 		        dataType: "json",
 // 		        async:false,
 		        success: function (data) {
-		        	console.log(data);
 		        	if(data.code=='1'){
-		        		window.location="admin_auth_manager.html";
-		        		parent.updateAlert(data.msg,'alert-success');
+		        		layer.msg(data.msg,{icon: 1});
+		        		setTimeout(function(){
+		        			window.location="admin_auth_manager.html";
+		                },1500);
 		        	}else{
 		        		showMsg(data.msg);
 		        	}
