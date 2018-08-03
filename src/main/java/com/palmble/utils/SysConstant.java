@@ -11,4 +11,5 @@ public static final Object OPER_STATE = "state";
 public static final Object OPER_SORT = "sort";
 public static String OPER_ADD="add";
   public static String OPER_EDIT="edit";
+public static Object MSG="操作成功！";
 }

@@ -68,4 +68,25 @@
       skuAttrIds = #{skuAttrIds,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectGoodsSkuList" resultType="java.util.Map">
+     SELECT * FROM  zs_goods_sku_attr zsk WHERE 1=1  
+       <if test="skuId!=null"> and zsk.id=#{skuId}</if>
+       <if test="goodsCateId!=null"> and zsk.cateId=#{goodsCateId}</if>
+       <if test="sord!=null"> order by zsk.id #{sord}</if>
+       <if test="page!=null and rows!=null"> limit #{page},#{rows} </if>
+  </select>
+  <select id="selectGoodsSkuCount" resultType="INTEGER">
+       SELECT count(1) FROM  zs_goods_sku_attr zsk WHERE 1=1  
+       <if test="skuId!=null"> and zsk.id=#{skuId}</if>
+       <if test="goodsCateId!=null"> and zsk.cateId=#{goodsCateId}</if>
+  </select>
+  <select id="selectSkuAttrBySkuId" resultType="STRING">
+       SELECT
+			zg.attrValue
+		FROM
+			zs_goods_sku_attr zk
+		LEFT JOIN zs_goods_sku_attrvalue zg ON zk.id = zg.skuAttrId
+		WHERE
+			zk.id = #{skId}
+  </select>
 </mapper>
