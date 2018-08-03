@@ -46,7 +46,8 @@
                 <th>会员电话</th>
                 <td id="phone"></td>
                 <th>会员角色</th>
-                <td id="role"></td>
+                <td id="role">
+                </td>
             </tr>
             <tr>
                 <th>邮箱</th>
@@ -73,8 +74,8 @@
                 <td id="capital"></td>
             </tr>
              <tr>
-                <th>会员等级</th>
-                <td id="grade"></td>
+                <th>备注</th>
+                <td id="remarks"></td>
             </tr>
         </table>
 
@@ -102,7 +103,22 @@
 		console.log(data);
 		var tds=$('td');
 		for(var i in data){
-			$('#'+i).html(data[i]);
+			if('role'==i){
+				if(data[i] == 0){
+                    $('#'+i).html('普通会员');
+                } 
+        		else if(data[i] == 1){
+                    $('#'+i).html('中级会员');
+                }
+             	else if(data[i] == 2){
+                    $('#'+i).html('高级会员');
+                }
+             	else{
+             		$('#'+i).html('普通会员');
+             	}
+			}else{
+				$('#'+i).html(data[i]);
+			}
 		}
 	});
 </script>

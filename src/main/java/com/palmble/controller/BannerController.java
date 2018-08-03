@@ -83,6 +83,11 @@ public class BannerController extends PalmbleBaseController{
 		return result;
 	}
 	
+	@RequestMapping("/imgDel")
+	public void imgDelete(@RequestParam String path) {
+		FileTypeUtils.deleteFile(path);
+	}
+	
 	/**
 	 * <p>Title: banner添加/修改</p>   
 	 * @author WangYanke  

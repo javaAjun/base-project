@@ -27,7 +27,7 @@
 
 <div class="ibox">
     <div class="ibox-content">
-        <a href="admin_add.html?url=admin_auth_manager.html" class="btn btn-sm btn-primary">新增</a>
+        <a href="auth_manager_add.html?url=admin_auth_manager.html" class="btn btn-sm btn-primary">新增</a>
     </div>
     <div class="ibox-content">
         <div class="jqGrid_wrapper">
@@ -63,17 +63,19 @@
         $.jgrid.defaults.styleUI="Bootstrap";
         var lastsel;
         $("#table").jqGrid({
-            url:"/getAdminList",
+            url:"/groups//getGroupList",
             datatype: "json",
             colModel:[
                 {label:'ID',name:'id',index:'id', width:30,sortable: true},
-                {label:'名称',name:'loginiNo',index:'title',width:80,editable: false,sortable: false},
+                {label:'创建人',name:'createByUserName',index:'createByUserName',width:80,editable: false,sortable: false},
+                {label:'创建时间',name:'createTime',index:'createTime',width:80,editable: false,sortable: false},
                 {label:'分组',name:'groupName',index:'groupName',width:150,editable: false,sortable: false},
+                {label:'描述',name:'remarks',index:'remarks',width:150,editable: false,sortable: false},
                 {label:'状态',name:'enableFlag',index:'enableFlag',width:50,editable: false,sortable: false,formatter:function (a,b,c){
                 	if(a == 0){
-                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setStatus(this)"><span class="label label-danger" title="禁用">禁用</span></a>';
+                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setStatus(this)"><span class="label label-danger" title="禁用">禁用</span></a>';
                     } else{
-                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setStatus(this)"><span class="label label-primary" title="正常">正常</span></a>';
+                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setStatus(this)"><span class="label label-primary" title="正常">正常</span></a>';
                     }
                 }},
                 {label:'操作',width:100,sortable: false,formatter: function (a, b, c) {
@@ -113,6 +115,7 @@
             sortorder: "desc",
             caption:"用户组列表",
             loadComplete: function (xhr) {
+            	console.log(xhr);
             	 $('#top-alert').find('button').click();
                 if(xhr.code==0){
                     layer.msg(xhr.msg);
@@ -124,16 +127,16 @@
     function setStatus(a){
     	var status=$(a).data("status");
     	var id=$(a).data("id");
-    	$.ajax({ url: "/updateAdminStatus", data:{status:status,id:id}, success: function(data){
-           if(data==1){
+    	$.ajax({ url: "/groups/edit", data:{enableFlag:status,id:id}, success: function(data){
+           if(data.code==1){
         	   var span=$(a).find("span");
-        	   if(status==0){
-        		   $(a).data("status",1);
+        	   if(status==1){
+        		   $(a).data("status",0);
         		   $(span).attr("class","label label-primary");
         		   $(span).attr("title","正常");
         		   $(span).html("正常");
         	   }else{
-        		   $(a).data("status",0);
+        		   $(a).data("status",1);
         		   $(span).attr("class","label label-danger");
         		   $(span).attr("title","禁用");
         		   $(span).html("禁用");
@@ -147,7 +150,7 @@
     	var id=$(a).data("id");
     	layer.confirm('确定要删除此记录吗？', function(){ 
     		layer.closeAll('dialog');
-    		$.ajax({ url: "/delAdmin", data:{id:id}, success: function(data){
+    		$.ajax({ url: "/groups/del", data:{id:id}, success: function(data){
     	          layer.msg("删除成功");
     	          $("#table").trigger("reloadGrid");
     	           }

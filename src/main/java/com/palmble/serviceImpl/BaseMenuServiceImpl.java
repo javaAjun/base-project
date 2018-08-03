@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageInfo;
 import com.palmble.dal.BaseMenuMapper;
 import com.palmble.entity.BaseMenu;
+import com.palmble.entity.Result;
 import com.palmble.service.BaseMenuService;
 import com.palmble.utils.ResultInfo;
 
@@ -91,5 +92,10 @@ public class BaseMenuServiceImpl implements BaseMenuService {
 	@Override
 	public List<BaseMenu> getAll() {
 		return baseMenuMapper.getAll();
+	}
+	@Override
+	public BaseMenu getMenuInfoByselect(BaseMenu baseMenu) {
+		return baseMenuMapper.selectBySelective(baseMenu);
+		
 	}
 }

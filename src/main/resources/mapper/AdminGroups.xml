@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.palmble.dal.AdminGroupsDao" >
+
+  <resultMap id="BaseResultMap" type="com.palmble.entity.AdminGroups">
+  <id column = "id" property = "id" jdbcType = "INTEGER"/>
+  <result column = "group_name" property = "groupName" jdbcType = "VARCHAR"/>
+  <result column = "create_by_user_name" property = "createByUserName" jdbcType = "VARCHAR"/>
+  <result column = "create_time" property = "createTime" jdbcType = "TIMESTAMP"/>
+  <result column = "update_time" property = "updateTime" jdbcType = "TIMESTAMP"/>
+  <result column = "parent_id" property = "parentId" jdbcType = "INTEGER"/>
+  <result column = "remarks" property = "remarks" jdbcType = "VARCHAR"/>
+  <result column = "enable_flag" property = "enableFlag" jdbcType = "INTEGER"/>
+  </resultMap>
+  
+
+  <insert id="insert" parameterType="com.palmble.entity.AdminGroups" >
+    insert into admin_groups
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="groupName != null" >
+        group_name,
+      </if>
+      <if test="createByUserName != null" >
+        create_by_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="groupName != null" >
+        #{groupName},
+      </if>
+      <if test="createByUserName != null" >
+        #{createByUserName},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+      <if test="parentId != null" >
+        #{parentId},
+      </if>
+      <if test="remarks != null" >
+        #{remarks},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insertFully" parameterType="com.palmble.entity.AdminGroups" >
+    insert into user (id,group_name,create_by_user_name,create_time,update_time,parent_id,remarks,enable_flag)
+    values (#{id,jdbcType=INTEGER},#{groupName,jdbcType=VARCHAR},#{createByUserName,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{parentId,jdbcType=INTEGER},#{remarks,jdbcType=VARCHAR},#{enableFlag,jdbcType=INTEGER})
+  </insert>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from admin_groups
+    where id = #{id}
+  </delete>
+  
+  <update id="updateById" parameterType="com.palmble.entity.AdminGroups">
+  update admin_groups
+  <set>
+      <if test="id != null" >
+        id = #{id},
+      </if>
+      <if test="groupName != null" >
+        group_name = #{groupName},
+      </if>
+      <if test="createByUserName != null" >
+        create_by_user_name = #{createByUserName},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks},
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag = #{enableFlag},
+      </if>
+  </set>
+    where id = #{id}
+  </update>
+  
+  <update id="updateFullyById" parameterType="com.palmble.entity.AdminGroups" >
+   update admin_groups 
+   set 
+   group_name=#{groupName,jdbcType=VARCHAR},
+   create_by_user_name=#{createByUserName,jdbcType=VARCHAR},
+   create_time=#{createTime,jdbcType=TIMESTAMP},
+   update_time=#{updateTime,jdbcType=TIMESTAMP},
+   parent_id=#{parentId,jdbcType=INTEGER},
+   remarks=#{remarks,jdbcType=VARCHAR},
+   enable_flag=#{enableFlag,jdbcType=INTEGER}
+   where id = #{id}
+  </update>
+  
+  <sql id="baseColumns">
+    id,
+    group_name,
+    create_by_user_name,
+    date_format(create_time,'%Y-%m-%d %H:%i:%s') as create_time,
+    date_format(update_time,'%Y-%m-%d %H:%i:%s') as update_time,
+    parent_id,
+    remarks,
+    enable_flag
+  </sql>
+  
+  <sql id="queryParams">
+    <where >
+      <if test="groupName != null and groupName != ''">
+      group_name=#{groupName} 
+      </if>
+      <if test="createByUserName != null and createByUserName != ''" >
+      and  create_by_user_name=#{createByUserName} 
+      </if>
+      <if test="createTime != null and createTime != ''" >
+      and  create_time=#{createTime} 
+      </if>
+      <if test="updateTime != null and updateTime != ''" >
+      and  update_time=#{updateTime} 
+      </if>
+      <if test="parentId != null and parentId != ''" >
+      and  parent_id=#{parentId} 
+      </if>
+      <if test="remarks != null and remarks != ''" >
+      and  remarks=#{remarks} 
+      </if>
+      <if test="enableFlag != null and enableFlag != ''" >
+      and  enable_flag=#{enableFlag} 
+      </if>
+    </where >
+  </sql>
+  
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+    select 
+    <include refid="baseColumns" />
+    from admin_groups
+    where id = #{id}
+  </select>
+  
+  <select id="find" parameterType="java.util.Map" resultMap="BaseResultMap" >
+    select
+    <include refid="baseColumns" />
+    from admin_groups
+    <include refid="queryParams" />
+    <if test="sort != null and order != null" >
+      order by ${sort} ${order}
+    </if>
+    <if test="startRow != null and pageSize != null" >
+      limit #{startRow},#{pageSize}
+    </if>
+  </select>
+  
+  <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer" >
+    select count(*) from admin_groups
+    <include refid="queryParams" />
+  </select>
+</mapper>
