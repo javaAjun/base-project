@@ -46,14 +46,16 @@ public class GoodsController {
      * @param value 关键字
      * @param page
      * @param size
+     * goodsCateId  分类
+     * goodsId  商品
      * @return
      */
 	@RequestMapping("/getGoodsList")
 	public ResponsDatas getGoodsInfo(@RequestParam(required=false) String value,Integer page,
-			Integer rows,String sord,
+			Integer rows,String sord,Integer goodsCateId,Integer goodsId,
 			@RequestParam(required=false)Integer isAdminRecom,
 			@RequestParam(required=false)Integer isSale) {
-		ResponsDatas response = goodsService.getGoodsList(value, page, rows,sord,isAdminRecom,isSale);
+		ResponsDatas response = goodsService.getGoodsList(value, page, rows,sord,isAdminRecom,isSale,goodsCateId,goodsId);
 		return response;
 	}
 	
