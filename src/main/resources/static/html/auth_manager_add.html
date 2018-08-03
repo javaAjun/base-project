@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <form method="post" action="/groups/add" class="form-horizontal">
+                <form method="post" action="/groups/add" class="form-horizontal" id="form">
                     <input type="hidden" name="id" value="0">
                     <input type="hidden" name="url" value="admin_auth_manager.html">
                     <div class="form-group">
@@ -53,7 +53,7 @@
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">状态</label>
+                        <label class="col-sm-2 control-label">状态<span class="text-danger">*</span></label>
                         <div class="col-sm-4">
                             <label>
                                 <input type="radio" value="1" name="enableFlag">正常&nbsp;&nbsp;
@@ -67,7 +67,7 @@
                     <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-2">
                             <button class="btn btn-primary ajax-post" target-form="form-horizontal" type="submit">确 定</button>
-                            <a class="btn btn-default" href="../auth_manager/index.html">取 消</a>
+                            <a class="btn btn-default" href="admin_auth_manager.html">取 消</a>
                         </div>
                     </div>
                 </form>
@@ -94,7 +94,20 @@
 
 <script>
     $(document).ready(function(){
-        formSetValue("status", "1");
+    	var groupName=getQueryString("groupName");
+    	var remarks=getQueryString('remarks');
+    	var id=getQueryString('id');
+    	if(groupName){
+    		formSetValue("groupName", groupName);
+    	}
+    	if(remarks){
+    		formSetValue("remarks", remarks);
+    	}
+    	if(id){
+    		formSetValue("id", id);
+    		$('#form').attr('action','/groups/edit');	
+    	}
+        formSetValue("enableFlag", "1");
     });
 </script>
 

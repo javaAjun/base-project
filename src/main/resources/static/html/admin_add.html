@@ -30,7 +30,7 @@
             <div class="ibox-title">
                 <h5>编辑用户</h5>
                 <div class="ibox-tools">
-                    <a class="toback" href="index.html">
+                    <a class="toback" href="admin_list.html">
                         返回上一页
                     </a>
                 </div>
@@ -56,9 +56,9 @@
                                         <div class="form-group" id="Admingroup">
                         <label class="col-sm-2 control-label">用户组</label>
                         <div class="col-sm-4">
-                            <select class="form-control m-b" name=groupName>
-                                <option value="超级管理员">超级管理员</option>
-                                                                <option value="一般管理员">一般管理员</option>
+                            <select class="form-control m-b" name=groupId>
+                                <option value="1">超级管理员</option>
+                                                                <option value="2">一般管理员</option>
                                                             </select>
                         </div>
                     </div>
@@ -109,25 +109,24 @@
     	 $('#top-alert').find('button').click();
         formSetValue("enableFlag", 1);
         var id=getQueryString("id");
-        if(id==null){
+        if(id){
+        	 formSetValue("id", id);
+        }else{
         	$('#form').attr('action','/admin/add')
         	formSetValue("id", null);
         	$('#pwd').append('<span class="text-danger">*</span>');
         	eableEmptyPwd=true;
-        }else{
-        	 formSetValue("id", id);
         }
         var username=getQueryString("name");
         if(username){
-        	formSetValue("loginiNo", null);
-        }else{
+        	$('#loginiNo').attr('readonly','readonly');
         	formSetValue("loginiNo", username);
         }
         var groupId=getQueryString("groupId");
         var url=getQueryString("url");
         formSetValue("url", url);
-        if(groupId==0){
-        	formSetValue("groupId", 0);
+        if(groupId){
+        	formSetValue("groupId", groupId);
         }
     });
 </script>

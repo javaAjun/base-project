@@ -28,6 +28,7 @@ import com.palmble.entity.Result;
 import com.palmble.service.AccountService;
 import com.palmble.service.BillService;
 import com.palmble.service.OrderInfoService;
+import com.palmble.utils.DateUtil;
 import com.palmble.utils.TransactionUtil;
 
 @RestController
@@ -104,7 +105,7 @@ public class OrderInfoController {
 	 public void createAllWorkbooks(@RequestParam Map<String,Object> params,HttpServletRequest request,HttpServletResponse response) throws IOException {
 	        response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream;charset=utf-8"); 
-            response.setHeader("Content-Disposition", "attachment;filename=" + "EXCEL2016.xlsx");
+            response.setHeader("Content-Disposition", "attachment;filename=order"+DateUtil.getCurrentDate()+".xlsx");
             OutputStream out = response.getOutputStream();
             XSSFWorkbook workbook=orderInfoService.createAllWorkbooks(params);
             try {

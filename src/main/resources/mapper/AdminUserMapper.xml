@@ -74,6 +74,9 @@
       <if test="loginCount != null" >
         and    login_count=#{loginCount,jdbcType=INTEGER}
       </if>
+      <if test="sidx != null and sord != null" >
+      order by ${sidx} ${sord}
+    </if>
       
   </select>
   <select id="selectJqGridByPeagSelective" resultMap="BaseResultMap" parameterType="map" >

@@ -2,9 +2,12 @@ package com.palmble.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.palmble.annotation.CustomLog;
 import com.palmble.base.PalmbleBaseController;
+import com.palmble.entity.AdminGroups;
 import com.palmble.entity.AdminUser;
 import com.palmble.entity.Result;
 import com.palmble.enums.LogEnum;
+import com.palmble.service.AdminGroupsService;
 import com.palmble.service.AdminUserService;
 
 @RestController
 public class LoginController extends PalmbleBaseController{
 	@Autowired
 	private AdminUserService adminUserService;
+	@Autowired
+	private AdminGroupsService groupService;
 	@PostMapping("/toLogin")
-	public Result login(@RequestParam Map<String,Object> map,HttpServletRequest request) {
+	public Result login(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response) {
 		Result result=new Result();
 		String inputVerify=(String)map.get("verify");
 		if(inputVerify==null||inputVerify.trim().equals("")) {
@@ -75,8 +82,19 @@ public class LoginController extends PalmbleBaseController{
 		}
 		request.getSession().setAttribute("userId", adminUser.getId());
 		request.getSession().setAttribute("userName", adminUser.getLoginiNo());
-		
 		request.getSession().setAttribute("groupId", adminUser.getGroupId());
+		AdminGroups group=groupService.getById(adminUser.getGroupId());
+		Integer groupState=null;
+		if(group!=null) {
+			groupState=group.getEnableFlag();
+			response.addCookie(new Cookie("userName",adminUser.getLoginiNo()));
+			response.addCookie(new Cookie("groupName",group.getGroupName()));
+		}
+		if(groupState!=null&&groupState==0) {
+			result.setCode(2);
+			result.setMsg("您所在分组已被禁用!");
+			return result;
+		}
 		Integer loginCount=adminUser.getLoginCount()==null?0:1;
 		adminUser.setLoginCount(loginCount+1);
 		adminUser.setLastLoginIp(getUserIP(request));

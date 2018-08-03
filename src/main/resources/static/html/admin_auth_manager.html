@@ -67,10 +67,10 @@
             datatype: "json",
             colModel:[
                 {label:'ID',name:'id',index:'id', width:30,sortable: true},
-                {label:'创建人',name:'createByUserName',index:'createByUserName',width:80,editable: false,sortable: false},
-                {label:'创建时间',name:'createTime',index:'createTime',width:80,editable: false,sortable: false},
                 {label:'分组',name:'groupName',index:'groupName',width:150,editable: false,sortable: false},
                 {label:'描述',name:'remarks',index:'remarks',width:150,editable: false,sortable: false},
+                {label:'创建人',name:'createByUserName',index:'createByUserName',width:80,editable: false,sortable: false},
+                {label:'创建时间',name:'createTime',index:'createTime',width:80,editable: false,sortable: false},
                 {label:'状态',name:'enableFlag',index:'enableFlag',width:50,editable: false,sortable: false,formatter:function (a,b,c){
                 	if(a == 0){
                         return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setStatus(this)"><span class="label label-danger" title="禁用">禁用</span></a>';
@@ -82,7 +82,7 @@
                     var editurl = "../auth_manager/add/id/"+c.id;
                     var editrule = "../auth_manager/rule/id/"+c.id;
                     var delurl = "../auth_manager/del/id/"+c.id;
-                    var btn = '<a href="admin_add.html?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_auth_manager.html"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+                    var btn = '<a href="auth_manager_add.html?id='+c.id+'&groupName='+c.groupName+'&remarks='+c.remarks+'"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
                     btn += '<a href="admin_rule.html?userId='+c.id+'&groupName='+c.groupName+'"><span class="label label-primary" title="访问授权">访问授权</span></a>&nbsp;';
                     btn += '<a href="javascript:;"><span class="label label-danger" title="删除" data-id="'+c.id+'" onclick="del(this)">删除</span></a>';
                     return btn;

@@ -324,8 +324,8 @@
     <include refid="baseColumns" />
     from member_user
     <include refid="queryParams" />
-    <if test="sort != null and order != null" >
-      order by ${sort} ${order}
+    <if test="sidx != null and sord != null" >
+      order by ${sidx} ${sord}
     </if>
     <if test="startRow != null and pageSize != null" >
       limit #{startRow},#{pageSize}
@@ -398,6 +398,9 @@
        and  remarks like concat(concat('%',#{remarks}),'%') 
       </if>
     </where >
+<!--      <if test="sidx != null and sord != null" > -->
+<!--       order by ${sidx} ${sord} -->
+<!--     </if> -->
     <if test="sidx != null and sord != null" >
       order by ${sidx} ${sord}
     </if>

@@ -34,5 +34,6 @@ public interface OrderInfoService {
     XSSFWorkbook createAllWorkbooks(Map<String, Object> params);
     
     List<Map<String,Object>> findSimpleResultToMap(Map<String, Object> params);
+    List<OrderInfo> fuzzyQueryAllResult(Map<String, Object> params);
     
 }

@@ -35,9 +35,9 @@
         <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
             <span class="clear">
                 <span class="block m-t-xs">
-                    <strong class="font-bold">admin</strong>
+                    <strong class="font-bold" id="userName"></strong>
                 </span>
-                <span class="text-muted text-xs block">超级管理员</span>
+                <span class="text-muted text-xs block" id="groupName"></span>
             </span>
         </a>
 
@@ -116,6 +116,8 @@
 <script src="../hplus/js/plugins/pace/pace.min.js"></script>
 <script src="../js/common.js?v=1.0"></script>
 <script>
+$('#userName').html($.cookie('userName'));
+$('#groupName').html($.cookie('groupName'));
 $.ajax({
     url: "/baseMenu/getAllMenu",
     type:"POST",
