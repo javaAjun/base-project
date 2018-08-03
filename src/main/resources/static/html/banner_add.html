@@ -65,7 +65,7 @@
     	        success: function (data) {
     	        	console.log(data);
     	        	 var img = '<div class="imgbox">';
-                     img += '<div class="removePic" onclick="removePic(this,\'/admin/addons/execute/_addons/JqueryUpload/_controller/File/_action/deleteFile\')">×</div>';
+                     img += '<div class="removePic" onclick="removePic(this,\'/banner/imgDel\')">×</div>';
                      img += '<input type="hidden" name="imageUrl" value="' + data.imageUrl + '">';
                      img += '<img src="' + data.imageUrl + '">';
                      img += '</div>';

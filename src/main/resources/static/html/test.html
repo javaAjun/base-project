@@ -1,448 +1,134 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<title>后台管理</title>
-<link rel="shortcut icon" href="/favicon.ico">
-<link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
-<link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0"	rel="stylesheet">
-<link href="../hplus/css/animate.min.css" rel="stylesheet">
-<link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
-<link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title></title>
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+
+    <!-- jqgrid-->
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+	
+	<script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../hplus/js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+    <script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+    <script src="../hplus/js/content.min.js?v=1.0.0"></script>
+   <script src="../layer-v3.1.1/layer/layer.js"></script>
+ 
+<script src="../js/common2.js"></script>
 <link rel="stylesheet" href="../css/common.css">
 
 
+ <link rel="stylesheet" href="../amaze/chosen/docsupport/style.css">
+  <link rel="stylesheet" href="../amaze/chosen/docsupport/prism.css">
+  <link rel="stylesheet" href="../amaze/chosen/css/chosen.css">
 
-<script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
 </head>
 
-<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x: hidden;">
-	<div id="top-alert" class="alert alert-danger alert-dismissable">
-		<button aria-hidden="true" class="close" type="button">×</button>
-		<span class="alert-content"></span>
-	</div>
-	<div style="padding: 10px;">
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="ibox float-e-margins">
-					<div class="ibox-content">
-						<form method="post" action="/goods/operGoodsInfo?oper=add" class="form-horizontal">
-							<input type="hidden" name="id" value="0"> <input type="hidden" name="specArray" id="specArray" value="">
-							<div class="tabs-container">
-								<ul class="nav nav-tabs">
-									<li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">基本信息</a></li>
-									<li class=""><a data-toggle="tab" href="#tab-4"	aria-expanded="false">商品图片</a></li>
-									<!--<li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">商品模型</a></li>-->
-									<li class=""><a data-toggle="tab" href="#tab-3"	aria-expanded="false">商品价格</a></li>
-									<li class=""><a data-toggle="tab" href="#tab-2"	aria-expanded="false">详细介绍</a></li>
-								</ul>
-								<div class="tab-content">
-									<div id="tab-1" class="tab-pane active">
-										<div class="panel-body">
-										   <div class="form-group">
-												<label class="col-sm-2 control-label">商品编号<span class="text-danger">*</span></label>
-												<div class="col-sm-6">
-													<input type="text" class="form-control" name="goodsNo"	value="">
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="col-sm-2 control-label">名称<span	class="text-danger">*</span></label>
-												<div class="col-sm-6">
-													<input type="text" class="form-control" name="goodsName"	value="">
-												</div>
-											</div>
-											
-											<div class="form-group">
-												<label class="col-sm-2 control-label">分类<span class="text-danger">*</span></label>
-												<div class="col-sm-6">
-<style>
-	select optgroup {
-		color: #777;
-		font-weight: 100;
-		font-size: 13px;
-	}
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
 
-	select optgroup option {
-		color: #000;
-		font-size: 14px;
-	}
-</style>
-													<select name="goodsCateId" class="form-control">
-														<option value="">选择分类</option>
-														<optgroup label="体脂称">
-															<option value="21">华兴专属</option>
-															<option value="17">测试</option>
-															<option value="18">测试2</option>
-														</optgroup>
-														<optgroup label="真爱护肤">
-															<option value="22">洗面膜</option>
-															<option value="20">和田玉</option>
-														</optgroup>
-													</select>
-												</div>
-											</div>
-                                         
-											<div class="form-group">
-												<label class="col-sm-2 control-label">规格<span class="text-danger">*</span></label>
-												<div class="col-sm-6">
-													<input type="text" class="form-control" name="goodsSpec"	value="">
-												</div>
-											</div>
-											  <div class="form-group">
-												<label class="col-sm-2 control-label">商品描述<span class="text-danger">*</span></label>
-												<div class="col-sm-6">
-												<textarea class="form-control" name="goodsDesc" rows="3" cols="20"></textarea>
-													<!-- <input type="text" class="form-control" name="goodsDesc"	value=""> -->
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="col-sm-2 control-label">推荐</label>
-												<div class="col-sm-6">
-													<label class="cr-inline">
-													   <input type="radio" value="1" name="isAdminRecom">是&nbsp;&nbsp;</label>
-												    <label class="cr-inline"> 
-												       <input type="radio" value="0" name="isAdminRecom">否 	</label>
-												</div>
-											</div>
+<div style="padding: 10px;">
 
-											<div class="form-group">
-												<label class="col-sm-2 control-label">状态</label>
-												<div class="col-sm-6">
-													<label class="cr-inline"> 
-													   <input type="radio"	value="1" name="isSale">上架&nbsp;&nbsp;
-													</label> 
-													<label class="cr-inline"> 
-													   <input type="radio"	value="0" name="isSale">下架&nbsp;&nbsp;
-													</label>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div id="tab-4" class="tab-pane">
-										<div class="panel-body">
-											<div class="form-group">
-												<label class="col-sm-2 control-label">封面图
-												<span class="text-danger">*</span></label>
-												<div class="col-sm-6">
-<link rel="stylesheet"	href="../hplus/jqueryFileUpload/style.css">
-<script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
-<script	src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
-<script	src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
-													<div>
-														<a href="javascript:;"	class="btn btn-primary btn-sm jqfivefile" type="button">
-															<span id="imgUpload_name_img">上传</span>
-															<span id="progress_img"></span> 
-															<input id="imgUpload_img" type="file" name="file" title="上传图片" accept="image/*"   data-url="/goods/uploadImg" />
-														</a>
-														<div id="imgsbox_img" class="imgsbox"></div>
-													</div>
-													<script>
-														$(function() {
-															var multi = 0;
-															var name = "goodsCoverImg";
-															if (multi) {
-																name = name	+ '[]';
-																$("#imgUpload_img").attr('multiple','multiple');
-															} else {
-																$("#imgUpload_img").removeAttr('multiple');
-															}
-															$("#imgUpload_img").fileupload({
-																	       dataType : 'json',
-																		   done : function(e,data) {
-																			if (data.result && data.result.status == "200") {
-																				var img = '<div class="imgbox">';
-																					img += '<div class="removePic" onclick="removePic(this,\'/goods/deleteFile\')">×</div>';
-																					img += '<input type="hidden" name="'+name+'" value="' + data.result.data + '">';
-																					img += '<img src="' + data.result.data + '">';
-																					img += '</div>';
-																						if (multi) {
-																							$("#imgsbox_img").append(img);
-																						} else {
-																							$("#imgsbox_img").html(img);
-																						}
-																					} else {
-																						layer.msg(data.result.message);
-																					}
-																				},
-																				change : function(e,data) {
-																					$("#imgUpload_name_img").html('上传图片...');
-																				},
-																				progressall : function(e,data) {
-																					var progressnum = parseInt(data.loaded / data.total * 100);
-																					if (progressnum == 100) {
-																						$("#progress_img").text('');
-																						$("#imgUpload_name_img").html('上传图片');
-																					} else {
-																						$("#progress_img").text(progressnum + "%");
-																					}
-																				},
-																				error : function(e,data) {
-																					layer.msg('上传请求失败');
-																				}
-																			});
-														});
-
-														/**
-														 * 移除图片
-														 */
-														function removePic(	_self,deleteurl) {
-															$(_self).parent().remove();
-															if (deleteurl) {
-																$.post(deleteurl,{
-																	path:$(_self).parent().find('img').attr('src')
-																	});
-															}
-														}
-													</script>
-													<span class="help-block m-b-none text-danger">支持:jpg、jpeg、png、gif;大小：限5M内</span>
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="col-sm-2 control-label">相册<span
-													class="text-danger">*</span></label>
-												<div class="col-sm-10">
-													<link rel="stylesheet"	href="../hplus/jqueryFileUpload/style.css">
-													<script src="../hplus/jqueryFileUpload/jquery.ui.widget.js"></script>
-													<script	src="../hplus/jqueryFileUpload/jquery.iframe-transport.js"></script>
-													<script	src="../hplus/jqueryFileUpload/jquery.fileupload.js"></script>
-													<div>
-													<a href="javascript:;"	class="btn btn-primary btn-sm jqfivefile" type="button">
-															<span id="imgUpload_name_imgs">上传图片</span>
-															<span id="progress_imgs"></span> 
-															<input id="imgUpload_imgs" name="file"	type="file" title="上传图片" accept="image/*"	data-url="/goods/uploadImg" />
-														</a>
-														<div id="imgsbox_imgs" class="imgsbox"></div>
-													<!-- 	<input type="hidden" id="goodsCoverImgs" type="hidden" name="goodsCoverImgs[]" value="">'; -->
-													</div>
-													
-													<script>
-														$(function() {
-															var multi = 1;
-															var name = "goodsCoverImg";
-															if (multi) {
-																name = name+"s";
-																$("#imgUpload_imgs").attr('multiple','multiple');
-															} else {
-																$("#imgUpload_imgs").removeAttr('multiple');
-															}
-															$("#imgUpload_imgs").fileupload({
-																dataType : 'json',done : function(e,data) {
-																					if (data.result&& data.result.status == "200") {
-																						var img = '<div class="imgbox">';
-																						img += '<div class="removePic" onclick="removePic(this,\'/goods/deleteFile\')">×</div>';
-																						img += '<input type="hidden" name="'+name+'" value="' + data.result.data + '">';
-																						img += '<img src="' + data.result.data + '">';
-																						img += '</div>';
-																						if (multi) {
-																							$("#imgsbox_imgs").append(img);
-																						} else {
-																							$("#imgsbox_imgs").html(img);
-																						}
-																					} else {
-																						layer.msg(data.result.message);
-																					}
-																				},
-																				change : function(e,data) {
-																					$("#imgUpload_name_imgs").html('上传图片...');
-																				},
-																				progressall : function(e,data) {
-																					var progressnum = parseInt(data.loaded / data.total * 100);
-																					if (progressnum == 100) {
-																						$("#progress_imgs").text('');
-																						$("#imgUpload_name_imgs").html('上传图片');
-																					} else {
-																						$("#progress_imgs").text(progressnum+ "%");
-																					}
-																				},
-																				error : function(e,data) {
-																					layer.msg('上传请求失败');
-																				}
-																			});
-														});
-
-														/**
-														 * 移除图片
-														 */
-														function removePic(	_self,deleteurl) {
-															$(_self).parent().remove();
-															if (deleteurl) {
-																$.post(deleteurl,{
-																		path : $(_self).parent().find('img').attr('src')});
-															}
-														}
-													</script>
-													
-													<span class="help-block m-b-none text-danger">支持:jpg、jpeg、png、gif；大小：限5M内</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div id="tab-2" class="tab-pane">
-										<div class="panel-body">
-										<textarea name="goodsContent" id="deitor"></textarea>
-										<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
-										<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.js"></script>
-										<script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
-										<script type="text/javascript">
-										/* window.UEDITOR_HOME_URL = "/http://192.168.0.138:8383/ueditor/";
-										window.UEDITOR_CONFIG.serverUrl = '/config?action=config';
-										window.UEDITOR_CONFIG.initialFrameHeight = parseInt('350px');
-										window.UEDITOR_CONFIG.scaleEnabled = true; */
-										var ue = UE.getEditor('deitor');
-										</script>
-									  
-										</div>
-									</div>
-									<div id="tab-3" class="tab-pane">
-										<div class="panel-body">
-											<div class="form-group">
-												<label class="col-sm-2 control-label">基本数据<span
-													class="text-danger">*</span></label>
-												<div class="col-sm-8" id="product">
-													<table class="table table-bordered text-center"
-														id="spec_input_tab">
-														<tr>
-															<th class="text-center">库存</th>
-															<th class="text-center">市场价格</th>
-															<th class="text-center">店铺价格</th>
-															<th class="text-center">销售量</th>
-														</tr>
-														<tr>
-															<td><input type="text" name="goodsStock"	onkeyup="clearNoNum3(this)" onpaste="clearNoNum3(this)"	value="0" class="form-control"></td>
-															<td><input type="text" name="marketPrice" onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)" value="0" class="form-control"></td>
-															<td><input type="text" name="shopPrice"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
-														    <td><input type="text" name="saleCount"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
-														</tr>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="hr-line-dashed"></div>
-							<div class="form-group">
-								<div class="col-sm-4 col-sm-offset-2">
-									<button class="btn btn-primary ajax-post" target-form="form-horizontal" type="submit">确 定</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</div>
-	<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
-	<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="../layer-v3.1.1/layer/layer.js"></script>
-	<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
-	<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
-	<script src="../hplus/js/contabs.min.js"></script>
-	<script src="../hplus/js/plugins/pace/pace.min.js"></script>
-
-	<!-- jqGrid -->
-	<script
-		src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
-	<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
-	<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
-	<script src="../js/common2.js"></script>
-
-	<script>
-		var goodsId = "0";
-		$(document).ready(function() {
-			formSetValue("status", "1");
-			formSetValue("isHot", "0");
-			formSetValue("mid", "0");
-			formSetValue("cateId", "");
-			hbdyg();
-
-			var attr_id = $('#mid').val();
-			if (attr_id != '') {
-				getAttr(attr_id, goodsId, 0);
-			}
-		});
-	
-
-		// 合并单元格
-		function hbdyg() {
-			var tab = parent.document.getElementById("spec_input_tab"); //要合并的tableID
-			var maxCol = 5, val, count, start; //maxCol：合并单元格作用到多少列
-			if (tab != null) {
-				for (var col = maxCol - 1; col >= 0; col--) {
-					count = 1;
-					val = "";
-					for (var i = 0; i < tab.rows.length; i++) {
-						if (val == tab.rows[i].cells[col].innerHTML) {
-							count++;
-						} else {
-							if (count > 1) { //合并
-								start = i - count;
-								tab.rows[start].cells[col].rowSpan = count;
-								for (var j = start + 1; j < i; j++) {
-									tab.rows[j].cells[col].style.display = "none";
-								}
-								count = 1;
-							}
-							val = tab.rows[i].cells[col].innerHTML;
-						}
-					}
-					if (count > 1) { //合并，最后几行相同的情况下
-						start = i - count;
-						tab.rows[start].cells[col].rowSpan = count;
-						for (var j = start + 1; j < i; j++) {
-							tab.rows[j].cells[col].style.display = "none";
-						}
-					}
-				}
-			}
-		}
-
-		function layer_open1(_self, flag) {
-			var spec = $(_self).attr('data-spec');
-			var url = $(_self).attr('url');
-			var title = $(_self).attr('data-title');
-			if (spec) {
-				url = url + '/spec/' + spec;
-			}
-			layer.open({
-				type : 2,
-				title : title,
-				shadeClose : true,
-				shade : 0.3,
-				area : [ '90%', '90%' ],
-				content : url,
-				end : function() {
-					if (flag == 1) {
-						$("#table").trigger("reloadGrid");
-					}
-				}
-			});
-		}
-
-		$('#mid').change(function() {
-			var id = $(this).val();
-			if (id == 0) {
-				$('#props').html('');
-			} else {
-				getAttr(id, goodsId);
-			}
-		});
-
-		function getAttr(id, goodsId) {
-			var url = "/admin/goods/props.html";
-			$.post(url, {
-				id : id,
-				goodsId : goodsId
-			}, function(data) {
-				$('#props').html(data.props);
-			});
-		}
-	</script>
-
+<div class="ibox">
+   <!--  <div class="wrapper wrapper-content  animated fadeInRight"  id="bigBody"> -->
+			    <div class="ibox-content">
+			        <div class="row">
+				           <div class="col-xs-3">
+				               <a href="javascript:;" url="zsGoodsAdd.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
+				           </div>
+				           <div class="col-xs-9" >
+			                 <form class="form-inline" id="form-search" action="/goods/getGoodsList">
+					             <div class="input-group">
+									
+								          <em>Into This</em>
+								          <select data-placeholder="Choose a Country..." class="chosen-select"  tabindex="2">
+								            <option value=""></option>
+								            <option value="Djibouti">Djibouti</option>
+								            <option value="Dominica">Dominica</option>
+								            <option value="Dominican Republic">Dominican Republic</option>
+								            <option value="Ecuador">Ecuador</option>
+								            <option value="Egypt">Egypt</option>
+								            <option value="El Salvador">El Salvador</option>
+								            <option value="Equatorial Guinea">Equatorial Guinea</option>
+								            <option value="Eritrea">Eritrea</option>
+								            <option value="Estonia">Estonia</option>
+								            <option value="Ethiopia">Ethiopia</option>
+								            <option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
+								            <option value="Faroe Islands">Faroe Islands</option>
+								            <option value="Fiji">Fiji</option>
+								            <option value="Finland">Finland</option>
+								            <option value="France">France</option>
+								            <option value="French Guiana">French Guiana</option>
+								            <option value="French Polynesia">French Polynesia</option>
+								            <option value="French Southern Territories">French Southern Territories</option>
+								            <option value="Gabon">Gabon</option>
+								            <option value="Gambia">Gambia</option>
+								            <option value="Georgia">Georgia</option>
+								            <option value="Germany">Germany</option>
+								            <option value="Ghana">Ghana</option>
+								            <option value="Gibraltar">Gibraltar</option>
+								            <option value="Greece">Greece</option>
+								          
+								          </select>
+   
+			                       <!--  <input type="text" class="form-control" id="value" name="value" placeholder="关键字查询"> -->
+			                    </div>
+			                    <div class="input-group">
+			                    <div class="col-sm-6">
+			                        <select name="isAdminRecom" class="form-control" id="isAdminRecom">
+			                               <option value="">选择是否推荐</option>
+			                              <option value="1">是</option>
+			                              <option value="0">否</option>
+			                        </select>
+			                        </div>
+			                    </div>
+			                    
+			                    <div class="input-group">
+			                      <div class="col-sm-6">
+			                        <select name="isSale" class="form-control" id="isSale">
+			                             <option value="">状态</option>
+			                            <option value="1">上架</option>
+			                            <option value="0">下架</option>
+			                        </select>
+			                        </div>
+			                    </div>
+			                   
+			                    <div class="input-group">
+			                        <span class="input-group-btn">
+			                            <button class="btn-sm btn-primary" type="button" id ="search-btn" ><i class="fa fa-search"></i></button>
+			                        </span>
+			                        <span class="input-group-btn">
+			                            <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
+			                        </span>
+			                    </div>
+			                     <!-- <script src="../amaze/chosen/docsupport/jquery-3.2.1.min.js" type="text/javascript"></script> -->
+								  <script src="../amaze/chosen/js/chosen.jquery.js" type="text/javascript"></script>
+								  <script src="../amaze/chosen/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+								  <script src="../amaze/chosen/docsupport/init.js" type="text/javascript" charset="utf-8"></script>
+			                 </form>
+                         </div>
+			         </div>
+            
+                </div>
+       
+      </div>
+      </div>
+   <!--  </div> -->
+    <script>
+  
+    </script>
+    
+<script src="../amaze/js/amazeui.chosen.min.js"></script>
 </body>
 </html>

@@ -52,14 +52,15 @@ public class GoodsServiceImpl implements GoodsService{
   
   
 	@Override
-	public ResponsDatas getGoodsList(String value,Integer page,Integer size,String sord,Integer isAdminRecom,Integer isSale) {
+	public ResponsDatas getGoodsList(String value,Integer page,Integer size,String sord,Integer isAdminRecom,Integer isSale,
+			Integer goodsCateId,Integer goodsId) {
 		if(page==null)page=1;
 		if(size==null)size=10;
 		
 		List<Map<String,Object>> dataList=new ArrayList<Map<String,Object>>();
 		try {
-			dataList=goodsMapper.getGoodsList(value,(page-1)*size,size,sord,isAdminRecom,isSale);
-			Integer totalCount=goodsMapper.selectGoodsTotalCount(value,isAdminRecom,isSale);
+			dataList=goodsMapper.getGoodsList(value,(page-1)*size,size,sord,isAdminRecom,isSale,goodsCateId,goodsId);
+			Integer totalCount=goodsMapper.selectGoodsTotalCount(value,isAdminRecom,isSale,goodsCateId,goodsId);
 			return ResponsDatas.success(dataList, totalCount.longValue(), page, size);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -309,7 +310,7 @@ public class GoodsServiceImpl implements GoodsService{
     private String setNBSP(GoodsCateLev messageType) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < messageType.getLev(); i++) {
-            sb.append("&nbsp;&nbsp;&nbsp;|--");
+            sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--");
         }
         return sb.toString();
     }

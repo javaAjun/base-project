@@ -34,24 +34,6 @@
       <if test="menuName != null" >
         and    menu_name=#{menuName,jdbcType=VARCHAR}
       </if>
-      <if test="sequenceNumber != null" >
-        and    sequence_number=#{sequenceNumber,jdbcType=VARCHAR}
-      </if>
-      <if test="url != null" >
-        and    url=#{url,jdbcType=VARCHAR}
-      </if>
-      <if test="parentId != null" >
-        and    parent_id=#{parentId,jdbcType=VARCHAR}
-      </if>
-      <if test="menuInfo != null" >
-        and   menu_info=#{menuInfo,jdbcType=VARCHAR}
-      </if>
-      <if test="isDisplay != null" >
-        and    is_display=#{isDisplay,jdbcType=VARCHAR}
-      </if>
-      <if test="idEffective != null" >
-        and    id_effective=#{idEffective,jdbcType=TIMESTAMP}
-      </if>
   </select>
   
   <select id="byAllMenuList" resultMap="BaseResultMap"  >

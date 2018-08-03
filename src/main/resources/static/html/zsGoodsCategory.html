@@ -24,6 +24,15 @@
            margin-left: -4px;
     /* padding-right: 5px; */
           }
+          img {
+		    border: 0;
+		    margin-left: -5px;
+		}
+		.ui-jqgrid tr.ui-row-ltr td {
+            /* text-align: center; */
+            font-size: 14px;
+            font-weight:500;
+        } 
     </style>
 </head>
 
@@ -120,7 +129,7 @@
                 {label:'状态',name:'state',index:'state',width:50,height:20,editable: false,sortable: false,formatter:function (a,b,c){
                     if(a == 0){
                         var url =_operEditGoodsCateState+"&id="+c.id+"&state=1";
-                        return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
+                        return '<a href="'+url+'" class="ajax-get"  data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
                     } else{
                     	 var url =_operEditGoodsCateState+"&id="+c.id+"&state=0";
                         return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
@@ -173,9 +182,9 @@
     //自定义报警列格式
       function alarmFormatter(cellvalue, options, rowdata){
           if (cellvalue != null)
-              return '<img width="50" height="50" src="'+cellvalue+'" alt="' + cellvalue + '" />';
+              return '<img width="90" height="50" src="'+cellvalue+'" alt="' + cellvalue + '" />';
           else 
-              return '<img width="50" height="50" src="../hplus/img/del.jpg" alt="' + cellvalue + '" />';
+              return '<img width="90" height="50" src="../hplus/img/del.jpg" alt="' + cellvalue + '" />';
       }
     
   //获取分类
