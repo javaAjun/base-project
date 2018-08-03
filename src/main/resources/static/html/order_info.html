@@ -38,7 +38,7 @@
                    </div>
         </div>
     </div>
-    <div class="col-sm-12" style="width:45%">
+    <div class="col-sm-12" style="width:50%">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>订单信息</h5>
@@ -49,13 +49,13 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12" style="width:45%;">
+    <div class="col-sm-12" style="width:50%;">
     	<div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>收货信息</h5>
             </div>
             <div class="ibox-content" style="padding: 0;">
-                  <table class="table table-bordered" id="orderInfoRight" style="width:40%;">
+                  <table class="table table-bordered" id="orderInfoRight">
                 </table>
             </div>
         </div>
@@ -157,6 +157,10 @@ var postData={id:id};
                 +'<td>'+orderInfo.userNotes+'</td>'
             +'</tr>'
             +'<tr>'
+                +'<td>下单日期</td>'
+                +'<td>'+orderInfo.createTime+'</td>'
+            +'</tr>';
+            var consigneeHtml= '<tr>'
             +'<td>收货人姓名</td>'
             +'<td>'+consignee.name+'</td>'
         +'</tr>'
@@ -167,12 +171,7 @@ var postData={id:id};
             +'<tr>'
             +'<td>收货地址</td>'
             +'<td>'+consignee.addressInfo+'</td>'
-        +'</tr>'
-            +'<tr>'
-                +'<td>下单日期</td>'
-                +'<td>'+orderInfo.createTime+'</td>'
-            +'</tr>';
-            
+        +'</tr>';
             if(orderInfo.orderStatus==2){
             	html+='<tr>'
                 +'<td>操作</td>'
@@ -190,6 +189,7 @@ var postData={id:id};
             +'</tr>';
             }
 //     	);
+    $('#orderInfoRight').append(consigneeHtml);
     $('#orderInfo').append(html);
     $('#confirmReturn').click(function confirmReturn(){
     	parent.confirmReturn(orderInfo);
