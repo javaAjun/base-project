@@ -39,9 +39,9 @@ function ajax_get_fun(that) {
         $.get(target).success(function(data){
             if (data.code=="1") {
                 if (data.url) {
-                    updateAlert(data.msg,'alert-success');
+                	layer.msg(data.msg,{icon: 1});
                 }else{
-                    updateAlert(data.msg,'alert-success');
+                	layer.msg(data.msg,{icon: 1});
                 }
                 setTimeout(function(){
                     if( $(that).hasClass('no-refresh')){
@@ -58,7 +58,7 @@ function ajax_get_fun(that) {
                     }
                 },1500);
             }else{
-                updateAlert(data.msg,'alert-danger');
+                layer.msg(data.msg,{icon: 2});
                 setTimeout(function(){
                     if (data.url) {
                         location.href=data.url;
@@ -163,10 +163,9 @@ function ajax_post_fun(target,that,query) {
     $.post(target,query).success(function(data){
         if (data.code=="1") {
             if (data.url) {
-                updateAlert(data.msg,'alert-success');
-                // updateAlert(data.msg + ' 页面即将自动跳转~','alert-success');
+                layer.msg(data.msg,{icon: 1});
             }else{
-                updateAlert(data.msg ,'alert-success');
+                layer.msg(data.msg,{icon: 1});
             }
             setTimeout(function(){
                 $(that).removeClass('disabled').prop('disabled',false);
@@ -191,7 +190,7 @@ function ajax_post_fun(target,that,query) {
                 }
             },1500);
         }else{
-            updateAlert(data.msg,'alert-danger');
+            layer.msg(data.msg,{icon: 2});
             setTimeout(function(){
                 $(that).removeClass('disabled').prop('disabled',false);
                 if (data.url) {
@@ -270,7 +269,7 @@ function updateSort(_self) {
             $("#table").trigger("reloadGrid");
         }else{
             $(_self).val(old);
-            updateAlert(data.msg,'alert-danger');
+            layer.msg(data.msg,{icon: 2});
             setTimeout(function(){
                 if (data.url) {
                     location.href=data.url;
