@@ -100,7 +100,7 @@
 
  
 
-       
+     
 
 
          .ui-jqgrid tr.ui-row-ltr td {
@@ -210,19 +210,19 @@
 		$.jgrid.defaults.styleUI="Bootstrap";
 	
 		 $("#table").jqGrid({
-	           url:HttpUrlCommon+_goodsList,
+	           url:_goodsList,
 		//data:mydata,
 		       datatype:"json",
 				height:"auto",
 				autowidth:true,
 				shrinkToFit:true,
 				rowNum:5,
-				sortname: 'sort',
+				sortname: 'catSort',
 				rowList:[10,20,30],
 				colNames:["ID","图片","商品编号","名称","分类","市场价","店铺价格","库存","排序","状态","推荐","操作"],
 				colModel:[
 					{name:"id",index:"id",editable:true,width:25,sorttype:"int",search:true},
-					{name:'goodsCoverImg', index: 'goodsCoverImg', width: 55, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
+					{name:'goodsCoverImg', index: 'goodsCoverImg', width: 60, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
 				    {name:"goodsNo",index:"goodsNo",editable:true,width:60},
 					{name:"goodsName",index:"goodsName",editable:true,width:80},
 					{name:"catName",index:"catName",editable:true,width:80},
