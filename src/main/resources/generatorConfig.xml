@@ -11,7 +11,8 @@
         </commentGenerator>    
      
         <!--数据库链接地址账号密码-->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://180.76.98.239:3306/base_project" userId="root" password="a/xOejRkf3Ge">
+         <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/base_project" userId="root" password="root">
+       <!--  <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://180.76.98.239:3306/base_project" userId="root" password="a/xOejRkf3Ge"> -->
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -35,8 +36,25 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--生成对应表及类名-->
-        <table tableName="system_article" domainObjectName="SystemArticle" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+       <!--  <table tableName="system_article" domainObjectName="SystemArticle" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="true"/> 
+        </table> -->
+        <!-- <table tableName="zs_goods_sku" domainObjectName="ZsGoodsSku" enableCountByExample="false" 
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+               selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="true"/> 
+        </table> -->
+         <table tableName="zs_goods_sku_attrvalue" domainObjectName="ZsGoodsSkuAttrValue" enableCountByExample="false" 
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+               selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/> 
         </table>
+         <table tableName="zs_goods_sku_attr" domainObjectName="ZsGoodsSkuAttr" enableCountByExample="false" 
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+               selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="true"/> 
+        </table>
+       
+        
     </context>
 </generatorConfiguration>
