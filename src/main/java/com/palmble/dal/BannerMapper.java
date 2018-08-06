@@ -14,6 +14,8 @@ public interface BannerMapper {
     int insertSelective(Banner record);
 
     Banner selectByPrimaryKey(Integer id);
+    
+    Banner selectByName(Banner record);
 
     int updateByPrimaryKeySelective(Banner record);
 

@@ -51,7 +51,7 @@ public  class BannerServiceImpl implements BannerService {
 				return result;
 			}
 		}
-		if(banner.getType()==0) {//关联商品
+		if(banner.getType()==1) {//关联商品
 			if(banner.getGoodsId()==null){
 				result.setCode(0);
 				result.setMsg("请选择关联商品");

@@ -121,12 +121,14 @@ public class BaseMenuController extends PalmbleBaseController{
 		List<Integer> qxlist = userPermissionService.selectPrivilegeUrlByGroupOrUserId(userid);
 		Map<String,String> contMap=new HashMap<String,String>();
 		contMap.put("parentId", "0");
+		contMap.put("remake", "0");
 		PageInfo<BaseMenu> menuList = permissionMenuService.getMenuList(contMap);//获取一级菜单
 		List<Map<String,Object>> baseList = new ArrayList<>();
 		for (int i = 0; i < menuList.getList().size(); i++) {
 			Map<String,Object> parentMap= new HashMap<String,Object>();
 			contMap.clear();
 			contMap.put("parentId", menuList.getList().get(i).getId()+"");
+			contMap.put("remake", "0");
 			PageInfo<BaseMenu> childMenuList = permissionMenuService.getMenuList(contMap);//获取二级菜单
 			parentMap.put("menuId", menuList.getList().get(i).getId());
 			parentMap.put("menuName", menuList.getList().get(i).getMenuName());
@@ -139,6 +141,7 @@ public class BaseMenuController extends PalmbleBaseController{
 			for (int j = 0; j < childMenuList.getList().size(); j++) {
 				contMap.clear();
 				contMap.put("parentId", childMenuList.getList().get(j).getId()+"");
+				contMap.put("remake", "0");
 				PageInfo<BaseMenu> list = permissionMenuService.getMenuList(contMap);//获取二级菜单
 				List<Map<String,Object>> childList = new ArrayList<>();
 				for(int k=0;k<list.getList().size();k++) {

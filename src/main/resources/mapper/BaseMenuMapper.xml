@@ -43,9 +43,12 @@
       <if test="parentId != null" >
         AND parent_id=#{parentId}
       </if>
+      <if test="remake != null and remake==0" >
+        AND is_display=0 AND id_effective=0
+      </if>
       <if test="title != null" >
         and menu_name like concat(concat('%',#{title,jdbcType=VARCHAR}),'%') 
-    </if>
+     </if>
   </select>
   
   

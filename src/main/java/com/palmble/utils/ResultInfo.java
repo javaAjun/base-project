@@ -11,12 +11,12 @@ public class ResultInfo {
 	/** 结果代码（默认值为-1，未知错误） */
 	private int code = -1;
 	/** 信息 */
-	private Object info;
+	private Object msg;
 	
-	public ResultInfo(int code, Object info) {
+	public ResultInfo(int code, Object msg) {
 		super();
 		this.code = code;
-		this.info = info;
+		this.msg = msg;
 	}
 	
 	public int getCode() {
@@ -25,11 +25,11 @@ public class ResultInfo {
 	public void setCode(int code) {
 		this.code = code;
 	}
-	public Object getInfo() {
-		return info;
+	public Object getMsg() {
+		return msg;
 	}
-	public void setInfo(Object info) {
-		this.info = info;
+	public void setMsg(Object msg) {
+		this.msg = msg;
 	}
 	
 }

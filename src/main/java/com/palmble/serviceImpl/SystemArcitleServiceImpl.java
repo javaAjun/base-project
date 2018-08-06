@@ -44,6 +44,11 @@ public class SystemArcitleServiceImpl implements SystemArticleService {
 			result.setMsg("标题不能为空");
 			return result;
 		}
+		if(systemArticle.getAuthor()!=null||systemArticle.getAuthor().equals("")) {
+			result.setCode(0);
+			result.setMsg("作者不能为空");
+			return result;
+		}
 		if(systemArticle.getArticleContent()==null||systemArticle.getArticleContent().equals("")) {
 			result.setCode(0);
 			result.setMsg("文章内容不能为空");
