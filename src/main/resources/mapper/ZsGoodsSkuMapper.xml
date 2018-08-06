@@ -69,14 +69,18 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectGoodsSkuList" resultType="java.util.Map">
-     SELECT * FROM  zs_goods_sku_attr zsk WHERE 1=1  
+      SELECT zsk.*,zc.catName FROM  zs_goods_sku_attr zsk  
+      LEFT JOIN zs_goods_category zc ON zsk.cateId=zc.id
+      WHERE 1=1 
        <if test="skuId!=null"> and zsk.id=#{skuId}</if>
        <if test="goodsCateId!=null"> and zsk.cateId=#{goodsCateId}</if>
-       <if test="sord!=null"> order by zsk.id #{sord}</if>
+       <if test="sord!=null"> order by zsk.id  ${sord} </if>
        <if test="page!=null and rows!=null"> limit #{page},#{rows} </if>
   </select>
   <select id="selectGoodsSkuCount" resultType="INTEGER">
-       SELECT count(1) FROM  zs_goods_sku_attr zsk WHERE 1=1  
+       SELECT count(1) FROM  zs_goods_sku_attr zsk    
+       LEFT JOIN zs_goods_category zc ON zsk.cateId=zc.id
+      WHERE 1=1 
        <if test="skuId!=null"> and zsk.id=#{skuId}</if>
        <if test="goodsCateId!=null"> and zsk.cateId=#{goodsCateId}</if>
   </select>

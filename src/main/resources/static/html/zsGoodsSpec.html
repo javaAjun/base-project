@@ -62,30 +62,7 @@
         #alertmod_table_list_2 {
             top: 900px !important;
         }
-       /*  #bigBody{margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
-        padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px}
-        #ibox-content{
-        margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
-        padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px
-        }
-        #gbox_table{margin-left:5px;margin-right:5px;margin-top:5px;margin-bottom:5px;
-        padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px}
-        .modal-content{
-            position: relative;
-              left: -150px;
-             width: 950px;
-        } */
-        /* #imgs_group{
-         position: relative;
-              left: -150px;
-        } */
-        /* .ibox-content{
-        padding: 0px 10px 20px;
-        margin-top: 1px;
-        }
-        .ibox{
-        margin-top: 1px;
-        } */
+     
         .ui-jqgrid td input, .ui-jqgrid td select, .ui-jqgrid td textarea {
           margin-left: -4px;
                   /* padding-right: 5px; */
@@ -117,7 +94,7 @@
 			    <div class="ibox-content">
 			        <div class="row">
 				           <div class="col-xs-3">
-				               <a href="javascript:;" url="zsGoodsAdd.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
+				               <a href="javascript:;" url="zsGoodsSpecEdit.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
 				           </div>
 				           <div class="col-xs-9" style="text-align: right;">
 			                 <form class="form-inline" id="form-search" action="/goods/getGoodsList">
@@ -168,50 +145,21 @@
 		$.jgrid.defaults.styleUI="Bootstrap";
 	
 		 $("#table").jqGrid({
-	           url:_goodsList,
+	           url:_getGoodsSpecList,
 		//data:mydata,
 		       datatype:"json",
 				height:"auto",
 				autowidth:true,
 				shrinkToFit:true,
 				rowNum:5,
-				sortname: 'catSort',
+				sortname: 'id',
 				rowList:[10,20,30],
-				colNames:["ID","图片","商品编号","名称","分类","市场价","店铺价格","库存","排序","状态","推荐","操作"],
+				colNames:["ID","名称","规格数据","分类","操作"],
 				colModel:[
 					{name:"id",index:"id",editable:true,width:25,sorttype:"int",search:true},
-					{name:'goodsCoverImg', index: 'goodsCoverImg', width: 60, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
-				    {name:"goodsNo",index:"goodsNo",editable:true,width:60},
-					{name:"goodsName",index:"goodsName",editable:true,width:80},
+					{name:'attrName', index: 'attrName', width: 60, sortable: false, editable: false },
+				    {name:"skuValue",index:"skuValue",editable:true,width:60},
 					{name:"catName",index:"catName",editable:true,width:80},
-					{name:"marketPrice",index:"marketPrice",editable:true,width:60,sorttype:"float"},
-					{name:"shopPrice",index:"shopPrice",editable:true,width:60,sorttype:"float"},
-					{name:"goodsStock",index:"goodsStock",editable:true,width:40},
-					{name:"catSort",index:"catSort",width:40,sortable: true,hidden:false,formatter: function (a, b, c) {
-						var url=_editGoodsSort+"&id="+c.id;
-	                    return '<input type="number" onchange="updateSort(this)" data-url="'+url+'" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
-	                }},
-					{name:"isSale",index:"isSale",editable: false,sortable: false,width:40,
-						formatter:function(a,b,c){
-							 if(a == false){
-			                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setIsSale(this)"><span class="label label-danger" title="下架">下架</span></a>';
-			                    } else{
-			                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setIsSale(this)"><span class="label label-primary" title="上架">上架</span></a>';
-			                    }
-						}},
-					{name:"isAdminRecom",index:"isAdminRecom",editable:true,width:40,
-						formatter:function(a,b,c){
-							 if(a == false){
-			                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setIsAdminRecom(this)"><span class="label label-danger" title="否">否</span></a>';
-			                    } else{
-			                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setIsAdminRecom(this)"><span class="label label-primary"  title="是">是</span></a>';
-			                    }
-						}},
-					/* {width:80,sortable: false,align:'left',formatter: function (a, b, c) {
-	                    var btn = '<a href="admin_add.html?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_list.html">';
-	                    btn += '<a href="javascript:;"><span class="label label-danger" id="xiangqing" title="详情"  data-id='+c.id+' onclick="de(this)">详情</span></a>';
-	                    return btn;
-                     }}, */
 					{width:80,sortable: false,align:'left',formatter: function (a, b, c) {
 						var editurl='zsGoodsAdd.html'+'?id='+c.id;
 					    var btn = '<a url="'+editurl+'" href="javascript:;" data-title="编辑商品" onclick="layer_open(this,1)"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
@@ -263,7 +211,7 @@
 	   var aHTML=$(".click2edit").code();$(".click2edit").destroy()};
 	   
 	   
-		//查询
+		/* //查询
 		 $(function(){ 
 	        $("#search-btn").click(function(){ 
 	            var value = escape($("#value").val()); 
@@ -294,78 +242,8 @@
 	            $("#goodsId").val('')
 	            //location.reload();
 	        });
-	    }); 
-		//修改状态setIsSale  上架下架
-		function setIsSale(a){
-			var num=$(a).data("status");
-			var isSale;
-			if(num==0){
-				isSale=1;
-			}else{
-				isSale=0;
-			}
-			var id=$(a).data("id");
-			var dataParam={"id":id,"isSale":isSale};
-			$.ajax({ 
-				url:_editGoodsIsSale, 
-				data:dataParam, 
-				type: "post",
-		        dataType: "json",
-		        async: 'false',
-		        success: function (data) {
-		           if(data.status=="200"){
-		        	   var span=$(a).find("span");
-		        	   if(num==0){
-		        		   $(a).data("status",1);
-		        		   $(span).attr("class","label label-primary");
-		        		   $(span).attr("title","上架");
-		        		   $(span).html("上架");
-		        	   }else{
-		        		   $(a).data("status",0);
-		        		   $(span).attr("class","label label-danger");
-		        		   $(span).attr("title","下架");
-		        		   $(span).html("下架");
-		        	   }
-		           }else{
-		        	   layer.msg("操作失败!");
-		           }
-		          }});
-		}//修改是否推荐
-		function setIsAdminRecom(a){
-			var num=$(a).data("status");
-			var isAdminRecom;
-			if(num==0){
-				isAdminRecom=1;
-			}else{
-				isAdminRecom=0;
-			}
-			var id=$(a).data("id");
-			var dataParam={"id":id,"isAdminRecom":isAdminRecom};
-			$.ajax({ 
-				url:_editGoodsIsAdminRecom, 
-				data:dataParam, 
-				type: "post",
-		        dataType: "json",
-		        async: 'false',
-		        success: function (data) {
-		           if(data.status=="200"){
-		        	   var span=$(a).find("span");
-		        	   if(num==0){
-		        		   $(a).data("status",1);
-		        		   $(span).attr("class","label label-primary");
-		        		   $(span).attr("title","是");
-		        		   $(span).html("是");
-		        	   }else{
-		        		   $(a).data("status",0);
-		        		   $(span).attr("class","label label-danger");
-		        		   $(span).attr("title","否");
-		        		   $(span).html("否");
-		        	   }
-		           }else{
-		        	   layer.msg("操作失败!");
-		           }
-		          }});
-		}
+	    });  */
+		
 		//删除
 		function del(a){
 	    	var id=$(a).data("id");

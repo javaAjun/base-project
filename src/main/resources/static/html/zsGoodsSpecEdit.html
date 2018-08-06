@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <form method="post" action="/goods/operGoodsCateInfo" class="form-horizontal">
+                    <input type="hidden" name="id" id="id" value="">
+                    <input type="hidden" name="oper" id="oper" value="0">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">规格名称<span class="text-danger">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" maxlength="50" id="catName" placeholder="规格名称..。长度50字以内" name="attrName" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">上级<span class="text-danger">*</span></label>
+                        <div class="col-sm-4" id="gdcate">
+                            <select name="cateId" id="cateId" class="form-control">
+                               
+                            </select>
+                        </div>
+                    </div>
+
+    
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">状态</label>
+                        <div class="col-sm-4">
+                            <label class="cr-inline">
+                                <input type="radio" value="1" name="state">正常&nbsp;&nbsp;
+                            </label>
+                            <label class="cr-inline">
+                                <input type="radio" value="0" name="state">禁用
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <button class="btn btn-primary ajax-post" target-form="form-horizontal" type="submit">确 定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common2.js"></script>
+<script src="../js/pathJs.js"></script>
+<script>
+
+    $(document).ready(function(){
+    	var id= getUrlParam("id");
+		if(id!=null){
+			$("#oper").val("edit");
+			$("#id").val(id);
+			setFormValue(id);
+			getCatInfo(id,"#cateId")
+		}else{
+		  $("#oper").val("add");
+		  formSetValue("state", "1");
+		  getCatInfo(null,"#cateId");
+			 
+		}
+    	
+      
+    });
+	//获取分类
+	function getCatInfo(id,_$id){
+		var url=_getGoodsCatePageById;
+		$.ajax({ 
+			  type:"POST", 
+			  url:url,
+			  dataType:"json",
+			  async:false,
+			  success:function(data){ 
+				  if(data.status=="200"){//goodsCateId
+					  var opthtml='<option value="0">顶级分类</option>'
+						  var parent=data.data;
+						  for(var i=0;i<parent.length;i++){
+							  if(id!=null&&id==parent[i].id){
+							     opthtml+='<option selected="selected" value="'+parent[i].parentId+'">'+parent[i].pcatName;  
+							  }else{
+								  opthtml+='<option value="'+parent[i].id+'">'+parent[i].catName;
+							  }
+							  opthtml+='</option>';
+						  }
+						  $(_$id).html(opthtml);
+						  
+							
+				  }
+			  }
+		})
+	}
+	function setFormValue(id){
+		var url=_getGoodsCateInfoById+"?id="+id;
+		$.ajax({ 
+			  type:"POST", 
+			  url:url,
+			  dataType:"json",
+			  async:false,
+			  success:function(data){ 
+				  if(data.status=="200"){//goodsCateId
+					 $("#catName").val(data.data.catName);
+				     $("#catSort").val(data.data.catSort);
+					if(data.data.state){
+						 formSetValue("state", "1");
+					}else{
+						formSetValue("state", "0");
+					}
+					var img = '<div class="imgbox">';
+	                    img += '<div class="removePic" onclick="removePic(this,\'/goods/deleteFile\')">×</div>';
+	                    img += '<input type="hidden" name="'+name+'" value="' + data.data.goodsCateImg + '">';
+	                    img += '<img src="' + data.data.goodsCateImg + '">';
+	                    img += '</div>';
+	                    if(data.data.goodsCateImg!=null){
+	                        $("#imgsbox_img").append(img);
+	                    }
+	                    
+				  }else{
+					  layer.msg(data.data.message);
+				  }
+			  }
+		})
+	}
+</script>
+
+</body>
+</html>

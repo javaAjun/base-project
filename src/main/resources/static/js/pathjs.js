@@ -31,3 +31,6 @@ var _operEditGoodsCateSort="/goods/operGoodsCateInfo?oper=sort";
 
 //根据id获取商品分类信息
 var _getGoodsCateInfoById="/goods//operGoodsCateInfoByid";
+
+//获取规格列表信息
+var _getGoodsSpecList="/goods/sku/getSkuList";
