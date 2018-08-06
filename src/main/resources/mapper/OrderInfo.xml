@@ -78,7 +78,7 @@
 		a.createTime, 
 		a.goodsPhotoAlbumId,
 		a.goodsCateId,
-		b.id,
+		a.id,
 		b.number
 		from
 		zs_goods a right join harvested_goods b
