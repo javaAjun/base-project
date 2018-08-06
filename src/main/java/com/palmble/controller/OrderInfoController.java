@@ -140,6 +140,7 @@ public class OrderInfoController {
 			result.setMsg("请到商城审批退货!");
 			return result;
 		}
+		Integer userId=order.getUserId();
 		order.setOrderStatus(7);
 		int updateStatus=orderInfoService.updateById(order);
 		Bill bill=new Bill();
@@ -153,9 +154,9 @@ public class OrderInfoController {
 		bill.setAmount(number);
 		bill.setTransactionId(TransactionUtil.getTransactionNum(4));
 		int insertBillState=billService.insert(bill);
-		Account account=new Account();
-		account.setUserId(order.getUserId());
-		account.setBalance(number);
+		Account account=accountService.getByUserId(userId);
+		Double balance=account.getBalance();
+		account.setBalance(balance+number);
 		int updateAccountStatus=accountService.updateByUserId(account);
 		if(updateStatus==1&&insertBillState==1&&updateAccountStatus==1) {
 			//TODO
@@ -165,6 +166,19 @@ public class OrderInfoController {
 			result.setCode(0);
 			result.setMsg("操作失败!");
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return result;
+	}
+	@RequestMapping("/edit")
+	public Result edit(OrderInfo order) {
+		Result result=new Result();
+		int updateState=orderInfoService.updateById(order);
+		if(updateState==1) {
+			result.setCode(1);
+			result.setMsg("操作成功!");
+		}else {
+			result.setCode(0);
+			result.setMsg("操作失败!");
 		}
 		return result;
 	}

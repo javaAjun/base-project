@@ -38,7 +38,28 @@
                    </div>
         </div>
     </div>
-    <div class="col-sm-12" style="width:50%">
+    <div class="col-sm-12">
+    	<div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>物流信息</h5>
+            </div>
+            <div class="ibox-content">
+            物流信息
+            </div>
+        </div>
+     </div>
+        <div class="col-sm-12">
+    	<div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>收货人信息</h5>
+            </div>
+            <div class="ibox-content">
+                  <table class="table table-bordered" id="orderInfoRight">
+                </table>
+            </div>
+        </div>
+     </div>
+    <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>订单信息</h5>
@@ -49,17 +70,6 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12" style="width:50%;">
-    	<div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>收货信息</h5>
-            </div>
-            <div class="ibox-content" style="padding: 0;">
-                  <table class="table table-bordered" id="orderInfoRight">
-                </table>
-            </div>
-        </div>
-     </div>
 
 </div>
 
@@ -95,12 +105,23 @@ var postData={id:id};
     		}else{
     			img=val.goodsCoverImg;
     		}
+//     		var delGoodsHtml('<tr>'+
+//     							+'<td>商品为'+val.id+'的商品已被删除</td>'
+//     						+'</tr>');
     		$('#goodsInfo').append('<tr>'
-                        +'<th colspan="3">'
+                        +'<th colspan="4">'
                            +' 商品信息'
                         +'</th>'
                     +'</tr>'
-                                        +'<tr>'
+                   +' <th colspan="2">'
+                    +' 商品'
+                 +'</th>'
+                 +' <th>'
+                  +' 价格'
+               +'</th>'
+             +' <th>'
+              +' 数量'
+                    +'<tr>'
                         +'<td width="50">'
                         +'<a url="goods_info.html" data-title="商品详情" onclick="layer_open(this,3)">'
                             +'<img src="'+img+'" width="80" height="80">'
@@ -109,15 +130,9 @@ var postData={id:id};
                         +'<td width="300">'
                             +'<p width="280"><strong>'+val.goodsName+'</strong>'
                             +'</p>'
-                            +'<p>'
-                            +'数量:'+val.number
-                            +'</p>'
-                            +'<small>'
-                                +'￥'+val.shopPrice+'&nbsp;&nbsp;'
-                                                            +'</small>'
                         +'</td>'
-//                         +'<td width="80" style="text-align: center;"><strong>数量</strong><br/><br/><p>'+val.number+'</p></td>'
-                        +'<td>'+val.goodsDesc+'</td>'
+                        +'<td>￥'+val.shopPrice+'</td>'
+                        +'<td>'+val.number+'</td>'
                     +'</tr>');
     	});
     	var orderStatus;
@@ -165,7 +180,12 @@ var postData={id:id};
             +'<tr>'
                 +'<td>下单日期</td>'
                 +'<td>'+orderInfo.createTime+'</td>'
-            +'</tr>';
+            +'</tr>'
+            +'<tr>'
+        	+'<td>管理员备注</td>'
+        	+'<td style="padding:0"><textarea id="adminNote" style="width:90%;height:100%;margin-bottom:-5px;">'+orderInfo.adminNotes+'</textarea>'
+        	+'<button class="btn btn-sm btn-primary" onclick=updateNote('+orderInfo.id+') style="position:absolute;margin-top:6px;">修改</button></td>'
+        +'</tr>';
             var consigneeHtml= '<tr>'
             +'<td>收货人</td>'
             +'<td>'+consignee.name+'</td>'
@@ -203,6 +223,7 @@ var postData={id:id};
                 +'</td>'
             +'</tr>';
             }
+            
 //     	);
     $('#orderInfoRight').append(consigneeHtml);
     $('#orderInfo').append(html);
@@ -216,6 +237,15 @@ function confirmCollect(){
 		parent.layer.closeAll();
 		parent.updateAlert(obj.msg,'alert-success');
 	})
+}
+function updateNote(id){
+	var note=$('#adminNote').val();
+	var id=id;
+	var url="/order/edit";
+	var data={id:id,adminNotes:note};
+	$.get(url,data,function(obj){
+		layer.msg(obj.msg,{icon:1});
+	});
 }
 </script>
 
