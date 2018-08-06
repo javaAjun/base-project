@@ -1,6 +1,7 @@
 package com.palmble.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.palmble.entity.AdminGroups;
@@ -21,11 +23,11 @@ public class AdminGroupsController {
 	@Autowired
 	private AdminGroupsService groupService;
 	@RequestMapping("/getGroupList")
-	public List<AdminGroups> getGroupList(){
-		return groupService.find(null);
+	public List<AdminGroups> getGroupList(@RequestParam Map<String,Object> map){
+		return groupService.find(map);
 	}
 	@RequestMapping("/edit")
-	public Result edit(AdminGroups group) {
+	public Result edit(AdminGroups group,String url) {
 		int state=groupService.updateById(group);
 		Result result=new Result();
 		if(state!=1) {
@@ -35,6 +37,7 @@ public class AdminGroupsController {
 			return result;
 		}
 		result.setCode(1);
+		result.setUrl(url);
 		result.setMsg("操作成功");
 		return result;
 	}
@@ -75,5 +78,10 @@ public class AdminGroupsController {
 		result.setCode(1);
 		result.setMsg("操作成功");
 		return result;
+	}
+	@RequestMapping("/getGroup")
+	public AdminGroups getGroup(HttpServletRequest request) {
+		Integer id=(Integer)request.getSession().getAttribute("groupId");
+		return groupService.getById(id);
 	}
 }

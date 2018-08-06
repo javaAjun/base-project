@@ -38,7 +38,7 @@
                    </div>
         </div>
     </div>
-    <div class="col-sm-12" style="width:45%">
+    <div class="col-sm-12" style="width:50%">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>订单信息</h5>
@@ -49,13 +49,13 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12" style="width:45%;">
+    <div class="col-sm-12" style="width:50%;">
     	<div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>收货信息</h5>
             </div>
             <div class="ibox-content" style="padding: 0;">
-                  <table class="table table-bordered" id="orderInfoRight" style="width:40%;">
+                  <table class="table table-bordered" id="orderInfoRight">
                 </table>
             </div>
         </div>
@@ -96,22 +96,28 @@ var postData={id:id};
     			img=val.goodsCoverImg;
     		}
     		$('#goodsInfo').append('<tr>'
-                        +'<th colspan="2">'
+                        +'<th colspan="3">'
                            +' 商品信息'
                         +'</th>'
-                        +'<th>数量</th>'
                     +'</tr>'
                                         +'<tr>'
                         +'<td width="50">'
-                            +'<img src="'+img+'" width="50" height="50">'
+                        +'<a url="goods_info.html" data-title="商品详情" onclick="layer_open(this,3)">'
+                            +'<img src="'+img+'" width="80" height="80">'
+                        +'</a>'
                         +'</td>'
-                        +'<td>'
-                            +'<p><strong>'+val.goodsName+'</strong></p>'
+                        +'<td width="300">'
+                            +'<p width="280"><strong>'+val.goodsName+'</strong>'
+                            +'</p>'
+                            +'<p>'
+                            +'数量:'+val.number
+                            +'</p>'
                             +'<small>'
                                 +'￥'+val.shopPrice+'&nbsp;&nbsp;'
                                                             +'</small>'
                         +'</td>'
-                        +'<td>'+val.number+'</td>'
+//                         +'<td width="80" style="text-align: center;"><strong>数量</strong><br/><br/><p>'+val.number+'</p></td>'
+                        +'<td>'+val.goodsDesc+'</td>'
                     +'</tr>');
     	});
     	var orderStatus;
@@ -157,22 +163,30 @@ var postData={id:id};
                 +'<td>'+orderInfo.userNotes+'</td>'
             +'</tr>'
             +'<tr>'
-            +'<td>收货人姓名</td>'
-            +'<td>'+consignee.name+'</td>'
-        +'</tr>'
-        +'<tr>'
-        +'<td>收货人电话</td>'
-        +'<td>'+consignee.phone+'</td>'
-   		 +'</tr>'
-            +'<tr>'
-            +'<td>收货地址</td>'
-            +'<td>'+consignee.addressInfo+'</td>'
-        +'</tr>'
-            +'<tr>'
                 +'<td>下单日期</td>'
                 +'<td>'+orderInfo.createTime+'</td>'
             +'</tr>';
-            
+            var consigneeHtml= '<tr>'
+            +'<td>收货人</td>'
+            +'<td>'+consignee.name+'</td>'
+        +'</tr>'
+        +'<tr>'
+        +'<td>电话</td>'
+        +'<td>'+consignee.phone+'</td>'
+   		 +'</tr>'
+   		 +'<tr>'
+         +'<td>省份</td>'
+         +'<td>'+consignee.province+'</td>'
+    		 +'</tr>'
+            +'<tr>'
+            +'<tr>'
+            +'<td>城市</td>'
+            +'<td>'+consignee.city+'</td>'
+       		 +'</tr>'
+               +'<tr>'
+            +'<td>详细地址</td>'
+            +'<td>'+consignee.addressInfo+'</td>'
+        +'</tr>';
             if(orderInfo.orderStatus==2){
             	html+='<tr>'
                 +'<td>操作</td>'
@@ -190,6 +204,7 @@ var postData={id:id};
             +'</tr>';
             }
 //     	);
+    $('#orderInfoRight').append(consigneeHtml);
     $('#orderInfo').append(html);
     $('#confirmReturn').click(function confirmReturn(){
     	parent.confirmReturn(orderInfo);

@@ -50,7 +50,7 @@
                 <form method="post" action="/toLogin">
                     <h4 class="no-margins text-center login-title">登 录</h4>
                     
-                    <input type="text" name="username" class="form-control uname" style="height: 40px" placeholder="用户名" />
+                    <input type="text" id="username" name="username" class="form-control uname" style="height: 40px" placeholder="用户名" />
                     <input type="password" name="password" class="form-control pword m-b" style="height: 40px" placeholder="密码" />
                     <input type="text" name="verify" class="form-control" placeholder="验证码" style="width:50%;display: inline-block;margin-top: 0;height: 40px" />
                     <img class="verifyimg reloadverify" title="点击切换" alt="点击切换" src="">
@@ -89,9 +89,6 @@
                     if(data.code==1){
                         window.location.href = data.url;
                     } else {
-                    	console.log(self.find(".check-tips"));
-                    	console.log(data.msg);
-                    	console.log(data);
                         self.find(".check-tips").text(data.msg);
                         //刷新验证码
                         $(".reloadverify").click();

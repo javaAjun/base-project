@@ -156,7 +156,7 @@
 		b.phone as phone,
 		b.province as province,
 		b.city as city,
-		b.address_info as address_info,
+		b.address_info as address_info
 	</sql>
 	<sql id="joinUserColumns">
 		a.id as id,
@@ -235,7 +235,7 @@
 		on a.user_id=c.id
 		<include refid="queryParams" />
 		<if test="sort != null and order != null">
-			order by ${sort} ${order}
+			order by ${sidx} ${sord}
 		</if>
 		<if test="startRow != null and pageSize != null">
 			limit #{startRow},#{pageSize}
@@ -258,7 +258,7 @@
 		from order_info a join consignee b on a.consignee_id=b.id
 		<include refid="queryParams" />
 		<if test="sort != null and order != null">
-			order by ${sort} ${order}
+			order by ${sidx} ${sord}
 		</if>
 		<if test="startRow != null and pageSize != null">
 			limit #{startRow},#{pageSize}
@@ -282,7 +282,7 @@
 		from order_info a join member_user b on a.user_id=b.id
 		<include refid="queryParams" />
 		<if test="sort != null and order != null">
-			order by ${sort} ${order}
+			order by ${sidx} ${sord}
 		</if>
 		<if test="startRow != null and pageSize != null">
 			limit #{startRow},#{pageSize}
@@ -330,6 +330,12 @@
   </sql>
   
   <select id="fuzzyQuery" parameterType="map" resultMap="simpleResult" >
+  	select 
+  		<include refid="baseColumns" />
+  	from order_info a join consignee b on a.consignee_id=b.id
+    <include refid="fuzzyParams" />
+  </select>
+  <select id="fuzzyQueryAllResult" parameterType="map" resultMap="BaseResultMap" >
   	select 
   		<include refid="baseColumns" />
   	from order_info a join consignee b on a.consignee_id=b.id

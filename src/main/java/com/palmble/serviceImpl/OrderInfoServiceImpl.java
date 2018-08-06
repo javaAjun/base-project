@@ -69,7 +69,7 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 	}
 	@Override
 	public XSSFWorkbook createAllWorkbooks(Map<String,Object> params) {
-		List<OrderInfo> orderList=fuzzyQuery(params);
+		List<OrderInfo> orderList=fuzzyQueryAllResult(params);
 		XSSFWorkbook  workbook = new XSSFWorkbook();
 		XSSFSheet sheet=workbook.createSheet("hello");
 		 XSSFRow hradRow = sheet.createRow(0);
@@ -120,6 +120,10 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 	@Override
 	public List<Map<String, Object>> findSimpleResultToMap(Map<String, Object> params) {
 		return orderInfoDao.findSimpleResultToMap(params);
+	}
+	@Override
+	public List<OrderInfo> fuzzyQueryAllResult(Map<String, Object> params) {
+		return orderInfoDao.fuzzyQueryAllResult(params);
 	}
 
 }

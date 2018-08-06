@@ -34,6 +34,8 @@ public class AdminController {
 	@RequestMapping("/getAdminList")
 	public PageInfo<AdminUser> getAdminList(@RequestParam Map<String, Object> map) {
 		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()));
+		//{_search=false, nd=1533289255776, rows=10, page=1, sidx=id, sord=asc}
+		//{_search=false, nd=1533289625072, rows=10, page=1, sidx=id, sord=asc}
 		List<AdminUser> list = adminUserService.selectBySelective(map);
 		PageInfo<AdminUser> page=new PageInfo<AdminUser>(list);
 		return page;

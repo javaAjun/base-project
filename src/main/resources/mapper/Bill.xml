@@ -204,8 +204,8 @@
     <include refid="baseColumns" />
     from bill
     <include refid="queryParams" />
-    <if test="sort != null and order != null" >
-      order by ${sort} ${order}
+    <if test="sidx != null and sord != null" >
+      order by ${sidx} ${sord}
     </if>
     <if test="startRow != null and pageSize != null" >
       limit #{startRow},#{pageSize}
