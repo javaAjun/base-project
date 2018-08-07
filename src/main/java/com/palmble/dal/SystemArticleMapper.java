@@ -18,4 +18,5 @@ public interface SystemArticleMapper {
     int updateByPrimaryKeySelective(SystemArticle record);
 
     int updateByPrimaryKey(SystemArticle record);
+	SystemArticle selectByName(SystemArticle systemArticle);
 }

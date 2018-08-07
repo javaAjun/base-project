@@ -13,21 +13,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from zs_goods_PhotoAlbum
+    from zs_goods_photoalbum
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from zs_goods_PhotoAlbum
+    delete from zs_goods_photoalbum
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.palmble.entity.ZsGoodsPhotoAlbum" >
-    insert into zs_goods_PhotoAlbum (id, goodsImg, goodsThumbs
+    insert into zs_goods_photoalbum (id, goodsImg, goodsThumbs
       )
     values (#{id,jdbcType=INTEGER}, #{goodsImg,jdbcType=VARCHAR}, #{goodsThumbs,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.palmble.entity.ZsGoodsPhotoAlbum" >
-    insert into zs_goods_PhotoAlbum
+    insert into zs_goods_photoalbum
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -58,7 +58,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.ZsGoodsPhotoAlbum" >
-    update zs_goods_PhotoAlbum
+    update zs_goods_photoalbum
     <set >
       <if test="goodsImg != null" >
         goodsImg = #{goodsImg,jdbcType=VARCHAR},
@@ -73,7 +73,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.palmble.entity.ZsGoodsPhotoAlbum" >
-    update zs_goods_PhotoAlbum
+    update zs_goods_photoalbum
     set goodsImg = #{goodsImg,jdbcType=VARCHAR},
       goodsThumbs = #{goodsThumbs,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

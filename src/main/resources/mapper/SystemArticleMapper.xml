@@ -25,7 +25,7 @@
     select 
     <include refid="Base_Column_List" />
     from system_article
-    where id = 1=1
+    where 1=1
     <if test="title != null" >
         and article_title like concat(concat('%',#{title,jdbcType=VARCHAR}),'%') 
     </if>
@@ -37,6 +37,13 @@
     <include refid="Base_Column_List" />
     from system_article
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 通过名字查询文章是否存在 -->
+  <select id="selectByName" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_article
+    where article_title = #{articleTitle,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from system_article
