@@ -33,9 +33,24 @@ public class OrderInfo{
     
     private String memberNumber;
     
+    private String adminNotes;
+    
+    private String expressNo;
     
     
-    public String getMemberNumber() {
+	public String getExpressNo() {
+		return expressNo;
+	}
+	public void setExpressNo(String expressNo) {
+		this.expressNo = expressNo;
+	}
+	public String getAdminNotes() {
+		return adminNotes;
+	}
+	public void setAdminNotes(String adminNotes) {
+		this.adminNotes = adminNotes;
+	}
+	public String getMemberNumber() {
 		return memberNumber;
 	}
 	public void setMemberNumber(String memberNumber) {

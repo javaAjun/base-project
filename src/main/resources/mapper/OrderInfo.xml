@@ -16,6 +16,8 @@
 		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 		<result column="user_id" property="userId" jdbcType="INTEGER" />
 		<result column="user_name" property="memberNumber" jdbcType="INTEGER" />
+		<result column="admin_notes" property="adminNotes" jdbcType="VARCHAR" />
+		<result column="express_no" property="expressNo" jdbcType="VARCHAR"/>
 		<association property="consignee" javaType="com.palmble.entity.Consignee">
 			<result column="name" property="name" jdbcType="VARCHAR" />
 			<result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -52,6 +54,7 @@
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
 		<result column="integral" property="integral" jdbcType="INTEGER" />
+		<result column="admin_notes" property="adminNotes" jdbcType="VARCHAR"/>
 		<result column="payment_method" property="paymentMethod"
 			jdbcType="INTEGER" />
 		<result column="order_status" property="orderStatus" jdbcType="INTEGER" />
@@ -60,13 +63,14 @@
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="express_no" property="expressNo" jdbcType="VARCHAR"/>
 	</resultMap>
 
 	<!-- 根据订单查询商品信息 -->
 	<select id="findGoods" parameterType="string"
 		resultType="com.palmble.entity.ZsGoods">
 		select
-		a.id, a.goodsNo, a.goodsName, a.goodsCoverImg,
+		a.goodsNo, a.goodsName, a.goodsCoverImg,
 		a.goodsCoverThums,
 		a.marketPrice, a.shopPrice, a.goodsStock,
 		a.saleCount, a.goodsSpec, a.isSale, a.isAdminRecom, a.goodsDesc,
@@ -74,9 +78,10 @@
 		a.createTime, 
 		a.goodsPhotoAlbumId,
 		a.goodsCateId,
+		a.id,
 		b.number
 		from
-		zs_goods a join harvested_goods b
+		zs_goods a right join harvested_goods b
 		on a.id=b.goods_id
 		where
 		b.order_id=#{id}
@@ -120,7 +125,13 @@
 				update_time = #{updateTime},
 			</if>
 			<if test="userId!=null">
-				user_id=#{userId}
+				user_id=#{userId},
+			</if>
+			<if test="adminNotes!=null">
+				admin_notes=#{adminNotes},
+			</if>
+			<if test="expressNo!=null">
+				express_no=#{expressNo},
 			</if>
 		</set>
 		where id = #{id}
@@ -137,7 +148,9 @@
 		total_amount=#{totalAmount,jdbcType=DOUBLE},
 		create_time=#{createTime,jdbcType=TIMESTAMP},
 		update_time=#{updateTime,jdbcType=TIMESTAMP},
-		user_id=#{userId,jdbcType=INTEGER}
+		user_id=#{userId,jdbcType=INTEGER},
+		admin_notes=#{adminNotes,jdbcType=VARCHAR},
+		express_no=#{expressNo,jdbcType=VARCHAR}
 		where id = #{id}
 	</update>
 
@@ -148,10 +161,12 @@
 		a.payment_method as payment_method,
 		a.order_status as order_status,
 		a.user_notes as user_notes,
+		a.admin_notes as admin_notes,
 		a.total_amount as total_amount,
 		date_format(a.create_time,'%Y-%m-%d %H:%i:%s') as create_time,
 		date_format(a.update_time,'%Y-%m-%d %H:%i:%s') as update_time,
 		a.user_id as user_id,
+		a.express_no as express_no,
 		b.name as name,
 		b.phone as phone,
 		b.province as province,
@@ -165,7 +180,9 @@
 		a.payment_method as payment_method,
 		a.order_status as order_status,
 		a.user_notes as user_notes,
+		a.admin_notes as admin_notes,
 		a.total_amount as total_amount,
+		a.express_no as express_no,
 		date_format(a.create_time,'%Y-%m-%d %H:%i:%s') as create_time,
 		date_format(a.update_time,'%Y-%m-%d %H:%i:%s') as update_time,
 		a.user_id as user_id,
@@ -179,8 +196,9 @@
 
 	<sql id="queryParams">
 		<where>
+		1=1
 			<if test="orderNumber != null and orderNumber != ''">
-				a.order_number=#{orderNumber}
+				and a.order_number=#{orderNumber}
 			</if>
 			<if test="integral != null and integral != ''">
 				and a.integral=#{integral}
@@ -205,6 +223,12 @@
 			</if>
 			<if test="updateTime != null and updateTime != ''">
 				and a.update_time=#{updateTime}
+			</if>
+			<if test="adminNotes != null and adminNotes != ''">
+				and a.admin_notes=#{adminNotes}
+			</if>
+			<if test="adminNotes != null and adminNotes != ''">
+				and a.express_no=#{expressNo}
 			</if>
 		</where>
 	</sql>
@@ -252,10 +276,13 @@
 		order_status as order_status,
 		user_notes as user_notes,
 		total_amount as total_amount,
+		express_no,
 		date_format(create_time,'%Y-%m-%d %H:%i:%s') as create_time,
 		date_format(update_time,'%Y-%m-%d %H:%i:%s') as update_time,
 		user_id as user_id,
-		from order_info a join consignee b on a.consignee_id=b.id
+		admin_notes
+		from order_info 
+<!-- 		a join consignee b on a.consignee_id=b.id -->
 		<include refid="queryParams" />
 		<if test="sort != null and order != null">
 			order by ${sidx} ${sord}
@@ -275,9 +302,11 @@
 		a.order_status as orderStatus,
 		a.user_notes as userNotes,
 		a.total_amount as totalAmount,
+		a.express_no as express_no,
 		date_format(a.create_time,'%Y-%m-%d %H:%i:%s') as createTime,
 		date_format(a.update_time,'%Y-%m-%d %H:%i:%s') as updateTime,
 		a.user_id as userId,
+		a.admin_notes as admin_notes,
 		b.user_name as userName
 		from order_info a join member_user b on a.user_id=b.id
 		<include refid="queryParams" />
@@ -296,8 +325,9 @@
 	
 	  <sql id="fuzzyParams">
     <where >
+    	1=1
       <if test="orderNumber != null and orderNumber != ''">
-      a.order_number like concat(concat('%',#{orderNumber}),'%')  
+      and a.order_number like concat(concat('%',#{orderNumber}),'%')  
       </if>
       <if test="integral != null and integral != ''" >
       and  a.integral like concat(concat('%',#{integral}),'%')  
@@ -314,6 +344,9 @@
       <if test="totalAmount != null and totalAmount != ''" >
       and  a.total_amount like concat(concat('%',#{totalAmount}),'%')  
       </if>
+      <if test="expressNo != null and expressNo != ''" >
+      and  a.express_no like concat(concat('%',#{expressNo}),'%')  
+      </if>
       <if test="startTime != null and startTime != ''" >
       <![CDATA[ and  a.create_time  > #{startTime}]]>
       </if>
@@ -325,6 +358,9 @@
       </if>
       <if test="consigneeId != null and consigneeId != ''" >
       and  a.consignee_id like concat(concat('%',#{consigneeId}),'%')  
+      </if>
+       <if test="adminNotes != null and adminNotes != ''" >
+      and  a.admin_notes like concat(concat('%',#{adminNotes}),'%')  
       </if>
     </where >
   </sql>
