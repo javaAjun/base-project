@@ -16,16 +16,20 @@
   <result column = "create_time" property = "createTime" jdbcType = "TIMESTAMP"/>
   <result column = "update_time" property = "updateTime" jdbcType = "TIMESTAMP"/>
   <result column = "qq" property = "qq" jdbcType = "VARCHAR"/>
-  <result column = "capital" property = "capital" jdbcType = "BIGINT"/>
+  <result column = "capital" property = "capital" jdbcType = "DOUBLE"/>
   <result column = "del_state" property = "delState" jdbcType = "INTEGER"/>
   <result column = "nick_name" property = "nickName" jdbcType = "VARCHAR"/>
-    <result column = "user_name" property = "userName" jdbcType = "VARCHAR"/>
+  <result column = "user_name" property = "userName" jdbcType = "VARCHAR"/>
   <result column = "password" property = "password" jdbcType = "VARCHAR"/>
   <result column = "remarks" property = "remarks" jdbcType = "VARCHAR"/>
+  <result column = "balance" property = "balance" jdbcType = "DOUBLE"/>
+  <result column = "integral" property = "integral" jdbcType = "DOUBLE"/>
+  <result column = "cash_coupon" property = "cashCoupon" jdbcType = "DOUBLE"/>
+  <result column = "bill_id" property = "billId" jdbcType = "INTEGER"/>
   </resultMap>
   
 
-  <insert id="insert" parameterType="com.palmble.entity.MemberUser" >
+   <insert id="insert" parameterType="com.palmble.entity.MemberUser" >
     insert into member_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -73,7 +77,7 @@
       <if test="nickName != null" >
         nick_name,
       </if>
-       <if test="userName != null" >
+      <if test="userName != null" >
         user_name,
       </if>
       <if test="password != null" >
@@ -81,6 +85,18 @@
       </if>
       <if test="remarks != null" >
         remarks,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+      <if test="cashCoupon != null" >
+        cash_coupon,
+      </if>
+      <if test="billId != null" >
+        bill_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -135,15 +151,27 @@
       <if test="password != null" >
         #{password},
       </if>
-       <if test="remarks != null" >
+      <if test="remarks != null" >
         #{remarks},
+      </if>
+      <if test="balance != null" >
+        #{balance},
+      </if>
+      <if test="integral != null" >
+        #{integral},
+      </if>
+      <if test="cashCoupon != null" >
+        #{cashCoupon},
+      </if>
+      <if test="billId != null" >
+        #{billId},
       </if>
     </trim>
   </insert>
   
-   <insert id="insertFully" parameterType="com.palmble.entity.MemberUser" >
-    insert into user (id,name,phone,role,grade,e_mail,address,state,id_number,create_time,update_time,qq,capital,del_state,nick_name,user_name,password,remarks)
-    values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{role,jdbcType=INTEGER},#{grade,jdbcType=INTEGER},#{eMail,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{state,jdbcType=INTEGER},#{idNumber,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{qq,jdbcType=VARCHAR},#{capital,jdbcType=BIGINT},#{delState,jdbcType=INTEGER},#{nickName,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{remarks,jdbcType=VARCHAR})
+  <insert id="insertFully" parameterType="com.palmble.entity.MemberUser" >
+    insert into user (id,name,phone,role,grade,e_mail,address,state,id_number,create_time,update_time,qq,capital,del_state,nick_name,user_name,password,remarks,balance,integral,cash_coupon,bill_id)
+    values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{role,jdbcType=INTEGER},#{grade,jdbcType=INTEGER},#{eMail,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{state,jdbcType=INTEGER},#{idNumber,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{qq,jdbcType=VARCHAR},#{capital,jdbcType=DOUBLE},#{delState,jdbcType=INTEGER},#{nickName,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{remarks,jdbcType=VARCHAR},#{balance,jdbcType=DOUBLE},#{integral,jdbcType=DOUBLE},#{cashCoupon,jdbcType=DOUBLE},#{billId,jdbcType=INTEGER})
   </insert>
   
   <delete id="deleteById" parameterType="java.lang.Integer" >
@@ -205,8 +233,20 @@
       <if test="password != null" >
         password = #{password},
       </if>
-       <if test="remarks != null" >
+      <if test="remarks != null" >
         remarks = #{remarks},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral},
+      </if>
+      <if test="cashCoupon != null" >
+        cash_coupon = #{cashCoupon},
+      </if>
+      <if test="billId != null" >
+        bill_id = #{billId},
       </if>
   </set>
     where id = #{id}
@@ -226,12 +266,16 @@
    create_time=#{createTime,jdbcType=TIMESTAMP},
    update_time=#{updateTime,jdbcType=TIMESTAMP},
    qq=#{qq,jdbcType=VARCHAR},
-   capital=#{capital,jdbcType=BIGINT},
+   capital=#{capital,jdbcType=DOUBLE},
    del_state=#{delState,jdbcType=INTEGER},
    nick_name=#{nickName,jdbcType=VARCHAR},
    user_name=#{userName,jdbcType=VARCHAR},
    password=#{password,jdbcType=VARCHAR},
-   remarks=#{remarks,jdbcType=VARCHAR}
+   remarks=#{remarks,jdbcType=VARCHAR},
+   balance=#{balance,jdbcType=DOUBLE},
+   integral=#{integral,jdbcType=DOUBLE},
+   cash_coupon=#{cashCoupon,jdbcType=DOUBLE},
+   bill_id=#{billId,jdbcType=INTEGER}
    where id = #{id}
   </update>
   
@@ -253,10 +297,14 @@
     nick_name,
     user_name,
     password,
-    remarks
+    remarks,
+    balance,
+    integral,
+    cash_coupon,
+    bill_id
   </sql>
   
-  <sql id="queryParams">
+   <sql id="queryParams">
     <where >
       <if test="name != null and name != ''">
       name=#{name} 
@@ -308,6 +356,18 @@
       </if>
       <if test="remarks != null and remarks != ''" >
       and  remarks=#{remarks} 
+      </if>
+      <if test="balance != null and balance != ''" >
+      and  balance=#{balance} 
+      </if>
+      <if test="integral != null and integral != ''" >
+      and  integral=#{integral} 
+      </if>
+      <if test="cashCoupon != null and cashCoupon != ''" >
+      and  cash_coupon=#{cashCoupon} 
+      </if>
+      <if test="billId != null and billId != ''" >
+      and  bill_id=#{billId} 
       </if>
     </where >
   </sql>
@@ -396,6 +456,18 @@
       </if>
       <if test="remarks != null and remarks != ''" >
        and  remarks like concat(concat('%',#{remarks}),'%') 
+      </if>
+      <if test="balance != null and balance != ''" >
+      and  balance like concat(concat('%',#{balance}),'%') 
+      </if>
+      <if test="integral != null and integral != ''" >
+      and  integral like concat(concat('%',#{integral}),'%')  
+      </if>
+      <if test="cashCoupon != null and cashCoupon != ''" >
+      and  cash_coupon like concat(concat('%',#{cashCoupon}),'%') 
+      </if>
+      <if test="billId != null and billId != ''" >
+      and  bill_id like concat(concat('%',#{billId}),'%') 
       </if>
     </where >
 <!--      <if test="sidx != null and sord != null" > -->

@@ -2,126 +2,147 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <title>后台管理</title>
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
-    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
-    <link href="../hplus/css/animate.min.css" rel="stylesheet">
-    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
-    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
-    <link rel="stylesheet" href="../css/common.css">
-    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
-    
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<title>后台管理</title>
+<link rel="shortcut icon" href="/favicon.ico">
+<link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+<link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0"
+	rel="stylesheet">
+<link href="../hplus/css/animate.min.css" rel="stylesheet">
+<link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+<link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820"
+	rel="stylesheet">
+<link rel="stylesheet" href="../css/common.css">
+<script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+
 </head>
 
-<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
-<div id="top-alert" class="alert alert-danger alert-dismissable">
-    <button aria-hidden="true" class="close" type="button">×</button>
-    <span class="alert-content"></span>
-</div>
-<div style="padding: 10px;">
-    
-<div class="ibox">
-    <!--<div class="ibox-title">
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav">
+	<div style="padding: 10px;">
+
+		<div class="ibox">
+			<!--<div class="ibox-title">
         <h5>基本信息</h5>
     </div>-->
-    <div class="ibox-content">
-        <style>
-            th{
-                width: 100px;
-            }
-        </style>
-         <table class="table table-striped">
-            <tr>
-                <th>会员编号</th>
-                <td id="id"></td>
-                <th>会员姓名</th>
-                <td id="name"></td>
-            </tr>
-            <tr>
-                <th>会员电话</th>
-                <td id="phone"></td>
-                <th>会员角色</th>
-                <td id="role">
-                </td>
-            </tr>
-            <tr>
-                <th>邮箱</th>
-                <td id="email"></td>
-                <th>地址</th>
-                <td id="address"></td>
-            </tr>
-             <tr>
-                <th>状态</th>
-                <td id="state"></td>
-                <th>身份证号</th>
-                <td id="idNumber"></td>
-            </tr>
-             <tr>
-                <th>注册时间</th>
-                <td id="createTime"></td>
-                <th>修改时间</th>
-                <td id="updateTime"></td>
-            </tr>
-             <tr>
-                <th>QQ</th>
-                <td id="qq"></td>
-                <th>资金</th>
-                <td id="capital"></td>
-            </tr>
-             <tr>
-                <th>备注</th>
-                <td id="remarks"></td>
-            </tr>
-        </table>
+			<div class="ibox-content">
+				<div class="row">
+				<div class="col-xs-12">
+					<form action="/member/edit" id="form-edit">
+						<table class="table table-striped">
+							<tr>
+								<th>会员id</th>
+								<td><input id="id" name="id"readonly="readonly" class="form-control"/></td>
+								<th>现金余额</th>
+								<td><input id="balance" name="balance"readonly="readonly" class="form-control"/></td>
+							</tr>
+							<tr>
+								<th>总消费额</th>
+								<td><input id="capital" name="capital"readonly="readonly" class="form-control"/></td>
+								<th>代金券</th>
+								<td><input id="cashCoupon" name="cashCoupon" class="form-control"/></td>
+							</tr>
+							<tr>
+								<th>用户名</th>
+								<td><input id="userName" name="userName" class="form-control"/></td>
+								<th>真实姓名</th>
+								<td><input id="name" name="name" class="form-control"/></td>
+							</tr>
+							<tr>
+								<th>昵称</th>
+								<td><input id="nickName" name="nickName" class="form-control"/></td>
+								<th>积分</th>
+								<td><input id="integral" name="integral" class="form-control"/></td>
+							</tr>
+							<tr>
+								<th>会员电话</th>
+								<td><input id="phone" name="phone" oninput="clearNoNum1(this)" class="form-control"/></td>
+								<th>会员角色</th>
+								<td><select name="role" class="form-control"id="role">
+										<option value="0">普通用户</option>
+										<option value="1">高级用户</option>
+								</select></td>
+							</tr>
+							<tr>
+								<th>邮箱</th>
+								<td><input id="eMail" name="eMail" class="form-control"/></td>
+								<th>QQ</th>
+								<td><input id="qq" name="qq" oninput="clearNoNum1(this)" class="form-control"/></td>
+							</tr>
+							<tr>
+								<th>状态</th>
+								<td><select name="state" name="state" class="form-control"id="state">
+										<option value="0">无效</option>
+										<option value="1">有效</option>
+								</select></td>
+								<th>身份证号</th>
+								<td><input id="idNumber" name="idNumber" oninput="clearNoNum1(this)" class="form-control"/></td>
+							</tr>
+							<tr>
+								<th>注册时间</th>
+								<td id="createTime"></td>
+								<th>修改时间</th>
+								<td id="updateTime"></td>
+							</tr>
+							<tr>
+								<th>家庭住址</th>
+								<td><textarea id="address" name="address" class="form-control"></textarea></td>
+								<th>备注</th>
+								<td><textarea id="remarks" name="	" class="form-control"></textarea></td>
+							</tr>
+						</table>
+						<button class="btn-sm btn-primary" type="button" id="save-btn">保存</button>
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    </div>
-</div>
+	</div>
+	<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="../layer-v3.1.1/layer/layer.js"></script>
+	<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+	<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+	<script src="../hplus/js/contabs.min.js"></script>
+	<script src="../hplus/js/plugins/pace/pace.min.js"></script>
 
-</div>
-<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
-<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="../layer-v3.1.1/layer/layer.js"></script>
-<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
-<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
-<script src="../hplus/js/contabs.min.js"></script>
-<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+	<!-- jqGrid -->
+	<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+	<script src="../js/common.js"></script>
 
-<!-- jqGrid -->
-<!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
-<script src="../js/common.js"></script>
-
-<script>
-	var url="/member/getMenberListById";
-	var data={id:getQueryString('id')};
-	$.get(url,data,function(data){
-		console.log(data);
-		var tds=$('td');
-		for(var i in data){
-			if('role'==i){
-				if(data[i] == 0){
-                    $('#'+i).html('普通会员');
-                } 
-        		else if(data[i] == 1){
-                    $('#'+i).html('中级会员');
-                }
-             	else if(data[i] == 2){
-                    $('#'+i).html('高级会员');
-                }
-             	else{
-             		$('#'+i).html('普通会员');
-             	}
-			}else{
-				$('#'+i).html(data[i]);
+	<script>
+		var url = "/member/getMenberListById";
+		var data = {
+			id : getQueryString('id')
+		};
+		$.get(url, data, function(data) {
+			console.log(data);
+			var tds = $('td');
+			for ( var i in data) {
+				var element = $('#' + i);
+				if (element.is('input') || element.is('select')) {
+					element.val(data[i]);
+				} else {
+					element.html(data[i]);
+				}
 			}
-		}
-	});
-</script>
+		});
+		$('#save-btn').on('click', function() {
+		    var self = $("#form-edit");
+		    var url = self.attr('action');
+		    if(url){
+		        var pdata = self.serializeObject();
+		        $.get(url,pdata,function(obj){
+		        	layer.msg(obj.msg);
+		        	location.reload();
+		        });
+		    }
+		});
+	</script>
 
 </body>
 </html>
