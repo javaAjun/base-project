@@ -17,7 +17,7 @@
 		    <label class="layui-form-label">菜单名称<span class="text-danger"><font color="ff3333">*</font></span></label>
 		    <div class="layui-input-block">
 		      <input type="hidden" name="id"   class="layui-input">
-		      <input type="text" name="menuName" lay-verify="required" autocomplete="off" placeholder="请输入菜单名称" class="layui-input">
+		      <input type="text" name="menuName" maxlength="10" lay-verify="required" autocomplete="off" placeholder="请输入菜单名称" class="layui-input">
 		    </div>
 		  </div>
 		  <div class="layui-form-item">
@@ -29,7 +29,7 @@
 		  <div class="layui-form-item">
 		    <label class="layui-form-label">菜单排序</label>
 		    <div class="layui-input-block">
-		      <input type="text" name="sequenceNumber" lay-verify="number" placeholder="请输入阿拉伯数字" autocomplete="off" class="layui-input" value="0">
+		      <input type="text" name="sequenceNumber" oninput="clearNoNum1(this)" lay-verify="number" placeholder="请输入阿拉伯数字" autocomplete="off" class="layui-input" value="0">
 		    </div>
 		  </div>
 		  <div class="layui-form-item">
@@ -65,7 +65,7 @@
 		  <div class="layui-form-item layui-form-text">
 		    <label class="layui-form-label">菜单描述</label>
 		    <div class="layui-input-block">
-		      <textarea placeholder="非必填项内容,最多可输入300字" class="layui-textarea" name="menuInfo"></textarea>
+		      <textarea placeholder="非必填项内容,最多可输入300字" maxlength="300"  class="layui-textarea" name="menuInfo"></textarea>
 		    </div>
 		  </div>
 		 

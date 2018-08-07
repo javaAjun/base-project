@@ -23,4 +23,6 @@ public interface BaseMenuService {
 	List<BaseMenu> getAll();
 
 	BaseMenu getMenuInfoByselect(BaseMenu baseMenu);
+
+	ResultInfo changeMenuSort(Integer id, Integer sort);
 }

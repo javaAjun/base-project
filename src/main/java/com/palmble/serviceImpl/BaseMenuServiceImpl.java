@@ -102,4 +102,22 @@ public class BaseMenuServiceImpl implements BaseMenuService {
 		return baseMenuMapper.selectBySelective(baseMenu);
 		
 	}
+	@Override
+	public ResultInfo changeMenuSort(Integer id, Integer sort) {
+		BaseMenu menu = baseMenuMapper.selectByPrimaryKey(id);
+		if(menu==null) {
+			return new ResultInfo(-1, "获取菜单信息失败");
+		}
+		if(sort!=null) {
+			menu.setSequenceNumber(sort);
+		}else {
+			return new ResultInfo(-1, "操作失败");
+		}
+		int num=baseMenuMapper.updateByPrimaryKey(menu);
+		if(num>0) {
+			return new ResultInfo(1, "操作成功");
+		}else {
+			return new ResultInfo(-1, "操作失败");
+		}
+	}
 }

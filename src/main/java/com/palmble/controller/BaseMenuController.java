@@ -47,7 +47,7 @@ public class BaseMenuController extends PalmbleBaseController{
 	 */
 	@RequestMapping("/list")
 	public PageInfo<BaseMenu> getMenuList(@RequestParam Map<String, String> map) {
-		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()));
+		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()),map.get("sidx").toString());
 	  	PageInfo<BaseMenu> pageSource = permissionMenuService.getMenuList(map);
 	  	return pageSource;
 	}
@@ -122,6 +122,8 @@ public class BaseMenuController extends PalmbleBaseController{
 		Map<String,String> contMap=new HashMap<String,String>();
 		contMap.put("parentId", "0");
 		contMap.put("remake", "0");
+		contMap.put("sidx", "sequence_number");
+		PageHelper.startPage(0,100,"sequence_number");
 		PageInfo<BaseMenu> menuList = permissionMenuService.getMenuList(contMap);//获取一级菜单
 		List<Map<String,Object>> baseList = new ArrayList<>();
 		for (int i = 0; i < menuList.getList().size(); i++) {
@@ -177,5 +179,10 @@ public class BaseMenuController extends PalmbleBaseController{
 		String baseJson = JSON.toJSONString(baseList);//序列化json
 		System.out.println(baseJson);
 		return baseJson;
+	}
+	
+	@RequestMapping("/changeMenuSort")
+	public ResultInfo changeMenuSort(@RequestParam Integer id,Integer sort) {
+		return permissionMenuService.changeMenuSort(id,sort);
 	}
 }
