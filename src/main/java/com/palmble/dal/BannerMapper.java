@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.palmble.entity.Banner;
-import com.palmble.entity.BaseMenu;
 
 public interface BannerMapper {
     int deleteByPrimaryKey(Integer id);

@@ -119,11 +119,11 @@ layui.use(['form', 'layedit', 'laydate'], function(){
           dataType: "json",
           success: function (data) {
           	if(data.code=="1"){
-           	showMsg(data.info,function(){
+           	showMsg(data.msg,function(){
            		parent.layer.closeAll();
            	});
           	}else{
-          		showMsg(data.info);
+          		showMsg(data.msg);
           	}
           },
           error: function (data) {
