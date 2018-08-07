@@ -131,6 +131,7 @@ public class BaseMenuController extends PalmbleBaseController{
 			contMap.clear();
 			contMap.put("parentId", menuList.getList().get(i).getId()+"");
 			contMap.put("remake", "0");
+			PageHelper.startPage(0,100,"sequence_number");
 			PageInfo<BaseMenu> childMenuList = permissionMenuService.getMenuList(contMap);//获取二级菜单
 			parentMap.put("menuId", menuList.getList().get(i).getId());
 			parentMap.put("menuName", menuList.getList().get(i).getMenuName());
@@ -144,6 +145,7 @@ public class BaseMenuController extends PalmbleBaseController{
 				contMap.clear();
 				contMap.put("parentId", childMenuList.getList().get(j).getId()+"");
 				contMap.put("remake", "0");
+				PageHelper.startPage(0,100,"sequence_number");
 				PageInfo<BaseMenu> list = permissionMenuService.getMenuList(contMap);//获取二级菜单
 				List<Map<String,Object>> childList = new ArrayList<>();
 				for(int k=0;k<list.getList().size();k++) {
