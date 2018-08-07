@@ -137,24 +137,30 @@ var postData={id:id};
     	});
     	var orderStatus;
     	if(orderInfo.orderStatus==0){
-    		orderStatus= "待付款";
+    		orderStatus= "交易关闭";
     	}
     	if(orderInfo.orderStatus==1){
-    		orderStatus= "待发货";
+    		orderStatus= "待付款";
     	}
     	if(orderInfo.orderStatus==2){
-    		orderStatus= "待收货";
+    		orderStatus= "待发货";
     	}
     	if(orderInfo.orderStatus==3){
-    		orderStatus= "已收货";
+    		orderStatus= "待收货";
     	}
     	if(orderInfo.orderStatus==4){
-    		orderStatus= "待退货";
+    		orderStatus= "已收货";
     	}
     	if(orderInfo.orderStatus==5){
-    		orderStatus= "退货中";
+    		orderStatus= "申请退货";
     	}
     	if(orderInfo.orderStatus==6){
+    		orderStatus= "待退货";
+    	}
+    	if(orderInfo.orderStatus==7){
+    		orderStatus= "退货中";
+    	}
+    	if(orderInfo.orderStatus==8){
     		orderStatus= "已退货";
     	}
     	var html='<tr>'
