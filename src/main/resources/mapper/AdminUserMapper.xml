@@ -275,10 +275,10 @@
         last_login_time=#{lastLoginTime,jdbcType=TIMESTAMP},
       </if>
       <if test="groupName != null" >
-        group_name=#{groupName,jdbcType=VARCHAR}
+        group_name=#{groupName,jdbcType=VARCHAR},
       </if>
       <if test="loginCount != null" >
-        login_count=#{loginCount,jdbcType=INTEGER}
+        login_count=#{loginCount,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

@@ -222,7 +222,7 @@
 											}
 										},
 										{
-											label : '总金额',
+											label : '实付金额',
 											name : 'totalAmount',
 											index : 'totalAmount',
 											width : 80,
@@ -248,10 +248,13 @@
 												var btn = '<a href="javascript:;" url="'
 														+ editurl
 														+ '" data-title="订单详情" onclick="open_info(this,1)"><span class="label label-info" title="详情">详情</span></a>&nbsp;';
-												if (c.orderStatus == 6) {
+												if (c.orderStatus == 6||c.orderStatus == 7) {
 													btn += '<a href="javascript:;" onclick="returnGoods('
 															+ c.id
 															+ ')"><span class="label label-info" title="确认退款">退款</span></a>&nbsp;';
+												}
+												if (c.orderStatus == 5) {
+													btn += '<a href="javascript:;"  url="'+editurl+'"  onclick="open_info(this,1)" data-title="审批售后" ><span class="label label-info" title="审批售后">审批售后</span></a>&nbsp;';
 												}
 												if (c.orderStatus == 2) {
 													btn += '<a href="/order/confirmCollect?id='
@@ -323,16 +326,16 @@
 			
 		}
 		//layer.msg('的确很重要', {icon: 1});
-		function openContent(){
-			layer.open({
-				  type: 1,
-				  title: 'layer mobile页',
-				  shadeClose: true,
-				  shade: 0.8,
-				  area: ['380px', '90%'],
-				  content: '1234是的发顺丰' //iframe的url
-				}); 
-		}
+// 		function openContent(){
+// 			layer.open({
+// 				  type: 1,
+// 				  title: 'layer mobile页',
+// 				  shadeClose: true,
+// 				  shade: 0.8,
+// 				  area: ['380px', '90%'],
+// 				  content: '1234是的发顺丰' //iframe的url
+// 				}); 
+// 		}
 		function confirmReturn(order){
 			layer.confirm('请选择退款金额？', {
 				  btn: ['全额退款','自定义金额'] //按钮

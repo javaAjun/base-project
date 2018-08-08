@@ -37,7 +37,15 @@ public class OrderInfo{
     
     private String expressNo;
     
+    private AfterSale afterSale;
     
+    
+	public AfterSale getAfterSale() {
+		return afterSale;
+	}
+	public void setAfterSale(AfterSale afterSale) {
+		this.afterSale = afterSale;
+	}
 	public String getExpressNo() {
 		return expressNo;
 	}
@@ -64,6 +72,7 @@ public class OrderInfo{
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+
 	private Consignee consignee;
     
     public Consignee getConsignee() {
@@ -142,6 +151,14 @@ public class OrderInfo{
     public void setUpdateTime(String updateTime) {
        this.updateTime = updateTime;
     }
+	@Override
+	public String toString() {
+		return "OrderInfo [id=" + id + ", orderNumber=" + orderNumber + ", integral=" + integral + ", paymentMethod="
+				+ paymentMethod + ", orderStatus=" + orderStatus + ", userNotes=" + userNotes + ", totalAmount="
+				+ totalAmount + ", createTime=" + createTime + ", updateTime=" + updateTime + ", memberNumber="
+				+ memberNumber + ", adminNotes=" + adminNotes + ", expressNo=" + expressNo + ", afterSale=" + afterSale
+				+ ", userId=" + userId + ", consignee=" + consignee + ", zsGoods=" + zsGoods + "]";
+	}
 
 
 }

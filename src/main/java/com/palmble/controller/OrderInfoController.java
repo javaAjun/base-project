@@ -188,4 +188,20 @@ public class OrderInfoController {
 		}
 		return result;
 	}
+	@RequestMapping("/agree")
+	public Result agree(Integer id) {
+		Result result=new Result();
+		OrderInfo order=orderInfoService.getById(id);
+		order.setOrderStatus(6);
+		order.setUpdateTime(DateUtil.getCurrentDateTime());
+		int state=orderInfoService.updateById(order);
+		if(state==1) {
+			result.setCode(1);
+			result.setMsg("操作成功");
+		}else {
+			result.setCode(0);
+			result.setMsg("操作失败");
+		}
+		return result;
+	}
 }

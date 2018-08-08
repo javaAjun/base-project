@@ -25,6 +25,8 @@
 			<result column="city" property="city" jdbcType="VARCHAR" />
 			<result column="address_info" property="addressInfo" jdbcType="VARCHAR" />
 		</association>
+		<association property="afterSale"  select="findAfterSale" column="order_number">
+		</association>
 		<collection property="zsGoods" javaType="java.util.List"
 			ofType="com.palmble.entity.ZsGoods" column="id" select="findGoods">
 			<id column="id" property="id" jdbcType="INTEGER" />
@@ -66,6 +68,16 @@
 		<result column="express_no" property="expressNo" jdbcType="VARCHAR"/>
 	</resultMap>
 
+<resultMap id="AfterSaleResultMap" type="com.palmble.entity.AfterSale">
+  <id column = "id" property = "id" jdbcType = "INTEGER"/>
+  <result column = "type" property = "type" jdbcType = "INTEGER"/>
+  <result column = "reason" property = "reason" jdbcType = "VARCHAR"/>
+  <result column = "mode" property = "mode" jdbcType = "INTEGER"/>
+  <result column = "order_no" property = "orderNo" jdbcType = "VARCHAR"/>
+  <result column = "create_time" property = "createTime" jdbcType = "TIMESTAMP"/>
+  <result column = "update_time" property = "updateTime" jdbcType = "TIMESTAMP"/>
+  </resultMap>
+
 	<!-- 根据订单查询商品信息 -->
 	<select id="findGoods" parameterType="string"
 		resultType="com.palmble.entity.ZsGoods">
@@ -87,7 +99,18 @@
 		b.order_id=#{id}
 	</select>
 
-
+ <select id="findAfterSale" parameterType="string" resultMap="AfterSaleResultMap">
+    select
+    	id,
+    	type,
+   	    reason,
+   		mode,
+   		order_no,
+    	date_format(create_time,'%Y-%m-%d %H:%i:%s') as create_time,
+		date_format(update_time,'%Y-%m-%d %H:%i:%s') as update_time
+    from after_sale
+    where order_no = #{order_number}
+  </select>
 	<delete id="deleteById" parameterType="java.lang.Integer">
 		DELETE a,b FROM order_info
 		a JOIN harvested_goods b ON a.id=b.order_id

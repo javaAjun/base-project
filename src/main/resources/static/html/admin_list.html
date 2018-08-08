@@ -67,7 +67,7 @@
             colModel:[
                 {label:'ID',name:'id',index:'id', width:30,sortable: true},
                 {label:'用户名',name:'loginiNo',index:'loginiNo',width:80,editable: false,sortable: false},
-                {label:'角色',name:'groupName',index:'groupName',width:80,editable: false,sortable: false},
+                {label:'分组',name:'groupName',index:'groupName',width:80,editable: false,sortable: false},
                 {label:'登录次数',name:'loginCount',index:'loginCount',width:80,editable: false,sortable: false},
                 {label:'最后登录时间',name:'lastLoginTime',index:'lastLoginTime',width:100,editable: false,sortable: false},
                 {label:'最后登录IP',name:'lastLoginIp',index:'lastLoginIp',width:100,sortable: false},
@@ -141,8 +141,12 @@
     	layer.confirm('确定要删除此记录吗？', function(){ 
     		layer.closeAll('dialog');
     		$.ajax({ url: "/admin/delAdmin", data:{id:id}, success: function(data){
-    	          layer.msg("删除成功");
-    	          $("#table").trigger("reloadGrid");
+    	          if(data.code==1){
+    	        	  layer.msg(data.msg,{icon:1});
+    	        	  $("#table").trigger("reloadGrid");
+    	          }else{
+    	        	  layer.msg(data.msg,{icon:2});
+    	          }
     	           }
     	          });
     		}); 

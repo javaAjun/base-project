@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>后台管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../hplus/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../hplus/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../hplus/css/animate.min.css" rel="stylesheet">
+    <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
+    
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
+<div id="top-alert" class="alert alert-danger alert-dismissable">
+    <button aria-hidden="true" class="close" type="button">×</button>
+    <span class="alert-content"></span>
+</div>
+<div style="padding: 10px;">
+    
+
+<div class="ibox">
+<div id="bigPic" style=" position:absolute;display:none;z-index:999;">
+<img src="" width="300px" id="pre_view"/><br />
+</div>
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-xs-3">
+            </div>
+            <div class="col-xs-9" style="text-align: right;">
+                <form class="form-inline" id="form-search" action="/log/list">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="title" placeholder="操作人">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary" type="button" id ="search-btn" ><i class="fa fa-search"></i></button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn-sm btn-primary " type="button" id="search-clear"><i class="fa fa-undo"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <div class="jqGrid_wrapper">
+            <table id="table" style="border-collapse: collapse"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="../hplus/js/bootstrap.min.js"></script>
+<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../layer-v3.1.1/layer/layer.js"></script>
+<!--<script src="/static/hplus/js/plugins/layer/layer.min.js"></script>-->
+<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+<script src="../hplus/js/contabs.min.js"></script>
+<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+
+<!-- jqGrid -->
+<script src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js"></script>
+<script src="../hplus/js/plugins/jqgrid/jquery.jqGrid.minffe4.js"></script>
+<!--<script src="/static/hplus/js/plugins/iCheck/icheck.min.js"></script>-->
+<script src="../js/common.js"></script>
+
+<script>
+    $(function () {
+        $(window).bind("resize",function(){
+            var width=$(".jqGrid_wrapper").width();
+            $("#table").setGridWidth(width);
+        });
+
+        $.jgrid.defaults.styleUI="Bootstrap";
+        $("#table").jqGrid({
+            url:"/log/list",
+            datatype: "json",
+            colModel:[
+                {label:'ID',name:'id',index:'id',width:25,editable: false,sortable: false},
+                {label:'操作人',name:'loginNo',index:'loginNo',width:85,editable: false,sortable: false},
+                {label:'IP地址',name:'loginIp',index:'loginIp',width:95,editable: false,sortable: false},
+                {label:'操作模块',name:'sysModel',index:'sysModel',width:90,editable: false,sortable: false},
+                {label:'操作类型',name:'operate',index:'operate',width:90,editable: false,sortable: false},
+                {label:'操作方法',name:'sysMethod',index:'sysMethod',width:260,editable: false,sortable: false},
+                {label:'耗时',name:'usingTime',index:'usingTime',width:50,editable: false,sortable: false},
+                {label:'请求参数',name:'requestParams',index:'requestParams',width:200,editable: false,sortable: false},
+                {label:'异常信息',name:'exception',index:'exception',width:200,editable: false,sortable: false},
+                {label:'创建时间',name:'createTime',index:'createTime',width:100,editable: false,sortable: false},
+                {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
+                    var delurl = "/log/delLog?id="+c.id;
+                    var btn = '<a href="'+delurl+'" class="confirm ajax-get" data-confirm="确定要删除此记录吗?" data-table="1"><span class="label label-danger" title="删除">删除</span></a>';
+                    return btn;
+                }},
+            ],
+            rowNum:10,
+            rowList:[10,20,30],
+            pager: '#pager',
+            sortname: 'id',
+            viewrecords: true,
+            autowidth:true,
+            mtype: 'post',
+            height: 'auto',
+            emptyrecords: "暂无数据",
+            jsonReader : {
+                root: "list",    // json中代表实际模型数据的入口
+                page: "pageNum",    // json中代表当前页码的数据
+                total: "pages",    // json中代表页码总数的数据
+                records: "total", // json中代表数据行总数的数据
+                repeatitems: true, // 如果设为false，则jqGrid在解析json时，会根据name来搜索对应的数据元素（即可以json中元素可以不按顺序）；而所使用的name是来自于colModel中的name设定。
+                cell: "cell",
+                id: "id",
+                userdata: "userdata",
+                subgrid: {
+	                root:"rows", 
+	                repeatitems: true, 
+	                cell:"cell"
+	            }
+            },
+            sortorder: "desc",
+            caption:"系统日志列表",
+            loadComplete: function (xhr) {
+                if(xhr.code==0){
+                    layer.msg(xhr.msg);
+                    return false;
+                }
+            },
+        });
+    });
+    
+    function showBigPic(filepath) {
+
+        //将文件路径传给img大图
+        document.getElementById('pre_view').src = filepath;
+        //获取大图div是否存在
+        var div = document.getElementById("bigPic");
+        if (!div) {
+            return;
+        }
+        //如果存在则展示
+        document.getElementById("bigPic").style.display="block";
+        //获取鼠标坐标
+        var intX = window.event.clientX;
+        var intY = window.event.clientY;
+        //设置大图左上角起点位置
+        div.style.left = intX +10+ "px";
+        div.style.top = intY + 10+"px";
+    }
+    
+    function closeimg(){
+        document.getElementById("bigPic").style.display="none";
+    }
+</script>
+
+</body>
+</html>
