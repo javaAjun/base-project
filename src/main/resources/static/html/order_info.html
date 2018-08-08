@@ -29,7 +29,7 @@
         word-break:break-all;
     }
 </style>
-<div class="row">
+<div class="row" id="content">
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-content" style="padding: 0;">
@@ -43,8 +43,9 @@
             <div class="ibox-title">
                 <h5>物流信息</h5>
             </div>
-            <div class="ibox-content">
-            物流信息
+            <div class="ibox-content" style="padding: 0;">
+            	 <table class="table table-bordered" id="express">
+                </table>
             </div>
         </div>
      </div>
@@ -53,7 +54,7 @@
             <div class="ibox-title">
                 <h5>收货人信息</h5>
             </div>
-            <div class="ibox-content">
+            <div class="ibox-content" style="padding: 0;">
                   <table class="table table-bordered" id="orderInfoRight">
                 </table>
             </div>
@@ -66,6 +67,18 @@
             </div>
             <div class="ibox-content" style="padding: 0;">
                 <table class="table table-bordered" id="orderInfo">
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-12" id="afterSale" style="display:none;">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>售后信息</h5>
+            </div>
+            <div class="ibox-content" style="padding: 0;">
+                <table class="table table-bordered" id="afterSaleTable">
                 </table>
             </div>
         </div>
@@ -163,8 +176,13 @@ var postData={id:id};
     	if(orderInfo.orderStatus==8){
     		orderStatus= "已退货";
     	}
+    	var expressHtml='<tr>'
+            +'<td>快递单号</td>'
+            +'<td>'+orderInfo.expressNo+'</td>'
+        +'</tr>';
+    	$('#express').append(expressHtml);
     	var html='<tr>'
-                +'<td width="100">订单编号</td>'
+                +'<td>订单编号</td>'
                 +'<td>'+orderInfo.orderNumber+'</td>'
             +'</tr>'
             +'<tr>'
@@ -175,6 +193,11 @@ var postData={id:id};
                 +'<td>订单状态</td>'
                 +'<td>'+orderStatus+'</td>'
             +'</tr>'
+            +'<tr>'
+            +'<td>实付金额</td>'
+            +'<td>'+orderInfo.totalAmount+'</td>'
+       		 +'</tr>'
+      	  +'<tr>'
             +'<tr>'
                 +'<td>积分</td>'
                 +'<td>'+orderInfo.integral+'</td>'
@@ -205,7 +228,6 @@ var postData={id:id};
          +'<td>'+consignee.province+'</td>'
     		 +'</tr>'
             +'<tr>'
-            +'<tr>'
             +'<td>城市</td>'
             +'<td>'+consignee.city+'</td>'
        		 +'</tr>'
@@ -221,13 +243,55 @@ var postData={id:id};
                 +'</td>'
             +'</tr>';
             }
-            if(orderInfo.orderStatus==6){
-            	html+='<tr>'
-                +'<td>操作</td>'
-                +'<td>'
-                +'<button class="btn btn-sm btn-primary confirm" id="confirmReturn">退款</button>'
-                +'</td>'
-            +'</tr>';
+            var afterSale=orderInfo.afterSale;
+            if(afterSale!=null){
+            	$('#afterSale').show();
+            	var type=afterSale.type;
+            	if(type==0){
+            		type='补货';
+            	}
+            	if(type==1){
+            		type='退款';
+            	}
+            	if(type==2){
+            		type='退货';
+            	}
+            	if(type==3){
+            		type='维修';
+            	}
+            	var afterSaleHtml='<tr>'
+                    +'<td>售后类型</td>'
+                    +'<td>'+type+'</td>'
+               		 +'</tr>'
+               		+'<tr>'
+                    +'<td>问题说明</td>'
+                    +'<td>'+afterSale.reason+'</td>'
+               		 +'</tr>'
+               		+'<tr>'
+                    +'<td>发起时间</td>'
+                    +'<td>'+afterSale.createTime+'</td>'
+               		 +'</tr>'
+               		+'<tr>'
+                    +'<td>修改时间</td>'
+                    +'<td>'+afterSale.updateTime+'</td>'
+               		 +'</tr>';
+            	if(orderInfo.orderStatus==6||orderInfo.orderStatus == 7){
+            		afterSaleHtml+='<tr>'
+                    +'<td>操作</td>'
+                    +'<td>'
+                    +'<button class="btn btn-sm btn-primary confirm" id="confirmReturn">退款</button>'
+                    +'</td>'
+                +'</tr>';
+                };
+                if(orderInfo.orderStatus==5){
+            		afterSaleHtml+='<tr>'
+                        +'<td>操作</td>'
+                        +'<td>'
+                        +'<button class="btn btn-sm btn-primary confirm" onclick=agree('+orderInfo.id+')>同意</button>'
+                        +'</td>'
+                    +'</tr>';
+                }
+            	$('#afterSaleTable').append(afterSaleHtml);
             }
             
 //     	);
@@ -244,6 +308,9 @@ function confirmCollect(){
 		parent.updateAlert(obj.msg,'alert-success');
 	})
 }
+// function check(){
+// 	layer.open
+// }
 function updateNote(id){
 	var note=$('#adminNote').val();
 	var id=id;
@@ -251,6 +318,16 @@ function updateNote(id){
 	var data={id:id,adminNotes:note};
 	$.get(url,data,function(obj){
 		layer.msg(obj.msg,{icon:1});
+	});
+}
+function agree(){
+	var url='/order/agree';
+	var data={id:id};
+	$.post(url,data,function(obj){
+		layer.msg(obj.msg,{icon:1});
+		setTimeout(function(){
+			location.reload();
+		},1500);
 	});
 }
 </script>

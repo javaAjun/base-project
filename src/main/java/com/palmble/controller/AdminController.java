@@ -20,6 +20,7 @@ import com.github.pagehelper.PageInfo;
 import com.palmble.entity.AdminUser;
 import com.palmble.entity.Result;
 import com.palmble.entity.UserPermission;
+import com.palmble.service.AdminGroupsService;
 import com.palmble.service.AdminUserService;
 import com.palmble.service.UserPermissionService;
 
@@ -30,7 +31,8 @@ public class AdminController {
 	private AdminUserService adminUserService;
 	@Autowired
 	private UserPermissionService userPermissionService;
-
+	@Autowired
+	private AdminGroupsService groupService;
 	@RequestMapping("/getAdminList")
 	public PageInfo<AdminUser> getAdminList(@RequestParam Map<String, Object> map) {
 		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()));
@@ -59,9 +61,23 @@ public class AdminController {
 	}
 
 	@RequestMapping("/delAdmin")
-	public int delAdmin(Integer id) {
+	public Result delAdmin(Integer id) {
+		Result result=new Result();
+		AdminUser user=adminUserService.selectByPrimaryKey(id);
+		if(user.getGroupId()==1) {
+			result.setCode(0);
+			result.setMsg("超级管理员无法删除");
+			return result;
+		}
 		int resultNum = adminUserService.deleteByPrimaryKey(id);
-		return resultNum;
+		if(resultNum==1) {
+			result.setCode(1);
+			result.setMsg("操作成功");
+		}else {
+			result.setCode(0);
+			result.setMsg("操作失败");
+		}
+		return result;
 	}
 
 	@Transactional
@@ -88,6 +104,11 @@ public class AdminController {
 		}
 		String md5Pwd=DigestUtils.md5Hex("palmble"+pwd);
 		AdminUser adminTemplate=adminUserService.selectOne("loginiNo", user.getLoginiNo());
+		Integer groupId=user.getGroupId();
+		if(groupId!=null) {
+			String groupName=groupService.getById(groupId).getGroupName();
+			user.setGroupName(groupName);
+		}
 		if(adminTemplate==null) {
 			user.setPwd(md5Pwd);
 			statusNum = adminUserService.insertSelective(user);
@@ -136,6 +157,11 @@ public class AdminController {
 				}
 				user.setPwd(md5Pwd);
 			}
+			Integer groupId=user.getGroupId();
+			if(groupId!=null) {
+				String groupName=groupService.getById(groupId).getGroupName();
+				user.setGroupName(groupName);
+			}
 			statusNum = adminUserService.updateByPrimaryKeySelective(user);
 		result.setCode(statusNum);
 		if (statusNum == 1) {
@@ -166,16 +192,17 @@ public class AdminController {
 		}
 		String username=(String)request.getSession().getAttribute("loginNo");
 		AdminUser admin=adminUserService.selectOne("loginiNo", username);
-		if(!admin.getPwd().equals(old_pass)) {
+		String md5Pwd=DigestUtils.md5Hex("palmble"+old_pass);
+		if(!admin.getPwd().equals(md5Pwd)) {
 			result.setCode(0);
 			result.setMsg("密码有误,应重新输入!");
 			return result;
 		}
-		admin.setPwd(password_confirm);
+		admin.setPwd(DigestUtils.md5Hex("palmble"+password));
 		statusNum=adminUserService.updateByPrimaryKeySelective(admin);
 		if(statusNum!=1) {
 			result.setCode(0);
-			result.setMsg("请将刷新页面重试");
+			result.setMsg("操作失败");
 			return result;
 		}
 		result.setCode(statusNum);

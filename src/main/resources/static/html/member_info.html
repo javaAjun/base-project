@@ -78,7 +78,7 @@
 										<option value="1">有效</option>
 								</select></td>
 								<th>身份证号</th>
-								<td><input id="idNumber" name="idNumber" oninput="clearNoNum1(this)" class="form-control"/></td>
+								<td><input id="idNumber" name="idNumber" class="form-control"/></td>
 							</tr>
 							<tr>
 								<th>注册时间</th>
@@ -137,8 +137,12 @@
 		    if(url){
 		        var pdata = self.serializeObject();
 		        $.get(url,pdata,function(obj){
-		        	layer.msg(obj.msg);
-		        	location.reload();
+		        	if(obj.code==1){
+		        		layer.msg(obj.msg,{icon:1});
+		        		setTimeout(function(){location.reload()},1500);
+		        	}else{
+		        		layer.msg(obj.msg,{icon:0});
+		        	}
 		        });
 		    }
 		});

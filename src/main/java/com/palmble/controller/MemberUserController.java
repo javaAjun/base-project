@@ -65,25 +65,25 @@ public class MemberUserController {
 			return result;
 		}
 		String phone=user.getPhone();
-		if(phone!=null&&!AccountValidatorUtil.isMobile(phone)) {
+		if(phone!=null&&!phone.equals("")&&!AccountValidatorUtil.isMobile(phone)) {
 			result.setCode(0);
 			result.setMsg("请输入正确的手机号码!");
 			return result;
 		}
 		String email=user.getEMail();
-		if(email!=null&&!AccountValidatorUtil.isEmail(email)) {
+		if(email!=null&&!email.equals("")&&!AccountValidatorUtil.isEmail(email)) {
 			result.setCode(0);
 			result.setMsg("请输入正确的邮箱!");
 			return result;
 		}
 		String idNumber=user.getIdNumber();
-		if(idNumber!=null&&!AccountValidatorUtil.isIDCard(idNumber)) {
+		if(idNumber!=null&&!idNumber.equals("")&&!AccountValidatorUtil.isIDCard(idNumber)) {
 			result.setCode(0);
 			result.setMsg("请输入正确的身份证!");
 			return result;
 		}
 		String qq=user.getQq();
-		if(qq!=null&&!AccountValidatorUtil.isQQ(qq)) {
+		if(qq!=null&&!qq.equals("")&&!AccountValidatorUtil.isQQ(qq)) {
 			result.setCode(0);
 			result.setMsg("请输入正确的QQ号码!");
 			return result;

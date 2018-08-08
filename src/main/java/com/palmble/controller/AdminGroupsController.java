@@ -68,6 +68,12 @@ public class AdminGroupsController {
 	@RequestMapping("/del")
 	public Result del(Integer id) {
 		Result result=new Result();
+		AdminGroups group=groupService.getById(id);
+		if(group.getId()==1) {
+			result.setCode(0);
+			result.setMsg("超级管理员无法删除");
+			return result;
+		}
 		int state=groupService.deleteById(id);
 		if(state!=1) {
 			result.setCode(0);
