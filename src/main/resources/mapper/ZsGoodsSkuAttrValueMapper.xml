@@ -68,4 +68,10 @@
       skuAttrId = #{skuAttrId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <delete id="deleteBySkuId">
+     DELETE FROM zs_goods_sku_attrvalue WHERE skuAttrId=#{id}
+  </delete>
+  <select id="selectSKUValuesByskuId" resultType="com.palmble.entity.ZsGoodsSkuAttrValue">
+    SELECT * FROM zs_goods_sku_attrvalue WHERE skuAttrId=#{id}
+  </select>
 </mapper>

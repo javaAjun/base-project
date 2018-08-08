@@ -14,7 +14,17 @@
     <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
     <link rel="stylesheet" href="../css/common.css">
     <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
-    
+    <style type="text/css">
+      .layui-layer layui-layer-iframe{
+        z-index: 19891015;
+		width: 60%;
+		height: 90%;
+		top: 25px;
+		left: 158.5px;
+      }
+      .spec attr{
+      padding-bottom: 2px}
+    </style>
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
@@ -28,38 +38,36 @@
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-content">
-                <form method="post" action="/goods/operGoodsCateInfo" class="form-horizontal">
+                <form method="post" action="/goods/sku/operGoodsSku" class="form-horizontal">
                     <input type="hidden" name="id" id="id" value="">
                     <input type="hidden" name="oper" id="oper" value="0">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">规格名称<span class="text-danger">*</span></label>
+                        <label class="col-sm-2 control-label">规格名称<span class="text-danger">&nbsp;&nbsp;*</span></label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" maxlength="50" id="catName" placeholder="规格名称..。长度50字以内" name="attrName" value="">
+                            <input type="text" class="form-control" maxlength="50" id="attrName" placeholder="规格名称..。长度50字以内" name="attrName" value="">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">上级<span class="text-danger">*</span></label>
+                        <label class="col-sm-2 control-label">所属类型<span class="text-danger">&nbsp;&nbsp;*</span></label>
                         <div class="col-sm-4" id="gdcate">
                             <select name="cateId" id="cateId" class="form-control">
                                
                             </select>
                         </div>
                     </div>
-
-    
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">状态</label>
-                        <div class="col-sm-4">
-                            <label class="cr-inline">
-                                <input type="radio" value="1" name="state">正常&nbsp;&nbsp;
-                            </label>
-                            <label class="cr-inline">
-                                <input type="radio" value="0" name="state">禁用
-                            </label>
+                 <div class="form-group">
+                        <label class="col-sm-2 control-label">添加规格<span class="text-danger">&nbsp;&nbsp;*</span></label>
+                         <div class="col-sm-4" style="width:60%">
+                              <input type="button" name="zhengjiahang"  value="增加一行" style="width:80px" onclick="insertNewRow()" />
+                         	 <p></p>                      
+                         	 <div id="rowVlaue">
+                         	     
+                         	 </div> 
                         </div>
                     </div>
+    
+
 
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
@@ -89,6 +97,8 @@
 <!--<script src="../hplus/js/plugins/iCheck/icheck.min.js"></script>-->
 <script src="../js/common2.js"></script>
 <script src="../js/pathJs.js"></script>
+<!-- <script src="../hplus/js/specEdit.js" ></script> -->
+
 <script>
 
     $(document).ready(function(){
@@ -97,7 +107,7 @@
 			$("#oper").val("edit");
 			$("#id").val(id);
 			setFormValue(id);
-			getCatInfo(id,"#cateId")
+			/* getCatInfo(id,"#cateId") */
 		}else{
 		  $("#oper").val("add");
 		  formSetValue("state", "1");
@@ -109,6 +119,14 @@
     });
 	//获取分类
 	function getCatInfo(id,_$id){
+		if(id==null){
+			var html='<div id="rowVlaue0" style="width:500px;"> ';
+	             html+='<input type="text"  name="attrValue" style="width:200px" />   '; 
+	        	 html+='<input type="button" name="delete"  value="删 除" style="width:50px"   onclick="deleteSelectedRow(this)" />'; 
+	        	 html+='<p></p></div>';
+	        	 $("#rowVlaue").append(html);
+		}
+		
 		var url=_getGoodsCatePageById;
 		$.ajax({ 
 			  type:"POST", 
@@ -121,7 +139,7 @@
 						  var parent=data.data;
 						  for(var i=0;i<parent.length;i++){
 							  if(id!=null&&id==parent[i].id){
-							     opthtml+='<option selected="selected" value="'+parent[i].parentId+'">'+parent[i].pcatName;  
+							     opthtml+='<option selected="selected" value="'+parent[i].id+'">'+parent[i].catName;  
 							  }else{
 								  opthtml+='<option value="'+parent[i].id+'">'+parent[i].catName;
 							  }
@@ -134,8 +152,14 @@
 			  }
 		})
 	}
+	//声明全局变量
+	  
+	  var formvalue = "";
+	   var flag = 1;
+	    
+	    
 	function setFormValue(id){
-		var url=_getGoodsCateInfoById+"?id="+id;
+		var url=_getSpecInfoById+"?id="+id;
 		$.ajax({ 
 			  type:"POST", 
 			  url:url,
@@ -143,28 +167,49 @@
 			  async:false,
 			  success:function(data){ 
 				  if(data.status=="200"){//goodsCateId
-					 $("#catName").val(data.data.catName);
-				     $("#catSort").val(data.data.catSort);
-					if(data.data.state){
-						 formSetValue("state", "1");
-					}else{
-						formSetValue("state", "0");
-					}
-					var img = '<div class="imgbox">';
-	                    img += '<div class="removePic" onclick="removePic(this,\'/goods/deleteFile\')">×</div>';
-	                    img += '<input type="hidden" name="'+name+'" value="' + data.data.goodsCateImg + '">';
-	                    img += '<img src="' + data.data.goodsCateImg + '">';
-	                    img += '</div>';
-	                    if(data.data.goodsCateImg!=null){
-	                        $("#imgsbox_img").append(img);
-	                    }
-	                    
+					 $("#attrName").val(data.data.attrName);
+					 getCatInfo(data.data.cateId,"#cateId")
+					 var attrValues=data.data.skuValues;
+					 for(var i=0;i<attrValues.length;i++){
+						 insertNewRow(attrValues[i].attrValue);
+					 }
+					
 				  }else{
 					  layer.msg(data.data.message);
 				  }
 			  }
 		})
 	}
+	
+	
+
+    //--------新增一行--------
+    
+    function insertNewRow(value) {
+    	//获取表格有多少行
+    	//这里的rowId就是row加上标志位的组合。是每新增一行的tr的id。
+         var rowId = "row" + flag;
+         //每次往下标为flag+1的下面添加tr,因为append是往标签内追加。所以用after
+    	if(value!=null){
+    		var insertStr ='<div id="'+rowId+'" class="spec attr" style="width:500px;">';
+            insertStr +=' <input type="text"  name="attrValue" value="'+value+'"  style="width:200px" />  ' ;
+            insertStr +=' <input type="button" name="delete"  value="删 除"  style="width:50px"   onclick="deleteSelectedRow(this)" />'  ; 
+            insertStr +='<p></p></div>';
+    	}else{
+    		var insertStr ='<div id="'+rowId+'" class="spec attr" style="width:500px;">';
+            insertStr +=' <input type="text"  name="attrValue" style="width:200px" />' ;
+            insertStr +=' <input type="button" name="delete"  value="删 除" style="width:50px"   onclick="deleteSelectedRow(this)" />'  ; 
+            insertStr +='<p></p></div>';
+    	}
+         flag++;
+         $("#rowVlaue").append(insertStr);
+    }
+  //-----------------删除一行，根据行ID删除-start--------    
+    function deleteSelectedRow(rowID) {
+        if (confirm("确定删除该行吗？")) {
+        	rowID.parentNode.parentNode.removeChild(rowID.parentNode);
+        }
+    }
 </script>
 
 </body>

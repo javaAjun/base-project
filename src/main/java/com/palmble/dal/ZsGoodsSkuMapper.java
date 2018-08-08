@@ -26,4 +26,8 @@ public interface ZsGoodsSkuMapper {
 	Integer selectGoodsSkuCount(@Param("goodsCateId")Integer goodsCateId, @Param("skuId")Integer skuId);
 
 	List<String> selectSkuAttrBySkuId(@Param("skId")Integer skId);
+
+	List<Map<String, Object>> selectSkuAllAttrBySkuId(@Param("skId")Integer skId);
+
+	List<Map<String, Object>> selectADDGoodsSkuList(@Param("skuvalueIds")Integer[] skuvalueIds);
 }

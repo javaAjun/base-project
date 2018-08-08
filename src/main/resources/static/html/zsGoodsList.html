@@ -113,19 +113,18 @@
 
 </head>
 
-<body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
-
+<body class="fixed-sidebar full-height-layout gray-bg fixed-nav"	style="overflow-x: hidden;">
 <div style="padding: 10px;">
     
 
 <div class="ibox">
-   <!--  <div class="wrapper wrapper-content  animated fadeInRight"  id="bigBody"> -->
 			    <div class="ibox-content">
 			        <div class="row">
 				           <div class="col-xs-3">
 				               <a href="javascript:;" url="zsGoodsAdd.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
 				           </div>
-				           <div class="col-xs-9" style="text-align: right;">
+				           
+				           <div class="col-xs-12" style="text-align: right;">
 			                 <form class="form-inline" id="form-search" action="/goods/getGoodsList">
 							    
 		                        <div class="input-group" style="text-align: left;">
@@ -134,16 +133,7 @@
 								        style="width: 150px">
 								    <option label='请选择商品'></option>
 								</select>
-		                      <!-- <select data-placeholder="选择商品" class="chosen-select" style="width:350px;" name tabindex="2">
-		                             
-		                             </select> -->
-		                             
-		                         <!-- <div class="col-sm-6">
-			                     <input type="text" placeholder="商品名称" name="goodsName" id="goodsName">
-			                    </div> -->
-			                   <!--  <div class="col-sm-6">
-			                     <input type="text" placeholder="输入关键字" name="value" id="value">
-			                    </div> -->
+		                      
 			                    <input type="hidden"  placeholder="输入关键字" name="value" id="value">
 			                    </div>
 			                     <div class="form-group">
@@ -155,23 +145,21 @@
 		                            </div>
 		                        </div>
 			                    <div class="input-group">
-			                    <div class="col-sm-6">
 			                        <select name="isAdminRecom" class="form-control" id="isAdminRecom">
 			                               <option value="">选择是否推荐</option>
 			                              <option value="1">是</option>
 			                              <option value="0">否</option>
 			                        </select>
-			                        </div>
+			                        
 			                    </div>
 			                    
 			                    <div class="input-group">
-			                      <div class="col-sm-6">
 			                        <select name="isSale" class="form-control" id="isSale">
 			                             <option value="">状态</option>
 			                            <option value="1">上架</option>
 			                            <option value="0">下架</option>
 			                        </select>
-			                        </div>
+			                    
 			                    </div>
 			                   
 			                    <div class="input-group">
@@ -183,9 +171,7 @@
 			                        </span>
 			                    </div>
 			                    
-								  <!-- <script src="../amaze/chosen/js/chosen.jquery.js" type="text/javascript"></script>
-								  <script src="../amaze/chosen/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
-								  <script src="../amaze/chosen/docsupport/init.js" type="text/javascript" charset="utf-8"></script> -->
+								
 			                 </form>
                          </div>
 			         </div>
@@ -305,8 +291,8 @@
 	   var aHTML=$(".click2edit").code();$(".click2edit").destroy()};
 	   
 	   
-		//查询
-		 $(function(){ 
+		 //查询
+		 
 	        $("#search-btn").click(function(){ 
 	            var value = escape($("#value").val()); 
 	            var isAdminRecom = escape($("#isAdminRecom").val()); 
@@ -314,29 +300,33 @@
 	            var goodsCateId=escape($("#goodsCateId").val());
 	            var goodsId=escape($("#goodsId").val());
 	            $("#table").jqGrid('setGridParam',{ 
-	                url:HttpUrlCommon+_goodsList, 
+	                url:_goodsList, 
 	                postData:{'value':value,'isAdminRecom':isAdminRecom,"isSale":isSale,"goodsCateId":goodsCateId,"goodsId":goodsId}, //发送数据 
 	                page:1 
 	            }).trigger("reloadGrid"); //重新载入 
+	          
 	        });
 	        $("#search-clear").click(function(){ 
-	        	var page = $('#table').getGridParam('page'); // current page
+	        	/* var page = $('#table').getGridParam('page'); // current page
 	            var rows = $('#table').getGridParam('rows'); // rows  
 	            //var sidx = $('#table').getGridParam('sidx'); // sidx
 	            var sord = $('#table').getGridParam('sord'); // sord
-	            $("#table").jqGrid('setGridParam',{ 
-	                url:HttpUrlCommon+_goodsList,
-	                postData:{'page':page,'rows':rows,'sord':sord,'value':"",'isAdminRecom':null,"isSale":null,"goodsId":null}, //发送数据 
-	                page:page
-	            }).trigger("reloadGrid"); //重新载入 
 	            $("#value").val('');
 	            $("#isAdminRecom").val('');
 	            $("#isSale").val('');
 	            $("#goodsCateId").val('');
 	            $("#goodsId").val('')
-	            //location.reload();
+	            /*  $("#goodsId").trigger("liszt:updated");
+	            $("#secGroupOwner").chosen(); */ 
+	       /*      $("#table").jqGrid('setGridParam',{ 
+	                url:_goodsList,
+	                postData:{'page':page,'rows':rows,'sord':sord}, //发送数据 
+	                page:page
+	            }).trigger("reloadGrid");  *///重新载入 */ 
+	           
+	            location.reload();
 	        });
-	    }); 
+	   
 		//修改状态setIsSale  上架下架
 		function setIsSale(a){
 			var num=$(a).data("status");
@@ -422,20 +412,7 @@
 	    }
 		//获取商品名称
 		function getGoodsName(){
-			
-			/* //拿到grid对象
-			var obj = $("#table");
-			//获取grid表中所有的rowid值
-			var rowIds = obj.getDataIDs();
-			//初始化一个数组arrayData容器，用来存放rowData
-			var arrayData = new Array();
-			if (rowIds.length > 0) {
-			  for (var i = 0; i < rowIds.length; i++) {
-			  //rowData=obj.getRowData(rowid);//这里rowid=rowIds[i];
-			  arrayData.push(obj.getRowData(rowIds[i]));
-			  }
-			}
-			console.log(arrayData); */
+		
 			var str="";
 	        var obj = document.getElementById("goodsId");
 			$.ajax({
@@ -450,21 +427,9 @@
 	                });
 	                $("#goodsId").trigger("chosen:updated");
 	                $("#goodsId").chosen();
-			    	/*  for(var i=0;i<data.data.length;i++){
-			    		 ghtml+='<option value="'+data.data[i].id+'" hassubinfo="true">'+data.data[i].goodsName+'</option>';
-			    	 } */
+			    
 				}
-                
-				 /* var ghtml='<select data-placeholder="商品名称..." class="chosen-select" name="goodsId" style="width:100px;" tabindex="2">';
-				    ghtml+='<option value="">商品名称</option>';
-				     if(data.data!=null){
-				    	 for(var i=0;i<data.data.length;i++){
-				    		 ghtml+='<option value="'+data.data[i].id+'" hassubinfo="true">'+data.data[i].goodsName+'</option>';
-				    	 }
-					}
-				
-				    ghtml+='</select>';
-				  $("#goodsId").append(ghtml); */
+			
 			  }
 			})
 			

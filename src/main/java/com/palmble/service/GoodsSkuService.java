@@ -1,5 +1,7 @@
 package com.palmble.service;
 
+import com.palmble.entity.ZsGoodsSku;
+import com.palmble.entity.ZsGoodsSkuAttr;
 import com.palmble.utils.ResponsDatas;
 
 /**
@@ -19,5 +21,20 @@ public interface GoodsSkuService {
 	 * @return
 	 */
 	ResponsDatas<?> getGoodsSkuList(Integer page, Integer rows, String sord, Integer goodsCateId, Integer skuId);
+
+	/**
+	 * 添加 编辑
+	 * @param goodsSku
+	 * @return
+	 */
+	ResponsDatas<?> operGoodsSku(ZsGoodsSkuAttr goodsSku);
+
+	ResponsDatas<?> getGoodsSkuId(Integer id);
+
+	/**
+	 * 获取sku 值
+	 * @return
+	 */
+	ResponsDatas<?> getGoodsSkuList(Integer[] skuvalueIds,Integer[] skuIds);
 
 }
