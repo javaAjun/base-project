@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageInfo;
 import com.palmble.entity.SystemLog;
 import com.palmble.service.SystemLogService;
+import com.palmble.utils.ResultInfo;
 
 /**
 * <p>Title: 系统监控日志Controller</p>  
@@ -27,5 +28,11 @@ public class SystemLogController {
 	@RequestMapping("/list")
 	public PageInfo<SystemLog> getLogList(@RequestParam Map<String, Object> map) {
 		return logService.getList(map);
+	}
+	
+	@RequestMapping("/delLog")
+	public ResultInfo deleteLog(@RequestParam Long id) {
+		return logService.deleteOne(id);
+
 	}
 }
