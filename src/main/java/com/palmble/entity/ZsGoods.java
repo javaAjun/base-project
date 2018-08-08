@@ -243,5 +243,66 @@ public class ZsGoods {
 	public void setOper(String oper) {
 		this.oper = oper;
 	}
+	
+	private String[]  productNos;//商品货号
+	private String[] productSpecs;//sku,信息
+	private Integer[] goodsStocks;//库存
+	private BigDecimal[] marketPrices;//市场价
+	private BigDecimal[] shopPrices;//店铺价格
+	private Integer[] saleCounts;//销售量
+
+
+
+	public String[] getProductNos() {
+		return productNos;
+	}
+
+	public void setProductNos(String[] productNos) {
+		this.productNos = productNos;
+	}
+
+	public String[] getProductSpecs() {
+		return productSpecs;
+	}
+
+	public void setProductSpecs(String[] productSpecs) {
+		this.productSpecs = productSpecs;
+	}
+
+	public Integer[] getGoodsStocks() {
+		return goodsStocks;
+	}
+
+	public void setGoodsStocks(Integer[] goodsStocks) {
+		this.goodsStocks = goodsStocks;
+	}
+
+	public BigDecimal[] getMarketPrices() {
+		return marketPrices;
+	}
+
+	public void setMarketPrices(BigDecimal[] marketPrices) {
+		this.marketPrices = marketPrices;
+	}
+
+	public BigDecimal[] getShopPrices() {
+		return shopPrices;
+	}
+
+	public void setShopPrices(BigDecimal[] shopPrices) {
+		this.shopPrices = shopPrices;
+	}
+
+	public Integer[] getSaleCounts() {
+		return saleCounts;
+	}
+
+	public void setSaleCounts(Integer[] saleCounts) {
+		this.saleCounts = saleCounts;
+	}
+
+	
+	
+	
     
 }

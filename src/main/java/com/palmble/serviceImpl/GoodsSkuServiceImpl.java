@@ -11,7 +11,7 @@ import com.github.pagehelper.util.StringUtil;
 import com.palmble.dal.ZsGoodsSkuAttrMapper;
 import com.palmble.dal.ZsGoodsSkuAttrValueMapper;
 import com.palmble.dal.ZsGoodsSkuMapper;
-import com.palmble.entity.ZsGoodsSku;
+
 import com.palmble.entity.ZsGoodsSkuAttr;
 import com.palmble.entity.ZsGoodsSkuAttrValue;
 import com.palmble.service.GoodsSkuService;

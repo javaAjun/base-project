@@ -28,7 +28,8 @@ public  class BannerServiceImpl implements BannerService {
 	@Resource
 	private BannerMapper bannerMapper;
 	public PageInfo<Banner> getBannerList(Map<String, Object> map) {
-		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()));
+		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()),
+				map.get("sidx").toString()+" "+map.get("sord").toString());
 		List<Banner> list = bannerMapper.getBannerList(map);
 		PageInfo<Banner> pageSource=new PageInfo<>(list);
 		return pageSource;

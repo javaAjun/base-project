@@ -66,4 +66,6 @@ public interface GoodsService {
 	 * @param path
 	 */
 	public void delImgFile(String path);
+	
+	boolean skuEdit(ZsGoods goods);
 }

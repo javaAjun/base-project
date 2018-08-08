@@ -25,7 +25,6 @@
     <if test="title != null" >
         and banner_title like concat(concat('%',#{title,jdbcType=VARCHAR}),'%') 
     </if>
-    order by ${sidx} ASC
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

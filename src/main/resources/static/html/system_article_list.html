@@ -36,7 +36,7 @@
                 <a href="javascript:;" url="system_article_edit.html" data-title="新增文章" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">新增</a>
             </div>
             <div class="col-xs-9" style="text-align: right;">
-                <form class="form-inline" id="form-search" action="/banner/list">
+                <form class="form-inline" id="form-search" action="/article/list">
                     <div class="input-group">
                         <input type="text" class="form-control" name="title" placeholder="标题">
                     </div>
@@ -88,7 +88,7 @@
             url:"/article/list",
             datatype: "json",
             colModel:[
-                {label:'ID',name:'id',index:'id',width:40,editable: false,sortable: false},
+                {label:'ID',name:'id',index:'id',width:40,editable: false,sortable: true},
                 {label:'标题',name:'articleTitle',index:'articleTitle',width:100,editable: false,sortable: false},
                 {label:'封面图',name:'articleTitleImage',index:'articleTitleImage',align:"center",width:50,editable: false,sortable: false,formatter: function (a, b, c) {
                     return '<img src="'+a+'" onmousemove="showBigPic(this.src)" onmouseout="closeimg()"  height="80"/>';
@@ -113,7 +113,7 @@
             rowNum:5,
             rowList:[5,10,20],
             pager: '#pager',
-            sortname: 'sequence',
+            sortname: 'id',
             viewrecords: true,
             autowidth:true,
             mtype: 'post',
