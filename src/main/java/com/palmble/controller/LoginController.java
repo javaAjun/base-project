@@ -31,6 +31,7 @@ public class LoginController extends PalmbleBaseController{
 	@Autowired
 	private AdminGroupsService groupService;
 	@PostMapping("/toLogin")
+	@CustomLog(logEnum=LogEnum.PUBLIC,module="登录模块",desc="管理员登录")
 	public Result login(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response) {
 		Result result=new Result();
 		String inputVerify=(String)map.get("verify");

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.palmble.dal.SystemLogMapper" >
+  <resultMap id="BaseResultMap" type="com.palmble.entity.SystemLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="login_no" property="loginNo" jdbcType="VARCHAR" />
+    <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
+    <result column="sys_model" property="sysModel" jdbcType="VARCHAR" />
+    <result column="sys_method" property="sysMethod" jdbcType="VARCHAR" />
+    <result column="operate" property="operate" jdbcType="VARCHAR" />
+    <result column="using_time" property="usingTime" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="request_params" property="requestParams" jdbcType="VARCHAR" />
+    <result column="exception" property="exception" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, login_no, login_ip, sys_model, sys_method, operate, using_time, create_time, 
+    request_params, exception
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="getSystemLogList" resultMap="BaseResultMap">
+   	select 
+    <include refid="Base_Column_List" />
+    from system_log
+    where 1=1
+    <if test="title != null" >
+        and login_no=#{sysModel,jdbcType=VARCHAR},
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from system_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.palmble.entity.SystemLog" >
+    insert into system_log (id, login_no, login_ip, 
+      sys_model, sys_method, operate, 
+      using_time, create_time, request_params, 
+      exception)
+    values (#{id,jdbcType=BIGINT}, #{loginNo,jdbcType=VARCHAR}, #{loginIp,jdbcType=VARCHAR}, 
+      #{sysModel,jdbcType=VARCHAR}, #{sysMethod,jdbcType=VARCHAR}, #{operate,jdbcType=VARCHAR}, 
+      #{usingTime,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{requestParams,jdbcType=VARCHAR}, 
+      #{exception,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.palmble.entity.SystemLog" >
+    insert into system_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="loginNo != null" >
+        login_no,
+      </if>
+      <if test="loginIp != null" >
+        login_ip,
+      </if>
+      <if test="sysModel != null" >
+        sys_model,
+      </if>
+      <if test="sysMethod != null" >
+        sys_method,
+      </if>
+      <if test="operate != null" >
+        operate,
+      </if>
+      <if test="usingTime != null" >
+        using_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="requestParams != null" >
+        request_params,
+      </if>
+      <if test="exception != null" >
+        exception,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="loginNo != null" >
+        #{loginNo,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp != null" >
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="sysModel != null" >
+        #{sysModel,jdbcType=VARCHAR},
+      </if>
+      <if test="sysMethod != null" >
+        #{sysMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="operate != null" >
+        #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="usingTime != null" >
+        #{usingTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestParams != null" >
+        #{requestParams,jdbcType=VARCHAR},
+      </if>
+      <if test="exception != null" >
+        #{exception,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.palmble.entity.SystemLog" >
+    update system_log
+    <set >
+      <if test="loginNo != null" >
+        login_no = #{loginNo,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp != null" >
+        login_ip = #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="sysModel != null" >
+        sys_model = #{sysModel,jdbcType=VARCHAR},
+      </if>
+      <if test="sysMethod != null" >
+        sys_method = #{sysMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="operate != null" >
+        operate = #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="usingTime != null" >
+        using_time = #{usingTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestParams != null" >
+        request_params = #{requestParams,jdbcType=VARCHAR},
+      </if>
+      <if test="exception != null" >
+        exception = #{exception,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.palmble.entity.SystemLog" >
+    update system_log
+    set login_no = #{loginNo,jdbcType=VARCHAR},
+      login_ip = #{loginIp,jdbcType=VARCHAR},
+      sys_model = #{sysModel,jdbcType=VARCHAR},
+      sys_method = #{sysMethod,jdbcType=VARCHAR},
+      operate = #{operate,jdbcType=VARCHAR},
+      using_time = #{usingTime,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      request_params = #{requestParams,jdbcType=VARCHAR},
+      exception = #{exception,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

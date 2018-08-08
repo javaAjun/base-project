@@ -14,6 +14,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.palmble.dal.LoginLogsMapper;
 import com.palmble.entity.LoginLogs;
+import com.palmble.entity.SystemLog;
 import com.palmble.enums.LogEnum;
 
 
@@ -57,7 +58,7 @@ public class PalmbleBaseService {
 	 * @author WangYanke  
 	 * @date 2018年6月19日
 	 */
-	protected String getUserIP(HttpServletRequest request) {
+	public String getUserIP(HttpServletRequest request) {
 		String strUserIp = "127.0.0.1";
 		try {
 			strUserIp = request.getHeader("X-Forwarded-For");
@@ -116,15 +117,25 @@ public class PalmbleBaseService {
 	 */
 	public void saveLog(LogEnum logEnum, Integer i, String module, String desc, String method, String params,
 			String changeReason, Throwable e) {
+		HttpServletRequest request = getRequest();
+		HttpSession session = request.getSession();
+		String username = (String)session.getAttribute("userName");
 		try {
 			//long start = System.currentTimeMillis();
 			/* 在这里处理并记录不同模块正常日志和异常日志 */
 			switch (logEnum) {
 			case PUBLIC/* 公共日志 */:
+				SystemLog log=new SystemLog();
+				log.setLoginNo(username);
+				log.setLoginIp(getUserIP(request));
+				log.setSysModel(module);
+				log.setSysMethod(method);
+				log.setOperate("");
+				log.setRequestParams(params);
+				log.setUsingTime(1065L);
+				
 			case LOGIN/*登录日志*/:
 				LoginLogs loginLog=new LoginLogs();
-				HttpSession session = getSession();	
-				String username = (String)session.getAttribute("inuputUsername");
 				//loginLog.setLoginIp(this.getUserIP(request));
 				loginLog.setLoginName(username);
 				loginLog.setOperationType(1);

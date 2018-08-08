@@ -1,18 +1,29 @@
 package com.palmble.aop;
 
 import java.lang.reflect.Method;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 import com.alibaba.fastjson.JSON;
 import com.palmble.annotation.CustomLog;
 import com.palmble.base.PalmbleBaseService;
+import com.palmble.entity.SystemLog;
+import com.palmble.service.SystemLogService;
 
 
 /**
@@ -31,6 +42,9 @@ import com.palmble.base.PalmbleBaseService;
 public class LogAopAspect {
 	@Autowired
 	private PalmbleBaseService baseService;
+	
+	@Autowired
+	private SystemLogService logService;
 	/* 本地异常日志记录对象 */
 	private static final Logger logger = LoggerFactory
 			.getLogger(LogAopAspect.class);
@@ -42,7 +56,7 @@ public class LogAopAspect {
 	}
 	
 	/* Service层切点 */
-	@Pointcut("execution(* com.palmble.controller.*.*(..))")
+	@Pointcut("execution(* com.palmble.Service.*.*(..))")
 	public void serviceAspect() {
 		System.out.println("我是一个Service切入点");
 	}
@@ -52,13 +66,23 @@ public class LogAopAspect {
 	 * 
 	 * @param joinPoint
 	 *            切点
+	 * @return 
+	 * @throws Throwable 
 	 */
-	@AfterReturning(value="controllerAspect()")
-	public void doBeforeAdvice(JoinPoint joinPoint) {
-		System.out.println("执行结束后执行");
-		saveLog(joinPoint, null);
+	@Around(value="controllerAspect()")
+	public Object doBeforeAdvice(ProceedingJoinPoint  joinPoint) throws Throwable {
+		System.out.println("环绕执行");
+		long beginTime = System.currentTimeMillis();
+		// 执行方法
+        Object result = joinPoint.proceed();
+        // 执行时长(毫秒)
+        long time = System.currentTimeMillis() - beginTime;
+        System.out.println(time);
+		saveSystemLog(joinPoint, time,null);
+		return result;
 	}
 	
+
 	/**
 	 * 
 	 * [异常通知 用于拦截service层记录异常日志] <br>
@@ -79,8 +103,8 @@ public class LogAopAspect {
 	 * 
 	 * [按照模块日志保存] <br>
 	 * 
-	 * @author Mr.Liboary <br>
-	 * @date 2017-7-13 下午5:45:12 <br>
+	 * @author WangYanke <br>
+	 * @date 2018-8-8 下午11:45:12 <br>
 	 * @param joinPoint
 	 *            切点
 	 * @param e
@@ -125,7 +149,53 @@ public class LogAopAspect {
 			logger.error("异常信息:{}", ex.getMessage());
 		}
 	}
-	
+	public void saveSystemLog(ProceedingJoinPoint joinPoint, long time,Throwable e) {
+		try {
+			SystemLog log=new SystemLog();
+			/* 获取自定义日志注解对象 */
+			String module = getMethodModule(joinPoint);
+			CustomLog customLog = getCustomLog2(joinPoint);
+			if(customLog==null){
+				return;
+			}
+			String desc = getMethodDesc(joinPoint);
+			String method = joinPoint.getTarget().getClass().getName() + "."
+					+ joinPoint.getSignature().getName() + "()";
+			String params = "";
+			params+=joinPoint.getArgs()[0];
+			// *========控制台输出=========*//
+			System.out.println("=====通知开始=====");
+			System.out.println("请求方法:" + method);
+			System.out.println("模块名称:" + module + "--" + customLog.module());
+			System.out.println("方法描述:" + desc + "--" + customLog.desc());
+			String changeReason = "正常";
+			if (e != null) {
+				changeReason = "程序异常";
+				System.out.println("异常代码:" + e.getClass().getName());
+				System.out.println("异常信息:" + e.getMessage());
+				log.setException("异常代码:" + e.getClass().getName()+"异常信息:" + e.getMessage());
+			}
+			System.out.println("=====通知结束=====");
+			 // 获取request
+	        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+	        HttpSession session = request.getSession();
+			log.setLoginNo((String)session.getAttribute("userName"));
+			log.setLoginIp(baseService.getUserIP(request));
+			log.setSysModel(module);
+			log.setSysMethod(method);
+			log.setOperate(desc);
+			log.setUsingTime(time);
+			log.setRequestParams(params);
+			log.setUsingTime(1065L);
+			logService.save(log);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			// 记录本地异常日志
+			logger.error("==记录系统日志异常==");
+			logger.error("异常信息:{}", ex.getMessage());
+		}
+		
+	}
 	
 	/**
 	 * 获取注解中对方法的模块信息
