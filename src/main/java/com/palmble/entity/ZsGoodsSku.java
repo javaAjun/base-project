@@ -7,6 +7,8 @@ public class ZsGoodsSku {
 
     private String skuAttrIds;
 
+    private String oper;
+   
     public Integer getId() {
         return id;
     }
@@ -30,4 +32,15 @@ public class ZsGoodsSku {
     public void setSkuAttrIds(String skuAttrIds) {
         this.skuAttrIds = skuAttrIds == null ? null : skuAttrIds.trim();
     }
+
+	public String getOper() {
+		return oper;
+	}
+
+	public void setOper(String oper) {
+		this.oper = oper;
+	}
+
+
+    
 }

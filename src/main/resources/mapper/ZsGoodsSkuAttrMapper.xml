@@ -25,7 +25,7 @@
     values (#{id,jdbcType=INTEGER}, #{attrName,jdbcType=VARCHAR}, #{cateId,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.palmble.entity.ZsGoodsSkuAttr" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"   parameterType="com.palmble.entity.ZsGoodsSkuAttr" >
     insert into zs_goods_sku_attr
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -36,8 +36,6 @@ public class GoodsController {
     @Autowired
      private GoodsService goodsService;
     
-   
-    
     @Value("${image.location}")
     private String filePath;
 	//根据 关键字段 获取商品的列表

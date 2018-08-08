@@ -93,4 +93,27 @@
 		WHERE
 			zk.id = #{skId}
   </select>
+  <select id="selectSkuAllAttrBySkuId" resultType="java.util.Map">
+    SELECT
+			zg.*
+		FROM
+			zs_goods_sku_attr zk
+		LEFT JOIN zs_goods_sku_attrvalue zg ON zk.id = zg.skuAttrId
+		WHERE
+			zk.id = #{skId}
+  </select>
+  <select id="selectADDGoodsSkuList"  resultType="java.util.Map">
+     SELECT
+			zg.*
+		FROM
+			zs_goods_sku_attr zk
+		LEFT JOIN zs_goods_sku_attrvalue zg ON zk.id = zg.skuAttrId
+   WHERE zg.id in
+      <foreach collection="skuvalueIds" item="item" index="index"
+            open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+  
+      
+  </select>
 </mapper>
