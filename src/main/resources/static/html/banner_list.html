@@ -87,7 +87,7 @@
             url:"/banner/list",
             datatype: "json",
             colModel:[
-                {label:'ID',name:'id',index:'id',width:40,editable: false,sortable: false},
+                {label:'ID',name:'id',index:'id',width:40,editable: false,sortable: true},
                 {label:'图片',name:'imageUrl',index:'imageUrl',align:"center",width:50,editable: false,sortable: false,formatter: function (a, b, c) {
                     return '<img src="'+a+'" onmousemove="showBigPic(this.src)" onmouseout="closeimg()"  height="80"  />';
                 }},
@@ -137,7 +137,7 @@
 	                cell:"cell"
 	            }
             },
-            sortorder: "desc",
+            sortorder: "asc",
             caption:"banner列表",
             loadComplete: function (xhr) {
                 if(xhr.code==0){

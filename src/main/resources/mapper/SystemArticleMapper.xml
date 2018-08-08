@@ -29,7 +29,7 @@
     <if test="title != null" >
         and article_title like concat(concat('%',#{title,jdbcType=VARCHAR}),'%') 
     </if>
-    order by id desc
+
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

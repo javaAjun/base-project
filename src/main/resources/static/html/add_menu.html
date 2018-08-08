@@ -197,17 +197,17 @@ function getAllMenu(parentId){
         	var html = "<option  value='0'>顶级菜单</option>";
         	for(var i=0; i< data.length;i++){
         		if(parentId==data[i].menuId){
-	             	html+='<option value='+data[i].menuId+' selected="selected" id="menu'+data[i].menuId+'" >&nbsp;···'+data[i].menuName+'</option>';
+	             	html+='<option value='+data[i].menuId+' selected="selected" id="menu'+data[i].menuId+'" >&nbsp;&nbsp;&nbsp;|--'+data[i].menuName+'</option>';
         		}else{
-	             	html+='<option value='+data[i].menuId+' id="menu'+data[i].menuId+'" >&nbsp;···'+data[i].menuName+'</option>';
+	             	html+='<option value='+data[i].menuId+' id="menu'+data[i].menuId+'" >&nbsp;&nbsp;&nbsp;|--'+data[i].menuName+'</option>';
         		}
              	var parentMenus=data[i].menuInfo;
              	parentMenus=JSON.parse(parentMenus);
              	for(j=0;j<parentMenus.length;j++){
              		if(parentId==parentMenus[j].menuId){
-	             		html+='<option value='+parentMenus[j].menuId+' selected="selected" id="menu'+parentMenus[j].menuId+'" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-----'+parentMenus[j].menuName+'</option>';
+	             		html+='<option value='+parentMenus[j].menuId+' selected="selected" id="menu'+parentMenus[j].menuId+'" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--'+parentMenus[j].menuName+'</option>';
              		}else{
-	             		html+='<option value='+parentMenus[j].menuId+' id="menu'+parentMenus[j].menuId+'" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-----'+parentMenus[j].menuName+'</option>';
+	             		html+='<option value='+parentMenus[j].menuId+' id="menu'+parentMenus[j].menuId+'" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--'+parentMenus[j].menuName+'</option>';
              		}
              	}
             }
