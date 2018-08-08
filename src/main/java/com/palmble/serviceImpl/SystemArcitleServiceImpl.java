@@ -44,6 +44,11 @@ public class SystemArcitleServiceImpl implements SystemArticleService {
 			result.setMsg("标题不能为空");
 			return result;
 		}
+		if(systemArticle.getAuthor()==null||systemArticle.getAuthor().equals("")) {
+			result.setCode(0);
+			result.setMsg("作者不能为空");
+			return result;
+		}
 		if(systemArticle.getArticleContent()==null||systemArticle.getArticleContent().equals("")) {
 			result.setCode(0);
 			result.setMsg("文章内容不能为空");
@@ -53,10 +58,16 @@ public class SystemArcitleServiceImpl implements SystemArticleService {
 			num= articleMapper.updateByPrimaryKeySelective(systemArticle);
 			url="system_article_edit.html?id="+systemArticle.getId();
 		}else {
+			SystemArticle article = articleMapper.selectByName(systemArticle);
+			if(article!=null) {
+				result.setCode(0);
+				result.setMsg("文章标题已存在");
+				return result;
+			}
 			systemArticle.setIsDelete(0);
 			systemArticle.setIsPublish(0);
 			systemArticle.setIsDisplay(0);
-			articleMapper.insert(systemArticle);
+			num= articleMapper.insert(systemArticle);
 			url="system_article_edit.html";
 		}
 		

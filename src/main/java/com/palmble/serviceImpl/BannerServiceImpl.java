@@ -3,6 +3,9 @@ package com.palmble.serviceImpl;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -49,9 +52,18 @@ public  class BannerServiceImpl implements BannerService {
 				result.setCode(0);
 				result.setMsg("跳转链接不能为空");
 				return result;
+			}else {
+				String check="^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$";
+				Pattern regex = Pattern.compile(check);
+	            Matcher matcher = regex.matcher(banner.getBannerUrl());
+	            if(!matcher.matches()) {
+	            	result.setCode(0);
+					result.setMsg("跳转链接不合法");
+					return result;
+	            }
 			}
 		}
-		if(banner.getType()==0) {//关联商品
+		if(banner.getType()==1) {//关联商品
 			if(banner.getGoodsId()==null){
 				result.setCode(0);
 				result.setMsg("请选择关联商品");
@@ -62,6 +74,12 @@ public  class BannerServiceImpl implements BannerService {
 			operateCount = bannerMapper.updateByPrimaryKeySelective(banner);
 			url="banner_add.html?id="+banner.getId();
 		}else {
+			Banner banne = bannerMapper.selectByName(banner);
+			if(banne!=null) {
+				result.setCode(0);
+				result.setMsg("banner名称已存在");
+				return result;
+			}
 			banner.setCreateTime(new Date());
 			banner.setIsDelete(0);
 			operateCount=bannerMapper.insert(banner);

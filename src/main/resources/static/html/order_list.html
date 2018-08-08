@@ -42,14 +42,15 @@
 							<div class="input-group">
 								<select name="orderStatus" class="form-control">
 									<option value="">选择状态</option>
-									<option value="0">待付款</option>
-									<option value="1">待发货</option>
-									<option value="2">待收货</option>
-									<option value="3">已收货</option>
-									<option value="4">申请退货</option>
-									<option value="5">待退货</option>
-									<option value="6">退货中</option>
-									<option value="7">已退货</option>
+									<option value="0">交易关闭</option>
+									<option value="1">待付款</option>
+									<option value="2">待发货</option>
+									<option value="3">待收货</option>
+									<option value="4">已收货</option>
+									<option value="5">申请退货</option>
+									<option value="6">待退货</option>
+									<option value="7">退货中</option>
+									<option value="8">已退货</option>
 								</select>
 							</div>
 							<div class="input-group">
@@ -206,12 +207,15 @@
 													return "申请退货";
 												}
 												if (c.orderStatus == 5) {
-													return "待退货";
+													return "申请退货";
 												}
 												if (c.orderStatus == 6) {
-													return "退货中";
+													return "待退货";
 												}
 												if (c.orderStatus == 7) {
+													return "退货中";
+												}
+												if (c.orderStatus == 8) {
 													return "已退货";
 												}
 												return "";
@@ -243,9 +247,8 @@
 														+ c.id;
 												var btn = '<a href="javascript:;" url="'
 														+ editurl
-														+ '" data-title="订单详情" onclick="layer_open(this,1)"><span class="label label-info" title="详情">详情</span></a>&nbsp;';
-												if (c.orderStatus == 5
-														|| c.orderStatus == 6) {
+														+ '" data-title="订单详情" onclick="open_info(this,1)"><span class="label label-info" title="详情">详情</span></a>&nbsp;';
+												if (c.orderStatus == 6) {
 													btn += '<a href="javascript:;" onclick="returnGoods('
 															+ c.id
 															+ ')"><span class="label label-info" title="确认退款">退款</span></a>&nbsp;';
@@ -387,6 +390,26 @@
 		        return false;
 		    }
 
+		}
+		function open_info(_self,flag){
+		    var url = $(_self).attr('url');
+		    var title = $(_self).attr('data-title');
+		    layer.open({
+		        type: 2,
+		        title: title,
+		        shadeClose: true,
+		        shade: 0.3,
+		        maxmin: true,
+		        area: ['50%', '90%'],
+		        content: url,
+		        end: function () {
+		            if(flag==1){
+		                $("#table").trigger("reloadGrid");
+		            }else if(flag==2){
+		                window.location.reload();
+		            }
+		        }
+		    });
 		}
 	</script>
 

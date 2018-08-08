@@ -129,24 +129,26 @@
                     return '<a href="'+editurl+'" ">'+ a +'</a>';
                 }},
                 {label:'绑定链接',name:'url',index:'url',width:40,editable: false,sortable: false},
-                {label:'排序',name:'sequenceNumber',index:'sequenceNumber',width:30,editable: false,sortable: false},
+                {label:'排序',name:'sequenceNumber',index:'sequenceNumber',width:26,sortable: true,formatter: function (a, b, c) {
+                    return '<input type="number" style="width:60px" onchange="updateSort(this)" data-url="/baseMenu/changeMenuSort" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
+                }},
                 {label:'菜单描述',name:'menuInfo',index:'menuInfo',width:50,editable: false,sortable: true},
                 {label:'隐藏状态',name:'isDisplay',index:'isDisplay',width:40,editable: false,sortable: false,formatter:function (a,b,c){
                     if(a == 1){
                         var url = "/baseMenu/dispalyMenu?isDisplay=0&menuId="+c.id;
-                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-danger" title="隐藏">隐藏</span></a>';
+                        return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-danger" title="隐藏">隐藏</span></a>';
                     } else{
                         var url = "/baseMenu/dispalyMenu?isDisplay=1&menuId="+c.id;
-                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
+                        return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
                     }
                 }},
                 {label:'可用状态',name:'idEffective',index:'idEffective',width:40,editable: false,sortable: false,formatter:function (a,b,c){
                     if(a == 1){
                         var url = "/baseMenu/noAvailMenu?idEffective=0&menuId="+c.id;
-                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
+                        return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
                     } else{
                         var url = "/baseMenu/noAvailMenu?idEffective=1&menuId="+c.id;
-                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
+                        return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
                     }
                 }},
                 {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
@@ -155,7 +157,7 @@
                     var delurl = "/baseMenu/delMenu?id="+c.id;
                     /*var recommendurl = "/admin/user/recommend/id/"+c.id;
                     var perforurl = "/admin/user/perfor/id/"+c.id;*/
-                    btn += '<a href="javascript:;" url="'+updateUrl+'" onclick="layer_open(this,1)"  data-title="编辑""><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+                    btn += '<a href="javascript:;" url="'+updateUrl+'" onclick="layer_open_smaill(this,1)"  data-title="编辑""><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
                     //btn += '<a href="javascript:;" url="'+detailurl+'" data-title="会员详情" onclick="layer_open(this,1)"><span class="label label-info" title="详情">详情</span></a>&nbsp;';
                     /*btn += '<a href="javascript:;" url="'+recommendurl+'" data-title="会员直推业绩" onclick="layer_open(this)"><span class="label label-info" title="直推业绩">直推业绩</span></a>&nbsp;';
                     btn += '<a href="javascript:;" url="'+perforurl+'" data-title="会员总业绩" onclick="layer_open(this)"><span class="label label-info" title="总业绩">总业绩</span></a>&nbsp;';*/
@@ -166,7 +168,7 @@
             rowNum:10,
             rowList:[10,20,30,100,500],
             pager: '#pager',
-            sortname: 'id',
+            sortname: 'sequence_number',
             viewrecords: true,
             autowidth:true,
             mtype: 'post',

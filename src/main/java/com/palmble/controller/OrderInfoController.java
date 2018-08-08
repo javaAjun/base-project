@@ -23,10 +23,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.palmble.entity.Account;
 import com.palmble.entity.Bill;
+import com.palmble.entity.MemberUser;
 import com.palmble.entity.OrderInfo;
 import com.palmble.entity.Result;
 import com.palmble.service.AccountService;
 import com.palmble.service.BillService;
+import com.palmble.service.MemberUserService;
 import com.palmble.service.OrderInfoService;
 import com.palmble.utils.DateUtil;
 import com.palmble.utils.TransactionUtil;
@@ -40,6 +42,8 @@ public class OrderInfoController {
 	private AccountService accountService;
 	@Autowired
 	private BillService billService;
+	@Autowired
+	private MemberUserService userService;
 	 private static final String BASE_PATH = System.getProperty("java.io.tmpdir") + "Resource" + File.separator;
 	@RequestMapping("/getOrderList")
 	public PageInfo<OrderInfo> getOrderList(@RequestParam Map<String,Object> map) {
@@ -140,6 +144,7 @@ public class OrderInfoController {
 			result.setMsg("请到商城审批退货!");
 			return result;
 		}
+		Integer userId=order.getUserId();
 		order.setOrderStatus(7);
 		int updateStatus=orderInfoService.updateById(order);
 		Bill bill=new Bill();
@@ -153,10 +158,12 @@ public class OrderInfoController {
 		bill.setAmount(number);
 		bill.setTransactionId(TransactionUtil.getTransactionNum(4));
 		int insertBillState=billService.insert(bill);
-		Account account=new Account();
-		account.setUserId(order.getUserId());
-		account.setBalance(number);
-		int updateAccountStatus=accountService.updateByUserId(account);
+		MemberUser user=userService.getById(userId);
+		Double balance=user.getBalance();
+		Double totalMoney=user.getCapital();
+		user.setBalance(balance+number);
+		user.setCapital(totalMoney+number);
+		int updateAccountStatus=userService.updateById(user);
 		if(updateStatus==1&&insertBillState==1&&updateAccountStatus==1) {
 			//TODO
 			result.setCode(1);
@@ -165,6 +172,19 @@ public class OrderInfoController {
 			result.setCode(0);
 			result.setMsg("操作失败!");
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return result;
+	}
+	@RequestMapping("/edit")
+	public Result edit(OrderInfo order) {
+		Result result=new Result();
+		int updateState=orderInfoService.updateById(order);
+		if(updateState==1) {
+			result.setCode(1);
+			result.setMsg("操作成功!");
+		}else {
+			result.setCode(0);
+			result.setMsg("操作失败!");
 		}
 		return result;
 	}

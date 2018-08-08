@@ -1,6 +1,8 @@
 package com.palmble.test;
 
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +37,14 @@ public class BaseTest {
 	public void getSqlsession() throws IllegalArgumentException, IllegalAccessException {
 		Account account=accountService.getById(1);
 		System.out.println(account.getBalance());
+	}
+	public static void main(String[] args) {
+		DateFormat bf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//多态
+        //2017-04-19 星期三 下午 20:17:38
+        
+        Date date = new Date();//创建时间
+        String format = bf.format(date);//格式化 bf.format(date);
+        System.out.println(format);
 	}
 
 }

@@ -90,16 +90,16 @@
             colModel:[
                 {label:'ID',name:'id',index:'id',width:40,editable: false,sortable: false},
                 {label:'标题',name:'articleTitle',index:'articleTitle',width:100,editable: false,sortable: false},
-                {label:'封面图',name:'articleTitleImage',index:'articleTitleImage',width:50,editable: false,sortable: false,formatter: function (a, b, c) {
-                    return '<img src="'+a+'" onmousemove="showBigPic(this.src)" onmouseout="closeimg()" width="20" height="20"/>';
+                {label:'封面图',name:'articleTitleImage',index:'articleTitleImage',align:"center",width:50,editable: false,sortable: false,formatter: function (a, b, c) {
+                    return '<img src="'+a+'" onmousemove="showBigPic(this.src)" onmouseout="closeimg()"  height="80"/>';
                 }},
                 {label:'状态',name:'isPublish',index:'isPublish',width:50,editable: false,sortable: false,formatter:function (a,b,c){
                     if(a == 1){
                     	var url = "/article/publish?isPublish=0&id="+c.id;
-                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-primary " title="已发布">已发布</span></a>';
+                        return '<a href="'+url+'" class="ajax-get " data-table="1"><span class="label label-primary " title="已发布">已发布</span></a>';
                     } else{
                     	var url = "/article/publish?isPublish=1&id="+c.id;
-                        return '<a href="'+url+'" class="ajax-get confirm" data-table="1"><span class="label label-danger" title="未发布">未发布</span></a>';
+                        return '<a href="'+url+'" class="ajax-get " data-table="1"><span class="label label-danger" title="未发布">未发布</span></a>';
                     }
                 }},
                 {label:'操作',width:100,sortable: false,align:'left',formatter: function (a, b, c) {
@@ -110,8 +110,8 @@
                     return btn;
                 }},
             ],
-            rowNum:10,
-            rowList:[10,20,30],
+            rowNum:5,
+            rowList:[5,10,20],
             pager: '#pager',
             sortname: 'sequence',
             viewrecords: true,
