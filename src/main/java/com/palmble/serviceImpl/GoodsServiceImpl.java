@@ -22,9 +22,11 @@ import com.github.pagehelper.util.StringUtil;
 import com.palmble.dal.ZsGoodsCategoryMapper;
 import com.palmble.dal.ZsGoodsMapper;
 import com.palmble.dal.ZsGoodsPhotoAlbumMapper;
+import com.palmble.dal.ZsGoodsSkuMapper;
 import com.palmble.entity.ZsGoods;
 import com.palmble.entity.ZsGoodsCategory;
 import com.palmble.entity.ZsGoodsPhotoAlbum;
+import com.palmble.entity.ZsGoodsSku;
 import com.palmble.service.GoodsService;
 import com.palmble.utils.DateUtil;
 import com.palmble.utils.FileTypeUtils;
@@ -42,7 +44,8 @@ public class GoodsServiceImpl implements GoodsService{
   private ZsGoodsPhotoAlbumMapper potosMapper;
   @Autowired
   private ZsGoodsCategoryMapper goodsCateMapper;
-  
+  @Autowired
+  private ZsGoodsSkuMapper skuMapper;
   @Value("${image.location}")
   private String filePath;
   @Value("${imgShow.url}")
@@ -84,13 +87,17 @@ public class GoodsServiceImpl implements GoodsService{
 						return  ResponsDatas.fail("商品编号重复!", null);
 					}
 				}
+				
 				ResponsDatas data=this.IsNullGoodsParam(goods);
 				if(!data.getStatus().equals("200")) {
 					return data;
 				}else {
 					goods=(ZsGoods) data.getData();
-					goodsMapper.insertSelective(goods);
+					
+					
+					goodsMapper.insertSelective(goods);//添加商品信息
 					Integer goodsId=goods.getId();
+					/*添加相册信息*/
 					if(goods.getGoodsCoverImgs().length>0) {
 						String[] imgs=goods.getGoodsCoverImgs();
 					  for (String goodsImg : imgs) {
@@ -98,8 +105,10 @@ public class GoodsServiceImpl implements GoodsService{
 						  //商品相册
 						  potosMapper.insertSelective(goodsPotos);
 //						  potosMapper.insertPotos(goodsPotos);//此方法暂未使用
+					 }
 					}
-					}
+					//sku
+					boolean flag=this.skuEdit(goods);
 					
 				}
 				
@@ -122,6 +131,7 @@ public class GoodsServiceImpl implements GoodsService{
 //						  potosMapper.insertPotos(goodsPotos);//此方法暂未使用
 				     	}
 					}
+					 boolean flag=this.skuEdit(goods);
 				}
 			}else if(goods.getOper().equals("sort")) {
 				goodsMapper.updateByPrimaryKeySelective(goods);
@@ -132,13 +142,16 @@ public class GoodsServiceImpl implements GoodsService{
 			} if(goods.getOper().equals(SysConstant.OPER_DEL)) {
 				Integer id=goods.getId();
 				Integer goodsId=goods.getId();
-				potosMapper.deleteByGoodsId(goodsId);				
+				potosMapper.deleteByGoodsId(goodsId);		//相册
+				skuMapper.deleteSkuInfoByGoodsId(goodsId);//sku
 				int num =goodsMapper.deleteByPrimaryKey(id);
 				if(num>0) {
 					return ResponsDatas.success();
 				}else {
 					return ResponsDatas.fail();
 				}
+				
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -180,15 +193,48 @@ public class GoodsServiceImpl implements GoodsService{
 		if(StringUtil.isEmpty(goods.getGoodsCoverImg())) {//封面图片为空
 			return  ResponsDatas.fail("封面图片为空!", null);
 		}
-		if(goods.getMarketPrice().equals(BigDecimal.ZERO)) {
-			return  ResponsDatas.fail("市场价必须大于0!", null);
+		BigDecimal[] marketPrices=goods.getMarketPrices();
+		BigDecimal mPrice= new BigDecimal(0);
+		int i=0;
+		for (BigDecimal marketPrice : marketPrices) {
+			if(marketPrice.equals(BigDecimal.ZERO)) {
+				return  ResponsDatas.fail("市场价必须大于0!", null);
+			}else {
+				mPrice=mPrice.add(marketPrice);
+				i++;
+			}
 		}
-		if(goods.getShopPrice().equals(BigDecimal.ZERO)) {
-			return  ResponsDatas.fail("店铺价必须大于0!", null);
+		goods.setMarketPrice(this.divideNUm(mPrice, i));//市场价
+		
+		BigDecimal[] shopPrices=goods.getShopPrices();
+		BigDecimal sPrice= new BigDecimal(0);
+		int j=0;
+		for (BigDecimal shopPrice : shopPrices) {
+			if(shopPrice.equals(BigDecimal.ZERO)) {
+				return  ResponsDatas.fail("店铺价必须大于0!", null);
+			}else {
+				sPrice=sPrice.add(shopPrice);
+				j++;
+			}
 		}
-		if(StringUtil.isEmpty(goods.getGoodsSpec())) {
+		goods.setShopPrice(this.divideNUm(sPrice, j));
+		
+		Integer[] saleCounts=goods.getSaleCounts();
+		Integer saleCount=0;
+		for (Integer integer : saleCounts) {
+			saleCount+=integer;
+		}
+		goods.setSaleCount(saleCount);//销售量
+		
+		Integer[] goodsStocks=goods.getGoodsStocks();
+		Integer goodsStock=0;
+		for (Integer integer : goodsStocks) {
+			goodsStock+=integer;
+		}
+		goods.setGoodsStock(goodsStock);
+		/*if(StringUtil.isEmpty(goods.getGoodsSpec())) {
 			return  ResponsDatas.fail("规格不能为空！", null);
-		}
+		}*/
 		if(StringUtil.isEmpty(goods.getGoodsDesc())) {
 			return  ResponsDatas.fail("商品描述不能为空！", null);
 		}
@@ -210,6 +256,13 @@ public class GoodsServiceImpl implements GoodsService{
 		}
 		return ResponsDatas.success(goods);
 	}
+	private BigDecimal divideNUm(BigDecimal num,Integer num2) {
+		BigDecimal bignum=null;
+		if(num!=null&&num2>0) {
+			bignum=num.divide(new BigDecimal(num2.toString()));
+		}
+		return bignum;
+	}
 
 	@Override
 	public ResponsDatas getGoodsById(Integer goodsId) {
@@ -219,8 +272,10 @@ public class GoodsServiceImpl implements GoodsService{
 				dataMap=goodsMapper.getGoodsById(goodsId);
 				
 					if(dataMap!=null) {
+						List<ZsGoodsSku> skuList=skuMapper.selectSKUInfoByGoodsId(goodsId);
 						List<ZsGoodsPhotoAlbum> goodslist=potosMapper.selectPotosByGoodsId(goodsId);
 						dataMap.put("potos", goodslist==null?null:goodslist);
+						dataMap.put("skuInfo", skuList==null?null:skuList);
 //						dataList.add(map);
 					return ResponsDatas.success(dataMap);
 				}else {
@@ -429,6 +484,40 @@ public class GoodsServiceImpl implements GoodsService{
 		if(!flag) {
 			FileTypeUtils.deleteFile(Url);
 		}
+		
+	}
+
+	@Transactional(rollbackFor=Exception.class)
+	@Override
+	public boolean skuEdit(ZsGoods goods) {
+		     try {
+				String[]  productNos=goods.getProductNos();
+				 String[] productSpecs=goods.getProductSpecs();//sku,信息
+				 Integer[] goodsStocks=goods.getGoodsStocks();//库存
+				 BigDecimal[] marketPrices=goods.getMarketPrices();//市场价
+				 BigDecimal[] shopPrices=goods.getShopPrices();//店铺价格
+				 Integer[] saleCounts=goods.getSaleCounts();//销售量
+				 Integer goodsId=goods.getId();
+				 List<ZsGoodsSku> skuMap=skuMapper.selectSKUInfoByGoodsId(goodsId);
+				 if(!skuMap.isEmpty()&&skuMap.size()>0) {
+					 skuMapper.deleteSkuInfoByGoodsId(goodsId);
+				 }
+				 for(int i=0;i<productNos.length;i++) {
+					 String productNo=productNos[i];
+					 String productSpec=productSpecs[i];
+					 BigDecimal marketPrice=marketPrices[i];
+					 BigDecimal shopPrice=shopPrices[i];
+					 Integer goodsStock=goodsStocks[i];//库存
+					 Integer saleCount=saleCounts[i];
+					 ZsGoodsSku record=new ZsGoodsSku(null, goodsId, productSpec, productNo, marketPrice, shopPrice, saleCount,goodsStock);
+					 skuMapper.insertSelective(record);
+				 }
+				 return true;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			}
 		
 	}
 }

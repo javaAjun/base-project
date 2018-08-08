@@ -39,12 +39,12 @@
        <!--  <table tableName="system_article" domainObjectName="SystemArticle" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/> 
         </table> -->
-        <!-- <table tableName="zs_goods_sku" domainObjectName="ZsGoodsSku" enableCountByExample="false" 
+        <table tableName="zs_goods_sku" domainObjectName="ZsGoodsSku" enableCountByExample="false" 
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
                selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/> 
-        </table> -->
-         <table tableName="zs_goods_sku_attrvalue" domainObjectName="ZsGoodsSkuAttrValue" enableCountByExample="false" 
+        </table>
+         <!-- <table tableName="zs_goods_sku_attrvalue" domainObjectName="ZsGoodsSkuAttrValue" enableCountByExample="false" 
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
                selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/> 
@@ -53,7 +53,7 @@
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
                selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/> 
-        </table>
+        </table> -->
        
         
     </context>

@@ -1,6 +1,6 @@
 package com.palmble.service;
 
-import com.palmble.entity.ZsGoodsSku;
+
 import com.palmble.entity.ZsGoodsSkuAttr;
 import com.palmble.utils.ResponsDatas;
 

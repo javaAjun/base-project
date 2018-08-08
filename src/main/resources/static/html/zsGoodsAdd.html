@@ -324,7 +324,15 @@
 												<div ><!-- class="col-sm-8" id="product" -->
 													<table class="table table-bordered text-center"
 														id="spec_input_tab">
-														
+														<tr> 
+														    <th class="text-center">货号</th>
+														    <th class="text-center">规格<span class="text-danger">*</span></th>
+															<th class="text-center">市场价格<span class="text-danger">*</span></th>
+															<th class="text-center">店铺价格<span class="text-danger">*</span></th>
+															<th class="text-center">销售量<span class="text-danger">*</span></th>
+															<th class="text-center">库存<span class="text-danger">*</span></th>
+															<th class="text-center">操作<span class="text-danger">*</span></th>
+														</tr>
 														
 													</table>
 												</div>
@@ -427,12 +435,12 @@
 				    
 				    	$("#goodsNo").val(data.data.goodsNo);
 				    	$("#goodsName").val(data.data.goodsName);
-				    	$("#marketPrice").val(data.data.marketPrice);
+				    	/* $("#marketPrice").val(data.data.marketPrice);
 				    	$("#saleCount").val(data.data.saleCount);
-				    	$("#shopPrice").val(data.data.shopPrice);
+				    	$("#shopPrice").val(data.data.shopPrice); */
 				    	$("#goodsDesc").val(data.data.goodsDesc);
-				    	$("#goodsSpec").val(data.data.goodsSpec);
-				    	$("#goodsStock").val(data.data.goodsStock);
+				    /* 	$("#goodsSpec").val(data.data.goodsSpec); */
+				    	/* $("#goodsStock").val(data.data.goodsStock); */
 				    	var isAdminRecom=data.data.isAdminRecom;//推荐
 				    	
 				    	if(isAdminRecom){
@@ -479,6 +487,19 @@
 							}
 						}
 						 getCatInfo(data.data.goodsCateId,"#goodsCateId");
+						 
+						 if(data.data.skuInfo!=null){
+							 clearTrBox();
+							 var skuList=data.data.skuInfo;
+							 var html="";
+							  html+=setInputGoodsInfoTableHtml();
+							 for(var i=0;i<skuList.length;i++){
+							    html+=setInputGoodsInfoSkuHtml(skuList[i].productNo,skuList[i].productSpec,skuList[i].marketPrice,
+							    		skuList[i].shopPrice,skuList[i].saleCount,skuList[i].goodsStock);
+							    }
+							    $("#spec_input_tab").append(html);
+						 }
+						 
 						    
 				    }
 				    }, 
@@ -491,7 +512,6 @@
 		//获取规格信息
 		function getGoodsSpecList(){
 			clearCheckBox();
-			 clearTrBox();
 			$.ajax({ 
 				  type:"POST", 
 				  url:_getGoodsSkuAllList,
@@ -526,6 +546,8 @@
 		}
 		//获取checkbox 值
 		$("#btnSpec").click(function(){
+			  
+			 clearTrBox();
 			 var len= $("#GoodsSpec").children('div').length;
 			 var array =new Array();
 			 
@@ -541,65 +563,52 @@
 				  array.push(str);
 				  }
 			  }
-			  if(array.length>1){
-			  var skuArray=  doExchange(array);
-		         var html="";
-					html+='<tr> <th class="text-center">货号</th>';
-					html+=' <th class="text-center">规格</th>';
-					html+='<th class="text-center">市场价格</th>';
-					html+='<th class="text-center">店铺价格</th>';
-					html+='<th class="text-center">销售量</th>';
-					html+='<th class="text-center">库存</th>';
-					html+='<th class="text-center">操作</th></tr>';
-			
+		        var html="";
+		     	html+=setInputGoodsInfoTableHtml();
+			   if(array.length>1){
+			     var skuArray=  doExchange(array);
 				  for(var j=0;j<skuArray.length;j++){
-						      html+='<tr>';
-							  html+='  <td><input type="text" name="productNo"  placeholder="商品货号"  class="form-control"></td>';
-							  html+='  <td><input type="text" name="productSpec"  value="'+skuArray[j]+'"  class="form-control"></td>';
-							  html+='  <td><input type="text" name="goodsStock" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)" value="0" class="form-control"></td>';
-						      html+='  <td><input type="text" name="marketPrice"  onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"  value="0" class="form-control"></td>';
-							  html+='  <td><input type="text" name="shopPrice" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	  value="0" class="form-control"></td>';
-							  html+='  <td><input type="text" name="saleCount" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	  value="0" class="form-control"></td>';
-							  html+='  <td><input type="button" name="delete"  value="删 除"  class="btn btn-warning "  onclick="deleteSelectedRow(this)"></td>';
-							  html+='  </tr>';
-					  
-					 
+					  html+=setInputGoodsInfoSkuHtml("",skuArray[j],1,1,1,1)
 				      } 
-			      $("#spec_input_tab").append(html);
-			  
 			  }else{
-
-				     var html="";
-							html+='<tr> <th class="text-center">货号</th>';
-							html+=' <th class="text-center">规格</th>';
-							html+='<th class="text-center">市场价格</th>';
-							html+='<th class="text-center">店铺价格</th>';
-							html+='<th class="text-center">销售量</th>';
-							html+='<th class="text-center">库存</th>';
-							html+='<th class="text-center">操作</th></tr>';
-					
 					  for(var j=0;j<array.length;j++){
 						  var childArray=array[j];
 						   for(var k=0;k<childArray.length;k++){
 							  // console.log();
-							       html+='<tr>';
-								  html+='  <td><input type="text" name="productNo"  placeholder="商品货号"  class="form-control"></td>';
-								  html+='  <td><input type="text" name="productSpec"  value="'+childArray[k]+'"  class="form-control"></td>';
-								  html+='  <td><input type="text" name="goodsStock" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)" value="0" class="form-control"></td>';
-							      html+='  <td><input type="text" name="marketPrice"  onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"  value="0" class="form-control"></td>';
-								  html+='  <td><input type="text" name="shopPrice" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	  value="0" class="form-control"></td>';
-								  html+='  <td><input type="text" name="saleCount" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	  value="0" class="form-control"></td>';
-								  html+='  <td><input type="button" name="delete"  value="删 除"  class="btn btn-warning "  onclick="deleteSelectedRow(this)"></td>';
-								  html+='  </tr>';
+							   html+=setInputGoodsInfoSkuHtml("",childArray[k],1,1,1,1)
 						   } 
 						 
 					   } 
-					  $("#spec_input_tab").append(html);
 			  }
+		   $("#spec_input_tab").append(html);
 	        //关闭当前窗口 */
-			   $('#myModal15').modal('hide');
+			 $('#myModal15').modal('hide');
 	         
 		});
+		function setInputGoodsInfoTableHtml(){
+			var html="";
+			html+='<tr> <th class="text-center">货号</th>';
+			html+=' <th class="text-center">规格SKU<span class="text-danger">*</span></th>';
+			html+='<th class="text-center">市场价格<span class="text-danger">*</span></th>';
+			html+='<th class="text-center">店铺价格<span class="text-danger">*</span></th>';
+			html+='<th class="text-center">销售量<span class="text-danger">*</span></th>';
+			html+='<th class="text-center">库存<span class="text-danger">*</span></th>';
+			html+='<th class="text-center">操作<span class="text-danger">*</span></th></tr>';
+			return html;
+		}
+		function setInputGoodsInfoSkuHtml(productNo,productSpec,marketPrice,shopPrice,saleCount,goodsStock){
+			
+			var  html='<tr>';
+			  html+='  <td><input type="text" name="productNos"  placeholder="商品货号"  value="'+productNo+'" class="form-control"></td>';
+			  html+='  <td><input type="text" name="productSpecs"  value="'+productSpec+'"  class="form-control"></td>';
+		      html+='  <td><input type="text" name="marketPrices"  onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"  value="'+marketPrice+'" class="form-control"></td>';
+			  html+='  <td><input type="text" name="shopPrices" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	  value="'+shopPrice+'" class="form-control"></td>';
+			  html+='  <td><input type="text" name="saleCounts" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	  value="'+saleCount+'" class="form-control"></td>';
+			  html+='  <td><input type="text" name="goodsStocks" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)" value="'+goodsStock+'" class="form-control"></td>';
+			  html+='  <td><input type="button" name="delete"  value="删 除"  class="btn btn-warning "  onclick="deleteSelectedRow(this)"></td>';
+			  html+='  </tr>';
+			  return html;
+		}
 		//重置checkbox
 		$("#btnReset").click(function(){
 			$('#GoodsSpec input:checkbox').removeAttr('checked');
@@ -667,8 +676,8 @@
 	 /*    var array = [['a', 'b', 'c'], [1, 2, 3], ['x', 'y', 'z']];
 	    var arr1 = [['a','b','c']]; */
 
-	    console.log(doExchange(array));
-		
+	    /* console.log(doExchange(array));
+		 */
 		
 		
 		
