@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.palmble.entity.ZsGoodsSku;
+import com.palmble.entity.ZsGoodsSkuAttr;
 import com.palmble.service.GoodsSkuService;
 import com.palmble.utils.ResponsDatas;
 
@@ -33,6 +35,36 @@ public class GoodsSkuController {
 	public ResponsDatas<?> getGoodsSkuList(@RequestParam(required=false) Integer page,
 			Integer rows,String sord,Integer goodsCateId,@RequestParam(required=false)Integer skuId) {
 		ResponsDatas<?> result=goodsSkuSerivice.getGoodsSkuList(page,rows,sord,goodsCateId,skuId);
+		return result;
+	}
+	/**
+	 * 编辑
+	 * @param goodsSku
+	 * @return
+	 */
+	@RequestMapping("/operGoodsSku")
+	public ResponsDatas<?> operGoodsSku(ZsGoodsSkuAttr goodsSku) {
+		ResponsDatas<?> result=goodsSkuSerivice.operGoodsSku(goodsSku);
+		return result;
+	}
+	/**
+	 * 编辑
+	 * @param goodsSku
+	 * @return
+	 */
+	@RequestMapping("/getGoodsSkuId")
+	public ResponsDatas<?> getGoodsSkuId(Integer id) {
+		ResponsDatas<?> result=goodsSkuSerivice.getGoodsSkuId(id);
+		return result;
+	}
+	/**
+	 * 获取skU信息
+	 * @param goodsSku
+	 * @return
+	 */
+	@RequestMapping("/getGoodsSkuAllList")
+	public ResponsDatas<?> getGoodsSkuList(Integer[] skuvalueIds,Integer[] skuIds) {
+		ResponsDatas<?> result=goodsSkuSerivice.getGoodsSkuList(skuvalueIds,skuIds);
 		return result;
 	}
 	

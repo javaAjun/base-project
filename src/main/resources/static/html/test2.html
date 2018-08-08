@@ -1,98 +1,153 @@
 <!DOCTYPE html>
-<HTML>
-<HEAD>
-	<TITLE> ZTREE DEMO - beforeClick / onClick</TITLE>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" href="../zTree/css/demo.css" type="text/css">
-	<link rel="stylesheet" href="../zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-	<script type="text/javascript" src="../zTree/js/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript" src="../zTree/js/jquery.ztree.core.js"></script>
-	<!--  <script type="text/javascript" src="../../../js/jquery.ztree.excheck.js"></script>
-	  <script type="text/javascript" src="../../../js/jquery.ztree.exedit.js"></script>-->
-	<SCRIPT type="text/javascript">
-		<!--
-		var setting = {
-			data: {
-				key: {
-					title:"t"
-				},
-				simpleData: {
-					enable: true
-				}
-			},
-			callback: {
-				beforeClick: beforeClick,
-				onClick: onClick
-			}
-		};
-
-		var zNodes =[
-			{ id:1, pId:0, name:"普通的父节点", t:"我很普通，随便点我吧", open:true},
-			{ id:11, pId:1, name:"叶子节点 - 1", t:"我很普通，随便点我吧"},
-			{ id:12, pId:1, name:"叶子节点 - 2", t:"我很普通，随便点我吧"},
-			{ id:13, pId:1, name:"叶子节点 - 3", t:"我很普通，随便点我吧"},
-			{ id:2, pId:0, name:"NB的父节点", t:"点我可以，但是不能点我的子节点，有本事点一个你试试看？", open:true},
-			{ id:21, pId:2, name:"叶子节点2 - 1", t:"你哪个单位的？敢随便点我？小心点儿..", click:false},
-			{ id:22, pId:2, name:"叶子节点2 - 2", t:"我有老爸罩着呢，点击我的小心点儿..", click:false},
-			{ id:23, pId:2, name:"叶子节点2 - 3", t:"好歹我也是个领导，别普通群众就来点击我..", click:false},
-			{ id:3, pId:0, name:"郁闷的父节点", t:"别点我，我好害怕...我的子节点随便点吧...", open:true, click:false },
-			{ id:31, pId:3, name:"叶子节点3 - 1", t:"唉，随便点我吧"},
-			{ id:32, pId:3, name:"叶子节点3 - 2", t:"唉，随便点我吧"},
-			{ id:33, pId:3, name:"叶子节点3 - 3", t:"唉，随便点我吧"}
-		];
-
-		var log, className = "dark";
-		function beforeClick(treeId, treeNode, clickFlag) {
-			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
-			return (treeNode.click != false);
-		}
-		function onClick(event, treeId, treeNode, clickFlag) {
-			showLog("[ "+getTime()+" onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "普通选中": (clickFlag===0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
-		}		
-		function showLog(str) {
-			if (!log) log = $("#log");
-			log.append("<li class='"+className+"'>"+str+"</li>");
-			if(log.children("li").length > 8) {
-				log.get(0).removeChild(log.children("li")[0]);
-			}
-		}
-		function getTime() {
-			var now= new Date(),
-			h=now.getHours(),
-			m=now.getMinutes(),
-			s=now.getSeconds();
-			return (h+":"+m+":"+s);
-		}
-
-		$(document).ready(function(){
-			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-		});
-		//-->
-	</SCRIPT>
-</HEAD>
-
-<BODY>
-
-<div class="content_wrap">
-	<div class="zTreeDemoBackground left">
-		<ul id="treeDemo" class="ztree"></ul>
-	</div>
-	<div class="right">
-		<ul class="info">
-			<li class="title">
-				<ul class="list">
-				<li>利用 click 事件回调函数 可以进行各种其他的附加操作，这里简单演示如何监控此事件</li>
-				<li><p><span class="highlight_red">请尝试按下 <b>Ctrl</b> 或 <b>Cmd</b> 键进行 多节点选择 和 取消选择</span><br/>
-					click log:<br/>
-					<ul id="log" class="log"></ul></p>
-				</li>
-				</ul>
-			</li>
-			
-			
-		</ul>
-	</div>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+</head>
+<body>
+<div class="control-group">
+    <label class="control-label"> </label>
+    <div class="controls">
+        <button id="add_lv1" class="btn btn-primary" type="button">添加规格项</button>
+        <button id="update_table" class="btn btn-success" type="button">刷新规格项目表</button>
+    </div>
 </div>
-</BODY>
-</HTML>
+<div id="lv_table_con" class="control-group" style="display: none;">
+    <label class="control-label">规格项目表</label>
+    <div class="controls">
+        <div id="lv_table">
+            
+        </div>
+    </div>
+</div>
+<script src="http://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var lv1HTML = '<div class="control-group lv1">' +
+                    '<label class="control-label">规格名称</label>' +
+                    '<div class="controls">' +
+                        '<input type="text" name="lv1" placeholder="规格名称">' +
+                        '<button class="btn btn-primary add_lv2" type="button">添加参数</button>' +
+                        '<button class="btn btn-danger remove_lv1" type="button">删除规格</button>' +
+                    '</div>' +
+                    '<div class="controls lv2s"></div>' +
+                '</div>';
+    
+    var lv2HTML = '<div style="margin-top: 5px;">' +
+                    '<input type="text" name="lv2" placeholder="参数名称">' +
+                    '<button class="btn btn-danger remove_lv2" type="button">删除参数</button>' +
+                '</div>';
+     
+    $(document).ready(function() {
+        $('#add_lv1').on('click', function() {
+            var last = $('.control-group.lv1:last');
+            if (!last || last.length == 0) {
+                $(this).parents('.control-group').eq(0).after(lv1HTML);
+            } else {
+                last.after(lv1HTML);
+            }
+        });
+
+        $(document).on('click', '.remove_lv1', function() {
+            $(this).parents('.lv1').remove();
+        });
+
+        $(document).on('click', '.add_lv2', function() {
+            $(this).parents('.lv1').find('.lv2s').append(lv2HTML);
+        });
+
+        $(document).on('click', '.remove_lv2', function() {
+            $(this).parent().remove();
+        });
+
+        $('#update_table').on('click', function() {
+            var lv1Arr = $('input[name="lv1"]');
+            if (!lv1Arr || lv1Arr.length == 0) {
+                $('#lv_table_con').hide();
+                $('#lv_table').html('');
+                return;
+            }
+            for (var i = 0; i < lv1Arr.length; i++) {
+                var lv2Arr = $(lv1Arr[i]).parents('.lv1').find('input[name="lv2"]');
+                if (!lv2Arr || lv2Arr.length == 0) {
+                    alert('请先删除无参数的规格项！');
+                    return;
+                }
+            }
+
+            var tableHTML = '';
+            tableHTML += '<table class="table table-bordered">';
+            tableHTML += '    <thead>';
+            tableHTML += '        <tr>';
+            for (var i = 0; i < lv1Arr.length; i++) {
+                tableHTML += '<th width="50">' + $(lv1Arr[i]).val() + '</th>';
+            }
+            tableHTML += '            <th width="20">现价</th>';
+            tableHTML += '            <th width="20">原价</th>';
+            tableHTML += '        </tr>';
+            tableHTML += '    </thead>';
+            tableHTML += '    <tbody>';
+             
+            var numsArr = new Array();
+            var idxArr = new Array();
+            for (var i = 0; i < lv1Arr.length; i++) {
+                numsArr.push($(lv1Arr[i]).parents('.lv1').find('input[name="lv2"]').length);
+                idxArr[i] = 0;
+            }
+             
+            var len = 1;
+            var rowsArr = new Array();
+            for (var i = 0; i < numsArr.length; i++) {
+                len = len * numsArr[i];
+                 
+                var tmpnum = 1;
+                for (var j = numsArr.length - 1; j > i; j--) {
+                    tmpnum = tmpnum * numsArr[j];
+                }
+                rowsArr.push(tmpnum);
+            }
+             
+            for (var i = 0; i < len; i++) {
+                tableHTML += '        <tr data-row="' + (i+1) + '">';
+                 
+                var name = '';
+                for (var j = 0; j < lv1Arr.length; j++) {
+                    var n = parseInt(i / rowsArr[j]);
+                    if (j == 0) {
+                    } else if (j == lv1Arr.length - 1) {
+                        n = idxArr[j];
+                        if (idxArr[j] + 1 >= numsArr[j]) {
+                            idxArr[j] = 0;
+                        } else {
+                            idxArr[j]++;
+                        }
+                    } else {
+                        var m = parseInt(i / rowsArr[j]);
+                        n = m % numsArr[j];
+                    }
+                     
+                    var text = $(lv1Arr[j]).parents('.lv1').find('input[name="lv2"]').eq(n).val();
+                    if (j != lv1Arr.length - 1) {
+                        name += text + '_';
+                    } else {
+                        name += text;
+                    }
+                     
+                    if (i % rowsArr[j] == 0) {
+                        tableHTML += '<td width="50" rowspan="' + rowsArr[j] + '" data-rc="' + (i+1) + '_' + (j+1) + '">' + text + '</td>';
+                    }
+                }
+                 
+                tableHTML += '<td width="20"><input type="text" name="' + name + '[price]" /></td>';
+                tableHTML += '<td width="20"><input type="text" name="' + name + '[original_price]" /></td>';
+                tableHTML += '</tr>';
+            }
+            tableHTML += '</tbody>';
+            tableHTML += '</table>';
+             
+            $('#lv_table_con').show();
+            $('#lv_table').html(tableHTML);
+        });
+    });
+</script>
+</body>
+</html>

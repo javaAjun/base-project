@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.palmble.annotation.CustomLog;
 import com.palmble.base.PalmbleBaseController;
 import com.palmble.entity.BaseMenu;
+import com.palmble.enums.LogEnum;
 import com.palmble.service.BaseMenuService;
 import com.palmble.service.UserPermissionService;
 import com.palmble.utils.ResultInfo;
@@ -59,6 +61,7 @@ public class BaseMenuController extends PalmbleBaseController{
 	 * @date 2018年6月15日
 	 */
 	@RequestMapping("/addMenu")
+	@CustomLog(logEnum=LogEnum.PUBLIC,module="菜单管理",desc="添加/编辑菜单")
 	public ResultInfo addMenu(BaseMenu baseMenu) {
 		permissionMenuService.getMenuInfoByselect(baseMenu);
 		return permissionMenuService.addMenu(baseMenu);

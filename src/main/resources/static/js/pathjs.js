@@ -30,7 +30,16 @@ var _operEditGoodsCateState="/goods/operGoodsCateInfo?oper=state";//状态
 var _operEditGoodsCateSort="/goods/operGoodsCateInfo?oper=sort";
 
 //根据id获取商品分类信息
-var _getGoodsCateInfoById="/goods//operGoodsCateInfoByid";
+var _getGoodsCateInfoById="/goods/operGoodsCateInfoByid";
 
 //获取规格列表信息
 var _getGoodsSpecList="/goods/sku/getSkuList";
+
+var _operEditSpec="/goods/sku/operGoodsSku?oper=edit";
+
+var _operDelSpec="/goods/sku/operGoodsSku?oper=del";
+
+var _getSpecInfoById="/goods/sku/getGoodsSkuId";
+
+//获取规格信息
+var _getGoodsSkuAllList="/goods/sku/getGoodsSkuAllList";

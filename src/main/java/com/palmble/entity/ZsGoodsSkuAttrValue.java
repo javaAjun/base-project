@@ -11,6 +11,13 @@ public class ZsGoodsSkuAttrValue {
         return id;
     }
 
+    public ZsGoodsSkuAttrValue() {
+    	
+    }
+public ZsGoodsSkuAttrValue(String attrValue,Integer skuAttrId) {
+    	this.attrValue=attrValue;
+    	this.skuAttrId=skuAttrId;
+    }
     public void setId(Integer id) {
         this.id = id;
     }

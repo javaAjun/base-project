@@ -13,12 +13,31 @@
 <link href="../hplus/css/style.min862f.css?v=4.1.0" rel="stylesheet">
 <link href="../hplus/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
 <link rel="stylesheet" href="../css/common.css">
-
-
+ 
+	
+    
+   
+    
 
 <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
-</head>
+<style>
+	select optgroup {
+		color: #777;
+		font-weight: 100;
+		font-size: 13px;
+	}
 
+	select optgroup option {
+		color: #000;
+		font-size: 14px;
+	}
+	#specbutton{
+	position: relative;
+     top: -17px;
+	}
+	
+</style>
+</head>
 <body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x: hidden;">
 	<div id="top-alert" class="alert alert-danger alert-dismissable">
 		<button aria-hidden="true" class="close" type="button">×</button>
@@ -28,7 +47,29 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
-					<div class="ibox-content">
+				<div class="ibox-content" id="specClose">
+                        <div class="modal inmodal" id="myModal15" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content ">
+                                      <div class="modal-header" style="padding: 8px 10px;">
+                                          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                                         </button>
+                                          <h4 class="modal-title">规格信息</h4>
+                                      </div>
+		                                  <div class="modal-body" id="GoodsSpec">
+		                                     
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                            <button type="button" class="btn btn-warning " id="btnReset">重置</button>
+                                            <button type="button" class="btn btn-primary" id="btnSpec">确定</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+					<div class="ibox-content" style="margin-top: -25px">
 						<form method="post" action="/goods/operGoodsInfo" class="form-horizontal">
 							<input type="hidden" name="id" id="goodsId" value=""> 
 							<input type="hidden" name="oper" id="oper" value="add">
@@ -37,7 +78,7 @@
 									<li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">基本信息</a></li>
 									<li class=""><a data-toggle="tab" href="#tab-4"	aria-expanded="false">商品图片</a></li>
 									<!--<li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">商品模型</a></li>-->
-									<!-- <li class=""><a data-toggle="tab" href="#tab-3"	aria-expanded="false">商品价格</a></li> -->
+									<li class=""><a data-toggle="tab" href="#tab-3"	aria-expanded="false">商品规格</a></li>
 									<li class=""><a data-toggle="tab" href="#tab-2"	aria-expanded="false">详细介绍</a></li>
 								</ul>
 								<div class="tab-content">
@@ -59,30 +100,19 @@
 											<div class="form-group">
 												<label class="col-sm-2 control-label">分类<span class="text-danger">*</span></label>
 												<div class="col-sm-6">
-<style>
-	select optgroup {
-		color: #777;
-		font-weight: 100;
-		font-size: 13px;
-	}
 
-	select optgroup option {
-		color: #000;
-		font-size: 14px;
-	}
-</style>
 													<select name="goodsCateId" id="goodsCateId" class="form-control">
 														
 													</select>
 												</div>
 											</div>
                                          
-											<div class="form-group">
+											<!-- <div class="form-group">
 												<label class="col-sm-2 control-label">规格<span class="text-danger">*</span></label>
 												<div class="col-sm-6">
 													<input type="text" class="form-control" name="goodsSpec"  placeholder="商品规格"	id="goodsSpec" value="">
 												</div>
-											</div>
+											</div> -->
 											  <div class="form-group">
 												<label class="col-sm-2 control-label">商品简介<span class="text-danger">*</span></label>
 												<div class="col-sm-6">
@@ -279,35 +309,23 @@
 										<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.js"></script>
 										<script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
 										<script type="text/javascript">
-										/* window.UEDITOR_HOME_URL = "/http://192.168.0.138:8383/ueditor/";
-										window.UEDITOR_CONFIG.serverUrl = '/config?action=config';
-										window.UEDITOR_CONFIG.initialFrameHeight = parseInt('350px');
-										window.UEDITOR_CONFIG.scaleEnabled = true; */
 										var ue = UE.getEditor('deitor');
 										</script>
 									  
 										</div>
 									</div>
+					
 									<div id="tab-3" class="tab-pane">
 										<div class="panel-body">
 											<div class="form-group">
-												<label class="col-sm-2 control-label">基本数据<span
-													class="text-danger">*</span></label>
-												<div class="col-sm-8" id="product">
+												<div id="specbutton"> <input type="button" onclick="getGoodsSpecList()" name="checkSpec"  class="btn btn-w-m btn-info" data-toggle="modal" data-target="#myModal15" value="选择规格"  />
+												<!-- onclick="getGoodsSpecList()" <input type="button"  class="btn btn-w-m btn-primary" value="增加一行" id="addID"/> -->
+												</div>
+												<div ><!-- class="col-sm-8" id="product" -->
 													<table class="table table-bordered text-center"
 														id="spec_input_tab">
-														<tr>
-															<th class="text-center">库存</th>
-															<th class="text-center">市场价格</th>
-															<th class="text-center">店铺价格</th>
-															<th class="text-center">销售量</th>
-														</tr>
-														<tr>
-															<td><input type="text" name="goodsStock" id="goodsStock"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
-															<td><input type="text" name="marketPrice" id="marketPrice" onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)" value="0" class="form-control"></td>
-															<td><input type="text" name="shopPrice" id="shopPrice"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
-														    <td><input type="text" name="saleCount" id="saleCount"	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	value="0" class="form-control"></td>
-														</tr>
+														
+														
 													</table>
 												</div>
 											</div>
@@ -328,6 +346,7 @@
 		</div>
 
 	</div>
+
 	<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
 	<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 	<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -337,6 +356,8 @@
 	<script src="../hplus/js/contabs.min.js"></script>
 	<script src="../hplus/js/plugins/pace/pace.min.js"></script>
 
+ 
+    <script src="../hplus/js/content.min.js?v=1.0.0"></script>
 	<!-- jqGrid -->
 	<script
 		src="../hplus/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
@@ -361,6 +382,7 @@
 				$("#oper").val("add");
 				getCatInfo(0,"#goodsCateId");
 			}
+			//getGoodsSpecList();
 		});
 	
 		//获取分类
@@ -466,46 +488,200 @@
 				 
 				});
 		}
-		
-		
-		
-		
-		
-		
-		
+		//获取规格信息
+		function getGoodsSpecList(){
+			clearCheckBox();
+			 clearTrBox();
+			$.ajax({ 
+				  type:"POST", 
+				  url:_getGoodsSkuAllList,
+				  dataType:"json",
+				  async:false,
+				  success:function(data){ 
+				    if(data.status=="200"){
+				    	var html='';
+				    	var skuList=data.data;
+				    	for(var i=0;i<skuList.length;i++){
+				    		var attrName=skuList[i].attrName;
+				    		 html+='<div id="find'+i+'" class="form-group">';
+				    		 html+='<label class="col-sm-2 control-label">'+attrName+'</label>';
+				    	     html+='<input type="hidden" name="attrVlues"  value="'+skuList[i].id+'" >' ;
+				    		var attrValues=skuList[i].skuValue;
+				    		for(var j=0;j<attrValues.length;j++){
+				    			html+='<p class="checkbox checkbox-inline" style="margin-left:-20px;width: 80px;">';
+				    			html+='<input type="checkbox" name="'+attrName+'" id="'+attrName+j+'" style="margin-top: 2px;margin-left: 6px" value="'+attrValues[j].attrValue+'">';
+				    		    html+='&nbsp;<label for="'+attrName+j+'">'+attrValues[j].attrValue+'</label>';
+				    		    html+=' </p>';
+				    		 }
+				    		html+=' </div>';
+				    	}
+				    	$("#GoodsSpec").append(html);
+				    }
+				  }, 
+				  error:function(){ 
+							layer.msg(data.message);
+				   } 
+				 
+			});
+		}
+		//获取checkbox 值
+		$("#btnSpec").click(function(){
+			 var len= $("#GoodsSpec").children('div').length;
+			 var array =new Array();
+			 
+			  for(var i=0;i<len;i++){
+				  var divId="#find"+i+" input:checkbox";
+				  var str=[];
+				  $(divId).each(function () {
+		               if ($(this).is(':checked')) {
+		            	   str.push($(this).val());
+		               }
+		           });
+				  if(str.length>0){
+				  array.push(str);
+				  }
+			  }
+			  if(array.length>1){
+			  var skuArray=  doExchange(array);
+		         var html="";
+					html+='<tr> <th class="text-center">货号</th>';
+					html+=' <th class="text-center">规格</th>';
+					html+='<th class="text-center">市场价格</th>';
+					html+='<th class="text-center">店铺价格</th>';
+					html+='<th class="text-center">销售量</th>';
+					html+='<th class="text-center">库存</th>';
+					html+='<th class="text-center">操作</th></tr>';
+			
+				  for(var j=0;j<skuArray.length;j++){
+						      html+='<tr>';
+							  html+='  <td><input type="text" name="productNo"  placeholder="商品货号"  class="form-control"></td>';
+							  html+='  <td><input type="text" name="productSpec"  value="'+skuArray[j]+'"  class="form-control"></td>';
+							  html+='  <td><input type="text" name="goodsStock" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)" value="0" class="form-control"></td>';
+						      html+='  <td><input type="text" name="marketPrice"  onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"  value="0" class="form-control"></td>';
+							  html+='  <td><input type="text" name="shopPrice" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	  value="0" class="form-control"></td>';
+							  html+='  <td><input type="text" name="saleCount" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	  value="0" class="form-control"></td>';
+							  html+='  <td><input type="button" name="delete"  value="删 除"  class="btn btn-warning "  onclick="deleteSelectedRow(this)"></td>';
+							  html+='  </tr>';
+					  
+					 
+				      } 
+			      $("#spec_input_tab").append(html);
+			  
+			  }else{
 
+				     var html="";
+							html+='<tr> <th class="text-center">货号</th>';
+							html+=' <th class="text-center">规格</th>';
+							html+='<th class="text-center">市场价格</th>';
+							html+='<th class="text-center">店铺价格</th>';
+							html+='<th class="text-center">销售量</th>';
+							html+='<th class="text-center">库存</th>';
+							html+='<th class="text-center">操作</th></tr>';
+					
+					  for(var j=0;j<array.length;j++){
+						  var childArray=array[j];
+						   for(var k=0;k<childArray.length;k++){
+							  // console.log();
+							       html+='<tr>';
+								  html+='  <td><input type="text" name="productNo"  placeholder="商品货号"  class="form-control"></td>';
+								  html+='  <td><input type="text" name="productSpec"  value="'+childArray[k]+'"  class="form-control"></td>';
+								  html+='  <td><input type="text" name="goodsStock" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)" value="0" class="form-control"></td>';
+							      html+='  <td><input type="text" name="marketPrice"  onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"  value="0" class="form-control"></td>';
+								  html+='  <td><input type="text" name="shopPrice" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	  value="0" class="form-control"></td>';
+								  html+='  <td><input type="text" name="saleCount" 	onkeyup="clearNoNum(this)" onpaste="clearNoNum(this)"	  value="0" class="form-control"></td>';
+								  html+='  <td><input type="button" name="delete"  value="删 除"  class="btn btn-warning "  onclick="deleteSelectedRow(this)"></td>';
+								  html+='  </tr>';
+						   } 
+						 
+					   } 
+					  $("#spec_input_tab").append(html);
+			  }
+	        //关闭当前窗口 */
+			   $('#myModal15').modal('hide');
+	         
+		});
+		//重置checkbox
+		$("#btnReset").click(function(){
+			$('#GoodsSpec input:checkbox').removeAttr('checked');
+		});
+		function clearCheckBox(){//清除slides下的所有div和img
+			var div = document.getElementById("GoodsSpec");
+		
+			while(div.hasChildNodes()) //当div下还存在子节点时 循环继续
+		    {
+		        div.removeChild(div.firstChild);
+		       
+		    }
+		}
+		function clearTrBox(){//清除slides下的所有div和img
+			var div2=document.getElementById("spec_input_tab");
+			while(div2.hasChildNodes()) //当div下还存在子节点时 循环继续
+		    {
+		      
+		        div2.removeChild(div2.firstChild);
+		    }
+		}
+		//删除单元格
+		function deleteSelectedRow(obj){
+		var tr=obj.parentNode.parentNode;
+		tr.parentNode.removeChild(tr);
+		}
+		
+		
+		// 执行组合排列的函数
+	    function doExchange(arr){
+	        var len = arr.length;
+	        // 当数组大于等于2个的时候
+	        if(len >= 2){
+	            // 第一个数组的长度
+	            var len1 = arr[0].length;
+	            // 第二个数组的长度
+	            var len2 = arr[1].length;
+	            // 2个数组产生的组合数
+	            var lenBoth = len1 * len2;
+	            //  申明一个新数组,做数据暂存
+	            var items = new Array(lenBoth);
+	            // 申明新数组的索引
+	            var index = 0;
+	            // 2层嵌套循环,将组合放到新数组中
+	            for(var i=0; i<len1; i++){
+	                for(var j=0; j<len2; j++){
+	                    items[index] = arr[0][i] +","+ arr[1][j];
+	                    index++;
+	                }
+	            }
+	            // 将新组合的数组并到原数组中
+	            var newArr = new Array(len -1);
+	            for(var i=2;i<arr.length;i++){
+	                newArr[i-1] = arr[i];
+	            }
+	            newArr[0] = items;
+	            // 执行回调
+	            return doExchange(newArr);
+	        }else{
+	            return arr[0];
+	        }
+	    }
+
+	    //执行
+	 /*    var array = [['a', 'b', 'c'], [1, 2, 3], ['x', 'y', 'z']];
+	    var arr1 = [['a','b','c']]; */
+
+	    console.log(doExchange(array));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// 合并单元格
 		function hbdyg() {
-			var tab = parent.document.getElementById("spec_input_tab"); //要合并的tableID
-			var maxCol = 5, val, count, start; //maxCol：合并单元格作用到多少列
-			if (tab != null) {
-				for (var col = maxCol - 1; col >= 0; col--) {
-					count = 1;
-					val = "";
-					for (var i = 0; i < tab.rows.length; i++) {
-						if (val == tab.rows[i].cells[col].innerHTML) {
-							count++;
-						} else {
-							if (count > 1) { //合并
-								start = i - count;
-								tab.rows[start].cells[col].rowSpan = count;
-								for (var j = start + 1; j < i; j++) {
-									tab.rows[j].cells[col].style.display = "none";
-								}
-								count = 1;
-							}
-							val = tab.rows[i].cells[col].innerHTML;
-						}
-					}
-					if (count > 1) { //合并，最后几行相同的情况下
-						start = i - count;
-						tab.rows[start].cells[col].rowSpan = count;
-						for (var j = start + 1; j < i; j++) {
-							tab.rows[j].cells[col].style.display = "none";
-						}
-					}
-				}
-			}
+			
+			//spec_input_tab
 		}
 
 		function layer_open1(_self, flag) {

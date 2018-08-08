@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.palmble.annotation.CustomLog;
 import com.palmble.entity.AdminUser;
 import com.palmble.entity.Result;
 import com.palmble.entity.UserPermission;
 import com.palmble.service.AdminGroupsService;
+import com.palmble.enums.LogEnum;
 import com.palmble.service.AdminUserService;
 import com.palmble.service.UserPermissionService;
 
@@ -176,6 +178,7 @@ public class AdminController {
 
 
 	@RequestMapping("/updatePassword")
+	@CustomLog(logEnum=LogEnum.PUBLIC,module="管理员管理",desc="修改密码")
 	public Result updatePassword(HttpServletRequest request,String old_pass,String password,String password_confirm) {
 		Result result=new Result();
 		int statusNum=0;
@@ -216,6 +219,7 @@ public class AdminController {
 //		return list;
 //	}
 	@RequestMapping("/addOreditRule")
+	@CustomLog(logEnum=LogEnum.PUBLIC,module="权限管理",desc="权限分配")
 	public Result addOreditRule(Integer userId,@RequestParam("urids[]")List<Integer> urids) {
 		Result result=new Result();
 		if(userId==null) {
