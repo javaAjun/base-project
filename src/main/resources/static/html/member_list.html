@@ -26,9 +26,9 @@
         <div class="row">
             <div class="col-xs-12" style="text-align: right;">
                 <form class="form-inline" id="form-search" action="/member/getMenberList">
-                    <div class="input-group">
-                        <input type="text"  name="id" placeholder="id">
-                    </div>
+<!--                     <div class="input-group"> -->
+<!--                         <input type="text"  name="id" placeholder="id"> -->
+<!--                     </div> -->
                     <div class="input-group">
                         <input type="text" class="form-control" name="nickName" placeholder="会员昵称">
                     </div>
@@ -188,7 +188,7 @@
                 {label:'操作',width:80,sortable: false,align:'left',formatter: function (a, b, c) {
                     var detailurl = "member_info.html?id="+c.id;
                     var btn = '';
-                    btn += '<a href="javascript:;" url="'+detailurl+'" data-title="会员详情" onclick="layer_open(this,1)"><span class="label label-info" title="详情">详情</span></a>&nbsp;';
+                    btn += '<a href="javascript:;" url="'+detailurl+'" data-title="编辑" onclick="layer_open(this,1)"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
                     btn += '<a href="javascript:;"><span class="label label-danger" title="删除" data-id="'+c.id+'" onclick="del(this)">删除</span></a>';
                     return btn;
                 }},

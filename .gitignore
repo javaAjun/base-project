@@ -32,5 +32,9 @@ Thumbs.db
 # else
 .springBeans
 *.out
+application.properties
+application.yml
+generatorConfig.xml
 /.metadata/
 .recommenders
+
