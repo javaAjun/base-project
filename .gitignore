@@ -34,3 +34,5 @@ Thumbs.db
 *.out
 /.metadata/
 .recommenders
+application.properties
+application.yml
