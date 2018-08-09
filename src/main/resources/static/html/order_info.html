@@ -300,6 +300,9 @@ var postData={id:id};
     $('#confirmReturn').click(function confirmReturn(){
     	parent.confirmReturn(orderInfo);
     });
+    if(getQueryString('sh')){
+    	location.href='#abc';
+    }
     });
 function confirmCollect(){
 	var data={id:id};
