@@ -50,6 +50,18 @@ public class AdminGroupsController {
 			result.setMsg("操作失败");
 			return result;
 		}
+		String groupName=group.getGroupName();
+		if(groupName==null||groupName.trim().equals("")) {
+			result.setCode(0);
+			result.setMsg("名称不能为空");
+			return result;
+		}
+		Integer enableFlag=group.getEnableFlag();
+		if(enableFlag==null) {
+			result.setCode(0);
+			result.setMsg("状态不能为空");
+			return result;
+		}
 		group.setCreateByUserName((String)request.getSession().getAttribute("userName"));
 		group.setCreateTime(DateUtil.getCurrentDateTime());
 		int state=groupService.insert(group);

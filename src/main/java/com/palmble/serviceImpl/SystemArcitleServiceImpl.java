@@ -23,7 +23,8 @@ public class SystemArcitleServiceImpl implements SystemArticleService {
 	
 	@Override
 	public PageInfo<SystemArticle> getList(Map<String, Object> map) {
-		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()));
+		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()),
+				map.get("sidx").toString()+" "+map.get("sord").toString());
 		List<SystemArticle> list = articleMapper.getArticleList(map);
 		PageInfo<SystemArticle> pageSource=new PageInfo<>(list);
 		return pageSource;

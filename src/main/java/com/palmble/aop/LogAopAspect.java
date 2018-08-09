@@ -1,6 +1,7 @@
 package com.palmble.aop;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -185,6 +186,7 @@ public class LogAopAspect {
 			log.setSysMethod(method);
 			log.setOperate(desc);
 			log.setUsingTime(time);
+			log.setCreateTime(new Date());
 			log.setRequestParams(params);
 			log.setUsingTime(1065L);
 			logService.save(log);

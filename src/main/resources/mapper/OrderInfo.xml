@@ -281,7 +281,7 @@
 		from order_info a join consignee b on a.consignee_id=b.id join member_user c
 		on a.user_id=c.id
 		<include refid="queryParams" />
-		<if test="sort != null and order != null">
+		<if test="sidx != null and sord != null">
 			order by ${sidx} ${sord}
 		</if>
 		<if test="startRow != null and pageSize != null">
@@ -307,9 +307,9 @@
 		from order_info 
 <!-- 		a join consignee b on a.consignee_id=b.id -->
 		<include refid="queryParams" />
-		<if test="sort != null and order != null">
-			order by ${sidx} ${sord}
-		</if>
+		    <if test="sidx != null and sord != null" >
+     		 order by ${sidx} ${sord}
+ 		   </if>
 		<if test="startRow != null and pageSize != null">
 			limit #{startRow},#{pageSize}
 		</if>
@@ -318,22 +318,21 @@
 	<select id="findSimpleResultToMap" parameterType="java.util.Map"
 		resultType="map">
 		select
-		a.id as id,
-		a.order_number as orderNumber,
-		a.integral as integral,
-		a.payment_method as paymentMethod,
-		a.order_status as orderStatus,
-		a.user_notes as userNotes,
-		a.total_amount as totalAmount,
-		a.express_no as express_no,
-		date_format(a.create_time,'%Y-%m-%d %H:%i:%s') as createTime,
-		date_format(a.update_time,'%Y-%m-%d %H:%i:%s') as updateTime,
-		a.user_id as userId,
-		a.admin_notes as admin_notes,
-		b.user_name as userName
-		from order_info a join member_user b on a.user_id=b.id
+		id as id,
+		order_number as orderNumber,
+		integral as integral,
+		payment_method as paymentMethod,
+		order_status as orderStatus,
+		user_notes as userNotes,
+		total_amount as totalAmount,
+		express_no,
+		date_format(create_time,'%Y-%m-%d %H:%i:%s') as createTime,
+		date_format(update_time,'%Y-%m-%d %H:%i:%s') as updateTime,
+		user_id as userId,
+		admin_notes
+		from order_info 
 		<include refid="queryParams" />
-		<if test="sort != null and order != null">
+		<if test="sidx != null and sord != null">
 			order by ${sidx} ${sord}
 		</if>
 		<if test="startRow != null and pageSize != null">
@@ -399,5 +398,8 @@
   		<include refid="baseColumns" />
   	from order_info a join consignee b on a.consignee_id=b.id
     <include refid="fuzzyParams" />
+        <if test="sidx != null and sord != null" >
+      order by ${sidx} ${sord}
+    </if>
   </select>
 </mapper>

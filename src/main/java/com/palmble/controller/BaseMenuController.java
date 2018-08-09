@@ -49,7 +49,8 @@ public class BaseMenuController extends PalmbleBaseController{
 	 */
 	@RequestMapping("/list")
 	public PageInfo<BaseMenu> getMenuList(@RequestParam Map<String, String> map) {
-		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()),map.get("sidx").toString());
+		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()),
+				map.get("sidx").toString()+" "+map.get("sord").toString());
 	  	PageInfo<BaseMenu> pageSource = permissionMenuService.getMenuList(map);
 	  	return pageSource;
 	}

@@ -57,9 +57,9 @@
                                         <div class="form-group" id="Admingroup">
                         <label class="col-sm-2 control-label">用户组</label>
                         <div class="col-sm-4">
-                            <select class="form-control m-b" name=groupId>
-                                <option value="1">超级管理员</option>
-                                                                <option value="2">一般管理员</option>
+                            <select class="form-control m-b" name=groupId id="adminGroups">
+<!--                                 <option value="1">超级管理员</option> -->
+<!--                                                                 <option value="2">一般管理员</option> -->
                                                             </select>
                         </div>
                     </div>
@@ -109,6 +109,18 @@
     $(document).ready(function(){
     	 $('#top-alert').find('button').click();
         formSetValue("enableFlag", 1);
+        $.get("/groups/getGroupList",function(obj){
+        	$.each(obj,function(i,val){
+        		$('#adminGroups').append(
+        			'<option value="'+val.id+'">'+val.groupName+'</option>'	
+        		);
+        	})
+        	 var groupId=getQueryString("groupId");
+        	 if(groupId){
+             	formSetValue("groupId", groupId);
+             }
+        	 
+        });
         var id=getQueryString("id");
         if(id){
         	 formSetValue("id", id);
@@ -124,12 +136,8 @@
         	$('#loginiNo').attr('readonly','readonly');
         	formSetValue("loginiNo", userName);
         }
-        var groupId=getQueryString("groupId");
         var url=getQueryString("url");
         formSetValue("url", url);
-        if(groupId){
-        	formSetValue("groupId", groupId);
-        }
     });
 </script>
 
