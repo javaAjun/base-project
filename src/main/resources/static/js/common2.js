@@ -71,7 +71,7 @@ function ajax_get_fun(that) {
                         $(that).attr('data-flag',0);
                     }
                 },1500);
-                layer.msg(data.message);
+                layer.alert(data.message);
             }
         });
     }
@@ -200,9 +200,12 @@ function ajax_post_fun(target,that,query) {
                 }
             },1500);
             parent.layer.closeAll();
+            window.parent.location.reload();
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
         }else{
             updateAlert(data.message,'alert-danger');
-            layer.msg(data.message);
+            layer.alert(data.message);
             setTimeout(function(){
                 $(that).removeClass('disabled').prop('disabled',false);
                 if (data.url) {
