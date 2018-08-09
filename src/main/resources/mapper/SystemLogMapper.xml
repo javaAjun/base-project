@@ -14,7 +14,7 @@
     <result column="exception" property="exception" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, login_no, login_ip, sys_model, sys_method, operate, using_time, create_time, 
+    id, login_no, login_ip, sys_model, sys_method, operate, using_time,  create_time, 
     request_params, exception
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -30,7 +30,7 @@
     from system_log
     where 1=1
     <if test="title != null" >
-        and login_no=#{sysModel,jdbcType=VARCHAR},
+        and login_no=#{title,jdbcType=VARCHAR},
     </if>
   </select>
   
