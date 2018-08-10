@@ -79,12 +79,13 @@
             font-size: 14px;
             font-weight:500;
         } 
-         .layui-layer layui-layer-iframe{
+      
+      .layui-layer layui-layer-iframe{
         z-index: 19891015;
-		width: 60%;
-		height: 90%;
-		top: 25px;
-		left: 158.5px;
+    width: 57%;
+    height: 90%;
+    top: 29.5px;
+    left: 260px;
       }
       
     </style>
@@ -101,13 +102,13 @@
 			    <div class="ibox-content">
 			        <div class="row">
 				           <div class="col-xs-3">
-				               <a href="javascript:;" url="zsGoodsSpecEdit.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
+				               <a href="javascript:;" url="zsGoodsSpecEdit.html" data-title="添加"  onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
 				           </div>
 				           <div class="col-xs-9" style="text-align: right;">
 			                 <form class="form-inline" id="form-search" action="/goods/sku/getSkuList">
 		                        <div class="input-group" style="text-align: left;">
 			                         <select class="chosen-select" name="skuId" id="skuId"   data-placeholder="请选择规格"     style="width: 150px">
-									    <option label='规格名称'></option>
+									   <!--  <option label='规格名称' selected="selected"> </option> -->
 									    
 									</select>
 			                    </div>
@@ -169,7 +170,7 @@
 					{name:"catName",index:"catName",editable:true,width:80},
 					{width:80,sortable: false,align:'left',formatter: function (a, b, c) {
 						var editurl='zsGoodsSpecEdit.html'+'?id='+c.id;
-					    var btn = '<a url="'+editurl+'" href="javascript:;" data-title="编辑商品" onclick="layer_open(this,1)"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
+					    var btn = '<a url="'+editurl+'" href="javascript:;" data-title="编辑商品"  onclick="layer_open(this,1)"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
 						// var btn = '<a href="?id='+c.id+'&name='+c.loginiNo+'&groupId='+c.groupId+'&url=admin_list.html"><span class="label label-info" title="编辑">编辑</span></a>&nbsp;';
 		                    btn += '<a href="javascript:;"><span class="label label-danger" title="删除"  data-id='+c.id+' onclick="del(this)">删除</span></a>';
 		                    return btn;
@@ -189,6 +190,8 @@
 	            repeatitems : false  
 	       	 },
 	       	loadComplete: function (xhr) {
+	       		 clearCheckBox("skuId"); 
+	       		/* $("#skuId").empty(); */
 	       		getGoodsSkuName();
 	       	}
 		});
@@ -259,8 +262,18 @@
 	    	          });
 	    		}); 
 	    }
+		function clearCheckBox(id){//清除slides下的所有div和img
+			var div = document.getElementById(id);
+		
+			while(div.hasChildNodes()) //当div下还存在子节点时 循环继续
+		    {
+		        div.removeChild(div.firstChild);
+		       
+		    }
+		}
 		//获取分类名称
 		function getGoodsSkuName(){
+			
 			var str="";
 	        var obj = document.getElementById("skuId");
 			$.ajax({
@@ -269,6 +282,8 @@
 			url:_getGoodsSpecList,
 			success:function(data){
 				if(data.status="200"&&data.data!=null){
+					var option =new  Option('请选择规格', "");
+					 obj.add(option);
 					$.each(data.data, function (index, e) {
 	                    obj.add(new Option(e.attrName, e.id));
 	                });
@@ -310,6 +325,7 @@
 		}
 	
     </script>
+  
     <script src="../hplus/js/plugins/chosen/chosen.jquery.js"></script>
    <script src="../hplus/js/plugins/jsKnob/jquery.knob.js"></script>
    <script src="../hplus/js/plugins/jasny/jasny-bootstrap.min.js"></script>

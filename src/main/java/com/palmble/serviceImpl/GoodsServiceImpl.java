@@ -189,6 +189,19 @@ public class GoodsServiceImpl implements GoodsService{
 
 	@Override
 	public ResponsDatas IsNullGoodsParam(ZsGoods goods) {
+		String[] productNos=goods.getProductNos();
+		if(productNos!=null&&goods.getProductSpecs()!=null) {
+			for(int i=0;i<productNos.length;i++) {
+				System.out.println(productNos[i]);
+				if(productNos[i]==""||productNos[i]==null) {
+					productNos[i]=DateUtil.getNOWDate()+i;
+					
+				}
+			}
+		}else {
+			return  ResponsDatas.fail("请选择规格", null);
+		}
+		goods.setProductNos(productNos);
 		
 		if(StringUtil.isEmpty(goods.getGoodsCoverImg())) {//封面图片为空
 			return  ResponsDatas.fail("封面图片为空!", null);
@@ -502,7 +515,7 @@ public class GoodsServiceImpl implements GoodsService{
 				 if(!skuMap.isEmpty()&&skuMap.size()>0) {
 					 skuMapper.deleteSkuInfoByGoodsId(goodsId);
 				 }
-				 for(int i=0;i<productNos.length;i++) {
+				 for(int i=0;i<productSpecs.length;i++) {
 					 String productNo=productNos[i];
 					 String productSpec=productSpecs[i];
 					 BigDecimal marketPrice=marketPrices[i];

@@ -15,26 +15,20 @@
     <link rel="stylesheet" href="../css/common.css">
     <script src="../hplus/js/jquery.min.js?v=2.1.4"></script>
     <style type="text/css">
-      .layui-layer layui-layer-iframe{
-        z-index: 19891015;
-		width: 60%;
-		height: 90%;
-		top: 25px;
-		left: 158.5px;
-      }
+     
       .spec attr{
       padding-bottom: 2px}
     </style>
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x:hidden;">
-<div id="top-alert" class="alert alert-danger alert-dismissable">
+<!-- div id="top-alert" class="alert alert-danger alert-dismissable">
     <button aria-hidden="true" class="close" type="button">×</button>
     <span class="alert-content"></span>
 </div>
-<div style="padding: 10px;">
+<div style="padding: 10px;"> -->
     
-<div class="row">
+<div class="row" id="content">
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-content">
@@ -44,7 +38,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">规格名称<span class="text-danger">&nbsp;&nbsp;*</span></label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" maxlength="50" id="attrName" placeholder="规格名称..。长度50字以内" name="attrName" value="">
+                            <input type="text" class="form-control" maxlength="50" id="attrName" placeholder="50字以内" name="attrName" value="">
                         </div>
                     </div>
 
@@ -59,14 +53,46 @@
                  <div class="form-group">
                         <label class="col-sm-2 control-label">添加规格<span class="text-danger">&nbsp;&nbsp;*</span></label>
                          <div class="col-sm-4" style="width:60%">
-                              <input type="button" name="zhengjiahang"  value="增加一行" style="width:80px" onclick="insertNewRow()" />
-                         	 <p></p>                      
+                              <input type="button" name="zhengjiahang" class="btn btn-w-m btn-primary"
+                               value="增加一行"  onclick="insertNewRow()" />
+                         	 <!-- <p></p>                      
                          	 <div id="rowVlaue">
-                         	     
-                         	 </div> 
+                         	      style="width:80px"
+                         	 </div>  -->
                         </div>
                     </div>
-    
+                  <div class="form-group">
+                   <label class="col-sm-2 control-label"><span class="text-danger">&nbsp;&nbsp;</span></label>
+                    <div class="col-sm-6">
+                        <table class="table table-bordered" border="0"  id="rowVlaue" style="border-collapse:separate; border-spacing:0px;">
+                                <tr>
+                                    <th class="text-center">属性值</th>
+                                    <th class="text-center" width="50px">操作</th>
+                                </tr>
+                               <!--  <tr>
+                                    <td height="6px"><input type="text" name="productNos"  placeholder="属性值"  value="" class="form-control"></td>
+                                    <td  height="6px" class="text-center"><input type="button" name="delete"  value="删 除"  class="btn btn-primary btn-xs"  style="background-color: red;border: 0px;"  onclick="deleteSelectedRow(this)"></td>
+                                    
+                                </tr> -->
+                             
+                            
+                        </table>
+
+                    </div>
+               
+                 <!--  <div class="col-sm-4" >
+                       	<table class="table table-bordered text-center"	id="spec_input_tab">
+                         <tr>
+                            <th class="text-center">规格属性值</th>
+                            <th class="text-center">操作</th>
+                         </tr>
+                         <tr>
+                            <td><input type="text" name="productNos"  placeholder="商品货号"  value="" class="form-control"></td>
+                            <td><input type="button" name="delete"  value="删 除"  class="btn btn-warning "  onclick="deleteSelectedRow(this)"></td>
+                         </tr>
+                       </table>
+                        </div>-->
+                    </div> 
 
 
                     <div class="hr-line-dashed"></div>
@@ -120,10 +146,13 @@
 	//获取分类
 	function getCatInfo(id,_$id){
 		if(id==null){
-			var html='<div id="rowVlaue0" style="width:500px;"> ';
+			 var html='<tr><td height="6px"><input type="text" name="attrValue"  placeholder="属性值"  value="" class="form-control"></td>';
+				html+='<td  height="6px" class="text-center"><input type="button" name="delete"  value="删 除"  class="btn btn-primary btn-xs"  style="background-color: red;border: 0px;"  onclick="deleteSelectedRow(this)"></td></tr>';
+             
+			/*var html='<div id="rowVlaue0" style="width:500px;"> ';
 	             html+='<input type="text"  name="attrValue" style="width:200px" />   '; 
 	        	 html+='<input type="button" name="delete"  value="删 除" style="width:50px"   onclick="deleteSelectedRow(this)" />'; 
-	        	 html+='<p></p></div>';
+	        	 html+='<p></p></div>'; */
 	        	 $("#rowVlaue").append(html);
 		}
 		
@@ -189,27 +218,38 @@
     	//获取表格有多少行
     	//这里的rowId就是row加上标志位的组合。是每新增一行的tr的id。
          var rowId = "row" + flag;
+    	var html='';
          //每次往下标为flag+1的下面添加tr,因为append是往标签内追加。所以用after
     	if(value!=null){
-    		var insertStr ='<div id="'+rowId+'" class="spec attr" style="width:500px;">';
+    		 html+='<tr><td height="6px"><input type="text" name="attrValue"  placeholder="属性值"  value="'+value+'" class="form-control"></td>';
+			html+='<td  height="6px" class="text-center"><input type="button" name="delete"  value="删 除"  class="btn btn-primary btn-xs"  style="background-color: red;border: 0px;"  onclick="deleteSelectedRow(this)"></td></tr>';
+         
+    	/* 	var insertStr ='<div id="'+rowId+'" class="spec attr" style="width:500px;">';
             insertStr +=' <input type="text"  name="attrValue" value="'+value+'"  style="width:200px" />  ' ;
             insertStr +=' <input type="button" name="delete"  value="删 除"  style="width:50px"   onclick="deleteSelectedRow(this)" />'  ; 
-            insertStr +='<p></p></div>';
+            insertStr +='<p></p></div>'; */
     	}else{
-    		var insertStr ='<div id="'+rowId+'" class="spec attr" style="width:500px;">';
-            insertStr +=' <input type="text"  name="attrValue" style="width:200px" />' ;
-            insertStr +=' <input type="button" name="delete"  value="删 除" style="width:50px"   onclick="deleteSelectedRow(this)" />'  ; 
-            insertStr +='<p></p></div>';
+    		 html+='<tr><td height="6px"><input type="text" name="attrValue"  placeholder="属性值"   class="form-control"></td>';
+			html+='<td  height="6px" class="text-center"><input type="button" name="delete"  value="删 除"  class="btn btn-primary btn-xs"  style="background-color: red;border: 0px;"  onclick="deleteSelectedRow(this)"></td></tr>';
+         
     	}
          flag++;
-         $("#rowVlaue").append(insertStr);
+         $("#rowVlaue").append(html);
     }
   //-----------------删除一行，根据行ID删除-start--------    
-    function deleteSelectedRow(rowID) {
+    /* function deleteSelectedRow(rowID) {
         if (confirm("确定删除该行吗？")) {
-        	rowID.parentNode.parentNode.removeChild(rowID.parentNode);
+        	
+        		
+        	rowID.parentNode.parentNode.removeChild(rowID.parentNode); 
         }
-    }
+    } */
+      function deleteSelectedRow(obj){
+      	  if (confirm("确定删除该行吗？")) {
+      		  var tr=obj.parentNode.parentNode;
+        		tr.parentNode.removeChild(tr);
+      	  }
+  		}
 </script>
 
 </body>

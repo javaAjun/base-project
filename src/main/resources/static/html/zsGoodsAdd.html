@@ -39,10 +39,10 @@
 </style>
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg fixed-nav" style="overflow-x: hidden;">
-	<div id="top-alert" class="alert alert-danger alert-dismissable">
+	<!-- <div id="top-alert" class="alert alert-danger alert-dismissable">
 		<button aria-hidden="true" class="close" type="button">×</button>
 		<span class="alert-content"></span>
-	</div>
+	</div> -->
 	<div style="padding: 10px;">
 		<div class="row">
 			<div class="col-sm-12">
@@ -70,7 +70,7 @@
 
                     </div>
 					<div class="ibox-content" style="margin-top: -25px">
-						<form method="post" action="/goods/operGoodsInfo" class="form-horizontal">
+						<form method="post" action="/goods/operGoodsInfo" class="form-horizontal" ><!-- onsubmit="return toVaild()" -->
 							<input type="hidden" name="id" id="goodsId" value=""> 
 							<input type="hidden" name="oper" id="oper" value="add">
 							<div class="tabs-container">
@@ -87,13 +87,14 @@
 										   <div class="form-group">
 												<label class="col-sm-2 control-label">商品编号<span class="text-danger">*</span></label>
 												<div class="col-sm-6">
-													<input type="text"   class="form-control" name="goodsNo" id="goodsNo"	 placeholder="商品编号，唯一" value="">
+													<input type="text"   class="form-control" name="goodsNo" id="goodsNo"  	 placeholder="商品编号，唯一" value="">
+												    
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-sm-2 control-label">名称<span	class="text-danger">*</span></label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" maxlength="100" name="goodsName" id=goodsName  placeholder="商品名称..。长度100字以内"	 value="">
+													<input type="text" class="form-control" maxlength="100" name="goodsName" id=goodsName  placeholder="输入100字以内" 	 value="">
 												</div>
 											</div>
 											
@@ -679,42 +680,31 @@
 	    /* console.log(doExchange(array));
 		 */
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		// 合并单元格
-		function hbdyg() {
-			
-			//spec_input_tab
-		}
-
-		function layer_open1(_self, flag) {
-			var spec = $(_self).attr('data-spec');
-			var url = $(_self).attr('url');
-			var title = $(_self).attr('data-title');
-			if (spec) {
-				url = url + '/spec/' + spec;
+		/* //表单验证
+		function toVaild(){
+			var goodsNo=$("#goodsNo").val();
+			if(goodsNo==null){
+				layer.alert("商品编为空！");
+				return false;
 			}
-			layer.open({
-				type : 2,
-				title : title,
-				shadeClose : true,
-				shade : 0.3,
-				area : [ '90%', '90%' ],
-				content : url,
-				end : function() {
-					if (flag == 1) {
-						$("#table").trigger("reloadGrid");
-					}
-				}
-			});
-		}
-
+			var goodsName=$("#goodsName").val();
+			if(godosName==null){
+				layer.alert("商品名称不能为空！");
+				return false;
+			}
+	    	var goodsDesc=$("#goodsDesc").val();
+	    	if(goodsDesc==null){
+	    	  layer.alert("商品简介不能为空！");
+	    	  return false;
+	    	}
+	    	var deitor=$("#deitor").val();
+	    	if(deitor==null){
+	    		layer.alert("商品详情不能为空！");
+		    	return false;
+	    	}
+	    	return true;
+		 }
+ */
 		$('#mid').change(function() {
 			var id = $(this).val();
 			if (id == 0) {

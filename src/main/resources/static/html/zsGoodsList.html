@@ -118,20 +118,23 @@
     
 
 <div class="ibox">
+<div id="bigPic" style=" position:absolute;display:none;z-index:999;">
+                          <img src="" width="260px" id="pre_view"/><br />
+                          </div>
 			    <div class="ibox-content">
 			        <div class="row">
 				           <div class="col-xs-3">
-				               <a href="javascript:;" url="zsGoodsAdd.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-sm btn-primary">添加</a>
+				               <a href="javascript:;" url="zsGoodsAdd.html" data-title="添加" onclick="layer_open(this,1)" class="btn btn-primary">新增</a>
 				           </div>
 				           
-				           <div class="col-xs-12" style="text-align: right;">
+				           <div class="col-xs-9" style="text-align: right;">
 			                 <form class="form-inline" id="form-search" action="/goods/getGoodsList">
 							    
 		                        <div class="input-group" style="text-align: left;">
 		                        <select class="chosen-select" name="goodsId" id="goodsId"
 								        data-placeholder="请选择商品" 
 								        style="width: 150px">
-								    <option label='请选择商品'></option>
+								    
 								</select>
 		                      
 			                    <input type="hidden"  placeholder="输入关键字" name="value" id="value">
@@ -204,7 +207,7 @@
 				shrinkToFit:true,
 				rowNum:5,
 				sortname: 'catSort',
-				rowList:[10,20,30],
+				rowList:[5,15,20],
 				colNames:["ID","图片","商品编号","名称","分类","商城平均价","店铺平均价","总库存","排序","状态","推荐","操作"],
 				colModel:[
 					{name:"id",index:"id",editable:true,width:25,sorttype:"int",search:true},
@@ -262,6 +265,7 @@
 	            repeatitems : false  
 	       	 },
 	       	loadComplete: function (xhr) {
+	       		$("#goodsId").empty();
 	       		getGoodsName();
 	       	}
 		});
@@ -274,15 +278,36 @@
 		getCatInfo(0,"#goodsCateId");
 		
 		});
-     
+        
       //自定义报警列格式
         function alarmFormatter(cellvalue, options, rowdata){
             if (cellvalue != null)
-                return '<img width="90" height="50" src="'+cellvalue+'" alt="' + cellvalue + '" />';
+                return '<img width="90" height="50"  src="'+cellvalue+'"  onmousemove="showBigPic(this.src)" onmouseout="closeimg()"  alt="' + cellvalue + '" />';
             else 
-                return '<img width="90" height="50" src="../hplus/img/del.jpg" alt="' + cellvalue + '" />';
+                return '<img width="90" height="50" src="../hplus/img/del.jpg"  onmousemove="showBigPic(this.src)" onmouseout="closeimg()" alt="' + cellvalue + '" />';
+        }
+        function showBigPic(filepath) {
+
+            //将文件路径传给img大图
+            document.getElementById('pre_view').src = filepath;
+            //获取大图div是否存在
+            var div = document.getElementById("bigPic");
+            if (!div) {
+                return;
+            }
+            //如果存在则展示
+            document.getElementById("bigPic").style.display="block";
+            //获取鼠标坐标
+            var intX = window.event.clientX;
+            var intY = window.event.clientY;
+            //设置大图左上角起点位置
+            div.style.left = intX +100+ "px";
+            div.style.top = intY - 50+"px";
         }
         
+        function closeimg(){
+            document.getElementById("bigPic").style.display="none";
+        }
         
         var edit=function(){
         	$("#eg").addClass("no-padding");
@@ -422,7 +447,10 @@
 			success:function(data){
 				
 				if(data.status="200"&&data.data!=null){
+						var option =new  Option('请选择商品', "");
+						 obj.add(option);
 					$.each(data.data, function (index, e) {
+						
 	                    obj.add(new Option(e.goodsName, e.id));
 	                });
 	                $("#goodsId").trigger("chosen:updated");
