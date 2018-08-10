@@ -108,7 +108,7 @@
 			                 <form class="form-inline" id="form-search" action="/goods/sku/getSkuList">
 		                        <div class="input-group" style="text-align: left;">
 			                         <select class="chosen-select" name="skuId" id="skuId"   data-placeholder="请选择规格"     style="width: 150px">
-									    <option label='规格名称' selected="selected"> </option>
+									   <!--  <option label='规格名称' selected="selected"> </option> -->
 									    
 									</select>
 			                    </div>
@@ -190,7 +190,8 @@
 	            repeatitems : false  
 	       	 },
 	       	loadComplete: function (xhr) {
-	       		/* clearCheckBox("skuId"); */
+	       		 clearCheckBox("skuId"); 
+	       		/* $("#skuId").empty(); */
 	       		getGoodsSkuName();
 	       	}
 		});
@@ -281,6 +282,8 @@
 			url:_getGoodsSpecList,
 			success:function(data){
 				if(data.status="200"&&data.data!=null){
+					var option =new  Option('请选择规格', "");
+					 obj.add(option);
 					$.each(data.data, function (index, e) {
 	                    obj.add(new Option(e.attrName, e.id));
 	                });
