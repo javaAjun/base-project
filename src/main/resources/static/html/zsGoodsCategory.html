@@ -44,14 +44,14 @@
 <!-- <div id="top-alert" class="alert alert-danger alert-dismissable">
     <button aria-hidden="true" class="close" type="button">×</button>
     <span class="alert-content"></span>
-</div>
-<div style="padding: 10px;">
-     -->
+</div> -->
+<div style="padding: 1px;">
+    
 
 <div class="ibox">
-<div id="bigPic" style=" position:absolute;display:none;z-index:999999;">
+<!-- <div id="bigPic" style=" position:absolute;display:none;z-index:999999;">
 <img src="" width="200px" height="100px" id="pre_view"/><br />
-</div>
+</div> -->
     <div class="ibox-content">
            <div class="row">
 	             <div class="col-xs-3">
@@ -135,13 +135,19 @@
                     return '<input type="number" onchange="updateSort(this)" data-url="'+url+'" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
                 }},
                 {label:'状态',name:'state',index:'state',width:50,height:20,editable: false,sortable: false,formatter:function (a,b,c){
-                    if(a == 0){
+                	 if(a == 0){
+	                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setIsSale(this)"><span class="label label-danger" title="禁用">禁用</span></a>';
+	                    } else{
+	                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setIsSale(this)"><span class="label label-primary" title="正常">正常</span></a>';
+	                    }
+                	
+                /* 	if(a == 0){
                         var url =_operEditGoodsCateState+"&id="+c.id+"&state=1";
                         return '<a href="'+url+'" class="ajax-get"  data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
                     } else{
                     	 var url =_operEditGoodsCateState+"&id="+c.id+"&state=0";
                         return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
-                    }
+                    } */
                 }},
                 {label:'操作',width:100,height:20,sortable: false,align:'left',formatter: function (a, b, c) {
                     var editurl = "/html/zsGoodsCategoryEdit.html?id="+c.id;
@@ -187,6 +193,41 @@
         });
     });
     
+    function setIsSale(a){
+		var num=$(a).data("status");
+		var isSale;
+		if(num==0){
+			isSale=1;
+		}else{
+			isSale=0;
+		}
+		var id=$(a).data("id");
+		//var dataParam={"id":id,"state":isSale};
+		$.ajax({ 
+			url:_operEditGoodsCateState+"&id="+id+"&state="+isSale,
+			//data:dataParam, 
+			type: "post",
+	        dataType: "json",
+	        async: 'false',
+	        success: function (data) {
+	           if(data.status=="200"){
+	        	   var span=$(a).find("span");
+	        	   if(num==0){
+	        		   $(a).data("status",1);
+	        		   $(span).attr("class","label label-primary");
+	        		   $(span).attr("title","正常");
+	        		   $(span).html("正常");
+	        	   }else{
+	        		   $(a).data("status",0);
+	        		   $(span).attr("class","label label-danger");
+	        		   $(span).attr("title","禁用");
+	        		   $(span).html("禁用");
+	        	   }
+	           }else{
+	        	   layer.msg("操作失败!");
+	           }
+	          }});
+	}
     
       //自定义img列格式 onmousemove="showBigPic(this.src)"  onmouseout="closeimg()" 
       function alarmFormatter(cellvalue, options, rowdata){

@@ -41,10 +41,10 @@ function ajax_get_fun(that) {
             if (data.status=="200") {
                 if (data.url) {
                     updateAlert(data.message,'alert-success');
-                    layer.msg(data.message);
+                    //layer.msg(data.message);
                 }else{
                     updateAlert(data.message,'alert-success');
-                    layer.msg(data.message);
+                    //layer.msg(data.message);
                 }
                 setTimeout(function(){
                     if( $(that).hasClass('no-refresh')){
