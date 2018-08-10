@@ -151,8 +151,12 @@
     	layer.confirm('确定要删除此记录吗？', function(){ 
     		layer.closeAll('dialog');
     		$.ajax({ url: "/groups/del", data:{id:id}, success: function(data){
-    	          layer.msg("删除成功");
-    	          $("#table").trigger("reloadGrid");
+    			if(data.code==1){
+    				 layer.msg("删除成功",{icon:1});
+       	          $("#table").trigger("reloadGrid");
+    			}else{
+    				 layer.msg(data.msg,{icon:2});
+    			}
     	           }
     	          });
     		}); 
