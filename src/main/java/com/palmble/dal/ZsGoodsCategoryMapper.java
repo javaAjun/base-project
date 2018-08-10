@@ -38,4 +38,8 @@ public interface ZsGoodsCategoryMapper {
 	List<ZsGoodsCategory> getPageGoodsTopLevel(@Param("pid")Integer pid,@Param("value") String value);
      @Select("SELECT * FROM zs_goods WHERE goodsCateId=#{cateId}")
 	List<ZsGoods> selectGoodsByCateId(@Param("cateId")Integer cateId);
+
+	ZsGoodsCategory selectParentGoodCateByCateId(Integer id);
+
+	List<ZsGoodsCategory> getGoodsCateLevel(@Param("value") String value,@Param("pid")Integer pid);
 }

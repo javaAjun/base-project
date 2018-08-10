@@ -223,8 +223,13 @@
 	        		   $(span).attr("title","禁用");
 	        		   $(span).html("禁用");
 	        	   }
+	        	   $("#table").jqGrid('setGridParam',{ 
+		                url:_getGoodsCatePageInfo 
+		                //postData:{'value':value,'isAdminRecom':isAdminRecom,"isSale":isSale,"goodsCateId":goodsCateId,"goodsId":goodsId}, //发送数据 
+		                //page:1 
+		            }).trigger("reloadGrid");
 	           }else{
-	        	   layer.msg("操作失败!");
+	        	   layer.alert(data.message);
 	           }
 	          }});
 	}
