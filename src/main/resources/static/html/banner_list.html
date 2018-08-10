@@ -160,11 +160,16 @@
         //如果存在则展示
         document.getElementById("bigPic").style.display="block";
         //获取鼠标坐标
-        var intX = window.event.clientX;
-        var intY = window.event.clientY;
+        var e = event || window.event;
+       	var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+       	var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+      	var intX = e.pageX || e.clientX + scrollX;
+       	var intY = e.pageY || e.clientY + scrollY;
+        //var intX = window.event.clientX;
+        //var intY = window.event.clientY;
         //设置大图左上角起点位置
         div.style.left = intX +10+ "px";
-        div.style.top = intY + 10+"px";
+        div.style.top = intY - 150+"px";
     }
     
     function closeimg(){
