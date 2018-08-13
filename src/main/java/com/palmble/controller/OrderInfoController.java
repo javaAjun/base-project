@@ -139,13 +139,13 @@ public class OrderInfoController {
 		}
 		OrderInfo order=orderInfoService.getById(id);
 		int orderStatus=order.getOrderStatus();
-		if(orderStatus!=5&&orderStatus!=6) {
+		if(orderStatus!=6&&orderStatus!=7) {
 			result.setCode(0);
-			result.setMsg("请到商城审批退货!");
+			result.setMsg("请先审批退货!");
 			return result;
 		}
 		Integer userId=order.getUserId();
-		order.setOrderStatus(7);
+		order.setOrderStatus(8);
 		int updateStatus=orderInfoService.updateById(order);
 		Bill bill=new Bill();
 		bill.setType(0);

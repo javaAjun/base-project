@@ -473,3 +473,61 @@ function getUrlParam(name) {
     }
     return null;//返回参数值
 }
+
+
+function isFirefox(){
+	if (navigator.userAgent.indexOf("Firefox") > -1)
+	return true;
+	else
+	return false;
+	}
+  //自定义img列格式 onmousemove="showBigPic(this.src)"  onmouseout="closeimg()" 
+  function alarmFormatter(cellvalue, options, rowdata){
+		 
+	  if(isFirefox()){
+	          if (cellvalue != null)
+	              return '<div><img width="70" height="45"  src="'+cellvalue+'" onerror="nofind()"  /></div>';
+	          else 
+	              return '<div><img width="70" height="45" src="../hplus/img/no.png"    /></div>';
+	  }else{
+		  if (cellvalue != null)
+              return '<div><img width="70" height="45"   onmousemove="showBigPic(this.src)"  onmouseout="closeimg()"  src="'+cellvalue+'" onerror="nofind()"  /></div>';
+          else 
+              return '<div><img width="70" height="45" src="../hplus/img/no.png"    /></div>';
+	  }
+	  
+  }
+  
+  
+  //商品列表和分类列表
+  function nofind(){ 
+	  var img=event.srcElement; 
+	  img.src="../hplus/img/onerror.jpg"; 
+	  img.onerror=null; //控制不要一直跳动 
+	  } 
+  function showBigPic(filepath) {
+	  //将文件路径传给img大图
+      document.getElementById('pre_view').src = filepath;
+      //获取大图div是否存在
+      var div = document.getElementById("bigPic");
+      if (!div) {
+          return;
+      }
+      //如果存在则展示
+      document.getElementById("bigPic").style.display="block";
+      //获取鼠标坐标
+      var e = event || window.event;
+     	var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+     	var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+    	var intX = e.pageX || e.clientX + scrollX;
+     	var intY = e.pageY || e.clientY + scrollY;
+      //var intX = window.event.clientX;
+      //var intY = window.event.clientY;
+      //设置大图左上角起点位置
+      div.style.left = intX +5+ "px";
+      div.style.top = intY - 150+"px";
+  }
+  
+  function closeimg(){
+      document.getElementById("bigPic").style.display="none";
+  }

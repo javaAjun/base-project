@@ -430,11 +430,17 @@ public class GoodsServiceImpl implements GoodsService{
 	public ResponsDatas operGoodsCateInfo(ZsGoodsCategory goods) {
 		try {
 			if(goods.getOper().equals(SysConstant.OPER_ADD)) {
+				if(StringUtil.isEmpty(goods.getGoodsCateImg())) {
+					 return ResponsDatas.fail("请上传图片", null);
+				}
 				if(StringUtil.isEmpty(goods.getCatName())) {
 					 return ResponsDatas.fail(SysConstant.ERROR_CATE, null);
 				}
 				goodsCateMapper.insertSelective(goods);
 			}else if(goods.getOper().equals(SysConstant.OPER_EDIT)){
+				if(StringUtil.isEmpty(goods.getGoodsCateImg())) {
+					 return ResponsDatas.fail("请上传图片", null);
+				}
 				if(StringUtil.isEmpty(goods.getCatName())) {
 					 return ResponsDatas.fail(SysConstant.ERROR_CATE, null);
 				}

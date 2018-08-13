@@ -215,6 +215,11 @@
 			  }
 		})
 	}
+	 function nofind(){ 
+   	  var img=event.srcElement; 
+   	  img.src="../hplus/img/onerror.jpg"; 
+   	  img.onerror=null; //控制不要一直跳动 
+   	} 
 	function setFormValue(id){
 		var url=_getGoodsCateInfoById+"?id="+id;
 		$.ajax({ 
@@ -234,7 +239,7 @@
 					var img = '<div class="imgbox">';
 	                    img += '<div class="removePic" onclick="removePic(this,\'/goods/deleteFile\')">×</div>';
 	                    img += '<input type="hidden" name="'+name+'" value="' + data.data.goodsCateImg + '">';
-	                    img += '<img src="' + data.data.goodsCateImg + '">';
+	                    img += '<img src="' + data.data.goodsCateImg + ' "  onerror="nofind()">';
 	                    img += '</div>';
 	                    if(data.data.goodsCateImg!=null){
 	                        $("#imgsbox_img").append(img);

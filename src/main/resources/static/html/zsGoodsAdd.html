@@ -470,7 +470,7 @@
 						var img = '<div class="imgbox">';
 							img += '<div class="removePic" onclick="removePic(this,\'/goods/deleteFile\')">×</div>';
 							img += '<input type="hidden" name="'+name+'" value="' + data.data.goodsCoverImg + '">';
-							img += '<img src="' + data.data.goodsCoverImg + '">';
+							img += '<img src="' + data.data.goodsCoverImg + ' "  onerror="nofind()">';
 							img += '</div>';
 						    $("#imgsbox_img").append(img);
 				    	}
@@ -482,7 +482,7 @@
 							var img = '<div class="imgbox">';
 								img += '<div class="removePic" onclick="removePic(this,\'/goods/deleteFile\')">×</div>';
 								img += '<input type="hidden" name="'+name+'" value="' + potoList[i].goodsImg + '">';
-								img += '<img src="' + potoList[i].goodsImg + '">';
+								img += '<img src="' + potoList[i].goodsImg + '" onerror="nofind()">';
 								img += '</div>';
 							    $("#imgsbox_imgs").append(img);
 							}
@@ -510,6 +510,11 @@
 				 
 				});
 		}
+		function nofind(){ 
+		   	  var img=event.srcElement; 
+		   	  img.src="../hplus/img/onerror.jpg"; 
+		   	  img.onerror=null; //控制不要一直跳动 
+		   	} 
 		//获取规格信息
 		function getGoodsSpecList(){
 			clearCheckBox();

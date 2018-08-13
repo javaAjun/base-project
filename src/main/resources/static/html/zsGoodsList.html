@@ -284,17 +284,36 @@
 		getCatInfo(0,"#goodsCateId");
 		
 		});
-        
+        //判断是否是火狐浏览器
+        function isFirefox(){
+        	if (navigator.userAgent.indexOf("Firefox") > -1)
+        	     return true;
+        	else
+        	   return false;
+       }
+        function nofind(){ 
+      	  var img=event.srcElement; 
+      	  img.src="../hplus/img/onerror.jpg"; 
+      	  img.onerror=null; //控制不要一直跳动 
+      	} 
       //自定义报警列格式onmousemove="showBigPic(this.src)" onmouseout="closeimg()"
         function alarmFormatter(cellvalue, options, rowdata){
+    	  if(isFirefox()){
             if (cellvalue != null)
-                return '<img width="70" height="45"  src="'+cellvalue+'"    alt="' + cellvalue + '" />';
+                return '<img width="70" height="45"  src="'+cellvalue+'"    onerror="nofind()" />';
             else 
-                return '<img width="70" height="45" src="../hplus/img/del.jpg"   alt="' + cellvalue + '" />';
+                return '<img width="70" height="45" src="../hplus/img/no.png"    />';
+    	  }else{
+    		  if (cellvalue != null)
+	              return '<div><img width="70" height="45"   onmousemove="showBigPic(this.src)"  onmouseout="closeimg()"  src="'+cellvalue+'" onerror="nofind()"  /></div>';
+	          else 
+	              return '<div><img width="70" height="45" src="../hplus/img/no.png"    /></div>';
+    	  }
+    	  
         }
         function showBigPic(filepath) {
 
-            //将文件路径传给img大图
+        	//将文件路径传给img大图
             document.getElementById('pre_view').src = filepath;
             //获取大图div是否存在
             var div = document.getElementById("bigPic");
@@ -304,11 +323,16 @@
             //如果存在则展示
             document.getElementById("bigPic").style.display="block";
             //获取鼠标坐标
-            var intX = window.event.clientX;
-            var intY = window.event.clientY;
+            var e = event || window.event;
+           	var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+           	var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+          	var intX = e.pageX || e.clientX + scrollX;
+           	var intY = e.pageY || e.clientY + scrollY;
+            //var intX = window.event.clientX;
+            //var intY = window.event.clientY;
             //设置大图左上角起点位置
-            div.style.left = intX +100+ "px";
-            div.style.top = intY - 50+"px";
+            div.style.left = intX +10+ "px";
+            div.style.top = intY - 150+"px";
         }
         
         function closeimg(){

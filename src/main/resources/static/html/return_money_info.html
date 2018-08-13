@@ -28,42 +28,8 @@
     td{
         word-break:break-all;
     }
-    #afterSale img{
-    	width:260px;
-    	height:260px;
-    }
 </style>
 <div class="row" id="content">
-    <div class="col-sm-12">
-        <div class="ibox float-e-margins">
-            <div class="ibox-content" style="padding: 0;">
-                <table class="table table-bordered" id="goodsInfo">
-                 </table>
-                   </div>
-        </div>
-    </div>
-    <div class="col-sm-12">
-    	<div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>物流信息</h5>
-            </div>
-            <div class="ibox-content" style="padding: 0;">
-            	 <table class="table table-bordered" id="express">
-                </table>
-            </div>
-        </div>
-     </div>
-        <div class="col-sm-12">
-    	<div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>收货人信息</h5>
-            </div>
-            <div class="ibox-content" style="padding: 0;">
-                  <table class="table table-bordered" id="orderInfoRight">
-                </table>
-            </div>
-        </div>
-     </div>
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -71,18 +37,14 @@
             </div>
             <div class="ibox-content" style="padding: 0;">
                 <table class="table table-bordered" id="orderInfo">
-                </table>
-            </div>
-        </div>
-    </div>
-    <a href="#" name="abc" ></a>
-    <div class="col-sm-12" id="afterSale" style="display:none;">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>售后信息</h5>
-            </div>
-            <div class="ibox-content" style="padding: 0;">
-                <table class="table table-bordered" id="afterSaleTable">
+                <tr>
+                <td>退款金额</td>
+                <td>88</td>
+            </tr>
+            <tr>
+                <td>退款放</td>
+                <td>张三</td>
+            </tr>
                 </table>
             </div>
         </div>
@@ -268,13 +230,6 @@ var postData={id:id};
                     +'<td>'+type+'</td>'
                		 +'</tr>'
                		+'<tr>'
-                    +'<td>实付金额</td>'
-                    +'<td>'+orderInfo.totalAmount+'</td>'
-               		 +'</tr>'
-               		+'<tr>'
-                    +'<td>图片描述</td>'
-                    +'<td>'+afterSale.imgs+'</td>'
-               		 +'</tr>'
                     +'<td>问题说明</td>'
                     +'<td>'+afterSale.reason+'</td>'
                		 +'</tr>'
