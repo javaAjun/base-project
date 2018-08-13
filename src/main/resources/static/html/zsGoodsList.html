@@ -91,7 +91,7 @@
                   /* padding-right: 5px; */
          }
         .ui-jqgrid {
-            font-size: 18px;
+            font-size: 12px;
         }
         img {
 		    border: 0;
@@ -100,13 +100,19 @@
 
  
 
-     
+
+
+
+       #table td:hover > img {
+	  transform: scale(2, 2);
+	  transition: .3s transform;
+	}
 
 
          .ui-jqgrid tr.ui-row-ltr td {
             /* text-align: center; */
-            font-size: 14px;
-            font-weight:500;
+            font-size: 12px;
+            font-weight:200;
         } 
       
     </style>
@@ -211,14 +217,14 @@
 				colNames:["ID","图片","商品编号","名称","分类","商城平均价","店铺平均价","总库存","排序","状态","推荐","操作"],
 				colModel:[
 					{name:"id",index:"id",editable:true,width:25,sorttype:"int",search:true},
-					{name:'goodsCoverImg', index: 'goodsCoverImg', width: 60, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
+					{name:'goodsCoverImg', index: 'goodsCoverImg', width: 80, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
 				    {name:"goodsNo",index:"goodsNo",editable:true,width:60},
 					{name:"goodsName",index:"goodsName",editable:true,width:80},
 					{name:"catName",index:"catName",editable:true,width:80},
 					{name:"marketPrice",index:"marketPrice",editable:true,width:60,sorttype:"float"},
 					{name:"shopPrice",index:"shopPrice",editable:true,width:60,sorttype:"float"},
 					{name:"goodsStock",index:"goodsStock",editable:true,width:40},
-					{name:"catSort",index:"catSort",width:40,sortable: true,hidden:false,formatter: function (a, b, c) {
+					{name:"catSort",index:"catSort",width:50,sortable: true,hidden:false,formatter: function (a, b, c) {
 						var url=_editGoodsSort+"&id="+c.id;
 	                    return '<input type="number" onchange="updateSort(this)" data-url="'+url+'" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
 	                }},
@@ -279,12 +285,12 @@
 		
 		});
         
-      //自定义报警列格式
+      //自定义报警列格式onmousemove="showBigPic(this.src)" onmouseout="closeimg()"
         function alarmFormatter(cellvalue, options, rowdata){
             if (cellvalue != null)
-                return '<img width="90" height="50"  src="'+cellvalue+'"  onmousemove="showBigPic(this.src)" onmouseout="closeimg()"  alt="' + cellvalue + '" />';
+                return '<img width="70" height="45"  src="'+cellvalue+'"    alt="' + cellvalue + '" />';
             else 
-                return '<img width="90" height="50" src="../hplus/img/del.jpg"  onmousemove="showBigPic(this.src)" onmouseout="closeimg()" alt="' + cellvalue + '" />';
+                return '<img width="70" height="45" src="../hplus/img/del.jpg"   alt="' + cellvalue + '" />';
         }
         function showBigPic(filepath) {
 
