@@ -49,7 +49,9 @@ public class UserPermissionServiceImpl implements UserPermissionService {
 	public List<Integer> selectPrivilegeUrlByGroupOrUserId(Integer userid) {
 		return userPermissionMapper.selectPrivilegeUrlByGroupOrUserId(userid);
 	}
-
+/**
+ * 检查该分组是否有访问权限
+ */
 	@Override
 	public Boolean privilegeStatus(Integer groupId, String path) {
 		if(path.endsWith(".html")&&path.startsWith("/")) {

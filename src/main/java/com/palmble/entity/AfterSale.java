@@ -1,5 +1,7 @@
 package com.palmble.entity;
 
+import java.util.Date;
+
 public class AfterSale{
 
     
@@ -22,6 +24,9 @@ public class AfterSale{
 
     
     private String updateTime;
+
+    
+    private String imgs;
 
     public Integer getId() {
        return id;
@@ -71,11 +76,13 @@ public class AfterSale{
     public void setUpdateTime(String updateTime) {
        this.updateTime = updateTime;
     }
-	@Override
-	public String toString() {
-		return "AfterSale [id=" + id + ", type=" + type + ", reason=" + reason + ", mode=" + mode + ", orderNo="
-				+ orderNo + ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
-	}
+
+    public String getImgs() {
+       return imgs;
+    }
+    public void setImgs(String imgs) {
+       this.imgs = imgs;
+    }
 
 
 }

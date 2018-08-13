@@ -348,15 +348,32 @@
 							data:{id:order.id,number:order.totalAmount},
 							async:false,
 							success:function(data){
-								layer.close(loadIndex);
-								layer.msg(data.msg);
-								 $("#table").trigger("reloadGrid");
+								if(data.code==1){
+									layer.close(loadIndex);
+									layer.msg(data.msg,{icon:1});
+									 $("#table").trigger("reloadGrid");
+								}else{
+									layer.close(loadIndex);
+									layer.msg("操作失败!",{icon:2});
+								}
 							},error:function(data){
 								layer.close(loadIndex);
-								layer.msg("操作失败!");
+								layer.msg("操作失败!",{icon:2});
 							}
 					});
 					});
+// 				layer.open({
+// 			        type: 2,
+// 			        title: "确认退款信息",
+// 			        shadeClose: true,
+// 			        shade: 0.3,
+// 			        maxmin: true,
+// 			        area: ['90%', '90%'],
+// 			        content: "return_money_info.html",
+// 			        end: function () {
+// 			        	$("#table").trigger("reloadGrid");
+// 			        }
+// 			    });
 			}, function(){
 				layer.prompt({title: '输入金额确认', formType: 0}, function(pass, index){
 					  if(!isNumber(pass)){

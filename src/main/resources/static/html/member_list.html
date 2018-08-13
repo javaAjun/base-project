@@ -160,7 +160,7 @@
                 {label:'昵称',name:'nickName',index:'nickName',width:40,editable: false,sortable: false},
                 {label:'用户名',name:'userName',index:'userName',width:40,editable: false,sortable: false},
                 {label:'电话',name:'phone',index:'phone',width:40,editable: false,sortable: false},
-                {label:'角色',name:'role',index:'role',width:40,editable: false,sortable: false,formatter:function (a,b,c){
+                {label:'角色',name:'role',index:'role',width:40,editable: false,sortable: true,formatter:function (a,b,c){
                  	if(a == 0){
                         return '普通会员';
                     } 
@@ -172,17 +172,17 @@
                     }
                  	return '普通会员';
                 }},
-                {label:'邮箱',name:'email',index:'email',width:50,editable: false,sortable: true
+                {label:'邮箱',name:'email',index:'email',width:50,editable: false,sortable: false
                 },
-                {label:'住址',name:'address',index:'address',width:45,editable: false,sortable: true
+                {label:'住址',name:'address',index:'address',width:45,editable: false,sortable: false
                 },
                 {label:'注册日期',name:'createTime',index:'createTime',width:60,editable: false,sortable: true
                 },
                 {label:'状态',name:'state',index:'state',width:40,editable: false,sortable: false,formatter:function (a,b,c){
                  	if(a == 0){
-                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setStatus(this)"><span class="label label-danger" title="禁用">禁用</span></a>';
+                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setStatus(this)"><span class="label label-danger" title="禁用">禁用</span></a>';
                     } else{
-                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setStatus(this)"><span class="label label-primary" title="正常">正常</span></a>';
+                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setStatus(this)"><span class="label label-primary" title="正常">正常</span></a>';
                     }
                 }},
                 {label:'操作',width:80,sortable: false,align:'left',formatter: function (a, b, c) {
@@ -234,16 +234,16 @@
     function setStatus(a){
     	var status=$(a).data("status");
     	var id=$(a).data("id");
-    	$.ajax({ url: "/member/updateMemberStatus", data:{status:status,id:id}, success: function(data){
-           if(data==1){
+    	$.ajax({ url: "/member/edit", data:{state:status,id:id}, success: function(data){
+           if(data.code==1){
         	   var span=$(a).find("span");
-        	   if(status==0){
-        		   $(a).data("status",1);
+        	   if(status==1){
+        		   $(a).data("status",0);
         		   $(span).attr("class","label label-primary");
         		   $(span).attr("title","正常");
         		   $(span).html("正常");
         	   }else{
-        		   $(a).data("status",0);
+        		   $(a).data("status",1);
         		   $(span).attr("class","label label-danger");
         		   $(span).attr("title","禁用");
         		   $(span).html("禁用");

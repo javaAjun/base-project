@@ -107,7 +107,8 @@
    		mode,
    		order_no,
     	date_format(create_time,'%Y-%m-%d %H:%i:%s') as create_time,
-		date_format(update_time,'%Y-%m-%d %H:%i:%s') as update_time
+		date_format(update_time,'%Y-%m-%d %H:%i:%s') as update_time,
+		imgs
     from after_sale
     where order_no = #{order_number}
   </select>

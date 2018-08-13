@@ -25,7 +25,8 @@ public class MemberUserController {
 	
 	@RequestMapping("/getMenberList")
 	public PageInfo<MemberUser> getMenberList(@RequestParam Map<String,Object> map) {
-		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()));
+		PageHelper.startPage(Integer.parseInt(map.get("page").toString()), Integer.parseInt(map.get("rows").toString()),
+				map.get("sidx").toString()+" "+map.get("sord").toString());
 		List<MemberUser> list=memberUserService.fuzzyQuery(map);
 		PageInfo<MemberUser> page=new PageInfo<MemberUser>(list);
 		return page;
@@ -35,22 +36,22 @@ public class MemberUserController {
 		MemberUser m=memberUserService.getById(Integer.parseInt(id));
 		return m;
 	}
-	@RequestMapping("/updateMemberStatus")
-	public Integer updateMemberStatus(Integer id, Integer status) {
-		if (id == null || status == null) {
-			return null;
-		}
-		MemberUser memberUser = new MemberUser();
-		memberUser.setId(id);
-		if (status == 0) {
-			memberUser.setState(1);
-		}
-		if (status == 1) {
-			memberUser.setState(0);
-		}
-		int resultNum = memberUserService.updateById(memberUser);
-		return resultNum;
-	}
+//	@RequestMapping("/updateMemberStatus")
+//	public Integer updateMemberStatus(Integer id, Integer status) {
+//		if (id == null || status == null) {
+//			return null;
+//		}
+//		MemberUser memberUser = new MemberUser();
+//		memberUser.setId(id);
+//		if (status == 0) {
+//			memberUser.setState(1);
+//		}
+//		if (status == 1) {
+//			memberUser.setState(0);
+//		}
+//		int resultNum = memberUserService.updateById(memberUser);
+//		return resultNum;
+//	}
 	@RequestMapping("/delMember")
 	public int delMember(Integer id) {
 		int resultNum = memberUserService.deleteById(id);
