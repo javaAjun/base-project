@@ -110,8 +110,8 @@
 	<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 	<script src="../layer-v3.1.1/layer/layer.js"></script>
-	<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
-	<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+	<!-- <script src="../hplus/js/plugins/layer/layer.min.js"></script> -->
+	<!-- <script src="../hplus/js/hplus.min.js?v=4.1.0"></script> -->
 	<script src="../hplus/js/contabs.min.js"></script>
 	<script src="../hplus/js/plugins/pace/pace.min.js"></script>
 	<script src="../js/common.js?v=1.0"></script>
@@ -124,7 +124,7 @@ $('#groupName').html($.cookie('groupName'));
 	    data:{"userid":-1},//传-1 代表在后台从session获取userid
 	    dataType: "json",
 	   // contentType:"application/json;charset=UTF-8",
-	    async:false,
+	    async:true,
 	    success: function (data) {
 	    	var allMenuHTML = "";
 	    	var index= 0
@@ -153,9 +153,12 @@ $('#groupName').html($.cookie('groupName'));
 	         	allMenuHTML+="</ul></li>";
 	        }
 	    	$("li[class='nav-header']").after(allMenuHTML);
-	    	//$("#inner").html(allMenuHTML);
-	    	//Plugin=new Plugin(this, options)
-	    	Plugin.init;
+	    	var script = document.createElement("script")
+	        script.type = "text/javascript"
+	        script.src = "../hplus/js/hplus.min.js?v=4.1.0";
+	        //测试发现，在IE浏览器下没有script的onload事件，可能是因为加载外部JS文件时的同步特性与非IE浏览器不同所致
+	        //script.onload = function(){alert("Script is ready!")}
+	        document.body.appendChild(script)	    	
 	    }
 	})
 	
