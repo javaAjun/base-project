@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">标题<span class="text-danger">*</span></label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" maxlength="100" id="catName" placeholder="分类title..。长度100字以内" name="catName" value="">
+                            <input type="text" class="form-control" maxlength="50" id="catName" placeholder="50字以内" name="catName" value="">
                         </div>
                     </div>
 
@@ -215,6 +215,11 @@
 			  }
 		})
 	}
+	 function nofind(){ 
+   	  var img=event.srcElement; 
+   	  img.src="../hplus/img/onerror.jpg"; 
+   	  img.onerror=null; //控制不要一直跳动 
+   	} 
 	function setFormValue(id){
 		var url=_getGoodsCateInfoById+"?id="+id;
 		$.ajax({ 
@@ -234,7 +239,7 @@
 					var img = '<div class="imgbox">';
 	                    img += '<div class="removePic" onclick="removePic(this,\'/goods/deleteFile\')">×</div>';
 	                    img += '<input type="hidden" name="'+name+'" value="' + data.data.goodsCateImg + '">';
-	                    img += '<img src="' + data.data.goodsCateImg + '">';
+	                    img += '<img src="' + data.data.goodsCateImg + ' "  onerror="nofind()">';
 	                    img += '</div>';
 	                    if(data.data.goodsCateImg!=null){
 	                        $("#imgsbox_img").append(img);

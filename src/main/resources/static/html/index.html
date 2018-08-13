@@ -104,58 +104,62 @@
     </div>
     <!--右侧部分结束-->
 </div>
-<script src="../js/jquery-1.10.1.min.js"></script>
-<script src="../js/jquery.cookie.js"></script>
-<script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
-<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="../layer-v3.1.1/layer/layer.js"></script>
-<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
-<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
-<script src="../hplus/js/contabs.min.js"></script>
-<script src="../hplus/js/plugins/pace/pace.min.js"></script>
-<script src="../js/common.js?v=1.0"></script>
+    <script src="../js/jquery-1.10.1.min.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../hplus/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="../hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="../hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="../layer-v3.1.1/layer/layer.js"></script>
+	<!--<script src="../hplus/js/plugins/layer/layer.min.js"></script>-->
+	<script src="../hplus/js/hplus.min.js?v=4.1.0"></script>
+	<script src="../hplus/js/contabs.min.js"></script>
+	<script src="../hplus/js/plugins/pace/pace.min.js"></script>
+	<script src="../js/common.js?v=1.0"></script>
 <script>
 $('#userName').html($.cookie('userName'));
 $('#groupName').html($.cookie('groupName'));
-$.ajax({
-    url: "/baseMenu/getAllMenu",
-    type:"POST",
-    data:{"userid":-1},//传-1 代表在后台从session获取userid
-    dataType: "json",
-   // contentType:"application/json;charset=UTF-8",
-    async:false,
-    success: function (data) {
-    	var allMenuHTML = "";
-    	var index= 0
-    	for(var i=0; i< data.length;i++){
-    		if(data[i].flag=='true'){
-    			allMenuHTML+="<li >"+
-    				"<a href='#'>"+
-                "<i class='fa fa-folder'></i>"+
-                "<span class='nav-label' data-index='"+index+"' >"+data[i].menuName+"</span>"+
-                "<span class='fa arrow'></span>"+
-           		" </a>";
-           		index++;
-    		}
-            var parentMenus=data[i].menuInfo;
-         	parentMenus=JSON.parse(parentMenus);
-         	for(var j=0; j<parentMenus.length;j++){
-         		if(parentMenus[j].flag=='true'){
-         			allMenuHTML+=" <ul class='nav nav-second-level'>"+
-                    " <li>"+
-    		        " <a class='J_menuItem' href='"+parentMenus[j].menuUrl+"' data-index='"+index+"'>"+parentMenus[j].menuName+"</a>"+
-    		        " </li>"+
-    		      	" </ul>"
-    		        index++;
-         		}
-     		}
-         	allMenuHTML+="</li>";
-        }
-    	$("li[class='nav-header']").after(allMenuHTML);
-    	//$("#inner").html(allMenuHTML);
-    }
-})
+	$.ajax({
+	    url: "/baseMenu/getAllMenu",
+	    type:"POST",
+	    data:{"userid":-1},//传-1 代表在后台从session获取userid
+	    dataType: "json",
+	   // contentType:"application/json;charset=UTF-8",
+	    async:false,
+	    success: function (data) {
+	    	var allMenuHTML = "";
+	    	var index= 0
+	    	for(var i=0; i< data.length;i++){
+	    		if(data[i].flag=='true'){
+	    			allMenuHTML+="<li >"+
+	    				"<a href='#'>"+
+	                "<i class='fa fa-folder'></i>"+
+	                "<span class='nav-label' data-index='"+index+"' >"+data[i].menuName+"</span>"+
+	                "<span class='fa arrow'></span>"+
+	           		" </a> <ul class='nav nav-second-level'>";
+	           		index++;
+	    		}
+	            var parentMenus=data[i].menuInfo;
+	         	parentMenus=JSON.parse(parentMenus);
+	         	for(var j=0; j<parentMenus.length;j++){
+	         		if(parentMenus[j].flag=='true'){
+	         			allMenuHTML+=""+
+	                    " <li>"+
+	    		        " <a class='J_menuItem' href='"+parentMenus[j].menuUrl+"' data-index='"+index+"'>"+parentMenus[j].menuName+"</a>"+
+	    		        " </li>"+
+	    		      	" "
+	    		        index++;
+	         		}
+	     		}
+	         	allMenuHTML+="</ul></li>";
+	        }
+	    	$("li[class='nav-header']").after(allMenuHTML);
+	    	//$("#inner").html(allMenuHTML);
+	    	//Plugin=new Plugin(this, options)
+	    	Plugin.init;
+	    }
+	})
+	
+
 
 	$('#exitLogin').click(function(){
 		 layer.confirm("确定要退出登录吗?", {

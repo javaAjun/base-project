@@ -106,6 +106,25 @@
   
   </select>
 <!--   <select id="getPageGoodsCateInfo" resultType="java.util.Map" > -->
+<select id="getGoodsCateLevel" resultMap="BaseResultMap">
+    SELECT
+			zc.*,
+		      CASE 
+		         WHEN ISNULL(zp.catName) THEN '顶级分类'
+		         
+		         ELSE zp.catName END AS pcatName
+		FROM
+			zs_goods_category zc 
+            LEFT JOIN zs_goods_category zp ON zc.parentId=zp.id
+		where 1=1  and zc.state=1
+		 <if test="value!=null and value!=''">
+		    and	 zc.catName LIKE '%${value}%'
+		</if>
+		<if test="pid!=null">
+		  AND zc.parentId=#{pid}
+		</if>
+		ORDER BY	zc.catSort DESC
+</select>
   <select id="getPageGoodsCateInfo" resultMap="BaseResultMap" >
 		 SELECT
 			zc.*,
@@ -116,7 +135,7 @@
 		FROM
 			zs_goods_category zc 
             LEFT JOIN zs_goods_category zp ON zc.parentId=zp.id
-		where 1=1
+		where 1=1 
 		 <if test="value!=null and value!=''">
 		    and	 zc.catName LIKE '%${value}%'
 		</if>
@@ -209,5 +228,12 @@
 			</if>
 		ORDER BY
 			zp.catSort DESC
+  </select>
+  <select id="selectParentGoodCateByCateId" resultMap="BaseResultMap">
+		 SELECT	zp.* FROM
+			zs_goods_category zz
+		    LEFT JOIN zs_goods_category zp ON zz.parentId = zp.id
+		WHERE
+			zz.id = #{id}
   </select>
 </mapper>

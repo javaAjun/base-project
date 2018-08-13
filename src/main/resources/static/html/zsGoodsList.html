@@ -91,7 +91,7 @@
                   /* padding-right: 5px; */
          }
         .ui-jqgrid {
-            font-size: 18px;
+            font-size: 12px;
         }
         img {
 		    border: 0;
@@ -100,13 +100,19 @@
 
  
 
-     
+
+
+
+       #table td:hover > img {
+	  transform: scale(2, 2);
+	  transition: .3s transform;
+	}
 
 
          .ui-jqgrid tr.ui-row-ltr td {
             /* text-align: center; */
-            font-size: 14px;
-            font-weight:500;
+            font-size: 12px;
+            font-weight:200;
         } 
       
     </style>
@@ -211,14 +217,14 @@
 				colNames:["ID","图片","商品编号","名称","分类","商城平均价","店铺平均价","总库存","排序","状态","推荐","操作"],
 				colModel:[
 					{name:"id",index:"id",editable:true,width:25,sorttype:"int",search:true},
-					{name:'goodsCoverImg', index: 'goodsCoverImg', width: 60, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
+					{name:'goodsCoverImg', index: 'goodsCoverImg', width: 80, align: "center", sortable: false, editable: false, formatter: alarmFormatter },
 				    {name:"goodsNo",index:"goodsNo",editable:true,width:60},
 					{name:"goodsName",index:"goodsName",editable:true,width:80},
 					{name:"catName",index:"catName",editable:true,width:80},
 					{name:"marketPrice",index:"marketPrice",editable:true,width:60,sorttype:"float"},
 					{name:"shopPrice",index:"shopPrice",editable:true,width:60,sorttype:"float"},
 					{name:"goodsStock",index:"goodsStock",editable:true,width:40},
-					{name:"catSort",index:"catSort",width:40,sortable: true,hidden:false,formatter: function (a, b, c) {
+					{name:"catSort",index:"catSort",width:50,sortable: true,hidden:false,formatter: function (a, b, c) {
 						var url=_editGoodsSort+"&id="+c.id;
 	                    return '<input type="number" onchange="updateSort(this)" data-url="'+url+'" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
 	                }},
@@ -278,17 +284,36 @@
 		getCatInfo(0,"#goodsCateId");
 		
 		});
-        
-      //自定义报警列格式
+        //判断是否是火狐浏览器
+        function isFirefox(){
+        	if (navigator.userAgent.indexOf("Firefox") > -1)
+        	     return true;
+        	else
+        	   return false;
+       }
+        function nofind(){ 
+      	  var img=event.srcElement; 
+      	  img.src="../hplus/img/onerror.jpg"; 
+      	  img.onerror=null; //控制不要一直跳动 
+      	} 
+      //自定义报警列格式onmousemove="showBigPic(this.src)" onmouseout="closeimg()"
         function alarmFormatter(cellvalue, options, rowdata){
+    	  if(isFirefox()){
             if (cellvalue != null)
-                return '<img width="90" height="50"  src="'+cellvalue+'"  onmousemove="showBigPic(this.src)" onmouseout="closeimg()"  alt="' + cellvalue + '" />';
+                return '<img width="70" height="45"  src="'+cellvalue+'"    onerror="nofind()" />';
             else 
-                return '<img width="90" height="50" src="../hplus/img/del.jpg"  onmousemove="showBigPic(this.src)" onmouseout="closeimg()" alt="' + cellvalue + '" />';
+                return '<img width="70" height="45" src="../hplus/img/no.png"    />';
+    	  }else{
+    		  if (cellvalue != null)
+	              return '<div><img width="70" height="45"   onmousemove="showBigPic(this.src)"  onmouseout="closeimg()"  src="'+cellvalue+'" onerror="nofind()"  /></div>';
+	          else 
+	              return '<div><img width="70" height="45" src="../hplus/img/no.png"    /></div>';
+    	  }
+    	  
         }
         function showBigPic(filepath) {
 
-            //将文件路径传给img大图
+        	//将文件路径传给img大图
             document.getElementById('pre_view').src = filepath;
             //获取大图div是否存在
             var div = document.getElementById("bigPic");
@@ -298,11 +323,16 @@
             //如果存在则展示
             document.getElementById("bigPic").style.display="block";
             //获取鼠标坐标
-            var intX = window.event.clientX;
-            var intY = window.event.clientY;
+            var e = event || window.event;
+           	var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+           	var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+          	var intX = e.pageX || e.clientX + scrollX;
+           	var intY = e.pageY || e.clientY + scrollY;
+            //var intX = window.event.clientX;
+            //var intY = window.event.clientY;
             //设置大图左上角起点位置
-            div.style.left = intX +100+ "px";
-            div.style.top = intY - 50+"px";
+            div.style.left = intX +10+ "px";
+            div.style.top = intY - 150+"px";
         }
         
         function closeimg(){

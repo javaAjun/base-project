@@ -44,9 +44,9 @@
 <!-- <div id="top-alert" class="alert alert-danger alert-dismissable">
     <button aria-hidden="true" class="close" type="button">×</button>
     <span class="alert-content"></span>
-</div>
-<div style="padding: 10px;">
-     -->
+</div> -->
+<div style="padding: 1px;">
+    
 
 <div class="ibox">
 <div id="bigPic" style=" position:absolute;display:none;z-index:999999;">
@@ -135,13 +135,19 @@
                     return '<input type="number" onchange="updateSort(this)" data-url="'+url+'" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
                 }},
                 {label:'状态',name:'state',index:'state',width:50,height:20,editable: false,sortable: false,formatter:function (a,b,c){
-                    if(a == 0){
+                	 if(a == 0){
+	                        return '<a href="javascript:;" data-id='+c.id+' data-status="0" onclick="setIsSale(this)"><span class="label label-danger" title="禁用">禁用</span></a>';
+	                    } else{
+	                        return '<a href="javascript:;" data-id='+c.id+' data-status="1" onclick="setIsSale(this)"><span class="label label-primary" title="正常">正常</span></a>';
+	                    }
+                	
+                /* 	if(a == 0){
                         var url =_operEditGoodsCateState+"&id="+c.id+"&state=1";
                         return '<a href="'+url+'" class="ajax-get"  data-table="1"><span class="label label-danger" title="禁用">禁用</span></a>';
                     } else{
                     	 var url =_operEditGoodsCateState+"&id="+c.id+"&state=0";
                         return '<a href="'+url+'" class="ajax-get" data-table="1"><span class="label label-primary" title="正常">正常</span></a>';
-                    }
+                    } */
                 }},
                 {label:'操作',width:100,height:20,sortable: false,align:'left',formatter: function (a, b, c) {
                     var editurl = "/html/zsGoodsCategoryEdit.html?id="+c.id;
@@ -187,17 +193,76 @@
         });
     });
     
+    function setIsSale(a){
+		var num=$(a).data("status");
+		var isSale;
+		if(num==0){
+			isSale=1;
+		}else{
+			isSale=0;
+		}
+		var id=$(a).data("id");
+		//var dataParam={"id":id,"state":isSale};
+		$.ajax({ 
+			url:_operEditGoodsCateState+"&id="+id+"&state="+isSale,
+			//data:dataParam, 
+			type: "post",
+	        dataType: "json",
+	        async: 'false',
+	        success: function (data) {
+	           if(data.status=="200"){
+	        	   var span=$(a).find("span");
+	        	   if(num==0){
+	        		   $(a).data("status",1);
+	        		   $(span).attr("class","label label-primary");
+	        		   $(span).attr("title","正常");
+	        		   $(span).html("正常");
+	        	   }else{
+	        		   $(a).data("status",0);
+	        		   $(span).attr("class","label label-danger");
+	        		   $(span).attr("title","禁用");
+	        		   $(span).html("禁用");
+	        	   }
+	        	   $("#table").jqGrid('setGridParam',{ 
+		                url:_getGoodsCatePageInfo 
+		                //postData:{'value':value,'isAdminRecom':isAdminRecom,"isSale":isSale,"goodsCateId":goodsCateId,"goodsId":goodsId}, //发送数据 
+		                //page:1 
+		            }).trigger("reloadGrid");
+	           }else{
+	        	   layer.alert(data.message);
+	           }
+	          }});
+	}
     
+    function isFirefox(){
+    	if (navigator.userAgent.indexOf("Firefox") > -1)
+    	return true;
+    	else
+    	return false;
+    	}
       //自定义img列格式 onmousemove="showBigPic(this.src)"  onmouseout="closeimg()" 
       function alarmFormatter(cellvalue, options, rowdata){
-          if (cellvalue != null)
-              return '<div><img width="90" height="50"  src="'+cellvalue+'"  alt="' + cellvalue + '" /></div>';
-          else 
-              return '<div><img width="90" height="50" src="../hplus/img/del.jpg"   alt="' + cellvalue + '" /></div>';
+    		 
+    	  if(isFirefox()){
+		          if (cellvalue != null)
+		              return '<div><img width="70" height="45"  src="'+cellvalue+'" onerror="nofind()"  /></div>';
+		          else 
+		              return '<div><img width="70" height="45" src="../hplus/img/no.png"    /></div>';
+    	  }else{
+    		  if (cellvalue != null)
+	              return '<div><img width="70" height="45"   onmousemove="showBigPic(this.src)"  onmouseout="closeimg()"  src="'+cellvalue+'" onerror="nofind()"  /></div>';
+	          else 
+	              return '<div><img width="70" height="45" src="../hplus/img/no.png"    /></div>';
+    	  }
+    	  
       }
+      function nofind(){ 
+    	  var img=event.srcElement; 
+    	  img.src="../hplus/img/onerror.jpg"; 
+    	  img.onerror=null; //控制不要一直跳动 
+    	} 
       function showBigPic(filepath) {
-
-          //将文件路径传给img大图
+    	  //将文件路径传给img大图
           document.getElementById('pre_view').src = filepath;
           //获取大图div是否存在
           var div = document.getElementById("bigPic");
@@ -207,16 +272,16 @@
           //如果存在则展示
           document.getElementById("bigPic").style.display="block";
           //获取鼠标坐标
-          var intX = window.event.clientX;
-          var intY = window.event.clientY;
+          var e = event || window.event;
+         	var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+         	var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+        	var intX = e.pageX || e.clientX + scrollX;
+         	var intY = e.pageY || e.clientY + scrollY;
+          //var intX = window.event.clientX;
+          //var intY = window.event.clientY;
           //设置大图左上角起点位置
-          div.style.left = intX +100+ "px";
-          if(intY>0){
-          div.style.top = intY -50+"px";	  
-          }else{
-        	  div.style.top = intY +50+"px";
-          }
-          layer.msg(intY);
+          div.style.left = intX +10+ "px";
+          div.style.top = intY - 150+"px";
       }
       
       function closeimg(){

@@ -407,12 +407,15 @@ public class GoodsServiceImpl implements GoodsService{
 	public ResponsDatas<List<ZsGoodsCategory>> getPageGoodsTopLevel(Integer pid,String value) {
 		try{
 //		List<ZsGoodsCategory> goodsCateInfo=goodsCateMapper.getPageGoodsTopLevel(pid,value);
-			List<ZsGoodsCategory> goodsCateInfo=goodsCateMapper.getPageGoodsCateInfo(null,null,value,pid);
+//		 List<ZsGoodsCategory> goodsCateInfo=goodsCateMapper.getPageGoodsCateInfo(null,null,value,pid);
+		 List<ZsGoodsCategory> goodsCateInfo=goodsCateMapper.getGoodsCateLevel(value,pid);
 		 List<GoodsCateLev> backList=new ArrayList<GoodsCateLev>();
 		   recMessageType(backList, goodsCateInfo, 0, 0);
 		   for (GoodsCateLev goodsCateLev : backList) {
-			   goodsCateLev.setCatName(setNBSP(goodsCateLev)
+			   
+			     goodsCateLev.setCatName(setNBSP(goodsCateLev)
 	                    + goodsCateLev.getCatName());
+			   
 		}
 		
 		return ResponsDatas.success(backList);
@@ -427,11 +430,17 @@ public class GoodsServiceImpl implements GoodsService{
 	public ResponsDatas operGoodsCateInfo(ZsGoodsCategory goods) {
 		try {
 			if(goods.getOper().equals(SysConstant.OPER_ADD)) {
+				if(StringUtil.isEmpty(goods.getGoodsCateImg())) {
+					 return ResponsDatas.fail("请上传图片", null);
+				}
 				if(StringUtil.isEmpty(goods.getCatName())) {
 					 return ResponsDatas.fail(SysConstant.ERROR_CATE, null);
 				}
 				goodsCateMapper.insertSelective(goods);
 			}else if(goods.getOper().equals(SysConstant.OPER_EDIT)){
+				if(StringUtil.isEmpty(goods.getGoodsCateImg())) {
+					 return ResponsDatas.fail("请上传图片", null);
+				}
 				if(StringUtil.isEmpty(goods.getCatName())) {
 					 return ResponsDatas.fail(SysConstant.ERROR_CATE, null);
 				}
@@ -458,6 +467,26 @@ public class GoodsServiceImpl implements GoodsService{
 				goodsCateMapper.deleteByPrimaryKey(id);
 				
 			}else if(goods.getOper().equals(SysConstant.OPER_STATE)){
+				Integer pid=goods.getId();				
+				List<ZsGoodsCategory> cateList=goodsCateMapper.getPageGoodsCateInfo(null,null,null,pid);
+				if(!goods.getState()){
+					
+					if(!cateList.isEmpty()&&cateList.get(0)!=null) {
+						for (ZsGoodsCategory zsGoodsCategory : cateList) {
+							ZsGoodsCategory zcg=new ZsGoodsCategory();
+							zcg.setId(zsGoodsCategory.getId());
+							zcg.setState(goods.getState());
+							goodsCateMapper.updateByPrimaryKeySelective(zcg);
+						}
+					}
+				}else {
+					Integer id=goods.getId();
+					ZsGoodsCategory goc=goodsCateMapper.selectParentGoodCateByCateId(id);
+					if(goc!=null&&!goc.getState()) {
+						return ResponsDatas.fail("父级被禁用", null);
+					}
+				}
+				
 				goodsCateMapper.updateByPrimaryKeySelective(goods);
 			}else if(goods.getOper().equals(SysConstant.OPER_SORT)){
 				goodsCateMapper.updateByPrimaryKeySelective(goods);
