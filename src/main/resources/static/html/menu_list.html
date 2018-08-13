@@ -132,7 +132,7 @@
                 {label:'排序',name:'sequenceNumber',index:'sequence_number',width:26,sortable: true,formatter: function (a, b, c) {
                     return '<input type="number" style="width:60px" onchange="updateSort(this)" data-url="/baseMenu/changeMenuSort" class="form-control input-sm" data-id="'+c.id+'" data-old="'+a+'" value="'+a+'" />';
                 }},
-                {label:'菜单描述',name:'menuInfo',index:'menuInfo',width:50,editable: false,sortable: true},
+                {label:'菜单描述',name:'menuInfo',index:'menuInfo',width:150,editable: false,sortable: true},
                 {label:'隐藏状态',name:'isDisplay',index:'isDisplay',width:40,editable: false,sortable: false,formatter:function (a,b,c){
                     if(a == 1){
                         var url = "/baseMenu/dispalyMenu?isDisplay=0&menuId="+c.id;

@@ -155,7 +155,14 @@
             return;
         }
         //如果存在则展示
-        document.getElementById("bigPic").style.display="block";
+        var ImgObj=new Image();
+	    	ImgObj.src= filepath;
+	    if(ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0))
+	     {
+	        document.getElementById("bigPic").style.display="block";
+	     }else{
+	    	 return;
+	     }
         //获取鼠标坐标
         var intX = window.event.clientX;
         var intY = window.event.clientY;
